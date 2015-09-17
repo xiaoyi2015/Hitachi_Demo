@@ -19,12 +19,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     private static final int REQUEST_ADD_DEVICE = 10086;
     private View view;
-    private TextView languageButton;
-    private ImageButton soundButton;
+    private ImageButton userIcon;
+    private ImageButton softwareInfo;
     private TextView connectStatusTextView;
     private Timer refreshTimer;
     private RelativeLayout deviceView;
-    private TextView addDevice;
+    private TextView addController;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
