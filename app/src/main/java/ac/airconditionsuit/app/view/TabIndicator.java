@@ -4,6 +4,7 @@ import ac.airconditionsuit.app.R;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -56,12 +57,20 @@ public class TabIndicator extends TextView {
     }
 
     public void select(){
-        setCompoundDrawables(null, icon_normal, null, null);
-
+        setCompoundDrawablesWithIntrinsicBounds(null, icon_selected, null, null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select, null));
+        }else{
+            setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select));
+        }
     }
 
     public void unSelect(){
-        setCompoundDrawables(null, icon_normal, null, null);
-//        setTextColor(context.getResources().getColor(R.color.));
+        setCompoundDrawablesWithIntrinsicBounds(null, icon_normal, null, null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            setTextColor(context.getResources().getColor(R.color.tab_indicator_text_normal, null));
+        }else{
+            setTextColor(context.getResources().getColor(R.color.tab_indicator_text_normal));
+        }
     }
 }

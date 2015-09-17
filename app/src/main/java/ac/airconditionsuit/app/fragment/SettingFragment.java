@@ -29,7 +29,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_setting,container,false);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return view;
     }
 
     @Override

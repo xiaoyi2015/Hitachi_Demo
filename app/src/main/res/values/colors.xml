@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFFFFF</color> <!-- 白色 -->
+    <color name="tab_indicator_text_select">#fff</color>
+    <color name="tab_indicator_text_normal">#ddd</color>
 </resources>

@@ -9,8 +9,9 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:layout_alignParentBottom="true">
+            android:background="@drawable/under_bar" >
 
         <ac.airconditionsuit.app.view.TabIndicator
                 android:layout_width="0dp"
