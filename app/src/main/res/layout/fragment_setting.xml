@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <ImageButton
+                android:id="@+id/user_icon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/user" />
+
+            <ImageView
+                android:id="@+id/split_line"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:src="@color/white" />
+
+            <ImageButton
+                android:id="@+id/software_information"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/info" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/setting_home_icon"
+            android:layout_below="@+id/_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="25dp"
+            android:background="@null" />
+
+        <TextView
+            android:id="@+id/setting_home_name"
+            android:layout_below="@+id/setting_home_icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+
+            android:textSize="17sp"
+            android:text="家"/>
+
+    </ScrollView>
+</RelativeLayout>
