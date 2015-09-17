@@ -140,7 +140,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/iez_control_list"
+                android:id="@+id/device_list"
                 style="@style/icon_right_text_view_label"
                 android:layout_below="@id/software_page"
                 android:layout_width="wrap_content"
@@ -150,13 +150,14 @@
                 android:layout_marginBottom="10dp"
                 android:paddingRight="8dp"
                 android:textColor="@color/text_color_gray"
-                android:text="@string/iez_control_list"
+                android:text="@string/device_list"
                 />
 
+
             <LinearLayout
-                android:id="@+id/iez_controller"
+                android:id="@+id/add_device"
                 style="@style/icon_right_text_view_layout"
-                android:layout_below="@id/iez_control_list"
+                android:layout_below="@id/device_list"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -165,35 +166,7 @@
                     style="@style/icon_right_text_view_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/iez_controller"/>
-
-                <TextView
-                    style="@style/icon_right_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/vertical_line3"
-                android:layout_below="@id/iez_controller"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/text_color_gray"/>
-
-            <LinearLayout
-                android:id="@+id/add_iez_controller"
-                style="@style/icon_right_text_view_layout"
-                android:layout_below="@id/vertical_line3"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    style="@style/icon_right_text_view_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_iez_controller"/>
+                    android:text="@string/add_device"/>
 
             </LinearLayout>
 

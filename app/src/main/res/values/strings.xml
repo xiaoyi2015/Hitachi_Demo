@@ -9,8 +9,12 @@
     <string name="tab_label_setting">配置设置</string>
     <string name="setting_home_setting">家的设置</string>
     <string name="software_page">软件界面个性化</string>
-    <string name="iez_control_list">i-EZ控制器列表</string>
-    <string name="iez_controller">i-EZ控制器:</string>
-    <string name="add_iez_controller">+ 添加i-EZ控制器</string>
+    <string name="device_list">设备列表</string>
+    <string name="add_device">+添加空调控制主机</string>
 
+    <string name="text_part1">您的建议或是技术问题对我们来说都十分的重要。\n
+            收到您的邮件将是我们万分的荣幸。\n</string>
+    <string name="text_part2">此软件需通过D-Controls空调控制主机实现相应\n控制功能。本软件中所涉及的界面及交互品牌名称\n均是各自持有者的商标、注册商标或商标名称。\n设计和功能如有变更，恕不另行通知！\n版权所有@2015杭州迪浩斯科技有限公司</string>
+    <string name="text_address">info@d-controls.com</string>
+    <string name="text_version">- Version V1.0.0906 -</string>
 </resources>

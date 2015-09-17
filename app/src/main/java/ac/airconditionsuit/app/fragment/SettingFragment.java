@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_setting,container,false);
+        softwareInfo = (ImageButton)view.findViewById(R.id.software_information);
         return view;
     }
 
