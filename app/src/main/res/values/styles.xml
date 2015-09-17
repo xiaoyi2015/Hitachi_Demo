@@ -1,8 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo">
+    <style name="AppTheme" parent="android:Theme.DeviceDefault.Light.NoActionBar">
         <!-- Customize your theme here. -->
+    </style>
+    <style name="tab_indicator" >
+        <item name="android:gravity"> center </item>
+        <item name="android:textSize"> 14sp </item>
     </style>
 
 </resources>

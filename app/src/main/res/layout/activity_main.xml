@@ -1,24 +1,60 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools" xmlns:pst="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context=".MainActivity">
+
+    <LinearLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
+
+        <ac.airconditionsuit.app.view.TabIndicator
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                style="@style/tab_indicator"
+                app:icon_normal="@drawable/tab_icon_temp_normal"
+                app:icon_selected="@drawable/tab_icon_temp_selected"
+                android:text="@string/tab_label_my_air_condition"/>
+
+        <ac.airconditionsuit.app.view.TabIndicator
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                style="@style/tab_indicator"
+                app:icon_normal="@drawable/tab_icon_temp_normal"
+                app:icon_selected="@drawable/tab_icon_temp_selected"
+                android:text="@string/tab_label_scene_mode"/>
+
+        <ac.airconditionsuit.app.view.TabIndicator
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                style="@style/tab_indicator"
+                app:icon_normal="@drawable/tab_icon_temp_normal"
+                app:icon_selected="@drawable/tab_icon_temp_selected"
+                android:text="@string/tab_label_set_time"/>
+
+        <ac.airconditionsuit.app.view.TabIndicator
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                style="@style/tab_indicator"
+                app:icon_normal="@drawable/tab_icon_temp_normal"
+                app:icon_selected="@drawable/tab_icon_temp_selected"
+                android:text="@string/tab_label_setting"/>
+
+
+    </LinearLayout>
 
     <android.support.v4.view.ViewPager
             android:id="@+id/pager"
+            android:layout_above="@id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
-    <com.astuetz.PagerSlidingTabStrip
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            pst:pstsShouldExpand="true"
-            android:layout_below="@id/pager"
-            android:layout_height="48dp"/>
-
 
 </RelativeLayout>

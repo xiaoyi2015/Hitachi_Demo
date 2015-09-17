@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="TabIndicator">
+        <attr name="icon_selected" format="reference"/>
+        <attr name="icon_normal" format="reference"/>
+    </declare-styleable>
+</resources>
