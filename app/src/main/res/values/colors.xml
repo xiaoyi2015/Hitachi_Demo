@@ -3,4 +3,5 @@
     <color name="white">#FFFFFF</color> <!-- 白色 -->
     <color name="tab_indicator_text_select">#fff</color>
     <color name="tab_indicator_text_normal">#ddd</color>
+    <color name="text_color_gray">#c5c5c5</color>
 </resources>

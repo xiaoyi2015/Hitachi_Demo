@@ -45,7 +45,7 @@
 
             </LinearLayout>
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/setting_home_icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,6 +53,7 @@
                 android:layout_centerInParent="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="25dp"
+                android:src="@drawable/setting_home_icon"
                 android:background="@null" />
 
             <TextView
@@ -60,10 +61,116 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/setting_home_icon"
-                android:layout_centerHorizontal="true"
-
+                android:gravity="center_horizontal"
                 android:text="家"
                 android:textSize="17sp" />
+
+            <LinearLayout
+                android:id="@+id/connect_status"
+                android:layout_below="@id/setting_home_name"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="连接状态"
+                    android:id="@+id/_connect_status"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/vertical_line1"
+                android:layout_below="@id/connect_status"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+
+            <LinearLayout
+                android:id="@+id/setting_home_setting"
+                android:layout_below="@id/vertical_line1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setting_home_setting"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/vertical_line2"
+                android:layout_below="@id/setting_home_setting"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+
+            <LinearLayout
+                android:id="@+id/software_page"
+                android:layout_below="@id/vertical_line2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/software_page"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/iez_control_list"
+                android:layout_below="@id/software_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:layout_marginTop="40dp"
+                android:paddingRight="8dp"
+                android:textColor="@color/text_color_gray"
+                android:text="@string/iez_control_list"
+                />
+
+            <LinearLayout
+                android:id="@+id/iez_controller"
+                android:layout_below="@id/iez_control_list"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/iez_controller"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/vertical_line3"
+                android:layout_below="@id/iez_controller"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+
+            <LinearLayout
+                android:id="@+id/add_iez_controller"
+                android:layout_below="@id/vertical_line3"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_iez_controller"/>
+
+            </LinearLayout>
+
         </LinearLayout>
+
     </ScrollView>
+
 </RelativeLayout>

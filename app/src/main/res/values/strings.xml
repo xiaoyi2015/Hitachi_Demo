@@ -7,4 +7,10 @@
     <string name="tab_label_scene_mode">场景模式</string>
     <string name="tab_label_set_time">只能定时</string>
     <string name="tab_label_setting">配置设置</string>
+    <string name="setting_home_setting">家的设置</string>
+    <string name="software_page">软件界面个性化</string>
+    <string name="iez_control_list">i-EZ控制器列表</string>
+    <string name="iez_controller">i-EZ控制器:</string>
+    <string name="add_iez_controller">+ 添加i-EZ控制器</string>
+
 </resources>
