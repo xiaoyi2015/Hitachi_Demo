@@ -94,15 +94,17 @@
             <ac.airconditionsuit.app.view.CommonButtonWithArrow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/arrow_right_text_view_layout"
+                    android:orientation="horizontal"
                     app:textLabel="123"
                     app:textValue="234"/>
 
             <LinearLayout
-                    android:id="@+id/setting_home_setting"
                     style="@style/arrow_right_text_view_layout"
                     android:layout_below="@id/vertical_line1"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
+                    android:id="@+id/setting_home_setting"
                     android:layout_height="wrap_content">
 
                 <TextView
