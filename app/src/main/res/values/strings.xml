@@ -26,4 +26,5 @@
     <string name="change_email">修改电子邮箱</string>
     <string name="common_agree_clause">使用条款和隐私策略</string>
     <string name="quit_account">退出账号</string>
+    <string name="home">家</string>
 </resources>
