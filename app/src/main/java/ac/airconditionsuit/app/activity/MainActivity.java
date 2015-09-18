@@ -29,8 +29,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState);
 
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -66,7 +66,12 @@ public class MainActivity extends BaseActivity {
         });
         initTabIndicator();
 
+        for (BaseFragment bf : fragments) {
+            bf.setActivity(this);
+        }
+
         pager.setCurrentItem(DEFAULT_FRAGMENT_POSITION);
+
 
     }
 

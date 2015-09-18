@@ -2,7 +2,6 @@ package ac.airconditionsuit.app.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.widget.RelativeLayout;
 
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.view.CommonTopBar;
@@ -14,11 +13,11 @@ public class BaseActivity extends FragmentActivity {
 
     //Log 信息的时候使用的tag，尽量不要用system.out
     static protected String TAG;
-    private CommonTopBar commonTopBar;
-
     {
         TAG = getClass().getName();
     }
+
+    private CommonTopBar commonTopBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

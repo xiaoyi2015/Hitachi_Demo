@@ -66,9 +66,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void setTopBar() {
-        BaseActivity baseActivity = (BaseActivity)getActivity();
-        if(baseActivity==null)
-            return;
+        BaseActivity baseActivity = myGetActivity();
         CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(baseActivity.getString(R.string.tab_label_setting));
     }

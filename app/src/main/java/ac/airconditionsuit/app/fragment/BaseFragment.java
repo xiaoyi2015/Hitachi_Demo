@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.fragment;
 
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.activity.BaseActivity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,10 @@ import android.view.ViewGroup;
  */
 public class BaseFragment extends Fragment {
     protected static String TAG;
+
+
+    private BaseActivity activity;
+
     {
         TAG = getClass().getName();
     }
@@ -22,4 +27,12 @@ public class BaseFragment extends Fragment {
     }
 
     public void setTopBar(){}
+
+    public void setActivity(BaseActivity activity){
+        this.activity = activity;
+    }
+
+    public BaseActivity myGetActivity() {
+        return activity;
+    }
 }
