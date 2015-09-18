@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <ImageButton
+                    android:id="@+id/user_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:src="@drawable/user" />
+
+                <ImageView
+                    android:id="@+id/split_line"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:src="@color/text_color_gray" />
+
+                <ImageButton
+                    android:id="@+id/software_information"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:src="@drawable/info" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/setting_home_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/_buttons"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/setting_home_icon"
+                android:background="@null" />
+
+            <TextView
+                android:id="@+id/setting_home_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/setting_home_icon"
+                android:gravity="center_horizontal"
+                android:text="家"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:id="@+id/connect_status"
+                android:layout_below="@id/setting_home_name"
+                style="@style/icon_right_text_view_layout"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/icon_right_text_view_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="连接状态"
+                    android:id="@+id/_connect_status"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/vertical_line1"
+                android:layout_below="@id/connect_status"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/text_color_gray"/>
+
+            <LinearLayout
+                android:id="@+id/setting_home_setting"
+                style="@style/icon_right_text_view_layout"
+                android:layout_below="@id/vertical_line1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/icon_right_text_view_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setting_home_setting"/>
+
+                <TextView
+                    style="@style/icon_right_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/vertical_line2"
+                android:layout_below="@id/setting_home_setting"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/text_color_gray"/>
+
+            <LinearLayout
+                android:id="@+id/software_page"
+                style="@style/icon_right_text_view_layout"
+                android:layout_below="@id/vertical_line2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/icon_right_text_view_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/software_page"/>
+
+                <TextView
+                    style="@style/icon_right_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/device_list"
+                style="@style/icon_right_text_view_label"
+                android:layout_below="@id/software_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="10dp"
+                android:paddingRight="8dp"
+                android:textColor="@color/text_color_gray"
+                android:text="@string/device_list"
+                />
+
+
+            <LinearLayout
+                android:id="@+id/add_device"
+                style="@style/icon_right_text_view_layout"
+                android:layout_below="@id/device_list"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/icon_right_text_view_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_device"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

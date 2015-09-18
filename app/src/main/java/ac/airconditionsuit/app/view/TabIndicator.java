@@ -56,9 +56,13 @@ public class TabIndicator extends TextView {
         unSelect();
     }
 
+    /**
+     * 这个函数和 {@link TabIndicator#unSelect()} 分别设置tab选中时和没有被选中时的状态
+     */
     public void select(){
         setCompoundDrawablesWithIntrinsicBounds(null, icon_selected, null, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //TODO for zhu, 这边颜色不对，你根据UI改一下。
             setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select, null));
         }else{
             setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select));
