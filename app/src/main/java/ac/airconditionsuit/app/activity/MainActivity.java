@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity {
             public void destroyItem(ViewGroup container, int position, Object object) {
                 // 这里Destroy的是Fragment的视图层次，并不是Destroy Fragment对象
                 super.destroyItem(container, position, object);
-                Log.i("INFO", "Destroy Item...");
+                Log.i(TAG, "Destroy Item...");
             }
 
         });
