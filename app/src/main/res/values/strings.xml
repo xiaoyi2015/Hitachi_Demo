@@ -5,7 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="tab_label_my_air_condition">我的空调</string>
     <string name="tab_label_scene_mode">场景模式</string>
-    <string name="tab_label_set_time">只能定时</string>
+    <string name="tab_label_set_time">智能定时</string>
     <string name="tab_label_setting">配置设置</string>
     <string name="setting_home_setting">家的设置</string>
     <string name="software_page">软件界面个性化</string>
@@ -27,4 +27,5 @@
     <string name="common_agree_clause">使用条款和隐私策略</string>
     <string name="quit_account">退出账号</string>
     <string name="home">家</string>
+    <string name="title_activity_drag_sample">DragSampleActivity</string>
 </resources>
