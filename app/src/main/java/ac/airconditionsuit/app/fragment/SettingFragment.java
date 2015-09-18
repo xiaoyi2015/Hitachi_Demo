@@ -21,7 +21,7 @@ import ac.airconditionsuit.app.activity.UserInfoActivity;
 /**
  * Created by ac on 9/17/15.
  */
-public class SettingFragment extends BaseFragment implements View.OnClickListener{
+public class SettingFragment extends BaseFragment implements View.OnClickListener {
 
     private static final int REQUEST_ADD_DEVICE = 10086;
     private View view;
@@ -34,7 +34,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_setting,container,false);
+        view = inflater.inflate(R.layout.fragment_setting, container, false);
         view.findViewById(R.id.software_information).setOnClickListener(this);
         view.findViewById(R.id.user_icon).setOnClickListener(this);
         return view;

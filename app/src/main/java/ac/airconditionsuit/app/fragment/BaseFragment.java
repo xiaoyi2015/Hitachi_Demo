@@ -11,6 +11,11 @@ import android.view.ViewGroup;
  * Created by ac on 9/17/15.
  */
 public class BaseFragment extends Fragment {
+    protected static String TAG;
+    {
+        TAG = getClass().getName();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.test_base_fragment, container, false);
