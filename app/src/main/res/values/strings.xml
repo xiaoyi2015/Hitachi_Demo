@@ -17,4 +17,7 @@
     <string name="text_part2">此软件需通过D-Controls空调控制主机实现相应\n控制功能。本软件中所涉及的界面及交互品牌名称\n均是各自持有者的商标、注册商标或商标名称。\n设计和功能如有变更，恕不另行通知！\n版权所有@2015杭州迪浩斯科技有限公司</string>
     <string name="text_address">info@d-controls.com</string>
     <string name="text_version">- Version V1.0.0906 -</string>
+    <string name="nick_name">昵称</string>
+    <string name="gender">性别</string>
+    <string name="choose_gender">请选择性别</string>
 </resources>
