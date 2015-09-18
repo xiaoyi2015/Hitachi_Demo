@@ -9,183 +9,100 @@ import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import ac.airconditionsuit.app.R;
 
 /**
  * TODO: document your custom view class.
  */
-public class CommonTopBar extends View {
-    private String mExampleString; // TODO: use a default from R.string...
-    private int mExampleColor = Color.RED; // TODO: use a default from R.color...
-    private float mExampleDimension = 0; // TODO: use a default from R.dimen...
-    private Drawable mExampleDrawable;
-
-    private TextPaint mTextPaint;
-    private float mTextWidth;
-    private float mTextHeight;
+public class CommonTopBar extends RelativeLayout {
+    private TextView titleView;
+    private ImageView leftIconView;
+    private ImageView leftArrowView;
+    private ImageView rightImageView;
+    private ImageView rightEditView;
+    private ImageView rightYesView;
+    private ImageView rightAddView;
 
     public CommonTopBar(Context context) {
         super(context);
-        init(null, 0);
+        init(context,null, 0);
     }
 
     public CommonTopBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, 0);
+        init(context, attrs, 0);
     }
 
     public CommonTopBar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(attrs, defStyle);
+        init(context,attrs, defStyle);
     }
 
-    private void init(AttributeSet attrs, int defStyle) {
+    private void init(Context context,AttributeSet attrs, int defStyle) {
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.CommonTopBar, defStyle, 0);
 
-        mExampleString = a.getString(
-                R.styleable.CommonTopBar_exampleString);
-        mExampleColor = a.getColor(
-                R.styleable.CommonTopBar_exampleColor,
-                mExampleColor);
-        // Use getDimensionPixelSize or getDimensionPixelOffset when dealing with
-        // values that should fall on pixel boundaries.
-        mExampleDimension = a.getDimension(
-                R.styleable.CommonTopBar_exampleDimension,
-                mExampleDimension);
-
-        if (a.hasValue(R.styleable.CommonTopBar_exampleDrawable)) {
-            mExampleDrawable = a.getDrawable(
-                    R.styleable.CommonTopBar_exampleDrawable);
-            mExampleDrawable.setCallback(this);
-        }
+        String titleLabel = a.getString(R.styleable.CommonTopBar_title);
+        Drawable leftIcon = a.getDrawable(R.styleable.CommonTopBar_leftIcon);
+        Drawable leftArrow = a.getDrawable(R.styleable.CommonTopBar_leftArrow);
+        Drawable rightImage = a.getDrawable(R.styleable.CommonTopBar_rightImage);
+        Drawable rightEdit = a.getDrawable(R.styleable.CommonTopBar_rightEdit);
+        Drawable rightYes = a.getDrawable(R.styleable.CommonTopBar_rightYes);
+        Drawable rightAdd = a.getDrawable(R.styleable.CommonTopBar_rightAdd);
 
         a.recycle();
 
-        // Set up a default TextPaint object
-        mTextPaint = new TextPaint();
-        mTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        mTextPaint.setTextAlign(Paint.Align.LEFT);
+        inflate(context, R.layout.custom_common_top_bar, this);
 
-        // Update TextPaint and text measurements from attributes
-        invalidateTextPaintAndMeasurements();
-    }
+        titleView = (TextView) findViewById(R.id.title_label);
+        leftIconView = (ImageView) findViewById(R.id.left_icon);
+        leftArrowView = (ImageView) findViewById(R.id.left_arrow);
+        rightImageView = (ImageView) findViewById(R.id.right_image);
+        rightEditView = (ImageView) findViewById(R.id.right_edit);
+        rightYesView = (ImageView) findViewById(R.id.right_yes);
+        rightAddView = (ImageView) findViewById(R.id.right_add);
 
-    private void invalidateTextPaintAndMeasurements() {
-        mTextPaint.setTextSize(mExampleDimension);
-        mTextPaint.setColor(mExampleColor);
-        mTextWidth = mTextPaint.measureText(mExampleString);
-
-        Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
-        mTextHeight = fontMetrics.bottom;
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        // TODO: consider storing these as member variables to reduce
-        // allocations per draw cycle.
-        int paddingLeft = getPaddingLeft();
-        int paddingTop = getPaddingTop();
-        int paddingRight = getPaddingRight();
-        int paddingBottom = getPaddingBottom();
-
-        int contentWidth = getWidth() - paddingLeft - paddingRight;
-        int contentHeight = getHeight() - paddingTop - paddingBottom;
-
-        // Draw the text.
-        canvas.drawText(mExampleString,
-                paddingLeft + (contentWidth - mTextWidth) / 2,
-                paddingTop + (contentHeight + mTextHeight) / 2,
-                mTextPaint);
-
-        // Draw the example drawable on top of the text.
-        if (mExampleDrawable != null) {
-            mExampleDrawable.setBounds(paddingLeft, paddingTop,
-                    paddingLeft + contentWidth, paddingTop + contentHeight);
-            mExampleDrawable.draw(canvas);
+        titleView.setText(titleLabel);
+        if (leftIcon == null) {
+            leftIconView.setVisibility(GONE);
+        } else {
+            leftIconView.setImageDrawable(leftIcon);
         }
+        if (leftArrow == null) {
+            leftArrowView.setVisibility(GONE);
+        } else {
+            leftArrowView.setImageDrawable(leftArrow);
+        }
+        if (rightImage == null) {
+            rightImageView.setVisibility(GONE);
+        } else {
+            rightImageView.setImageDrawable(rightImage);
+        }
+        if (rightEdit == null) {
+            rightEditView.setVisibility(GONE);
+        } else {
+            rightEditView.setImageDrawable(rightEdit);
+        }
+        if (rightYes == null) {
+            rightYesView.setVisibility(GONE);
+        } else {
+            rightYesView.setImageDrawable(rightYes);
+        }
+        if (rightAdd == null) {
+            rightAddView.setVisibility(GONE);
+        } else {
+            rightAddView.setImageDrawable(rightAdd);
+        }
+        setBackgroundResource(R.drawable.navibanner);
     }
 
-    /**
-     * Gets the example string attribute value.
-     *
-     * @return The example string attribute value.
-     */
-    public String getExampleString() {
-        return mExampleString;
+    public void setTitle(String title){
+        titleView.setText(title);
     }
 
-    /**
-     * Sets the view's example string attribute value. In the example view, this string
-     * is the text to draw.
-     *
-     * @param exampleString The example string attribute value to use.
-     */
-    public void setExampleString(String exampleString) {
-        mExampleString = exampleString;
-        invalidateTextPaintAndMeasurements();
-    }
-
-    /**
-     * Gets the example color attribute value.
-     *
-     * @return The example color attribute value.
-     */
-    public int getExampleColor() {
-        return mExampleColor;
-    }
-
-    /**
-     * Sets the view's example color attribute value. In the example view, this color
-     * is the font color.
-     *
-     * @param exampleColor The example color attribute value to use.
-     */
-    public void setExampleColor(int exampleColor) {
-        mExampleColor = exampleColor;
-        invalidateTextPaintAndMeasurements();
-    }
-
-    /**
-     * Gets the example dimension attribute value.
-     *
-     * @return The example dimension attribute value.
-     */
-    public float getExampleDimension() {
-        return mExampleDimension;
-    }
-
-    /**
-     * Sets the view's example dimension attribute value. In the example view, this dimension
-     * is the font size.
-     *
-     * @param exampleDimension The example dimension attribute value to use.
-     */
-    public void setExampleDimension(float exampleDimension) {
-        mExampleDimension = exampleDimension;
-        invalidateTextPaintAndMeasurements();
-    }
-
-    /**
-     * Gets the example drawable attribute value.
-     *
-     * @return The example drawable attribute value.
-     */
-    public Drawable getExampleDrawable() {
-        return mExampleDrawable;
-    }
-
-    /**
-     * Sets the view's example drawable attribute value. In the example view, this drawable is
-     * drawn above the text.
-     *
-     * @param exampleDrawable The example drawable attribute value to use.
-     */
-    public void setExampleDrawable(Drawable exampleDrawable) {
-        mExampleDrawable = exampleDrawable;
-    }
 }
