@@ -69,14 +69,14 @@
             <LinearLayout
                 android:id="@+id/connect_status"
                 android:layout_below="@id/setting_home_name"
-                style="@style/icon_right_text_view_layout"
+                style="@style/arrow_right_text_view_layout"
                 android:layout_marginTop="25dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    style="@style/icon_right_text_view_label"
+                    style="@style/arrow_right_text_view_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="连接状态"
@@ -92,20 +92,20 @@
 
             <LinearLayout
                 android:id="@+id/setting_home_setting"
-                style="@style/icon_right_text_view_layout"
+                style="@style/arrow_right_text_view_layout"
                 android:layout_below="@id/vertical_line1"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    style="@style/icon_right_text_view_label"
+                    style="@style/arrow_right_text_view_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_home_setting"/>
 
                 <TextView
-                    style="@style/icon_right_text_view"
+                    style="@style/arrow_right_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -120,20 +120,20 @@
 
             <LinearLayout
                 android:id="@+id/software_page"
-                style="@style/icon_right_text_view_layout"
+                style="@style/arrow_right_text_view_layout"
                 android:layout_below="@id/vertical_line2"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    style="@style/icon_right_text_view_label"
+                    style="@style/arrow_right_text_view_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/software_page"/>
 
                 <TextView
-                    style="@style/icon_right_text_view"
+                    style="@style/arrow_right_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -141,7 +141,7 @@
 
             <TextView
                 android:id="@+id/device_list"
-                style="@style/icon_right_text_view_label"
+                style="@style/arrow_right_text_view_label"
                 android:layout_below="@id/software_page"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -156,14 +156,14 @@
 
             <LinearLayout
                 android:id="@+id/add_device"
-                style="@style/icon_right_text_view_layout"
+                style="@style/arrow_right_text_view_layout"
                 android:layout_below="@id/device_list"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    style="@style/icon_right_text_view_label"
+                    style="@style/arrow_right_text_view_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/add_device"/>
