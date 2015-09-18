@@ -5,6 +5,7 @@ import ac.airconditionsuit.app.util.VibratorUtil;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.View;
@@ -56,23 +57,32 @@ public class DragSampleActivity extends Activity {
             public boolean onDrag(View v, DragEvent event) {
                 switch (event.getAction()) {
                     case DragEvent.ACTION_DRAG_STARTED:
+                        imageView.setBackgroundColor(Color.BLUE);
                         return true;
                     case DragEvent.ACTION_DRAG_ENTERED:
+                        imageView.setBackgroundColor(Color.GREEN);
                         return true;
+
                     case DragEvent.ACTION_DRAG_LOCATION:
-                        
+                        System.out.println(event.getX());
+                        System.out.println(event.getY());
+                        return true;
+
                     case DragEvent.ACTION_DRAG_EXITED:
+                        imageView.setBackgroundColor(Color.BLACK);
+                        return true;
+
                     case DragEvent.ACTION_DROP:
+                        imageView.setBackgroundColor(Color.GRAY);
+                        return true;
+
                     case DragEvent.ACTION_DRAG_ENDED:
-
-
+                        System.out.println(event.getResult());
+                        return true;
                     default:
-
-
+                        return true;
                 }
-                return false;
             }
         });
     }
-
 }

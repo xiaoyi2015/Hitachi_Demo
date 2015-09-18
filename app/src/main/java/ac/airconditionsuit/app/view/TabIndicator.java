@@ -1,12 +1,16 @@
 package ac.airconditionsuit.app.view;
 
 import ac.airconditionsuit.app.R;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.TextView;
+
+import java.util.List;
 
 /**
  * tab indicator view on tab in main activity.
