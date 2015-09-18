@@ -11,12 +11,8 @@ import android.widget.TextView;
  * TODO: document your custom view class.
  */
 public class CommonButtonWithArrow extends LinearLayout {
-    private String textLabel;
-    private String textValue;
     private TextView labelTextView;
     private TextView valueTextView;
-
-    final static public String SOME_CONSTANT = "fsdf";
 
     public CommonButtonWithArrow(Context context) {
         super(context);
@@ -38,10 +34,16 @@ public class CommonButtonWithArrow extends LinearLayout {
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.CommonButtonWithArrow, defStyle, 0);
 
-        textLabel = a.getString(
+        String textLabel = a.getString(
                 R.styleable.CommonButtonWithArrow_textLabel);
-        textValue = a.getString(
+        String textValue = a.getString(
                 R.styleable.CommonButtonWithArrow_textValue);
+        Boolean rightArrow = a.getBoolean(
+                R.styleable.CommonButtonWithArrow_rightArrow,true);
+        if(!rightArrow)
+        {
+            valueTextView.setCompoundDrawables(null,null,null,null);
+        }
 
         a.recycle();
 
@@ -52,6 +54,14 @@ public class CommonButtonWithArrow extends LinearLayout {
 
         labelTextView.setText(textLabel);
         valueTextView.setText(textValue);
+    }
+
+    public void setTextLabel(String textLabel){
+        labelTextView.setText(textLabel);
+    }
+
+    public void setValueText(String valueText){
+        valueTextView.setText(valueText);
     }
 
 }
