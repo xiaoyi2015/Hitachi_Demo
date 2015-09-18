@@ -5,13 +5,19 @@
                 android:layout_height="match_parent"
                 tools:context=".MainActivity">
 
+    <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_above="@id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
     <LinearLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:background="@drawable/under_bar" >
+            android:background="@drawable/under_bar">
 
         <ac.airconditionsuit.app.view.TabIndicator
                 android:id="@+id/tab_my_condition"
@@ -56,10 +62,5 @@
 
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_above="@id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
 </RelativeLayout>

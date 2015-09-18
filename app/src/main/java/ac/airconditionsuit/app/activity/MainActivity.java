@@ -6,26 +6,26 @@ import ac.airconditionsuit.app.fragment.SettingFragment;
 import ac.airconditionsuit.app.view.TabIndicator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 
 public class MainActivity extends BaseActivity {
 
     //TODO 设置默认的fragment，这边可能根据需求方要求修改要改
-    private static final int DEFAULT_FRAGMENT_POSITION = 0;
+    private static final int DEFAULT_FRAGMENT_POSITION = 3;
+    private ViewPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             BaseFragment[] fragments = new BaseFragment[]{
                     new BaseFragment(),
@@ -45,13 +45,6 @@ public class MainActivity extends BaseActivity {
                 return fragments.length;
             }
 
-            @Override
-            public void destroyItem(ViewGroup container, int position, Object object) {
-                // 这里Destroy的是Fragment的视图层次，并不是Destroy Fragment对象
-                super.destroyItem(container, position, object);
-                Log.i(TAG, "Destroy Item...");
-            }
-
         });
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -61,6 +54,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
+                Log.i(TAG, "onPageSeleted");
                 changeIndicator(position);
             }
 
@@ -82,6 +76,17 @@ public class MainActivity extends BaseActivity {
                 (TabIndicator) tabs.getChildAt(1),
                 (TabIndicator) tabs.getChildAt(2),
                 (TabIndicator) tabs.getChildAt(3)};
+        tabIndicators[0].select();
+
+        for (int i = 0; i < tabIndicators.length; ++i) {
+            final int position = i;
+            tabIndicators[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pager.setCurrentItem(position);
+                }
+            });
+        }
     }
 
     private void changeIndicator(int position) {
