@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/icon_name_gender"
+                style="@style/arrow_right_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal"
+                android:paddingEnd="0dp"
+                android:paddingRight="0dp">
+
+                <com.android.volley.toolbox.NetworkImageView
+                    android:id="@+id/network_icon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginRight="10dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/user" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="8dp"
+                        android:paddingRight="8dp">
+
+                        <TextView
+                            style="@style/arrow_right_text_view_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/nick_name" />
+
+                        <TextView
+                            android:id="@+id/set_nick_name"
+                            style="@style/arrow_right_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_color_gray" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/text_color_gray" />
+
+                    <LinearLayout
+                        android:id="@+id/select_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="8dp"
+                        android:paddingRight="8dp">
+
+                        <TextView
+                            style="@style/arrow_right_text_view_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gender" />
+
+                        <TextView
+                            android:id="@+id/set_gender"
+                            style="@style/arrow_right_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:prompt="@string/choose_gender"
+                            android:textColor="@color/text_color_gray" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/home_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:dividerHeight="1dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/changeBirth"
+                style="@style/arrow_right_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/arrow_right_text_view_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/change_birth" />
+
+                <TextView
+                    android:id="@+id/change_birth"
+                    style="@style/arrow_right_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/changePhone"
+                style="@style/arrow_right_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/arrow_right_text_view_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/change_phone" />
+
+                <TextView
+                    android:id="@+id/change_phone"
+                    style="@style/arrow_right_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/changePassword"
+                style="@style/arrow_right_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/arrow_right_text_view_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/change_password" />
+
+                <TextView
+                    android:id="@+id/change_password"
+                    style="@style/arrow_right_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/changeEmail"
+                style="@style/arrow_right_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/arrow_right_text_view_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/change_email" />
+
+                <TextView
+                    android:id="@+id/change_email"
+                    style="@style/arrow_right_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/agree_clauseButton"
+                style="@style/arrow_right_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/arrow_right_text_view_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/common_agree_clause" />
+
+                <TextView
+                    android:id="@+id/common_agree_clause"
+                    style="@style/arrow_right_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/quitAccount"
+                style="@style/arrow_right_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="1dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/arrow_right_text_view_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/quit_account" />
+
+                <TextView
+                    android:id="@+id/quit_account"
+                    style="@style/arrow_right_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_gray" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -14,7 +14,7 @@ public class SoftwareInfoActivity extends FragmentActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.software_info);
+        setContentView(R.layout.fragment_setting_software_info);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_setting, container, false);
         view.findViewById(R.id.software_information).setOnClickListener(this);
-        softwareInfo = (ImageButton) view.findViewById(R.id.software_information);
+        view.findViewById(R.id.user_icon).setOnClickListener(this);
         return view;
     }
 
