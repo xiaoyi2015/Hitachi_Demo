@@ -40,10 +40,6 @@ public class CommonButtonWithArrow extends LinearLayout {
                 R.styleable.CommonButtonWithArrow_textValue);
         Boolean rightArrow = a.getBoolean(
                 R.styleable.CommonButtonWithArrow_rightArrow,true);
-        if(!rightArrow)
-        {
-            valueTextView.setCompoundDrawables(null,null,null,null);
-        }
 
         a.recycle();
 
@@ -51,6 +47,11 @@ public class CommonButtonWithArrow extends LinearLayout {
 
         labelTextView = (TextView) findViewById(R.id.label_text);
         valueTextView = (TextView) findViewById(R.id.value_text);
+
+        if(!rightArrow)
+        {
+            valueTextView.setCompoundDrawables(null,null,null,null);
+        }
 
         labelTextView.setText(textLabel);
         valueTextView.setText(textValue);
