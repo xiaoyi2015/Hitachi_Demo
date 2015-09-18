@@ -21,8 +21,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.DragSampleActivity"
-            android:label="@string/title_activity_drag_sample" >
+            android:name=".activity.DragSampleActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

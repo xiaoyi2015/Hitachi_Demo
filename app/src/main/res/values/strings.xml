@@ -19,7 +19,6 @@
     <string name="text_version">- Version V1.0.0906 -</string>
     <string name="nick_name">昵称</string>
     <string name="gender">性别</string>
-    <string name="choose_gender">请选择性别</string>
     <string name="change_birth">修改生日</string>
     <string name="change_phone">修改注册手机</string>
     <string name="change_password">修改登录密码</string>
@@ -27,5 +26,6 @@
     <string name="common_agree_clause">使用条款和隐私策略</string>
     <string name="quit_account">退出账号</string>
     <string name="home">家</string>
-    <string name="title_activity_drag_sample">DragSampleActivity</string>
+    <string name="connect_status">连接状态</string>
+    <string name="home_list">添加新的家</string>
 </resources>
