@@ -14,7 +14,7 @@ public class UserInfoActivity extends FragmentActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_information);
+        setContentView(R.layout.fragment_setting_user_information);
     }
 
     @Override
