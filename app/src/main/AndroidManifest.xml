@@ -30,6 +30,14 @@
             android:name=".activity.HomeSettingActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.SoftwarePageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.AddDeviceActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
