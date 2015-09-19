@@ -98,7 +98,7 @@ public class CommonTopBar extends RelativeLayout {
         } else {
             rightAddView.setImageDrawable(rightAdd);
         }
-        setBackgroundResource(R.drawable.navibanner);
+        setBackgroundResource(R.drawable.top_banner);
     }
 
     public void setTitle(String title){

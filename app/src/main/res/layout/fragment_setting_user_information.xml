@@ -53,7 +53,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:gravity="center_vertical"
-                        app:textLabel="@string/nick_name"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+                        app:textLabel="@string/nick_name"/>
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:gravity="center_vertical"
-                        app:textLabel="@string/gender"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+                        app:textLabel="@string/gender"/>
 
                 </LinearLayout>
 
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
                 android:layout_marginTop="40dp"
-                app:textLabel="@string/home_list"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+                app:textLabel="@string/home_list"/>
 
             <ac.airconditionsuit.app.view.CommonButtonWithArrow
                 android:id="@+id/change_birth"
@@ -88,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
-                app:textLabel="@string/change_birth"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+                app:textLabel="@string/change_birth"/>
 
             <ac.airconditionsuit.app.view.CommonButtonWithArrow
                 android:id="@+id/change_phone"
@@ -96,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
-                app:textLabel="@string/change_phone"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+                app:textLabel="@string/change_phone"/>
 
             <ac.airconditionsuit.app.view.CommonButtonWithArrow
                 android:id="@+id/change_password"
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
-                app:textLabel="@string/change_password"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+                app:textLabel="@string/change_password"/>
 
             <ac.airconditionsuit.app.view.CommonButtonWithArrow
                 android:id="@+id/change_email"
@@ -112,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
-                app:textLabel="@string/change_email"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+                app:textLabel="@string/change_email"/>
 
             <ac.airconditionsuit.app.view.CommonButtonWithArrow
                 android:id="@+id/common_agree_clause"
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="40dp"
-                app:textLabel="@string/common_agree_clause"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+                app:textLabel="@string/common_agree_clause"/>
 
             <ac.airconditionsuit.app.view.CommonButtonWithArrow
                 android:id="@+id/quit_account"
@@ -129,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:rightArrow="false"
-                app:textLabel="@string/quit_account"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+                app:textLabel="@string/quit_account"/>
 
         </LinearLayout>
 
