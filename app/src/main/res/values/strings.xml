@@ -28,4 +28,6 @@
     <string name="home">家</string>
     <string name="connect_status">连接状态</string>
     <string name="home_list">添加新的家</string>
+    <string name="software_info">软件信息</string>
+    <string name="fill_user_info">完善个人资料</string>
 </resources>
