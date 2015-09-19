@@ -42,8 +42,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 style="@style/tab_indicator"
-                app:icon_normal="@drawable/tab_icon_temp_normal"
-                app:icon_selected="@drawable/tab_icon_temp_selected"
+                app:icon_normal="@drawable/tab_icon_scene_normal"
+                app:icon_selected="@drawable/tab_icon_scene_selected"
                 android:text="@string/tab_label_scene_mode"/>
 
         <ac.airconditionsuit.app.view.TabIndicator
@@ -52,8 +52,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 style="@style/tab_indicator"
-                app:icon_normal="@drawable/tab_icon_temp_normal"
-                app:icon_selected="@drawable/tab_icon_temp_selected"
+                app:icon_normal="@drawable/tab_icon_time_normal"
+                app:icon_selected="@drawable/tab_icon_time_selected"
                 android:text="@string/tab_label_set_time"/>
 
         <ac.airconditionsuit.app.view.TabIndicator
@@ -62,8 +62,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 style="@style/tab_indicator"
-                app:icon_normal="@drawable/tab_icon_temp_normal"
-                app:icon_selected="@drawable/tab_icon_temp_selected"
+                app:icon_normal="@drawable/tab_icon_settings_normal"
+                app:icon_selected="@drawable/tab_icon_settings_selected"
                 android:text="@string/tab_label_setting"/>
 
 
