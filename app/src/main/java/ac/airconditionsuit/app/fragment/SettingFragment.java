@@ -39,6 +39,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         view = inflater.inflate(R.layout.fragment_setting, container, false);
         view.findViewById(R.id.software_information).setOnClickListener(this);
         view.findViewById(R.id.user_icon).setOnClickListener(this);
+        view.findViewById(R.id.setting_home_setting).setOnClickListener(this);
         return view;
     }
 

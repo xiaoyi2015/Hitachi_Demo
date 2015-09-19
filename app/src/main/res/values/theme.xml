@@ -18,7 +18,7 @@
         <item name="android:background">@android:color/white</item>
     </style>
 
-    <style name="white_text_view_label">
+    <style name="text_view_label_black">
         <item name="android:textColor">@color/text_color_black</item>
         <item name="android:textSize">16sp</item>
     </style>

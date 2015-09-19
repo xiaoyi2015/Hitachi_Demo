@@ -10,7 +10,7 @@
     <string name="setting_home_setting">家的设置</string>
     <string name="software_page">软件界面个性化</string>
     <string name="device_list">设备列表</string>
-    <string name="add_device">+添加空调控制主机</string>
+    <string name="add_device">+ 添加空调控制主机</string>
 
     <string name="text_part1">您的建议或是技术问题对我们来说都十分的重要。\n
             收到您的邮件将是我们万分的荣幸。\n</string>
@@ -30,4 +30,8 @@
     <string name="home_list">添加新的家</string>
     <string name="software_info">软件信息</string>
     <string name="fill_user_info">完善个人资料</string>
+    <string name="home_basic_info">基本信息</string>
+    <string name="name">名称</string>
+    <string name="delete_home">删除家</string>
+    <string name="delete_info">删除后，家和家里控制器的所有信息均无法恢复配置</string>
 </resources>

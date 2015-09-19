@@ -26,6 +26,10 @@
             android:name=".activity.UserInfoActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.HomeSettingActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
