@@ -10,11 +10,14 @@
     <string name="setting_home_setting">家的设置</string>
     <string name="software_page">软件界面个性化</string>
     <string name="device_list">设备列表</string>
-    <string name="add_device">+添加空调控制主机</string>
+    <string name="add_device">+ 添加空调控制主机</string>
 
     <string name="text_part1">您的建议或是技术问题对我们来说都十分的重要。\n
             收到您的邮件将是我们万分的荣幸。\n</string>
-    <string name="text_part2">此软件需通过D-Controls空调控制主机实现相应\n控制功能。本软件中所涉及的界面及交互品牌名称\n均是各自持有者的商标、注册商标或商标名称。\n设计和功能如有变更，恕不另行通知！\n版权所有@2015杭州迪浩斯科技有限公司</string>
+    <string name="text_part2">此软件需通过D-Controls空调控制主机实现相应\n控制功能。本软件中所涉及的界面及交互品牌名称\n
+        均是各自持有者的商标、注册商标或商标名称。\n
+        设计和功能如有变更，恕不另行通知！\n
+        版权所有@2015杭州迪浩斯科技有限公司</string>
     <string name="text_address">info@d-controls.com</string>
     <string name="text_version">- Version V1.0.0906 -</string>
     <string name="nick_name">昵称</string>
@@ -30,4 +33,18 @@
     <string name="home_list">添加新的家</string>
     <string name="software_info">软件信息</string>
     <string name="fill_user_info">完善个人资料</string>
+    <string name="home_basic_info">基本信息</string>
+    <string name="name">名称</string>
+    <string name="delete_home">删除家</string>
+    <string name="delete_info">删除后，家和家里控制器的所有信息均无法恢复配置</string>
+    <string name="add_group">添加新群组</string>
+    <string name="add_explain_text">自动搜索设备:\n
+        如果设备首次使用，请通过自动搜索新设备的方式添加。在自动搜索前，请确保设备已正常工作，并通过网络或者WIFI的方式与路由器连接成功，只有保证手机、平板和主机设备在同一局域网内，设备才能被搜索到。\n\n
+        扫一扫:\n
+        第一个添加设备的用户为管理员，只有通过扫描管理员发出的邀请码，其他用户才可以添加设备。\n\n
+        二维码:\n
+        配置设置->设备->设备二维码\n\n</string>
+    <string name="auto_find_device">自动搜索空调控制主机</string>
+    <string name="scan_scan">扫一扫</string>
+    <string name="home_name">家的名称</string>
 </resources>

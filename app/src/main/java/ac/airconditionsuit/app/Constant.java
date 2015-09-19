@@ -9,10 +9,7 @@ package ac.airconditionsuit.app;
 public class Constant {
     public static final String PREFERENCE_KEY_CURRENT_USER = "current";
 
-
     public static final String INTENT_DATA_KEY_ACTIVITY_FROM = "activity_from" ;
-
-
 
     //params key
     public static final String REQUEST_PARAMS_KEY_CUST_CLASS = "cust_class";
@@ -48,4 +45,5 @@ public class Constant {
     //other
     public static final String CONFIG_FILE_SUFFIX = ".dc";
     public static final int FILE_DECODE_ENCODE_KEY = 0x33;
+
 }

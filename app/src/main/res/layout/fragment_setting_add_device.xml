@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ac.airconditionsuit.app.view.CommonTopBar
+        android:id="@+id/default_top_bar"
+        app:leftArrow="@drawable/back"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize">
+    </ac.airconditionsuit.app.view.CommonTopBar>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:id="@+id/add_explain_text"
+        android:layout_below="@id/default_top_bar"
+        android:text="@string/add_explain_text"/>
+
+    <TextView
+        android:id="@+id/auto_find_device"
+        android:layout_below="@id/add_explain_text"
+        style="@style/white_text_view_layout"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="1dp"
+        android:text="@string/auto_find_device"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/scan_scan"
+        style="@style/white_text_view_layout"
+        android:layout_below="@id/auto_find_device"
+        android:text="@string/scan_scan"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

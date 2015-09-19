@@ -3,6 +3,8 @@ package ac.airconditionsuit.app.activity;
 
 import ac.airconditionsuit.app.Constant;
 import android.content.Intent;
+
+import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

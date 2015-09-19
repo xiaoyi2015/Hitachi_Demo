@@ -7,15 +7,16 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
- * Created by Administrator on 2015/9/18.
+ * Created by Administrator on 2015/9/19.
  */
-public class SoftwarePageActivity extends BaseActivity implements View.OnClickListener {
+public class ChangeHomeNameActivity extends BaseActivity implements View.OnClickListener{
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.fragment_setting_software_page);
+        setContentView(R.layout.fragment_setting_home_setting_change_name);
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
-        commonTopBar.setTitle(getString(R.string.software_page));
+        commonTopBar.setTitle(getString(R.string.home_name));
     }
 
     @Override

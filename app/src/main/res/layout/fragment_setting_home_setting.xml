@@ -1,7 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <ac.airconditionsuit.app.view.CommonTopBar
+        android:id="@+id/default_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:leftArrow="@drawable/back"
+        >
+    </ac.airconditionsuit.app.view.CommonTopBar>
+
+    <TextView
+        android:id="@+id/home_basic_info"
+        android:layout_below="@+id/default_top_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="25dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="@string/home_basic_info"
+        android:textColor="@color/text_color_gray" />
+
+    <ac.airconditionsuit.app.view.CommonButtonWithArrow
+        android:id="@+id/home_name"
+        style="@style/white_text_view_layout"
+        android:layout_below="@+id/home_basic_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:textLabel="@string/name">
+    </ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+    <TextView
+        android:id="@+id/delete_home"
+        style="@style/white_text_view_layout"
+        android:layout_below="@+id/home_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/delete_home"
+        android:textSize="16sp"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/delete_info"
+        android:layout_below="@+id/delete_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="@string/delete_info"
+        android:textColor="@color/text_color_gray"/>
+
+</RelativeLayout>

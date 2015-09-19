@@ -15,6 +15,11 @@
             android:name=".activity.MainActivity"
             android:label="@string/app_name" >
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -30,14 +35,25 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
 
+        <activity
+            android:name=".activity.HomeSettingActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.SoftwarePageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.AddDeviceActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.ChangeHomeNameActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
