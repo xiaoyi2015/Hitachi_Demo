@@ -1,6 +1,8 @@
 package ac.airconditionsuit.app.activity;
 
+import ac.airconditionsuit.app.Config.LocalConfigManager;
 import ac.airconditionsuit.app.Constant;
+import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.network.HttpClient;
@@ -30,7 +32,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         passwordEditText = (EditText) findViewById(R.id.password);
 
         findViewById(R.id.login_button).setOnClickListener(this);
-
     }
 
     @Override
@@ -52,30 +53,27 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         password = "123456";
 
 
-        RequestParams requestParams = new RequestParams();
+        final RequestParams requestParams = new RequestParams();
 
         requestParams.put(Constant.REQUEST_PARAMS_KEY_USER_NAME, userName);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_PASSWORD, password);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_LOGIN);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_LOGIN);
 
-        HttpClient.get(this, requestParams, LoginResponseData.class, new BaseJsonHttpResponseHandler<LoginResponseData>() {
+        HttpClient.get(requestParams, LoginResponseData.class, new HttpClient.JsonResponseHandler<LoginResponseData>() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, LoginResponseData response) {
-                //TODO
+            public void onSuccess(LoginResponseData response) {
+                Log.i(TAG, "onSuccess");
+                MyUser user = response.getUser();
+                MyApp app = MyApp.getApp();
+                app.getLocalConfigManager().saveUser(user);
+                app.initConfigManager();
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, String rawJsonData, LoginResponseData errorResponse) {
-
-            }
-
-            @Override
-            protected LoginResponseData parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
-                return null;
+            public void onFailure(Throwable throwable) {
+                Log.i(TAG, "onFailure");
             }
         });
-
-
     }
 }

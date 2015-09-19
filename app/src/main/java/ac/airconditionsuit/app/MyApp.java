@@ -1,14 +1,13 @@
 package ac.airconditionsuit.app;
 
-import ac.airconditionsuit.app.Config.ConfigManager;
+import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.Config.LocalConfigManager;
 import ac.airconditionsuit.app.entity.MyUser;
 import android.app.Application;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.widget.Toast;
-import org.w3c.dom.ls.LSException;
+
+import java.io.*;
+import java.net.ServerSocket;
 
 /**
  * Created by ac on 9/19/15.
@@ -16,7 +15,9 @@ import org.w3c.dom.ls.LSException;
  */
 public class MyApp extends Application{
     private static MyApp INSTANCE;
-    private ConfigManager configManager;
+    private ServerConfigManager serverConfigManager;
+
+
     private LocalConfigManager localConfigManager;
 
     //user will be assigned after localConfigManager is init
@@ -27,10 +28,10 @@ public class MyApp extends Application{
         super.onCreate();
         INSTANCE = this;
 
-        //init local config which is restore in default share preference,
-        initPreferenceManager();
+        //init local config which is restore in default share preference.
+        //after success, the configManager will init.
+        initLocalConfigManager();
 
-        initConfigManager();
     }
 
     public boolean isUserLogin(){
@@ -41,7 +42,7 @@ public class MyApp extends Application{
         return user;
     }
 
-    public String getConfigFileName(){
+    private String getServerConfigFileName(){
         if (null == user) {
             return null;
         } else {
@@ -49,15 +50,31 @@ public class MyApp extends Application{
         }
     }
 
-    /**
-     * TODO init for configManager
-     */
-    private void initConfigManager() {
+    public File getServerConfigFile(){
+        String fileName = getServerConfigFileName();
+        if (null == fileName) {
+            return null;
+        } else {
+            return new File(getFilesDir(), fileName);
+        }
     }
 
-    private void initPreferenceManager() {
+    /**
+     * init for configManager
+     * this function show be call after user login.
+     */
+    public void initConfigManager() {
+        serverConfigManager = new ServerConfigManager();
+        serverConfigManager.asyncWithServer();
+    }
+
+    private void initLocalConfigManager() {
         this.localConfigManager = new LocalConfigManager(this);
         user = localConfigManager.getCurrentUser();
+    }
+
+    public LocalConfigManager getLocalConfigManager() {
+        return localConfigManager;
     }
 
 
@@ -75,7 +92,7 @@ public class MyApp extends Application{
     }
     /**
      * call for show toast
-     * @param stringId string resource id
+     * @param string string will be show
      */
     public void showToast(String string){
         if (lastToast != null) {
@@ -84,6 +101,7 @@ public class MyApp extends Application{
         lastToast = Toast.makeText(this, string, Toast.LENGTH_SHORT);
         lastToast.show();
     }
+
 
     public static MyApp getApp(){
         return INSTANCE;

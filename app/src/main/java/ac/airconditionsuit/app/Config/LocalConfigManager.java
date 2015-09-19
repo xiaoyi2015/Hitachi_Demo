@@ -9,6 +9,7 @@ import android.text.TextUtils;
 
 /**
  * Created by ac on 9/19/15.
+ * manager for local config
  */
 public class LocalConfigManager {
 
@@ -25,5 +26,9 @@ public class LocalConfigManager {
         } else {
             return MyUser.getInstanceFromJsonString(currentUserString);
         }
+    }
+
+    public void saveUser(MyUser user) {
+        sharePreference.edit().putString(Constant.PREFERENCE_KEY_CURRENT_USER, user.toJsonString()).apply();
     }
 }
