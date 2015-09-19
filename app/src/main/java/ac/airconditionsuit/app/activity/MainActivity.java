@@ -3,6 +3,7 @@ package ac.airconditionsuit.app.activity;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.fragment.BaseFragment;
 import ac.airconditionsuit.app.fragment.SettingFragment;
+import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.view.TabIndicator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 
 public class MainActivity extends BaseActivity {
@@ -71,7 +71,6 @@ public class MainActivity extends BaseActivity {
         }
 
         pager.setCurrentItem(DEFAULT_FRAGMENT_POSITION);
-
 
     }
 

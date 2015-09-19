@@ -11,6 +11,9 @@ import java.net.SocketException;
  * Created by ac on 9/18/15.
  */
 public class SocketManager {
+
+    private static final String IP = "114.215.83.189";//日立
+
     interface SocketWrap {
         void connect();
 

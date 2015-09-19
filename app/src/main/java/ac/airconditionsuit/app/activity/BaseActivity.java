@@ -44,7 +44,4 @@ public class BaseActivity extends FragmentActivity {
         startActivity(intent);
     }
 
-    public MyApp getApp(){
-        return (MyApp) getApplication();
-    }
 }
