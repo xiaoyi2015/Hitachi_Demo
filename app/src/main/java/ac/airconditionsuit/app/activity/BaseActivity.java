@@ -42,11 +42,7 @@ public class BaseActivity extends FragmentActivity {
         for (int i = 0; i < keyAndValueLength / 2; ++i) {
             intent.putExtra(keyAndValue[i * 2], keyAndValue[i * 2 + 1]);
         }
-<<<<<<< HEAD
-        intent.putExtra(Constant.ACTIVITY_FROM, this.getClass().getName());
-=======
         intent.putExtra(Constant.INTENT_DATA_KEY_ACTIVITY_FROM, this.getClass().getName());
->>>>>>> c988074c37dd710b1dbe491baa897e7ff02b5937
         startActivity(intent);
     }
 

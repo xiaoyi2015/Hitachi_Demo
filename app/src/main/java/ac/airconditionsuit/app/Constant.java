@@ -8,8 +8,6 @@ package ac.airconditionsuit.app;
 public class Constant {
     public static final String PREFERENCE_KEY_CURRENT_USER = "current";
 
-    public static final String ACTIVITY_FROM = "activity_from" ;
-
     public static final String INTENT_DATA_KEY_ACTIVITY_FROM = "activity_from" ;
 
 }
