@@ -1,10 +1,8 @@
 package ac.airconditionsuit.app.Config;
 
 import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.activity.UserInfoActivity;
+import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.util.MyBase64Util;
-import android.content.Context;
-import android.provider.MediaStore;
 import android.util.Log;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
@@ -17,30 +15,36 @@ import java.text.ParseException;
 
 /**
  * Created by ac on 9/19/15.
- *
  */
-public class ConfigManager {
+public class ServerConfigManager {
 
-    public static final String Tag = "ConfigManager";
+    public static final String TAG = "ConfigManager";
 
     //整个xml配置文件的根节点
     private NSDictionary root;
 
     private void readFromFile() {
         if (!MyApp.getApp().isUserLogin()) {
+            Log.i(TAG, "readFromFile should be call after user login");
             return;
         }
 
         FileInputStream fis = null;
         try {
-            fis = MyApp.getApp().openFileInput(MyApp.getApp().getConfigFileName());
+            File serverConfigFile = MyApp.getApp().getServerConfigFile();
+            if (serverConfigFile == null) {
+                Log.i(TAG, "can not find service config file");
+                return;
+            }
+            fis = new FileInputStream(serverConfigFile);
             byte[] bytes = new byte[fis.available()];
             if (fis.read(bytes) != bytes.length) {
-                Log.e(Tag, "read config file error");
+                Log.e(TAG, "read config file error");
                 return;
             }
             root = (NSDictionary) PropertyListParser.parse(MyBase64Util.decodeToByte(bytes));
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
+            Log.e(TAG, "read server config file error");
             e.printStackTrace();
         } finally {
             if (fis != null) {
@@ -54,21 +58,23 @@ public class ConfigManager {
     }
 
     private void writeToFile() {
-        if (!MyApp.getApp().isUserLogin()) {
-            return;
-        }
-
         FileOutputStream fos = null;
         try {
+            File serverConfigFile = MyApp.getApp().getServerConfigFile();
+            if (serverConfigFile == null) {
+                Log.i(TAG, "can not find service config file");
+                return;
+            }
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             PropertyListParser.saveAsXML(root, byteArrayOutputStream);
             byte[] bytes = MyBase64Util.encodeToByte(byteArrayOutputStream.toByteArray(), true);
 
-            fos = MyApp.getApp().openFileOutput(MyApp.getApp().getConfigFileName(), Context.MODE_PRIVATE);
+            fos = new FileOutputStream(serverConfigFile);
             fos.write(bytes);
             fos.flush();
             fos.close();
         } catch (IOException e) {
+            Log.e(TAG, "read server config file error");
             e.printStackTrace();
         } finally {
             if (fos != null) {
@@ -85,10 +91,10 @@ public class ConfigManager {
     }
 
     /**
-     * 与服务器同步配置文件，每次修改{@link ConfigManager#root}以后都要调用
+     * 与服务器同步配置文件，每次修改{@link ServerConfigManager#root}以后都要调用
      */
-    private void asyncWithServer() {
-
+    public void asyncWithServer() {
+        HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(), MyApp.getApp().getServerConfigFile(), null);
     }
 
 
