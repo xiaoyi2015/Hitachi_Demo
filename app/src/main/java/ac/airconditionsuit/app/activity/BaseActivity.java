@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import ac.airconditionsuit.app.MyApp;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -27,5 +28,9 @@ public class BaseActivity extends FragmentActivity {
 
     public CommonTopBar getCommonTopBar() {
         return commonTopBar;
+    }
+
+    public MyApp getApp(){
+        return (MyApp) getApplication();
     }
 }
