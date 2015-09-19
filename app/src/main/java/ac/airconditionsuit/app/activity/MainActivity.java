@@ -19,20 +19,21 @@ public class MainActivity extends BaseActivity {
     //TODO 设置默认的fragment，这边可能根据需求方要求修改要改
     private static final int DEFAULT_FRAGMENT_POSITION = 3;
     private ViewPager pager;
+    BaseFragment[] fragments = new BaseFragment[]{
+            new BaseFragment(),
+            new BaseFragment(),
+            new BaseFragment(),
+            new SettingFragment()
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState);
 
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-            BaseFragment[] fragments = new BaseFragment[]{
-                    new BaseFragment(),
-                    new BaseFragment(),
-                    new BaseFragment(),
-                    new SettingFragment()
-            };
 
 
             @Override
@@ -56,6 +57,7 @@ public class MainActivity extends BaseActivity {
             public void onPageSelected(int position) {
                 Log.i(TAG, "onPageSeleted");
                 changeIndicator(position);
+                fragments[position].setTopBar();
             }
 
             @Override
@@ -64,7 +66,12 @@ public class MainActivity extends BaseActivity {
         });
         initTabIndicator();
 
+        for (BaseFragment bf : fragments) {
+            bf.setActivity(this);
+        }
+
         pager.setCurrentItem(DEFAULT_FRAGMENT_POSITION);
+
 
     }
 

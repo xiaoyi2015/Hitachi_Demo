@@ -13,10 +13,12 @@ import java.util.Timer;
 
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.activity.AddDeviceActivity;
+import ac.airconditionsuit.app.activity.BaseActivity;
 import ac.airconditionsuit.app.activity.HomeSettingActivity;
 import ac.airconditionsuit.app.activity.SoftwareInfoActivity;
 import ac.airconditionsuit.app.activity.SoftwarePageActivity;
 import ac.airconditionsuit.app.activity.UserInfoActivity;
+import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
  * Created by ac on 9/17/15.
@@ -42,6 +44,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
             case R.id.user_icon:
                 startActivity(new Intent(getActivity(), UserInfoActivity.class));
@@ -59,5 +62,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 startActivity(new Intent(getActivity(), AddDeviceActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void setTopBar() {
+        BaseActivity baseActivity = myGetActivity();
+        CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
+        commonTopBar.setTitle(baseActivity.getString(R.string.tab_label_setting));
     }
 }

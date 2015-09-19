@@ -5,8 +5,15 @@
                 android:layout_height="match_parent"
                 tools:context=".MainActivity">
 
+    <ac.airconditionsuit.app.view.CommonTopBar
+        android:id="@+id/default_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize">
+    </ac.airconditionsuit.app.view.CommonTopBar>
+
     <android.support.v4.view.ViewPager
             android:id="@+id/pager"
+            android:layout_below="@id/default_top_bar"
             android:layout_above="@id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
