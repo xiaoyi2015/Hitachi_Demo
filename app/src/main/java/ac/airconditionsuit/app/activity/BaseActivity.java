@@ -28,4 +28,5 @@ public class BaseActivity extends FragmentActivity {
     public CommonTopBar getCommonTopBar() {
         return commonTopBar;
     }
+
 }

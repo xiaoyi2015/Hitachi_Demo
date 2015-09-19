@@ -1,132 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ac.airconditionsuit.app.view.CommonTopBar
+        android:id="@+id/default_top_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="?android:attr/actionBarSize"
+        app:leftArrow="@drawable/icon_arrow_right">
+    </ac.airconditionsuit.app.view.CommonTopBar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/icon_name_gender"
-            style="@style/white_text_view_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:orientation="horizontal"
-            android:paddingRight="0dp">
-
-            <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/network_icon"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginRight="10dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/user" />
+            android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/icon_name_gender"
+                style="@style/white_text_view_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:weightSum="1">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal"
+                android:paddingRight="0dp">
 
-                <ac.airconditionsuit.app.view.CommonButtonWithArrow
-                    android:id="@+id/nick_name"
-                    style="@style/white_text_view_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:gravity="center_vertical"
-                    app:textLabel="@string/nick_name">
-                </ac.airconditionsuit.app.view.CommonButtonWithArrow>
+                <com.android.volley.toolbox.NetworkImageView
+                    android:id="@+id/network_icon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginRight="10dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/user" />
 
-                <ImageView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/windowBackground"/>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:weightSum="1">
 
-                <ac.airconditionsuit.app.view.CommonButtonWithArrow
-                    android:id="@+id/gender"
-                    style="@style/white_text_view_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:gravity="center_vertical"
-                    app:textLabel="@string/gender">
-                </ac.airconditionsuit.app.view.CommonButtonWithArrow>
+                    <ac.airconditionsuit.app.view.CommonButtonWithArrow
+                        android:id="@+id/nick_name"
+                        style="@style/white_text_view_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="center_vertical"
+                        app:textLabel="@string/nick_name"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/windowBackground" />
+
+                    <ac.airconditionsuit.app.view.CommonButtonWithArrow
+                        android:id="@+id/gender"
+                        style="@style/white_text_view_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="center_vertical"
+                        app:textLabel="@string/gender"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+                </LinearLayout>
 
             </LinearLayout>
 
+            <ac.airconditionsuit.app.view.CommonButtonWithArrow
+                android:id="@+id/home_list"
+                style="@style/white_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:layout_marginTop="40dp"
+                app:textLabel="@string/home_list"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+            <ac.airconditionsuit.app.view.CommonButtonWithArrow
+                android:id="@+id/change_birth"
+                style="@style/white_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                app:textLabel="@string/change_birth"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+            <ac.airconditionsuit.app.view.CommonButtonWithArrow
+                android:id="@+id/change_phone"
+                style="@style/white_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                app:textLabel="@string/change_phone"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+            <ac.airconditionsuit.app.view.CommonButtonWithArrow
+                android:id="@+id/change_password"
+                style="@style/white_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                app:textLabel="@string/change_password"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+            <ac.airconditionsuit.app.view.CommonButtonWithArrow
+                android:id="@+id/change_email"
+                style="@style/white_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                app:textLabel="@string/change_email"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+            <ac.airconditionsuit.app.view.CommonButtonWithArrow
+                android:id="@+id/common_agree_clause"
+                style="@style/white_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="40dp"
+                app:textLabel="@string/common_agree_clause"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+            <ac.airconditionsuit.app.view.CommonButtonWithArrow
+                android:id="@+id/quit_account"
+                style="@style/white_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:rightArrow="false"
+                app:textLabel="@string/quit_account"></ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
         </LinearLayout>
 
-        <ac.airconditionsuit.app.view.CommonButtonWithArrow
-            android:id="@+id/home_list"
-            style="@style/white_text_view_layout"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="40dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:textLabel="@string/home_list">
-        </ac.airconditionsuit.app.view.CommonButtonWithArrow>
+    </ScrollView>
 
-        <ac.airconditionsuit.app.view.CommonButtonWithArrow
-            android:id="@+id/change_birth"
-            style="@style/white_text_view_layout"
-            android:layout_marginBottom="1dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:textLabel="@string/change_birth">
-        </ac.airconditionsuit.app.view.CommonButtonWithArrow>
-
-        <ac.airconditionsuit.app.view.CommonButtonWithArrow
-            android:id="@+id/change_phone"
-            style="@style/white_text_view_layout"
-            android:layout_marginBottom="1dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:textLabel="@string/change_phone">
-        </ac.airconditionsuit.app.view.CommonButtonWithArrow>
-
-        <ac.airconditionsuit.app.view.CommonButtonWithArrow
-            android:id="@+id/change_password"
-            style="@style/white_text_view_layout"
-            android:layout_marginBottom="1dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:textLabel="@string/change_password">
-        </ac.airconditionsuit.app.view.CommonButtonWithArrow>
-
-        <ac.airconditionsuit.app.view.CommonButtonWithArrow
-            android:id="@+id/change_email"
-            style="@style/white_text_view_layout"
-            android:layout_marginBottom="1dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:textLabel="@string/change_email">
-        </ac.airconditionsuit.app.view.CommonButtonWithArrow>
-
-        <ac.airconditionsuit.app.view.CommonButtonWithArrow
-            android:id="@+id/common_agree_clause"
-            style="@style/white_text_view_layout"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="1dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:textLabel="@string/common_agree_clause">
-        </ac.airconditionsuit.app.view.CommonButtonWithArrow>
-
-        <ac.airconditionsuit.app.view.CommonButtonWithArrow
-            android:id="@+id/quit_account"
-            style="@style/white_text_view_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:textLabel="@string/quit_account"
-            app:rightArrow="false">
-        </ac.airconditionsuit.app.view.CommonButtonWithArrow>
-
-    </LinearLayout>
-
-</ScrollView>
+</RelativeLayout>
