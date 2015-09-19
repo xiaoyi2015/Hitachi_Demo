@@ -46,4 +46,5 @@
         配置设置->设备->设备二维码\n\n</string>
     <string name="auto_find_device">自动搜索空调控制主机</string>
     <string name="scan_scan">扫一扫</string>
+    <string name="home_name">家的名称</string>
 </resources>

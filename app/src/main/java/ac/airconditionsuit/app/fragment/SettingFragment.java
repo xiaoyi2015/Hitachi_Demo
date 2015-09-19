@@ -25,14 +25,7 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  */
 public class SettingFragment extends BaseFragment implements View.OnClickListener {
 
-    private static final int REQUEST_ADD_DEVICE = 10086;
     private View view;
-    private ImageButton userIcon;
-    private ImageButton softwareInfo;
-    private TextView connectStatusTextView;
-    private Timer refreshTimer;
-    private RelativeLayout deviceView;
-    private TextView addController;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

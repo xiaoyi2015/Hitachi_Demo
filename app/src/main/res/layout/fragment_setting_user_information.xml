@@ -9,10 +9,12 @@
         android:id="@+id/default_top_bar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        app:leftArrow="@drawable/icon_arrow_right">
+        app:leftArrow="@drawable/back">
     </ac.airconditionsuit.app.view.CommonTopBar>
 
     <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_below="@+id/default_top_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,7 +28,7 @@
                 style="@style/white_text_view_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="25dp"
                 android:orientation="horizontal"
                 android:paddingRight="0dp">
 

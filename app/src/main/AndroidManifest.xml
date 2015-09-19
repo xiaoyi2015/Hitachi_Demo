@@ -38,6 +38,10 @@
             android:name=".activity.AddDeviceActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.ChangeHomeNameActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

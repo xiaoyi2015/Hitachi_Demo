@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    
     <ac.airconditionsuit.app.view.CommonTopBar
         android:id="@+id/default_top_bar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        app:leftArrow="@drawable/back">
+        app:leftArrow="@drawable/back"
+        app:rightYes="@drawable/save">
     </ac.airconditionsuit.app.view.CommonTopBar>
-
-    <TextView
-        android:id="@+id/add_group"
+    
+    <EditText
+        android:id="@+id/edit_home_name"
         style="@style/white_text_view_layout"
-        android:text="@string/add_group"
-        android:layout_below="@+id/default_top_bar"
-        android:layout_marginTop="25dp"
-        android:gravity="center"
+        android:layout_below="@id/default_top_bar"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="100dp"
+        android:gravity="fill_horizontal"
+        />
 
 </RelativeLayout>

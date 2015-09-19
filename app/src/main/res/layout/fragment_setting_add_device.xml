@@ -6,7 +6,7 @@
 
     <ac.airconditionsuit.app.view.CommonTopBar
         android:id="@+id/default_top_bar"
-        app:leftArrow="@drawable/icon_arrow_right"
+        app:leftArrow="@drawable/back"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize">
     </ac.airconditionsuit.app.view.CommonTopBar>
