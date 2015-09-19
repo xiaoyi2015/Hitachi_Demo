@@ -1,6 +1,8 @@
 package ac.airconditionsuit.app.activity;
 
+
 import android.content.Intent;
+import ac.airconditionsuit.app.MyApp;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -31,6 +33,7 @@ public class BaseActivity extends FragmentActivity {
         return commonTopBar;
     }
 
+
     public void shortStartActivity(Class c, String... keyAndValue) {
         Intent intent = new Intent(this, c);
         int keyAndValueLength = keyAndValue.length;
@@ -41,4 +44,7 @@ public class BaseActivity extends FragmentActivity {
         startActivity(intent);
     }
 
+    public MyApp getApp(){
+        return (MyApp) getApplication();
+    }
 }
