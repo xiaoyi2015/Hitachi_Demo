@@ -1,6 +1,5 @@
 package ac.airconditionsuit.app.activity;
 
-import ac.airconditionsuit.app.Config.LocalConfigManager;
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
@@ -11,9 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import com.loopj.android.http.BaseJsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by ac on 9/19/15.
@@ -74,7 +71,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 Log.i(TAG, "onSuccess");
                 MyUser user = response.getUser();
                 MyApp app = MyApp.getApp();
-                //app.getLocalConfigManager().saveUser(user);
+                app.setUser(user);
+                app.getLocalConfigManager().updateUser(user);
                 app.initConfigManager();
             }
 

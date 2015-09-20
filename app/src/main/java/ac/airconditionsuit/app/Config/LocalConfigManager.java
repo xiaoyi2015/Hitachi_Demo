@@ -5,7 +5,6 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.LocalConfig;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.entity.UserForLocalConfig;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -16,7 +15,6 @@ import java.util.Random;
  * manager for local config
  */
 public class LocalConfigManager {
-
 
     private LocalConfig localConfig;
 
@@ -31,9 +29,9 @@ public class LocalConfigManager {
 
     public LocalConfig getLocalConfig() {
         if (localConfig == null) {
-            localConfig = LocalConfig.getInstanceFromJsonString(sharePreference.getString(Constant.PREFERENCE_KEY_LOCAL_CONFIG, null));
+            localConfig = LocalConfig.getInstanceFromJsonString(getSharePreference().getString(Constant.PREFERENCE_KEY_LOCAL_CONFIG, null));
             localConfig = new LocalConfig();
-            asyncWithDisk();
+            saveToDisk();
         }
         return localConfig;
     }
@@ -50,15 +48,20 @@ public class LocalConfigManager {
         return getCurrentUserConfig().getMyUser();
     }
 
-    public void addUser(MyUser user) {
-        getLocalConfig().addUser(user);
+    /**
+     * if user first login in, add user;
+     * else update user;
+     * @param user
+     */
+    public void updateUser(MyUser user) {
+        getLocalConfig().updateUser(user);
     }
 
     private String genRandomFileName() {
         return System.currentTimeMillis() + new Random().nextInt(100) + Constant.CONFIG_FILE_SUFFIX;
     }
 
-    public void asyncWithDisk() {
+    public void saveToDisk() {
         getSharePreference().edit().putString(Constant.PREFERENCE_KEY_LOCAL_CONFIG, localConfig.toJsonString()).apply();
     }
 }
