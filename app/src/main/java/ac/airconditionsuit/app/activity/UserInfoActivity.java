@@ -5,13 +5,19 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
  * Created by Administrator on 2015/9/18.
  */
-public class UserInfoActivity extends BaseActivity implements View.OnClickListener {
-
+public class UserInfoActivity extends BaseActivity {
+    private MyOnClickListener myOnClickListener = new MyOnClickListener(){
+        @Override
+        public void onClick(View v) {
+            super.onClick(v);
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_setting_user_information);
@@ -21,8 +27,4 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 }
