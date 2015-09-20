@@ -51,4 +51,7 @@ public class Constant {
     public static final String CONFIG_FILE_SUFFIX = ".dc";
     public static final int FILE_DECODE_ENCODE_KEY = 0x33;
     public static final String SERVER_CONFIG_FILE_NAME = "serversetting.dc";
+    public static final String IS_REGISTER = "is_register";
+    public static final String YES = "yes";
+    public static final String NO = "no";
 }

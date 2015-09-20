@@ -7,5 +7,6 @@
         <attr name="rightEdit" format="reference" />
         <attr name="rightYes" format="reference" />
         <attr name="rightAdd" format="reference" />
+        <attr name="leftCancel" format="reference" />
     </declare-styleable>
 </resources>

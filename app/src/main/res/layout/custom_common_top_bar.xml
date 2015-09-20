@@ -66,4 +66,13 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"/>
 
+    <ImageView
+        android:id="@+id/left_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:scaleType="fitXY"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"/>
+
 </RelativeLayout>

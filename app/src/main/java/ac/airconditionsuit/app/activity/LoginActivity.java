@@ -29,6 +29,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         passwordEditText = (EditText) findViewById(R.id.password);
 
         findViewById(R.id.login_button).setOnClickListener(this);
+        findViewById(R.id.forget_psd).setOnClickListener(this);
+        findViewById(R.id.login_add_user).setOnClickListener(this);
     }
 
     @Override
@@ -36,6 +38,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.login_button:
                 login();
+                break;
+            case R.id.login_add_user:
+                shortStartActivity(RegisterActivity.class,Constant.IS_REGISTER,Constant.YES);
+                break;
+            case R.id.forget_psd:
+                shortStartActivity(RegisterActivity.class,Constant.IS_REGISTER,Constant.NO);
                 break;
         }
     }
