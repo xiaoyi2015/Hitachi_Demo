@@ -54,4 +54,8 @@ public class Constant {
     public static final String IS_REGISTER = "is_register";
     public static final String YES = "yes";
     public static final String NO = "no";
+    public static final String PN_MOBILE_PHONE = "mobile_phone";
+    public static final String TYPE_VALIDATE_CODE_FOR_FIND_PASSWORD ="sendMobileVerifyCode";
+    public static final String METHOD_REGISTER = "eliteall.register";
+    public static final String TYPE_VALIDATE_CODE = "sendRegMobileValidateCode";
 }
