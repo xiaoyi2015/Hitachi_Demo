@@ -4,16 +4,18 @@ import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.Device;
+import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.util.MyBase64Util;
+import ac.airconditionsuit.app.util.PlistUtil;
 import android.util.Log;
+import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import cz.msebera.android.httpclient.Header;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,7 +23,6 @@ import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * Created by ac on 9/19/15.
@@ -32,6 +33,7 @@ public class ServerConfigManager {
 
     //整个xml配置文件的根节点
     private NSDictionary root;
+    private ServerConfig rootJavaObj;
 
     private void readFromFile() {
         if (!MyApp.getApp().isUserLogin()) {
@@ -41,7 +43,7 @@ public class ServerConfigManager {
 
         FileInputStream fis = null;
         try {
-            File serverConfigFile = MyApp.getApp().getServerConfigFile();
+            File serverConfigFile = MyApp.getApp().getPrivateFiles(MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFileName());
             if (serverConfigFile == null) {
                 Log.i(TAG, "can not find service config file");
                 return;
@@ -53,6 +55,7 @@ public class ServerConfigManager {
                 return;
             }
             root = (NSDictionary) PropertyListParser.parse(MyBase64Util.decodeToByte(bytes));
+            rootJavaObj = new Gson().fromJson(PlistUtil.NSDictionaryToJsonString(root), ServerConfig.class);
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
             Log.e(TAG, "read server config file error");
             e.printStackTrace();
@@ -145,6 +148,7 @@ public class ServerConfigManager {
                     });
         } else {
             MyApp.getApp().getLocalConfigManager().updataDevice(fileNames);
+            readFromFile();
         }
     }
 

@@ -70,4 +70,12 @@ public class LocalConfigManager {
         getLocalConfig().updateDevice(fileNames);
         saveToDisk();
     }
+
+    public String getCurrentHomeConfigFileName() {
+        UserForLocalConfig user = getCurrentUserConfig();
+        if (user == null) {
+            return null;
+        }
+        return user.getCurrentHomeConfigFileName();
+    }
 }

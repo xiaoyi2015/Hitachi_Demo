@@ -57,7 +57,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         userName = "13989880921";
         password = "123456";
 
-
         final RequestParams requestParams = new RequestParams();
 
         requestParams.put(Constant.REQUEST_PARAMS_KEY_USER_NAME, userName);

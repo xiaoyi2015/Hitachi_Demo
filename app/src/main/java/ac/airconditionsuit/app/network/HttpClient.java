@@ -51,8 +51,7 @@ public class HttpClient {
     @SuppressWarnings("unchecked")
     public static <T> void get(RequestParams params, final Type type, final JsonResponseHandler<T> handler) {
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-        asyncHttpClient.setMaxRetriesAndTimeout(3, 3000);
-        asyncHttpClient.post(BASE_URL, wrapParams(params) , new BaseJsonHttpResponseHandler<CommonResponse>() {
+        asyncHttpClient.get(BASE_URL, wrapParams(params) , new BaseJsonHttpResponseHandler<CommonResponse>() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, CommonResponse response) {
                 //handle result
@@ -67,7 +66,6 @@ public class HttpClient {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, String rawJsonData, CommonResponse errorResponse) {
-                Log.i(TAG, "statusCode:" + statusCode);
                 switch (statusCode) {
                     //can not access to internet
                     case 0:
@@ -78,7 +76,7 @@ public class HttpClient {
                             if (throwable instanceof JsonSyntaxException) {
                                 MyApp.getApp().showToast(R.string.toast_inf_net_data_error);
                             } else if (throwable instanceof CommonError) {
-                                MyApp.getApp().showToast(((CommonError) throwable).getMyMessage().getStr());
+                                MyApp.getApp().showToast(((CommonError) throwable).getMyMessage().getDialog());
                             } else {
                                 MyApp.getApp().showToast(throwable.getMessage());
                             }
@@ -97,7 +95,7 @@ public class HttpClient {
 
             @Override
             protected CommonResponse parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
-                Log.i(TAG, "response rawJsonData:\n" + rawJsonData);
+//                Log.i(TAG, "response rawJsonData:\n" + rawJsonData);
                 return new Gson().fromJson(rawJsonData, CommonResponse.class);
             }
         });
@@ -140,7 +138,7 @@ public class HttpClient {
             params.put("cust_id", user.getCust_id());
             params.put("display_id", user.getDisplay_id());
         }
-        Log.i(TAG, "output params\n" + params.toString());
+//        Log.i(TAG, "output params\n" + params.toString());
         return params;
     }
 
