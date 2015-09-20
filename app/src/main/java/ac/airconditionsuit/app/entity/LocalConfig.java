@@ -43,7 +43,18 @@ public class LocalConfig extends RootEntity {
         return new Gson().fromJson(currentUserString, LocalConfig.class);
     }
 
-    public void addUser(MyUser user) {
+    public void updateUser(MyUser user) {
+        for (int i = 0; i < users.size(); ++i) {
+            UserForLocalConfig tempuser = users.get(i);
+            if (tempuser.getMyUser().getCust_id() == user.getCust_id()) {
+                tempuser.setMyUser(user);
+                currentIndex = i;
+                return;
+            }
+
+        }
         users.add(new UserForLocalConfig(user));
+        //set currentIndex = latest user
+        currentIndex = users.size() - 1;
     }
 }

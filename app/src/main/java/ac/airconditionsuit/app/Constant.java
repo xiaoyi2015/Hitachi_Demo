@@ -37,11 +37,15 @@ public class Constant {
     public static final String REQUEST_PARAMS_VALUE_METHOD_REGISTER = "eliteall.register";
     public static final String REQUEST_PARAMS_VALUE_METHOD_LOGIN = "eliteall.login";
     public static final String REQUEST_PARAMS_VALUE_METHOD_CUSTOMER = "eliteall.customer";
+    public static final String REQUEST_PARAMS_VALUE_METHOD_CHAT = "eliteall.chat";
+
     public static final String REQUEST_PARAMS_VALUE_TYPE_VALIDATE_CODE = "sendRegMobileValidateCode";
     public static final String REQUEST_PARAMS_VALUE_TYPE_REGISTER = "register";
     public static final String REQUEST_PARAMS_VALUE_TYPE_FIND_PASSWORD = "verifyMobilePhone";
     public static final String REQUEST_PARAMS_VALUE_TYPE_LOGIN = "login";
     public static final String REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF = "saveCustInfoByField";
+    public static final String REQUEST_PARAMS_VALUE_TYPE_GET_CHATGROUPLIST = "getChatGroupList";
+    public static final String REQUEST_PARAMS_VALUE_TYPE_CUST_CLASS_10008 = "10008";
 
     //other
     public static final String CONFIG_FILE_SUFFIX = ".dc";

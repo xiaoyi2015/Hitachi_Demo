@@ -7,7 +7,6 @@ import android.app.Application;
 import android.widget.Toast;
 
 import java.io.*;
-import java.net.ServerSocket;
 
 /**
  * Created by ac on 9/19/15.
@@ -65,12 +64,24 @@ public class MyApp extends Application{
      */
     public void initConfigManager() {
         serverConfigManager = new ServerConfigManager();
-        serverConfigManager.asyncWithServer();
+        serverConfigManager.downloadFromServer();
     }
 
+    /**
+     * the user get from localConfigManager maybe null;
+     */
     private void initLocalConfigManager() {
-        this.localConfigManager = new LocalConfigManager(this);
+        this.localConfigManager = new LocalConfigManager();
         user = localConfigManager.getCurrentUser();
+    }
+
+    /**
+     * this method should be called after login,
+     * to avoid {@link #user} is null when user first use app
+     * @param user
+     */
+    public void setUser(MyUser user) {
+        this.user = user;
     }
 
     public LocalConfigManager getLocalConfigManager() {
@@ -106,4 +117,5 @@ public class MyApp extends Application{
     public static MyApp getApp(){
         return INSTANCE;
     }
+
 }
