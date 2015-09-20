@@ -74,7 +74,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 Log.i(TAG, "onSuccess");
                 MyUser user = response.getUser();
                 MyApp app = MyApp.getApp();
-                app.getLocalConfigManager().saveUser(user);
+                //app.getLocalConfigManager().saveUser(user);
                 app.initConfigManager();
             }
 

@@ -69,7 +69,7 @@ public class MyApp extends Application{
     }
 
     private void initLocalConfigManager() {
-        this.localConfigManager = new LocalConfigManager(this);
+        this.localConfigManager = new LocalConfigManager();
         user = localConfigManager.getCurrentUser();
     }
 
