@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.Config;
 
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.util.MyBase64Util;
@@ -10,13 +11,17 @@ import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
 import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import cz.msebera.android.httpclient.Header;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Created by ac on 9/19/15.
@@ -113,22 +118,34 @@ public class ServerConfigManager {
         }.getType(), new HttpClient.JsonResponseHandler<List<Device.Info>>() {
             @Override
             public void onSuccess(List<Device.Info> response) {
-                Log.d(TAG, String.valueOf(response.size()));
-//                if (s == null) {
-//                    s = new ArrayList<>();
-//                }
-//                updateHomeByNewDeviceInf(s);
-//                ACSettingManager.getPmng().load();
-//                if (downloadListener != null) {
-//                    downloadListener.onSuccess();
-//                }
+                downloadFiles(response, new ArrayList<String>(response.size()));
             }
 
             @Override
             public void onFailure(Throwable throwable) {
             }
         });
-        HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(), MyApp.getApp().getServerConfigFile(), null);
+    }
+
+    private void downloadFiles(final List<Device.Info> response, final List<String> fileNames) {
+        if (response.size() != 0) {
+            File outputFile = MyApp.getApp().getPrivateFiles(LocalConfigManager.genRandomFileName());
+            HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(response.remove(0).getChat_id()),
+                    outputFile, new HttpClient.DownloadFileHandler() {
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            MyApp.getApp().showToast(R.string.toast_inf_download_file_error);
+                        }
+
+                        @Override
+                        public void onSuccess(File file) {
+                            fileNames.add(file.getName());
+                            downloadFiles(response, fileNames);
+                        }
+                    });
+        } else {
+            MyApp.getApp().getLocalConfigManager().updataDevice(fileNames);
+        }
     }
 
 

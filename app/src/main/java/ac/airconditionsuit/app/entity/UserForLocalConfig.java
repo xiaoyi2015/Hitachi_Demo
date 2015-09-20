@@ -47,4 +47,31 @@ public class UserForLocalConfig {
     public void setCurrentHomeIndex(int currentHomeIndex) {
         this.currentHomeIndex = currentHomeIndex;
     }
+
+    public String getCurrentHomeConfigFileName() {
+        if (currentHomeIndex < 0 || currentHomeIndex >= homeConfigFileNames.size()) {
+            return null;
+        } else {
+            return homeConfigFileNames.get(currentHomeIndex);
+        }
+    }
+
+    public void updateDevice(List<String> fileNames) {
+        String oldCurrentHomeFileName = getCurrentHomeConfigFileName();
+        this.homeConfigFileNames = fileNames;
+        if (oldCurrentHomeFileName == null) {
+            if (fileNames.size() == 0) {
+                currentHomeIndex = -1;
+            } else {
+                currentHomeIndex = 0;
+            }
+        }
+        for (int i = 0; i < homeConfigFileNames.size(); ++i) {
+            if (homeConfigFileNames.get(i).equals(oldCurrentHomeFileName)) {
+                currentHomeIndex = i;
+                return;
+            }
+        }
+        currentHomeIndex = 0;
+    }
 }

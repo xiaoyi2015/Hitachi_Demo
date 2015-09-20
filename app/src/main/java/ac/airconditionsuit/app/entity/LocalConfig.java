@@ -57,4 +57,9 @@ public class LocalConfig extends RootEntity {
         //set currentIndex = latest user
         currentIndex = users.size() - 1;
     }
+
+    public void updateDevice(List<String> fileNames) {
+        UserForLocalConfig user = getCurrentUser();
+        user.updateDevice(fileNames);
+    }
 }
