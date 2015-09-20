@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ac.airconditionsuit.app.view.CommonTopBar
+        android:id="@id/default_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:rightYes="@drawable/save"
+        app:leftCancel="@drawable/cancel"/>
+
+    <LinearLayout
+        android:id="@+id/register_agree_clause"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/register_agree_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:background="@drawable/login_select_box"
+            android:button="@drawable/checkbox" />
+
+        <TextView
+            android:id="@+id/register_agree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:layout_marginLeft="3dp"
+            android:text="@string/register_agree" />
+
+        <TextView
+            android:id="@+id/register_clause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginLeft="3dp"
+            android:text="@string/common_agree_clause" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        style="@style/white_text_view_layout"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/register_phone_number_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:inputType="phone"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="@string/get_verify_code"
+            android:background="@color/text_color_gray"
+            android:inputType="number"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:layout_marginTop="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        style="@style/white_text_view_layout"
+        android:hint="@string/register_verification_code_hint"
+        android:inputType="number"
+        android:id="@+id/register_verification_code_edit_text"/>
+
+    <EditText
+        android:layout_marginTop="55dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        style="@style/white_text_view_layout"
+        android:id="@+id/registerActivityPasswordEditText"
+        android:hint="@string/register_password_hint"
+        android:inputType="textPassword"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="1dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        style="@style/white_text_view_layout"
+        android:hint="@string/confirm_password_hint"
+        android:id="@+id/register_confirm_password_edit_text"
+        android:inputType="textPassword"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingRight="8dp"
+        android:textColor="@color/text_color_gray"
+        android:text="@string/register_password_info"
+        />
+</LinearLayout>

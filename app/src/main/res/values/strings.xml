@@ -55,4 +55,12 @@
     <string name="toast_inf_no_net">无法连接到互联网， 请检查网络设置</string>
     <string name="toast_inf_net_data_error">数据传输出错，重试</string>
     <string name="toast_inf_unknown_net_error">未知网络错误，请稍后重试</string>
+    <string name="register_agree">我已阅读和同意</string>
+    <string name="get_verify_code">获取验证码</string>
+    <string name="register_verification_code_hint">输入验证码</string>
+    <string name="register_password_hint">输入密码</string>
+    <string name="confirm_password_hint">再次输入密码</string>
+    <string name="register_password_info">密码区分大小写，长度为6至12位</string>
+    <string name="register_new_user">注册新用户</string>
+    <string name="find_password">找回密码</string>
 </resources>

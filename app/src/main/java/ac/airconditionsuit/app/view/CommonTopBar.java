@@ -26,6 +26,7 @@ public class CommonTopBar extends RelativeLayout {
     private ImageView rightEditView;
     private ImageView rightYesView;
     private ImageView rightAddView;
+    private ImageView leftCancelView;
 
     public CommonTopBar(Context context) {
         super(context);
@@ -54,6 +55,7 @@ public class CommonTopBar extends RelativeLayout {
         Drawable rightEdit = a.getDrawable(R.styleable.CommonTopBar_rightEdit);
         Drawable rightYes = a.getDrawable(R.styleable.CommonTopBar_rightYes);
         Drawable rightAdd = a.getDrawable(R.styleable.CommonTopBar_rightAdd);
+        Drawable leftCancel = a.getDrawable(R.styleable.CommonTopBar_leftCancel);
 
         a.recycle();
 
@@ -66,6 +68,7 @@ public class CommonTopBar extends RelativeLayout {
         rightEditView = (ImageView) findViewById(R.id.right_edit);
         rightYesView = (ImageView) findViewById(R.id.right_yes);
         rightAddView = (ImageView) findViewById(R.id.right_add);
+        leftCancelView = (ImageView) findViewById(R.id.left_cancel);
 
         titleView.setText(titleLabel);
         if (leftIcon == null) {
@@ -97,6 +100,11 @@ public class CommonTopBar extends RelativeLayout {
             rightAddView.setVisibility(GONE);
         } else {
             rightAddView.setImageDrawable(rightAdd);
+        }
+        if (leftCancel == null) {
+            leftCancelView.setVisibility(GONE);
+        } else {
+            leftCancelView.setImageDrawable(leftCancel);
         }
         setBackgroundResource(R.drawable.top_banner);
     }
