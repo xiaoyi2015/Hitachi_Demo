@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,18 +11,16 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
-import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.GetVerifyCodeResponse;
-import ac.airconditionsuit.app.network.response.LoginResponseData;
+import ac.airconditionsuit.app.network.response.RegisterResponseData;
 import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
@@ -147,6 +146,46 @@ public class RegisterActivity extends BaseActivity {
 
         if (password == null) {
             return;
+        }
+
+        final RequestParams requestParams = new RequestParams();
+        if(!isRegister) {
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_LOGIN);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.TYPE_FIND_PASSWORD);
+            requestParams.put(Constant.PN_MOBILE_PHONE, mobilePhoneStr);
+            requestParams.put(Constant.PN_NEW_PASSWORD, password);
+            requestParams.put(Constant.PN_VALIDATE_CODE, verificationCode);
+            HttpClient.get(requestParams, RegisterResponseData.class, new HttpClient.JsonResponseHandler<RegisterResponseData>() {
+                @Override
+                public void onSuccess(RegisterResponseData response) {
+                    //这里处理请求成功
+                    MyApp.getApp().showToast(R.string.set_psd_success);
+                    finish();
+                }
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Log.i(TAG, "onFailure");
+                }
+            });
+        }else{
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.METHOD_REGISTER);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.TYPE_REGISTER);
+            requestParams.put(Constant.PN_MOBILE_PHONE, mobilePhoneStr);
+            requestParams.put(Constant.PN_PASSWORD, password);
+            requestParams.put(Constant.PN_VALIDATE_CODE, verificationCode);
+            HttpClient.get(requestParams, RegisterResponseData.class, new HttpClient.JsonResponseHandler<RegisterResponseData>() {
+                @Override
+                public void onSuccess(RegisterResponseData response) {
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Log.i(TAG, "onFailure");
+                }
+            });
         }
 
     }

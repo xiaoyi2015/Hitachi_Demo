@@ -79,4 +79,5 @@
     <string name="forbid_psd_blank">密码中不能包括空格</string>
     <string name="send_verify_code">验证码已发送</string>
     <string name="phone_already_exist">该手机号已被注册</string>
+    <string name="set_psd_success">设置密码成功</string>
 </resources>

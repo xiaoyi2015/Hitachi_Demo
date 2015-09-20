@@ -58,4 +58,9 @@ public class Constant {
     public static final String TYPE_VALIDATE_CODE_FOR_FIND_PASSWORD ="sendMobileVerifyCode";
     public static final String METHOD_REGISTER = "eliteall.register";
     public static final String TYPE_VALIDATE_CODE = "sendRegMobileValidateCode";
+    public static final String TYPE_FIND_PASSWORD = "verifyMobilePhone";
+    public static final String PN_NEW_PASSWORD = "new_password";
+    public static final String PN_VALIDATE_CODE = "phone_validate_code";
+    public static final String TYPE_REGISTER = "register";
+    public static final String PN_PASSWORD = "password";
 }
