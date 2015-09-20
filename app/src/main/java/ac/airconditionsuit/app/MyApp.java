@@ -58,6 +58,14 @@ public class MyApp extends Application{
         }
     }
 
+    public File getPrivateFiles(String fileName) {
+        if (null == fileName) {
+            return null;
+        } else {
+            return new File(getFilesDir(), fileName);
+        }
+    }
+
     /**
      * init for configManager
      * this function show be call after user login.

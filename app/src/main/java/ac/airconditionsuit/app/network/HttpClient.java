@@ -52,7 +52,7 @@ public class HttpClient {
     public static <T> void get(RequestParams params, final Type type, final JsonResponseHandler<T> handler) {
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.setMaxRetriesAndTimeout(3, 3000);
-        asyncHttpClient.post(BASE_URL, params, new BaseJsonHttpResponseHandler<CommonResponse>() {
+        asyncHttpClient.post(BASE_URL, wrapParams(params) , new BaseJsonHttpResponseHandler<CommonResponse>() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, CommonResponse response) {
                 //handle result
@@ -103,45 +103,49 @@ public class HttpClient {
         });
     }
 
-    public static void downloadFile(final String url, File file, final FileAsyncHttpResponseHandler handler) {
+    public interface DownloadFileHandler {
+        void onFailure(Throwable throwable);
+        void onSuccess(File file);
+    }
+
+    public static void downloadFile(final String url, File file, final DownloadFileHandler handler) {
         new AsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(file) {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                 throwable.printStackTrace();
                 Log.e(TAG, "download file from " + url + "failed");
                 if (handler != null) {
-                    handler.onFailure(statusCode, headers, throwable, file);
+                    handler.onFailure(throwable);
                 }
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, File file) {
-                Log.i(TAG, "download file "  + file.getPath() + " success");
+                Log.i(TAG, "download file " + file.getPath() + " success");
                 if (handler != null) {
-                    handler.onSuccess(statusCode, headers, file);
+                    handler.onSuccess(file);
                 }
             }
         });
     }
 
 
-    private void wrapParams(RequestParams params, boolean needAuth) {
+    private static RequestParams wrapParams(RequestParams params) {
         params.put(Constant.REQUEST_PARAMS_KEY_LANGUAGE, "zh-Hans");
         params.put(Constant.REQUEST_PARAMS_KEY_VERSION, "1.0");
 
-        if (needAuth) {
-            MyUser user = MyApp.getApp().getUser();
+        MyUser user = MyApp.getApp().getUser();
+        if (user != null) {
             params.put("token", user.getToken());
             params.put("cust_id", user.getCust_id());
             params.put("display_id", user.getDisplay_id());
         }
-
         Log.i(TAG, "output params\n" + params.toString());
+        return params;
     }
 
-    public static String getDownloadConfigUrl() {
-        return FILE_BASE_URL + Constant.SERVER_CONFIG_FILE_NAME + "/" + MyApp.getApp().getUser().getCust_id() + ".xml";
+    public static String getDownloadConfigUrl(Long deviceId) {
+        return FILE_BASE_URL + deviceId + "/" + MyApp.getApp().getUser().getCust_id() + ".xml";
     }
-
 
 }
