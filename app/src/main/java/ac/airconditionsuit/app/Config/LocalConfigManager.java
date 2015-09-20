@@ -1,11 +1,15 @@
 package ac.airconditionsuit.app.Config;
 
 import ac.airconditionsuit.app.Constant;
+import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.entity.LocalConfig;
 import ac.airconditionsuit.app.entity.MyUser;
+import ac.airconditionsuit.app.entity.UserForLocalConfig;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
+
+import java.util.Random;
 
 /**
  * Created by ac on 9/19/15.
@@ -13,22 +17,48 @@ import android.text.TextUtils;
  */
 public class LocalConfigManager {
 
+
+    private LocalConfig localConfig;
+
     private SharedPreferences sharePreference;
 
-    public LocalConfigManager(Context context) {
-        this.sharePreference = PreferenceManager.getDefaultSharedPreferences(context);
+    public SharedPreferences getSharePreference() {
+        if (sharePreference == null) {
+            sharePreference = PreferenceManager.getDefaultSharedPreferences(MyApp.getApp());
+        }
+        return sharePreference;
+    }
+
+    public LocalConfig getLocalConfig() {
+        if (localConfig == null) {
+            localConfig = LocalConfig.getInstanceFromJsonString(sharePreference.getString(Constant.PREFERENCE_KEY_LOCAL_CONFIG, null));
+            localConfig = new LocalConfig();
+            asyncWithDisk();
+        }
+        return localConfig;
+    }
+
+    public UserForLocalConfig getCurrentUserConfig () {
+        return getLocalConfig().getCurrentUser();
     }
 
     public MyUser getCurrentUser() {
-        String currentUserString = sharePreference.getString(Constant.PREFERENCE_KEY_CURRENT_USER, null);
-        if (TextUtils.isEmpty(currentUserString)) {
+        if (getCurrentUserConfig() == null) {
             return null;
-        } else {
-            return MyUser.getInstanceFromJsonString(currentUserString);
         }
+
+        return getCurrentUserConfig().getMyUser();
     }
 
-    public void saveUser(MyUser user) {
-        sharePreference.edit().putString(Constant.PREFERENCE_KEY_CURRENT_USER, user.toJsonString()).apply();
+    public void addUser(MyUser user) {
+        getLocalConfig().addUser(user);
+    }
+
+    private String genRandomFileName() {
+        return System.currentTimeMillis() + new Random().nextInt(100) + Constant.CONFIG_FILE_SUFFIX;
+    }
+
+    public void asyncWithDisk() {
+        getSharePreference().edit().putString(Constant.PREFERENCE_KEY_LOCAL_CONFIG, localConfig.toJsonString()).apply();
     }
 }

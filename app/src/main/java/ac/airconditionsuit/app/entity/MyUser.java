@@ -172,6 +172,9 @@ public class MyUser extends RootEntity{
     }
 
     public static MyUser getInstanceFromJsonString(String currentUserString) {
+        if (currentUserString == null) {
+            return null;
+        }
         return new Gson().fromJson(currentUserString, MyUser.class);
     }
 }
