@@ -77,11 +77,13 @@ public class LoginActivity extends BaseActivity {
                 app.setUser(user);
                 app.getLocalConfigManager().updateUser(user);
                 app.initConfigManager();
+                shortStartActivity(MainActivity.class);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 Log.i(TAG, "onFailure");
+                MyApp.getApp().showToast(R.string.login_failure);
             }
         });
     }

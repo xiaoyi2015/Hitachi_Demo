@@ -2,38 +2,27 @@ package ac.airconditionsuit.app.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
- * Created by Administrator on 2015/9/18.
+ * Created by Administrator on 2015/9/21.
  */
-public class SoftwarePageActivity extends BaseActivity {
+public class DragDeviceActivity extends BaseActivity{
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
         public void onClick(View v) {
             super.onClick(v);
-            switch (v.getId()){
-                case R.id.add_group:
-                    shortStartActivity(DragDeviceActivity.class);
-                    break;
-            }
+
         }
     };
 
-    private TextView dragDeviceView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.fragment_setting_software_page);
+        setContentView(R.layout.fragment_setting_drag_device);
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
-        commonTopBar.setTitle(getString(R.string.software_page));
-        dragDeviceView = (TextView)findViewById(R.id.add_group);
-        dragDeviceView.setOnClickListener(myOnClickListener);
     }
-
 }
