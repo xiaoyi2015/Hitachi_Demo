@@ -5,6 +5,7 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.entity.ServerConfig;
+import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.util.MyBase64Util;
 import ac.airconditionsuit.app.util.PlistUtil;
@@ -25,13 +26,18 @@ import java.util.List;
 
 /**
  * Created by ac on 9/19/15.
+ * 与要与服务器同步的配置文件的相关操作都集中在这个类.
+ * 配置文件的信息储存在{@link #rootJavaObj}，平时访问时直接从{@link #rootJavaObj}读取就行。
+ * 但是写入后必须与配置文件同步，即：
+ * 所有setter方法调用以后，因为改变了配置内容，所以都需要调用{@link #writeToFile()}这个方法，达到同步配置文件的目的。
  */
 public class ServerConfigManager {
 
     public static final String TAG = "ConfigManager";
 
-    //整个xml配置文件的根节点
-    private NSDictionary root;
+    /**
+     * 这个field中以java对象的形式，储存着当前家整个配置文件的内容。其实这个家的内容和root
+     */
     private ServerConfig rootJavaObj;
 
     private void readFromFile() {
@@ -53,8 +59,10 @@ public class ServerConfigManager {
                 Log.e(TAG, "read config file error");
                 return;
             }
-            root = (NSDictionary) PropertyListParser.parse(MyBase64Util.decodeToByte(bytes));
+            NSDictionary root = (NSDictionary) PropertyListParser.parse(MyBase64Util.decodeToByte(bytes));
             rootJavaObj = new Gson().fromJson(PlistUtil.NSDictionaryToJsonString(root), ServerConfig.class);
+            NSDictionary root2 = PlistUtil.JavaObjectToNSDictionary(rootJavaObj);
+            System.out.println("");
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
             Log.e(TAG, "read server config file error");
             e.printStackTrace();
@@ -78,6 +86,7 @@ public class ServerConfigManager {
                 return;
             }
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            NSDictionary root = PlistUtil.JavaObjectToNSDictionary(rootJavaObj);
             PropertyListParser.saveAsXML(root, byteArrayOutputStream);
             byte[] bytes = MyBase64Util.encodeToByte(byteArrayOutputStream.toByteArray(), true);
 
@@ -102,15 +111,19 @@ public class ServerConfigManager {
         uploadToServer();
     }
 
+    /**
+     * 本类中的所有setter方法结束之后都必须调用这个函数！
+     */
     public void uploadToServer() {
 
     }
 
 
     /**
-     * 与服务器同步配置文件，每次修改{@link ServerConfigManager#root}以后都要调用
+     * 从服务器下载配置文件。
+     * @param commonNetworkListener
      */
-    public void downloadFromServer() {
+    public void downloadDeviceInformationFromServer(final CommonNetworkListener commonNetworkListener) {
         RequestParams requestParams = new RequestParams();
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_GET_CHATGROUPLIST);
@@ -121,21 +134,23 @@ public class ServerConfigManager {
             @Override
             public void onSuccess(List<Device.Info> response) {
                 ArrayList<String> fileNames = new ArrayList<>(response.size());
-                downloadConfigFiles(response, fileNames);
+                downloadDeviceConfigFilesFromServer(response, fileNames, commonNetworkListener);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
+                commonNetworkListener.onFailure();
             }
         });
     }
 
     /**
      * 这个函数递归的下载所有设备的配置文件，一个设备对应一个家，也就是所有家的配置文件。
-     * @param response 所有等待下载的设备的信息。
+     *  @param response  所有等待下载的设备的信息。
      * @param fileNames 已经下载的设备配置文件的文件名。
+     * @param commonNetworkListener
      */
-    private void downloadConfigFiles(final List<Device.Info> response, final List<String> fileNames) {
+    private void downloadDeviceConfigFilesFromServer(final List<Device.Info> response, final List<String> fileNames, final CommonNetworkListener commonNetworkListener) {
         if (response.size() != 0) {
             Long deviceId = response.remove(0).getChat_id();
             File outputFile = MyApp.getApp().getPrivateFiles(deviceId.toString());
@@ -143,19 +158,21 @@ public class ServerConfigManager {
                     outputFile, new HttpClient.DownloadFileHandler() {
                         @Override
                         public void onFailure(Throwable throwable) {
-                            MyApp.getApp().showToast(R.string.toast_inf_download_file_error);
+                            commonNetworkListener.onFailure();
+                            Log.e(TAG, MyApp.getApp().getString(R.string.toast_inf_download_file_error));
                         }
 
                         @Override
                         public void onSuccess(File file) {
                             fileNames.add(file.getName());
-                            downloadConfigFiles(response, fileNames);
+                            downloadDeviceConfigFilesFromServer(response, fileNames, commonNetworkListener);
                         }
                     });
         } else {
             //当所有的设备配置文件下载下来以后，更新设备配置文件.
             MyApp.getApp().getLocalConfigManager().updataDevice(fileNames);
             readFromFile();
+            commonNetworkListener.onSuccess();
         }
     }
 }

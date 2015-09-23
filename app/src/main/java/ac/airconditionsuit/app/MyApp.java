@@ -3,6 +3,7 @@ package ac.airconditionsuit.app;
 import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.Config.LocalConfigManager;
 import ac.airconditionsuit.app.entity.MyUser;
+import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import android.app.Application;
 import android.widget.Toast;
 
@@ -69,10 +70,11 @@ public class MyApp extends Application{
     /**
      * init for configManager
      * this function show be call after user login.
+     * @param commonNetworkListener
      */
-    public void initConfigManager() {
+    public void initConfigManager(CommonNetworkListener commonNetworkListener) {
         serverConfigManager = new ServerConfigManager();
-        serverConfigManager.downloadFromServer();
+        serverConfigManager.downloadDeviceInformationFromServer(commonNetworkListener);
     }
 
     /**

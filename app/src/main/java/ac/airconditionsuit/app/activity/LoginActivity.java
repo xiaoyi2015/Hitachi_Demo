@@ -4,6 +4,7 @@ import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.MyUser;
+import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.LoginResponseData;
@@ -66,6 +67,7 @@ public class LoginActivity extends BaseActivity {
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_LOGIN);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_LOGIN);
 
+        showWaitProgress();
         HttpClient.get(requestParams, LoginResponseData.class, new HttpClient.JsonResponseHandler<LoginResponseData>() {
             @Override
             public void onSuccess(LoginResponseData response) {
@@ -74,8 +76,23 @@ public class LoginActivity extends BaseActivity {
                 MyApp app = MyApp.getApp();
                 app.setUser(user);
                 app.getLocalConfigManager().updateUser(user);
-                app.initConfigManager();
-                shortStartActivity(MainActivity.class);
+                app.initConfigManager(new CommonNetworkListener() {
+
+                    @Override
+                    public void onSuccess() {
+                        dismissWaitProgress();
+                        shortStartActivity(MainActivity.class);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        dismissWaitProgress();
+                        //TODO for zhulinan, 这边弹一条提示信息(toast)，初始化配置文件错误。
+                        //Toast相关的在MyApp类里面有:
+                        //MyApp.getApp().showToast();
+                    }
+                });
             }
 
             @Override

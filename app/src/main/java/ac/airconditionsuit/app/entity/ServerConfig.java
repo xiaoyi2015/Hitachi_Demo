@@ -7,20 +7,20 @@ import java.util.Timer;
  * Created by ac on 9/19/15.
  *
  */
-public class ServerConfig {
-    public class Command {
+public class ServerConfig extends RootEntity{
+    public class Command extends RootEntity{
         float temperature;
         int address;
         int onoff;
         int fan;
         int mode;
     }
-    public class Scene {
+    public class Scene extends RootEntity{
         String name;
         List<Command> commonds;
     }
 
-    public class Timer {
+    public class Timer extends RootEntity{
         float temperature;
         boolean timerenabled;
         boolean onoff;
@@ -36,39 +36,39 @@ public class ServerConfig {
         String name;
     }
 
-    public class Room {
+    public class Room extends RootEntity{
         String name;
         long roomidkey;
         List<Integer> elements;
     }
 
 
-    public class Section{
+    public class Section extends RootEntity{
         String name;
         List<Room> pages;
     }
 
-    public class Home {
+    public class Home extends RootEntity{
         String name;
         String filename;
     }
 
 
-    public class Device {
+    public class Device extends RootEntity{
         String name;
         int indooraddress;
         int indoorindex;
     }
 
 
-    public class Setting {
+    public class Setting extends RootEntity{
         String sound;
         String password;
         String pwstring;
     }
 
 
-    public class Connection {
+    public class Connection extends RootEntity{
         long creator_cust_id;
         String address;
         String mac;
