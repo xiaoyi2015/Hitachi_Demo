@@ -103,7 +103,7 @@ public class RegisterActivity extends BaseActivity {
                         enableButton(getVerifyCodeButton);
                         break;
                     default:
-                        //TODO
+                        Log.e(TAG, "unhandle case in #hangler");
                 }
                 return true;
             }
@@ -158,7 +158,7 @@ public class RegisterActivity extends BaseActivity {
             HttpClient.get(requestParams, RegisterResponseData.class, new HttpClient.JsonResponseHandler<RegisterResponseData>() {
                 @Override
                 public void onSuccess(RegisterResponseData response) {
-                    //ÕâÀï´¦ÀíÇëÇó³É¹¦
+                    //ï¿½ï¿½ï¿½ï´¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½
                     MyApp.getApp().showToast(R.string.set_psd_success);
                     finish();
                 }

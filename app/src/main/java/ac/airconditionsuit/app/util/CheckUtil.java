@@ -71,17 +71,13 @@ public class CheckUtil {
     }
 
     private static boolean isAllNumber(String verificationCode) {
-        //TODO
         Pattern pattern = Pattern.compile("[0-9]*");
         return pattern.matcher(verificationCode).matches();
     }
 
-    private static final String EMAIL_PATTERN =
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
     private static boolean isEmail(String email) {
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
         return pattern.matcher(email).matches();
     }
 

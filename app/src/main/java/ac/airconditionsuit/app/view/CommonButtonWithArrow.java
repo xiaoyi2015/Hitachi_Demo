@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * TODO: document your custom view class.
+ * a customer view for button with arrow
  */
 public class CommonButtonWithArrow extends LinearLayout {
     private TextView labelTextView;

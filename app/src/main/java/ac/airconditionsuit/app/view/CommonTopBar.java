@@ -16,7 +16,7 @@ import android.widget.TextView;
 import ac.airconditionsuit.app.R;
 
 /**
- * TODO: document your custom view class.
+ * document your custom view class.
  */
 public class CommonTopBar extends RelativeLayout {
     private TextView titleView;
