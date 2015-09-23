@@ -9,7 +9,6 @@ import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.util.MyBase64Util;
 import ac.airconditionsuit.app.util.PlistUtil;
 import android.util.Log;
-import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
@@ -121,7 +120,8 @@ public class ServerConfigManager {
         }.getType(), new HttpClient.JsonResponseHandler<List<Device.Info>>() {
             @Override
             public void onSuccess(List<Device.Info> response) {
-                downloadFiles(response, new ArrayList<String>(response.size()));
+                ArrayList<String> fileNames = new ArrayList<>(response.size());
+                downloadConfigFiles(response, fileNames);
             }
 
             @Override
@@ -130,10 +130,16 @@ public class ServerConfigManager {
         });
     }
 
-    private void downloadFiles(final List<Device.Info> response, final List<String> fileNames) {
+    /**
+     * 这个函数递归的下载所有设备的配置文件，一个设备对应一个家，也就是所有家的配置文件。
+     * @param response 所有等待下载的设备的信息。
+     * @param fileNames 已经下载的设备配置文件的文件名。
+     */
+    private void downloadConfigFiles(final List<Device.Info> response, final List<String> fileNames) {
         if (response.size() != 0) {
-            File outputFile = MyApp.getApp().getPrivateFiles(LocalConfigManager.genRandomFileName());
-            HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(response.remove(0).getChat_id()),
+            Long deviceId = response.remove(0).getChat_id();
+            File outputFile = MyApp.getApp().getPrivateFiles(deviceId.toString());
+            HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(deviceId),
                     outputFile, new HttpClient.DownloadFileHandler() {
                         @Override
                         public void onFailure(Throwable throwable) {
@@ -143,14 +149,13 @@ public class ServerConfigManager {
                         @Override
                         public void onSuccess(File file) {
                             fileNames.add(file.getName());
-                            downloadFiles(response, fileNames);
+                            downloadConfigFiles(response, fileNames);
                         }
                     });
         } else {
+            //当所有的设备配置文件下载下来以后，更新设备配置文件.
             MyApp.getApp().getLocalConfigManager().updataDevice(fileNames);
             readFromFile();
         }
     }
-
-
 }

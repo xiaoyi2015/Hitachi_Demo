@@ -55,10 +55,9 @@ public class LoginActivity extends BaseActivity {
         //TODO for zhulinan, 这边的用户名和密码需要check,你参照上一个项目中的accheck，写一下
         String userName = userNameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-
-        //temp code
         userName = "13989880921";
         password = "123456";
+        //end TODO
 
         final RequestParams requestParams = new RequestParams();
 
