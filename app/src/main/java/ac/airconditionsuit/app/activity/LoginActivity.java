@@ -71,7 +71,7 @@ public class LoginActivity extends BaseActivity {
         HttpClient.get(requestParams, LoginResponseData.class, new HttpClient.JsonResponseHandler<LoginResponseData>() {
             @Override
             public void onSuccess(LoginResponseData response) {
-                Log.i(TAG, "onSuccess");
+                Log.i(TAG, "login success");
                 MyUser user = response.getUser();
                 MyApp app = MyApp.getApp();
                 app.setUser(user);
@@ -97,7 +97,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.i(TAG, "onFailure");
+                Log.e(TAG, "login fail");
                 MyApp.getApp().showToast(R.string.login_failure);
             }
         });

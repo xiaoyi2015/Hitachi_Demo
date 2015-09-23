@@ -49,6 +49,60 @@ public class HttpClient {
 
 
     @SuppressWarnings("unchecked")
+    public static <T> void post(RequestParams params, final Type type, final JsonResponseHandler<T> handler) {
+        AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+        asyncHttpClient.post(BASE_URL, wrapParams(params) , new BaseJsonHttpResponseHandler<CommonResponse>() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, CommonResponse response) {
+                //handle result
+                if (response.getCode() != 2000) {
+                    onFailure(statusCode, headers, rawJsonResponse, new CommonError(response.getMsg()));
+                } else {
+                    if (handler != null) {
+                        handler.onSuccess((T) new Gson().fromJson(response.getData(), type));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, String rawJsonData, CommonResponse errorResponse) {
+                switch (statusCode) {
+                    //can not access to internet
+                    case 0:
+                        MyApp.getApp().showToast(R.string.toast_inf_no_net);
+                        break;
+                    case HttpStatus.SC_OK:
+                        if (throwable != null) {
+                            if (throwable instanceof JsonSyntaxException) {
+                                MyApp.getApp().showToast(R.string.toast_inf_net_data_error);
+                            } else if (throwable instanceof CommonError) {
+                                MyApp.getApp().showToast(((CommonError) throwable).getMyMessage().getDialog());
+                            } else {
+                                MyApp.getApp().showToast(throwable.getMessage());
+                            }
+                        } else {
+                            MyApp.getApp().showToast(R.string.toast_inf_unknown_net_error);
+                        }
+                        break;
+                    default:
+                        MyApp.getApp().showToast(R.string.toast_inf_unknown_net_error);
+                }
+
+                if (handler != null) {
+                    handler.onFailure(throwable);
+                }
+            }
+
+            @Override
+            protected CommonResponse parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
+//                Log.i(TAG, "response rawJsonData:\n" + rawJsonData);
+                return new Gson().fromJson(rawJsonData, CommonResponse.class);
+            }
+        });
+    }
+
+
+    @SuppressWarnings("unchecked")
     public static <T> void get(RequestParams params, final Type type, final JsonResponseHandler<T> handler) {
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.get(BASE_URL, wrapParams(params) , new BaseJsonHttpResponseHandler<CommonResponse>() {

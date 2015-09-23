@@ -7,6 +7,7 @@ import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.HttpClient;
+import ac.airconditionsuit.app.network.response.UploadConfigResponse;
 import ac.airconditionsuit.app.util.MyBase64Util;
 import ac.airconditionsuit.app.util.PlistUtil;
 import android.util.Log;
@@ -48,7 +49,7 @@ public class ServerConfigManager {
 
         FileInputStream fis = null;
         try {
-            File serverConfigFile = MyApp.getApp().getPrivateFile(MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFileName(), Constant.CONFIG_FILE_SUFFIX);
+            File serverConfigFile = MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFile();
             if (serverConfigFile == null) {
                 Log.i(TAG, "can not find service config file");
                 return;
@@ -60,7 +61,9 @@ public class ServerConfigManager {
                 return;
             }
             NSDictionary root = (NSDictionary) PropertyListParser.parse(MyBase64Util.decodeToByte(bytes));
-            rootJavaObj = new Gson().fromJson(PlistUtil.NSDictionaryToJsonString(root), ServerConfig.class);
+            String json = PlistUtil.NSDictionaryToJsonString(root);
+            Log.i(TAG, json);
+            rootJavaObj = new Gson().fromJson(json, ServerConfig.class);
             Log.i(TAG, "read server config file success");
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
             Log.e(TAG, "read server config file error");
@@ -76,12 +79,12 @@ public class ServerConfigManager {
         }
     }
 
-    private void writeToFile() {
+    public void writeToFile() {
         FileOutputStream fos = null;
         try {
-            File serverConfigFile = MyApp.getApp().getServerConfigFile();
+            File serverConfigFile = MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFile();
             if (serverConfigFile == null) {
-                Log.i(TAG, "can not find service config file");
+                Log.i(TAG, "can not find device config file");
                 return;
             }
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -93,8 +96,11 @@ public class ServerConfigManager {
             fos.write(bytes);
             fos.flush();
             fos.close();
+            Log.i(TAG, "write server config file error");
+            //call when write success
+            uploadToServer();
         } catch (IOException e) {
-            Log.e(TAG, "read server config file error");
+            Log.e(TAG, "write server config file error");
             e.printStackTrace();
         } finally {
             if (fos != null) {
@@ -106,8 +112,6 @@ public class ServerConfigManager {
             }
         }
 
-        //call when write success
-        uploadToServer();
     }
 
 
@@ -123,10 +127,28 @@ public class ServerConfigManager {
         isUploading = true;
 
         RequestParams requestParams = new RequestParams();
-        requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
-        requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
-        requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICEID, MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId());
+        requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_FILE);
+        requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_UPLOAD_DEVICE_CONFIG_FILE);
+        MyApp app = MyApp.getApp();
+        requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICEID, app.getLocalConfigManager().getCurrentHomeDeviceId());
+        try {
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_UPLOAD_FILE, Constant.X_DC, app.getLocalConfigManager().getCurrentHomeConfigFile());
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, "uploaded file can not found");
+            e.printStackTrace();
+        }
+        HttpClient.post(requestParams, UploadConfigResponse.class, new HttpClient.JsonResponseHandler<UploadConfigResponse>() {
+            @Override
+            public void onSuccess(UploadConfigResponse response) {
+                Log.i(TAG, "upload host device file success");
+                System.out.println(response.getUrl());
+            }
 
+            @Override
+            public void onFailure(Throwable throwable) {
+                Log.e(TAG, "upload host device file error");
+            }
+        });
     }
 
     /**
@@ -184,6 +206,7 @@ public class ServerConfigManager {
             //当所有的设备配置文件下载下来以后，更新设备配置文件.
             MyApp.getApp().getLocalConfigManager().updataHostDeviceConfigFile(fileNames);
             readFromFile();
+            writeToFile();
             commonNetworkListener.onSuccess();
         }
     }

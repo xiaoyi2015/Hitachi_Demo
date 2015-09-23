@@ -51,15 +51,6 @@ public class MyApp extends Application {
         }
     }
 
-    public File getServerConfigFile() {
-        String fileName = getServerConfigFileName();
-        if (null == fileName) {
-            return null;
-        } else {
-            return new File(getFilesDir(), fileName);
-        }
-    }
-
     public File getPrivateFile(String fileName, String suffix) {
         if (null == fileName) {
             return null;

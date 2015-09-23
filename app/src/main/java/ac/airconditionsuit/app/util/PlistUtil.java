@@ -18,8 +18,13 @@ public class PlistUtil {
     public static NSArray JavaListToNSArray(List<Object> list) {
         NSArray listNs = new NSArray(list.size());
         for (int i = 0; i < list.size(); i++) {
-            NSDictionary value = JavaObjectToNSDictionary(list.get(i));
-            listNs.setValue(i, value);
+            Object object = list.get(i);
+            if (object instanceof RootEntity) {
+                NSDictionary value = JavaObjectToNSDictionary(object);
+                listNs.setValue(i, value);
+            } else {
+                listNs.setValue(i, object);
+            }
         }
         return listNs;
     }

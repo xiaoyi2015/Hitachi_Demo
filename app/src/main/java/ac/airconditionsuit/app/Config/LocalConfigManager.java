@@ -8,6 +8,7 @@ import ac.airconditionsuit.app.entity.UserForLocalConfig;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -77,5 +78,9 @@ public class LocalConfigManager {
             return null;
         }
         return user.getCurrentHomeConfigFileName();
+    }
+
+    public File getCurrentHomeConfigFile() {
+        return MyApp.getApp().getPrivateFile(getCurrentHomeConfigFileName(), null);
     }
 }

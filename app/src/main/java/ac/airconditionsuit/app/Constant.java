@@ -16,6 +16,7 @@ public class Constant {
     public static final String REQUEST_PARAMS_KEY_CUST_CLASS = "cust_class";
     public static final String REQUEST_PARAMS_KEY_DEVICE_ID = "device_id";
     public static final String REQUEST_PARAMS_KEY_DEVICEID = "deviceId";
+    public static final String REQUEST_PARAMS_KEY_UPLOAD_FILE = "uploadedFile";
     public static final String REQUEST_PARAMS_KEY_DEVICE_IP = "ip";
     public static final String REQUEST_PARAMS_KEY_COMMENT = "comment";
     public static final String REQUEST_PARAMS_KEY_INTRODUCE = "introduce";
@@ -60,7 +61,7 @@ public class Constant {
     public static final String IS_REGISTER = "is_register";
     public static final String YES = "yes";
     public static final String NO = "no";
-
+    public static final String X_DC = "x" + CONFIG_FILE_SUFFIX;
 
 
     //TODO for zhulinan,这边的常量我已经帮你整理了，PN_* 整理到 REQUEST_PARAMS_KEY_*; TYPE_*整理到REQUEST_PARAMS_VALUE_TYPE, 这里你看了以后把注释删掉就可以了。
