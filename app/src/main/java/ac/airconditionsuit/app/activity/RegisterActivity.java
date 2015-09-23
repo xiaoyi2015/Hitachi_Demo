@@ -26,14 +26,18 @@ import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
  * Created by Administrator on 2015/9/20.
+ * TODO for zhulinan, 这个界面，修改如下：
+ * 1 点击checkbox右侧的文字，也能触发checkbox。给右侧的textview 加个listener就行。
+ * 2 手机好输入17816861269, 点击获取验证码的时候，点击获取验证码的那个按钮没有文字了。
+ * 3 输入手机好的那个edittext,也给加一个hint
  */
 public class RegisterActivity extends BaseActivity {
     private Boolean isRegister;
-    private MyOnClickListener myOnClickListener = new MyOnClickListener(){
+    private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
         public void onClick(View v) {
             super.onClick(v);
-            switch(v.getId()){
+            switch (v.getId()) {
                 case R.id.left_cancel:
                     finish();
                     break;
@@ -81,13 +85,33 @@ public class RegisterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         isRegister = getIntent().getStringExtra(Constant.IS_REGISTER).equals(Constant.YES);
         CommonTopBar commonTopBar = getCommonTopBar();
-        registerAgreeClause = (LinearLayout)findViewById(R.id.register_agree_clause);
-        isAgreeCheckBox = (CheckBox)findViewById(R.id.register_agree_box);
-        registerLeftCancel = (ImageView)findViewById(R.id.left_cancel);
+        registerAgreeClause = (LinearLayout) findViewById(R.id.register_agree_clause);
+        isAgreeCheckBox = (CheckBox) findViewById(R.id.register_agree_box);
+
+        /**TODO for zhulinan,
+         * 这边主要是custom_common_top_bar.xml这个文件，
+         * 我发现你比如左边的按钮，每种不同的样子的按钮，你都弄了一个ImageButton.其实只要一个按钮就行了，在不同的页面设置不同的src。
+         * 另外修改top_bar的函数肯定是很多activity都要用到的，所以可以抽象到{@link CommonTopBar}
+         *
+         * 比如在{@link commonTopBar}中加这么个函数: setLeftButton(int drawable_src_id, onClickListener listener);
+         * drawable_src_id是右边button的src{@link R.id.left_cancel}，listener{@link #myOnClickListener}是右边按钮点击以后执行的操作。
+         *
+         * 然后，下面这两行函数：
+         * {@code
+         * registerLeftCancel = (ImageView) findViewById(R.id.left_cancel);
+         * registerLeftCancel.setOnClickListener(myOnClickListener); }
+         *
+         * 就可以替换成:
+         * {@code commonTopBar.setLeftButton(R.id.left_cal, myOnClickListener)}
+         */
+        registerLeftCancel = (ImageView) findViewById(R.id.left_cancel);
         registerLeftCancel.setOnClickListener(myOnClickListener);
-        registerRightYes = (ImageView)findViewById(R.id.right_yes);
+        registerRightYes = (ImageView) findViewById(R.id.right_yes);
         registerRightYes.setOnClickListener(myOnClickListener);
-        getVerifyCodeButton = (Button)findViewById(R.id.register_get_verify_code);
+        //end TODO
+
+
+        getVerifyCodeButton = (Button) findViewById(R.id.register_get_verify_code);
         getVerifyCodeButton.setOnClickListener(myOnClickListener);
 
         mobilePhoneEditText = (EditText) findViewById(R.id.register_phone_number_edit_text);
@@ -109,19 +133,17 @@ public class RegisterActivity extends BaseActivity {
             }
         });
 
-        if(isRegister) {
+        if (isRegister) {
             commonTopBar.setTitle(getString(R.string.register_new_user));
-        }
-        else{
+        } else {
             commonTopBar.setTitle(getString(R.string.find_password));
             registerAgreeClause.setVisibility(View.GONE);
         }
     }
 
     private void submit() {
-        if(isRegister)
-        {
-            if(!isAgreeCheckBox.isChecked()){
+        if (isRegister) {
+            if (!isAgreeCheckBox.isChecked()) {
                 MyApp.getApp().showToast(R.string.pls_read_clause);
                 return;
             }
@@ -149,12 +171,12 @@ public class RegisterActivity extends BaseActivity {
         }
 
         final RequestParams requestParams = new RequestParams();
-        if(!isRegister) {
+        if (!isRegister) {
             requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_LOGIN);
-            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.TYPE_FIND_PASSWORD);
-            requestParams.put(Constant.PN_MOBILE_PHONE, mobilePhoneStr);
-            requestParams.put(Constant.PN_NEW_PASSWORD, password);
-            requestParams.put(Constant.PN_VALIDATE_CODE, verificationCode);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_FIND_PASSWORD);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_MOBILE_PHONE, mobilePhoneStr);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_NEW_PASSWORD, password);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_VALIDATE_CODE, verificationCode);
             HttpClient.get(requestParams, RegisterResponseData.class, new HttpClient.JsonResponseHandler<RegisterResponseData>() {
                 @Override
                 public void onSuccess(RegisterResponseData response) {
@@ -162,17 +184,18 @@ public class RegisterActivity extends BaseActivity {
                     MyApp.getApp().showToast(R.string.set_psd_success);
                     finish();
                 }
+
                 @Override
                 public void onFailure(Throwable throwable) {
                     Log.i(TAG, "onFailure");
                 }
             });
-        }else{
-            requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.METHOD_REGISTER);
-            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.TYPE_REGISTER);
-            requestParams.put(Constant.PN_MOBILE_PHONE, mobilePhoneStr);
-            requestParams.put(Constant.PN_PASSWORD, password);
-            requestParams.put(Constant.PN_VALIDATE_CODE, verificationCode);
+        } else {
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_REGISTER);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_MOBILE_PHONE, mobilePhoneStr);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_PASSWORD, password);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_VALIDATE_CODE, verificationCode);
             HttpClient.get(requestParams, RegisterResponseData.class, new HttpClient.JsonResponseHandler<RegisterResponseData>() {
                 @Override
                 public void onSuccess(RegisterResponseData response) {
@@ -197,10 +220,10 @@ public class RegisterActivity extends BaseActivity {
         }
 
         final RequestParams requestParams = new RequestParams();
-        if(!isRegister) {
+        if (!isRegister) {
             requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_LOGIN);
-            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.TYPE_VALIDATE_CODE_FOR_FIND_PASSWORD);
-            requestParams.put(Constant.PN_MOBILE_PHONE, mobilePhone);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_VALIDATE_CODE_FOR_FIND_PASSWORD);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_MOBILE_PHONE, mobilePhone);
             disableButton(getVerifyCodeButton);
             HttpClient.get(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
                 @Override
@@ -215,10 +238,10 @@ public class RegisterActivity extends BaseActivity {
                     enableButton(getVerifyCodeButton);
                 }
             });
-        }else{
-            requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.METHOD_REGISTER);
-            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.TYPE_VALIDATE_CODE);
-            requestParams.put(Constant.PN_MOBILE_PHONE, mobilePhone);
+        } else {
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_VALIDATE_CODE);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_MOBILE_PHONE, mobilePhone);
             disableButton(getVerifyCodeButton);
             HttpClient.get(requestParams, GetVerifyCodeResponse.class, new HttpClient.JsonResponseHandler<GetVerifyCodeResponse>() {
                 @Override
@@ -244,6 +267,7 @@ public class RegisterActivity extends BaseActivity {
 
     private void enableButton(Button getVerifyCodeButton) {
         getVerifyCodeButton.setTag(false);
+        //noinspection deprecation for Downward compatible
         getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_gray));
         handler.sendEmptyMessageDelayed(ENABLE_BUTTON, 60000);
     }

@@ -48,7 +48,7 @@ public class ServerConfigManager {
 
         FileInputStream fis = null;
         try {
-            File serverConfigFile = MyApp.getApp().getPrivateFiles(MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFileName());
+            File serverConfigFile = MyApp.getApp().getPrivateFile(MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFileName(), Constant.CONFIG_FILE_SUFFIX);
             if (serverConfigFile == null) {
                 Log.i(TAG, "can not find service config file");
                 return;
@@ -61,8 +61,7 @@ public class ServerConfigManager {
             }
             NSDictionary root = (NSDictionary) PropertyListParser.parse(MyBase64Util.decodeToByte(bytes));
             rootJavaObj = new Gson().fromJson(PlistUtil.NSDictionaryToJsonString(root), ServerConfig.class);
-            NSDictionary root2 = PlistUtil.JavaObjectToNSDictionary(rootJavaObj);
-            System.out.println("");
+            Log.i(TAG, "read server config file success");
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
             Log.e(TAG, "read server config file error");
             e.printStackTrace();
@@ -111,16 +110,28 @@ public class ServerConfigManager {
         uploadToServer();
     }
 
+
+    Boolean isUploading = false;
+
     /**
      * 本类中的所有setter方法结束之后都必须调用这个函数！
      */
     public void uploadToServer() {
+        if (isUploading) {
+            return;
+        }
+        isUploading = true;
+
+        RequestParams requestParams = new RequestParams();
+        requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
+        requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
+        requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICEID, MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId());
 
     }
 
-
     /**
      * 从服务器下载配置文件。
+     *
      * @param commonNetworkListener
      */
     public void downloadDeviceInformationFromServer(final CommonNetworkListener commonNetworkListener) {
@@ -146,14 +157,15 @@ public class ServerConfigManager {
 
     /**
      * 这个函数递归的下载所有设备的配置文件，一个设备对应一个家，也就是所有家的配置文件。
-     *  @param response  所有等待下载的设备的信息。
-     * @param fileNames 已经下载的设备配置文件的文件名。
+     *
+     * @param response              所有等待下载的设备的信息。
+     * @param fileNames             已经下载的设备配置文件的文件名。
      * @param commonNetworkListener
      */
     private void downloadDeviceConfigFilesFromServer(final List<Device.Info> response, final List<String> fileNames, final CommonNetworkListener commonNetworkListener) {
         if (response.size() != 0) {
             Long deviceId = response.remove(0).getChat_id();
-            File outputFile = MyApp.getApp().getPrivateFiles(deviceId.toString());
+            File outputFile = MyApp.getApp().getPrivateFile(deviceId.toString(), Constant.CONFIG_FILE_SUFFIX);
             HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(deviceId),
                     outputFile, new HttpClient.DownloadFileHandler() {
                         @Override
@@ -170,7 +182,7 @@ public class ServerConfigManager {
                     });
         } else {
             //当所有的设备配置文件下载下来以后，更新设备配置文件.
-            MyApp.getApp().getLocalConfigManager().updataDevice(fileNames);
+            MyApp.getApp().getLocalConfigManager().updataHostDeviceConfigFile(fileNames);
             readFromFile();
             commonNetworkListener.onSuccess();
         }

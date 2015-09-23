@@ -19,11 +19,7 @@ public class PlistUtil {
         NSArray listNs = new NSArray(list.size());
         for (int i = 0; i < list.size(); i++) {
             NSDictionary value = JavaObjectToNSDictionary(list.get(i));
-            if (value != null) {
-                listNs.setValue(i, value);
-            } else {
-                Log.e(TAG, "javaListToNsArrayFailed");
-            }
+            listNs.setValue(i, value);
         }
         return listNs;
     }
@@ -36,9 +32,8 @@ public class PlistUtil {
                 field.setAccessible(true);
                 Object fieldValue = field.get(object);
                 if (fieldValue == null) {
-                    continue;
-                }
-                if (fieldValue instanceof List) {
+                    nsDictionary.put(field.getName(), null);
+                } else if (fieldValue instanceof List) {
                     nsDictionary.put(field.getName(), JavaListToNSArray((List<Object>) fieldValue));
                 } else if (fieldValue instanceof RootEntity) {
                     nsDictionary.put(field.getName(), JavaObjectToNSDictionary(fieldValue));
@@ -47,6 +42,7 @@ public class PlistUtil {
                 }
             }
         } catch (IllegalAccessException e) {
+            Log.e(TAG, "java Object To plist error");
             e.printStackTrace();
         }
     }

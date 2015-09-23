@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by ac on 9/19/15.
@@ -58,17 +57,18 @@ public class LocalConfigManager {
         getLocalConfig().updateUser(user);
     }
 
-    public static String genRandomFileName() {
-        return System.currentTimeMillis() + new Random().nextInt(100) + Constant.CONFIG_FILE_SUFFIX;
-    }
-
     public void saveToDisk() {
         getSharePreference().edit().putString(Constant.PREFERENCE_KEY_LOCAL_CONFIG, localConfig.toJsonString()).apply();
     }
 
-    public void updataDevice(List<String> fileNames) {
-        getLocalConfig().updateDevice(fileNames);
+    public void updataHostDeviceConfigFile(List<String> fileNames) {
+        getLocalConfig().updateHostDeviceConfigFile(fileNames);
         saveToDisk();
+    }
+
+    public String getCurrentHomeDeviceId() {
+        String currentHomeConfigFileName = localConfig.getCurrentUser().getCurrentHomeConfigFileName();
+        return currentHomeConfigFileName.substring(0, currentHomeConfigFileName.lastIndexOf(Constant.CONFIG_FILE_SUFFIX));
     }
 
     public String getCurrentHomeConfigFileName() {

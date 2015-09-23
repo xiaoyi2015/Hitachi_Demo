@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.entity;
 
+import ac.airconditionsuit.app.MyApp;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,8 +58,9 @@ public class UserForLocalConfig {
         }
     }
 
-    public void updateDevice(List<String> fileNames) {
+    public void updateHostDeviceConfigFiles(List<String> fileNames) {
         String oldCurrentHomeFileName = getCurrentHomeConfigFileName();
+        List<String> oldHomeFileNames = this.homeConfigFileNames;
         this.homeConfigFileNames = fileNames;
         if (oldCurrentHomeFileName == null) {
             if (fileNames.size() == 0) {
@@ -73,5 +76,27 @@ public class UserForLocalConfig {
             }
         }
         currentHomeIndex = 0;
+        if (oldHomeFileNames == null) {
+            return;
+        }
+
+        //delete unused host device config file
+        for (String oldHostDeviceConfigFile:oldHomeFileNames) {
+            boolean needDelete = true;
+            for (String newFileName : homeConfigFileNames){
+                if (newFileName.equals(oldHostDeviceConfigFile)){
+                    needDelete = false;
+                    break;
+                }
+            }
+            if (needDelete) {
+                deleteHostDeviceConfigFile(oldHostDeviceConfigFile);
+            }
+        }
+    }
+
+    private void deleteHostDeviceConfigFile(String oldHostDeviceConfigFile) {
+        //warning没有处理，因为不关心删除结果。
+        MyApp.getApp().getPrivateFile(oldHostDeviceConfigFile, null).delete();
     }
 }

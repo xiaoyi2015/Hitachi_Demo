@@ -11,10 +11,11 @@ import java.io.*;
 
 /**
  * Created by ac on 9/19/15.
- *
  */
-public class MyApp extends Application{
+public class MyApp extends Application {
     private static MyApp INSTANCE;
+
+
     private ServerConfigManager serverConfigManager;
 
 
@@ -34,15 +35,15 @@ public class MyApp extends Application{
 
     }
 
-    public boolean isUserLogin(){
+    public boolean isUserLogin() {
         return user != null;
     }
 
-    public MyUser getUser(){
+    public MyUser getUser() {
         return user;
     }
 
-    private String getServerConfigFileName(){
+    private String getServerConfigFileName() {
         if (null == user) {
             return null;
         } else {
@@ -50,7 +51,7 @@ public class MyApp extends Application{
         }
     }
 
-    public File getServerConfigFile(){
+    public File getServerConfigFile() {
         String fileName = getServerConfigFileName();
         if (null == fileName) {
             return null;
@@ -59,17 +60,18 @@ public class MyApp extends Application{
         }
     }
 
-    public File getPrivateFiles(String fileName) {
+    public File getPrivateFile(String fileName, String suffix) {
         if (null == fileName) {
             return null;
         } else {
-            return new File(getFilesDir(), fileName);
+            return new File(getFilesDir(), fileName + (suffix == null ? "" : suffix));
         }
     }
 
     /**
      * init for configManager
      * this function show be call after user login.
+     *
      * @param commonNetworkListener
      */
     public void initConfigManager(CommonNetworkListener commonNetworkListener) {
@@ -88,6 +90,7 @@ public class MyApp extends Application{
     /**
      * this method should be called after login,
      * to avoid {@link #user} is null when user first use app
+     *
      * @param user
      */
     public void setUser(MyUser user) {
@@ -99,23 +102,32 @@ public class MyApp extends Application{
     }
 
 
+    public ServerConfigManager getServerConfigManager() {
+        return serverConfigManager;
+    }
+
+
     /**
      * last Toast show by {@link MyApp#showToast(int)} or {@link MyApp#showToast(String)},
      * in the above two function, before show toast, the lastToast will be cancel first
      */
     private Toast lastToast;
+
     /**
      * call for show toast
+     *
      * @param stringId string resource id
      */
-    public void showToast(int stringId){
+    public void showToast(int stringId) {
         showToast(getString(stringId));
     }
+
     /**
      * call for show toast
+     *
      * @param string string will be show
      */
-    public void showToast(String string){
+    public void showToast(String string) {
         if (lastToast != null) {
             lastToast.cancel();
         }
@@ -124,7 +136,7 @@ public class MyApp extends Application{
     }
 
 
-    public static MyApp getApp(){
+    public static MyApp getApp() {
         return INSTANCE;
     }
 

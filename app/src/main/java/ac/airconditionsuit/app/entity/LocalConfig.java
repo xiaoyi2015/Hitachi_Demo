@@ -58,8 +58,8 @@ public class LocalConfig extends RootEntity {
         currentIndex = users.size() - 1;
     }
 
-    public void updateDevice(List<String> fileNames) {
+    public void updateHostDeviceConfigFile(List<String> fileNames) {
         UserForLocalConfig user = getCurrentUser();
-        user.updateDevice(fileNames);
+        user.updateHostDeviceConfigFiles(fileNames);
     }
 }

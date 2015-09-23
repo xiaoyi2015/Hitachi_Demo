@@ -1,7 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import ac.airconditionsuit.app.R;

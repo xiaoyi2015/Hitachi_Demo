@@ -2,16 +2,15 @@ package ac.airconditionsuit.app.activity;
 
 
 import ac.airconditionsuit.app.Constant;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 
-import ac.airconditionsuit.app.Constant;
-import ac.airconditionsuit.app.MyApp;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.view.CommonTopBar;
+import android.support.v4.app.FragmentActivity;
 import android.view.Window;
 import android.widget.ProgressBar;
 
