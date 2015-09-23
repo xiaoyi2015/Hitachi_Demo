@@ -62,7 +62,6 @@ public class ServerConfigManager {
             }
             NSDictionary root = (NSDictionary) PropertyListParser.parse(MyBase64Util.decodeToByte(bytes));
             String json = PlistUtil.NSDictionaryToJsonString(root);
-            Log.i(TAG, json);
             rootJavaObj = new Gson().fromJson(json, ServerConfig.class);
             Log.i(TAG, "read server config file success");
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
@@ -204,9 +203,10 @@ public class ServerConfigManager {
                     });
         } else {
             //当所有的设备配置文件下载下来以后，更新设备配置文件.
-            MyApp.getApp().getLocalConfigManager().updataHostDeviceConfigFile(fileNames);
-            readFromFile();
-            writeToFile();
+            //TODO for luzheqi,这里有bug, 明天继续
+//            MyApp.getApp().getLocalConfigManager().updataHostDeviceConfigFile(fileNames);
+//            readFromFile();
+//            writeToFile();
             commonNetworkListener.onSuccess();
         }
     }
