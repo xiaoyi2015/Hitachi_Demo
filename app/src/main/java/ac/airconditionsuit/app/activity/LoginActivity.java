@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
+
 import com.loopj.android.http.RequestParams;
 
 /**
@@ -28,7 +30,7 @@ public class LoginActivity extends BaseActivity {
     private EditText userNameEditText;
     private CheckBox rememberCheckBox;
     private EditText passwordEditText;
-    private MyOnClickListener myOnClickListener = new MyOnClickListener(){
+    private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
         public void onClick(View v) {
             super.onClick(v);
@@ -59,14 +61,16 @@ public class LoginActivity extends BaseActivity {
         findViewById(R.id.forget_psd).setOnClickListener(myOnClickListener);
         findViewById(R.id.login_add_user).setOnClickListener(myOnClickListener);
 
-        /**TODO for zhulinan
-         * 这里要把之前登录的手机号码填充上。
-         * 具体步骤如下，先取得当前用户{@link LocalConfigManager#getCurrentUserConfig()}
-         * 如果为空，说明是第一次使用本软件。则什么都不用干。如果不为空，进行下一步：
-         * 取得当前用户的登录手机号码 {@link LocalConfigManager#getCurrentUserPhoneNumber()}
-         * 填入到对应的EdtiText。
-         */
-        if(MyApp.getApp().getLocalConfigManager().getCurrentUserConfig() != null){
+        setOnclickListenerOnTextViewDrawable(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v instanceof EditText) {
+                    ((EditText) v).setText("");
+                }
+            }
+        }, passwordEditText, userNameEditText);
+
+        if (MyApp.getApp().getLocalConfigManager().getCurrentUserConfig() != null) {
             userNameEditText.setText(MyApp.getApp().getLocalConfigManager().getCurrentUserPhoneNumber());
         }
 
@@ -108,12 +112,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onSuccess() {
                         dismissWaitProgress();
-                        /**TODO for zhulinan
-                         * 这边查看记住密码的checkbox,做相应操作。
-                         * 相关函数为{@link LocalConfigManager#setCurrentUserRememberedPassword(String)}
-                         * 如果不用记住密码，则传入空字符串
-                         * 无论是不是记住密码，都要把登录手机好设置到LocalConfig {@link LocalConfigManager#setCurrentUserPhoneNumber(String)},这个函数在注册成功时也要调用。
-                         */
+
                         MyApp.getApp().getLocalConfigManager().setCurrentUserPhoneNumber(userName);
                         if (rememberCheckBox.isChecked())
                             MyApp.getApp().getLocalConfigManager().setCurrentUserRememberedPassword(password);
@@ -139,21 +138,16 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    /**TODO for zhulinan
-     * 看一下{@link android.app.Activity#startActivityForResult(Intent, int)}相关内容，把注册成功后的的情况处理一下：
-     * 暂时将用户名密码填上。让用户可以点击登录。
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK)
+            switch (requestCode) {
+                case REQUEST_CODE_REGISTER:
+                    userNameEditText.setText(data.getStringExtra("userName"));
+                    passwordEditText.setText(data.getStringExtra("password"));
+                    break;
 
-        switch (requestCode) {
-            case REQUEST_CODE_REGISTER:
-                break;
-
-        }
+            }
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

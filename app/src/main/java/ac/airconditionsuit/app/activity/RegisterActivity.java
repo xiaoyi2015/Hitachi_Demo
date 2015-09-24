@@ -172,6 +172,8 @@ public class RegisterActivity extends BaseActivity {
                 @Override
                 public void onSuccess(RegisterResponseData response) {
                     Intent intent = new Intent();
+                    intent.putExtra("userName",mobilePhoneStr);
+                    intent.putExtra("password", password);
                     setResult(RESULT_OK, intent);
                     finish();
                 }
