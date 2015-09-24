@@ -58,9 +58,9 @@
     <string name="toast_inf_download_file_error">下载文件错误</string>
     <string name="register_agree">我已阅读和同意</string>
     <string name="get_verify_code">获取验证码</string>
-    <string name="register_verification_code_hint">输入验证码</string>
-    <string name="register_password_hint">输入密码</string>
-    <string name="confirm_password_hint">再次输入密码</string>
+    <string name="register_verification_code_hint">请输入验证码</string>
+    <string name="register_password_hint">请输入密码</string>
+    <string name="confirm_password_hint">请再次输入密码</string>
     <string name="register_password_info">密码区分大小写，长度为6至12位</string>
     <string name="register_new_user">注册新用户</string>
     <string name="find_password">找回密码</string>
@@ -81,4 +81,6 @@
     <string name="phone_already_exist">该手机号已被注册</string>
     <string name="set_psd_success">设置密码成功</string>
     <string name="login_failure">登录失败</string>
+    <string name="register_phone_number_hint">请输入手机号</string>
+    <string name="init_file_error">初始化配置文件错误</string>
 </resources>

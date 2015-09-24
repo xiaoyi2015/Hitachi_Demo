@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
@@ -26,10 +27,6 @@ import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
  * Created by Administrator on 2015/9/20.
- * TODO for zhulinan, 这个界面，修改如下：
- * 1 点击checkbox右侧的文字，也能触发checkbox。给右侧的textview 加个listener就行。
- * 2 手机好输入17816861269, 点击获取验证码的时候，点击获取验证码的那个按钮没有文字了。
- * 3 输入手机好的那个edittext,也给加一个hint
  */
 public class RegisterActivity extends BaseActivity {
     private Boolean isRegister;
@@ -38,10 +35,10 @@ public class RegisterActivity extends BaseActivity {
         public void onClick(View v) {
             super.onClick(v);
             switch (v.getId()) {
-                case R.id.left_cancel:
+                case R.id.left_icon:
                     finish();
                     break;
-                case R.id.right_yes:
+                case R.id.right_icon:
                     submit();
                     break;
                 case R.id.register_get_verify_code:
@@ -66,10 +63,7 @@ public class RegisterActivity extends BaseActivity {
         }
     };
 
-    private LinearLayout registerAgreeClause;
     private CheckBox isAgreeCheckBox;
-    private ImageView registerLeftCancel;
-    private ImageView registerRightYes;
     private EditText mobilePhoneEditText;
     private EditText verifyCodeEditText;
     private EditText passwordFirstEditText;
@@ -85,31 +79,10 @@ public class RegisterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         isRegister = getIntent().getStringExtra(Constant.IS_REGISTER).equals(Constant.YES);
         CommonTopBar commonTopBar = getCommonTopBar();
-        registerAgreeClause = (LinearLayout) findViewById(R.id.register_agree_clause);
+        LinearLayout registerAgreeClause = (LinearLayout) findViewById(R.id.register_agree_clause);
         isAgreeCheckBox = (CheckBox) findViewById(R.id.register_agree_box);
 
-        /**TODO for zhulinan,
-         * 这边主要是custom_common_top_bar.xml这个文件，
-         * 我发现你比如左边的按钮，每种不同的样子的按钮，你都弄了一个ImageButton.其实只要一个按钮就行了，在不同的页面设置不同的src。
-         * 另外修改top_bar的函数肯定是很多activity都要用到的，所以可以抽象到{@link CommonTopBar}
-         *
-         * 比如在{@link commonTopBar}中加这么个函数: setLeftButton(int drawable_src_id, onClickListener listener);
-         * drawable_src_id是右边button的src{@link R.id.left_cancel}，listener{@link #myOnClickListener}是右边按钮点击以后执行的操作。
-         *
-         * 然后，下面这两行函数：
-         * {@code
-         * registerLeftCancel = (ImageView) findViewById(R.id.left_cancel);
-         * registerLeftCancel.setOnClickListener(myOnClickListener); }
-         *
-         * 就可以替换成:
-         * {@code commonTopBar.setLeftButton(R.id.left_cal, myOnClickListener)}
-         */
-        registerLeftCancel = (ImageView) findViewById(R.id.left_cancel);
-        registerLeftCancel.setOnClickListener(myOnClickListener);
-        registerRightYes = (ImageView) findViewById(R.id.right_yes);
-        registerRightYes.setOnClickListener(myOnClickListener);
-        //end TODO
-
+        commonTopBar.setIconView(myOnClickListener,myOnClickListener);
 
         getVerifyCodeButton = (Button) findViewById(R.id.register_get_verify_code);
         getVerifyCodeButton.setOnClickListener(myOnClickListener);
@@ -119,7 +92,7 @@ public class RegisterActivity extends BaseActivity {
         passwordFirstEditText = (EditText) findViewById(R.id.register_password_edit_text);
         passwordSecondEditText = (EditText) findViewById(R.id.register_confirm_password_edit_text);
 
-        handler = new Handler(new Handler.Callback() {
+        handler = new Handler(new Handler.Callback(){
             @Override
             public boolean handleMessage(Message msg) {
                 switch (msg.what) {
@@ -180,7 +153,6 @@ public class RegisterActivity extends BaseActivity {
             HttpClient.get(requestParams, RegisterResponseData.class, new HttpClient.JsonResponseHandler<RegisterResponseData>() {
                 @Override
                 public void onSuccess(RegisterResponseData response) {
-                    //���ﴦ������ɹ�
                     MyApp.getApp().showToast(R.string.set_psd_success);
                     finish();
                 }
@@ -268,7 +240,7 @@ public class RegisterActivity extends BaseActivity {
     private void enableButton(Button getVerifyCodeButton) {
         getVerifyCodeButton.setTag(false);
         //noinspection deprecation for Downward compatible
-        getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_gray));
+        getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_black));
         handler.sendEmptyMessageDelayed(ENABLE_BUTTON, 60000);
     }
 
@@ -276,6 +248,5 @@ public class RegisterActivity extends BaseActivity {
         getVerifyCodeButton.setTag(true);
         getVerifyCodeButton.setTextColor(getResources().getColor(R.color.white));
     }
-
 
 }

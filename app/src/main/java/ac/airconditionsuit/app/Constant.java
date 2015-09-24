@@ -63,14 +63,4 @@ public class Constant {
     public static final String NO = "no";
     public static final String X_DC = "x" + CONFIG_FILE_SUFFIX;
 
-
-    //TODO for zhulinan,这边的常量我已经帮你整理了，PN_* 整理到 REQUEST_PARAMS_KEY_*; TYPE_*整理到REQUEST_PARAMS_VALUE_TYPE, 这里你看了以后把注释删掉就可以了。
-//    public static final String PN_MOBILE_PHONE = "mobile_phone";
-//    public static final String TYPE_VALIDATE_CODE_FOR_FIND_PASSWORD ="sendMobileVerifyCode";
-//    public static final String TYPE_VALIDATE_CODE = "sendRegMobileValidateCode";
-//    public static final String TYPE_FIND_PASSWORD = "verifyMobilePhone";
-//    public static final String PN_NEW_PASSWORD = "new_password";
-//    public static final String PN_VALIDATE_CODE = "phone_validate_code";
-//    public static final String TYPE_REGISTER = "register";
-//    public static final String PN_PASSWORD = "password";
 }

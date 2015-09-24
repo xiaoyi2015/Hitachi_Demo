@@ -9,8 +9,8 @@
         android:id="@id/default_top_bar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        app:rightYes="@drawable/save"
-        app:leftCancel="@drawable/cancel"/>
+        app:rightIcon="@drawable/save"
+        app:leftIcon="@drawable/cancel"/>
 
     <LinearLayout
         android:id="@+id/register_agree_clause"
@@ -60,6 +60,7 @@
             android:layout_weight="1"
             android:background="@android:color/white"
             android:inputType="phone"
+            android:hint="@string/register_phone_number_hint"
             android:paddingLeft="8dp"
             android:paddingRight="8dp" />
 

@@ -20,11 +20,12 @@ public class SoftwarePageActivity extends BaseActivity {
                 case R.id.add_group:
                     shortStartActivity(DragDeviceActivity.class);
                     break;
+                case R.id.left_icon:
+                    finish();
+                    break;
             }
         }
     };
-
-    private TextView dragDeviceView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,8 @@ public class SoftwarePageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.software_page));
-        dragDeviceView = (TextView)findViewById(R.id.add_group);
+        commonTopBar.setIconView(myOnClickListener, null);
+        TextView dragDeviceView = (TextView) findViewById(R.id.add_group);
         dragDeviceView.setOnClickListener(myOnClickListener);
     }
 

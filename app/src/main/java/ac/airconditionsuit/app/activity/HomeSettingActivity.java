@@ -1,6 +1,5 @@
 package ac.airconditionsuit.app.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -14,7 +13,6 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  */
 public class HomeSettingActivity extends BaseActivity {
 
-    private CommonButtonWithArrow homeName;
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
         public void onClick(View v) {
@@ -22,6 +20,9 @@ public class HomeSettingActivity extends BaseActivity {
             switch (v.getId()) {
                 case R.id.home_name:
                     shortStartActivity(ChangeHomeNameActivity.class);
+                    break;
+                case R.id.left_icon:
+                    finish();
                     break;
             }
         }
@@ -32,7 +33,8 @@ public class HomeSettingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.home));
-        homeName = (CommonButtonWithArrow)findViewById(R.id.home_name);
+        commonTopBar.setIconView(myOnClickListener, null);
+        CommonButtonWithArrow homeName = (CommonButtonWithArrow) findViewById(R.id.home_name);
         homeName.setOnClickListener(myOnClickListener);
 
     }

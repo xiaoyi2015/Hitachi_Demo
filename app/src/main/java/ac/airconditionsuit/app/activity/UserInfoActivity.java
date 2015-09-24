@@ -15,6 +15,11 @@ public class UserInfoActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             super.onClick(v);
+            switch (v.getId()) {
+                case R.id.left_icon:
+                    finish();
+                    break;
+            }
         }
     };
     @Override
@@ -23,7 +28,7 @@ public class UserInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.fill_user_info));
-
+        commonTopBar.setIconView(myOnClickListener,null);
     }
 
 }

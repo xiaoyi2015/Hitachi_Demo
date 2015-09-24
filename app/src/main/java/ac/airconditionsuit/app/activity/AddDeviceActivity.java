@@ -15,6 +15,12 @@ public class AddDeviceActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             super.onClick(v);
+            switch (v.getId()) {
+                case R.id.left_icon:
+                    finish();
+                    break;
+
+            }
 
         }
     };
@@ -24,6 +30,7 @@ public class AddDeviceActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.add_device));
+        commonTopBar.setIconView(myOnClickListener,null);
     }
 
 }
