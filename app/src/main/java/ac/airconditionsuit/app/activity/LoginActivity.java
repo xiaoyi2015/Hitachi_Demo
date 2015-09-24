@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import ac.airconditionsuit.app.Config.LocalConfigManager;
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
@@ -8,6 +9,7 @@ import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.LoginResponseData;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.loopj.android.http.RequestParams;
  */
 public class LoginActivity extends BaseActivity {
 
+    private static final int REQUEST_CODE_REGISTER = 123;
     private EditText userNameEditText;
     private EditText passwordEditText;
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
@@ -30,10 +33,10 @@ public class LoginActivity extends BaseActivity {
                     login();
                     break;
                 case R.id.login_add_user:
-                    shortStartActivity(RegisterActivity.class,Constant.IS_REGISTER,Constant.YES);
+                    shortStartActivityForResult(RegisterActivity.class, REQUEST_CODE_REGISTER, Constant.IS_REGISTER, Constant.YES);
                     break;
                 case R.id.forget_psd:
-                    shortStartActivity(RegisterActivity.class,Constant.IS_REGISTER,Constant.NO);
+                    shortStartActivity(RegisterActivity.class, Constant.IS_REGISTER, Constant.NO);
                     break;
             }
         }
@@ -50,6 +53,14 @@ public class LoginActivity extends BaseActivity {
         findViewById(R.id.login_button).setOnClickListener(myOnClickListener);
         findViewById(R.id.forget_psd).setOnClickListener(myOnClickListener);
         findViewById(R.id.login_add_user).setOnClickListener(myOnClickListener);
+
+        /**TODO for zhulinan
+         * 这里要把之前登录的手机号码填充上。
+         * 具体步骤如下，先取得当前用户{@link LocalConfigManager#getCurrentUserConfig()}
+         * 如果为空，说明是第一次使用本软件。则什么都不用干。如果不为空，进行下一步：
+         * 取得当前用户的登录手机号码 {@link LocalConfigManager#getCurrentUserPhoneNumber()}
+         * 填入到对应的EdtiText。
+         */
     }
 
     private void login() {
@@ -81,6 +92,12 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onSuccess() {
                         dismissWaitProgress();
+                        /**TODO for zhulinan
+                         * 这边查看记住密码的checkbox,做相应操作。
+                         * 相关函数为{@link LocalConfigManager#setCurrentUserRememberedPassword(String)}
+                         * 如果不用记住密码，则传入空字符串
+                         * 无论是不是记住密码，都要把登录手机好设置到LocalConfig {@link LocalConfigManager#setCurrentUserPhoneNumber(String)},这个函数在注册成功时也要调用。
+                         */
                         shortStartActivity(MainActivity.class);
                         finish();
                     }
@@ -101,5 +118,22 @@ public class LoginActivity extends BaseActivity {
                 MyApp.getApp().showToast(R.string.login_failure);
             }
         });
+    }
+
+    /**TODO for zhulinan
+     * 看一下{@link android.app.Activity#startActivityForResult(Intent, int)}相关内容，把注册成功后的的情况处理一下：
+     * 暂时将用户名密码填上。让用户可以点击登录。
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_REGISTER:
+                break;
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
