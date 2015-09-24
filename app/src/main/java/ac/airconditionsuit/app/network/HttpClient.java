@@ -59,7 +59,21 @@ public class HttpClient {
                     onFailure(statusCode, headers, rawJsonResponse, new CommonError(response.getMsg()));
                 } else {
                     if (handler != null) {
-                        handler.onSuccess((T) new Gson().fromJson(response.getData(), type));
+                        try {
+                            handler.onSuccess((T) new Gson().fromJson(response.getData(), type));
+                        } catch (Exception e) {
+                            //可能 response.getData() 是空字符而type 是数组进行如下处理：
+                            if (response.getData().getAsString().equals("")) {
+                                try {
+                                    Log.i(TAG, "get empty string as \"[]\"");
+                                    handler.onSuccess((T) new Gson().fromJson("[]", type));
+                                } catch (Exception e2) {
+                                    onFailure(statusCode, headers, e2, rawJsonResponse, response);
+                                }
+                            } else {
+                                onFailure(statusCode, headers, e, rawJsonResponse, response);
+                            }
+                        }
                     }
                 }
             }
@@ -105,7 +119,7 @@ public class HttpClient {
     @SuppressWarnings("unchecked")
     public static <T> void get(RequestParams params, final Type type, final JsonResponseHandler<T> handler) {
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-        asyncHttpClient.get(BASE_URL, wrapParams(params) , new BaseJsonHttpResponseHandler<CommonResponse>() {
+        asyncHttpClient.get(BASE_URL, wrapParams(params), new BaseJsonHttpResponseHandler<CommonResponse>() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, CommonResponse response) {
                 //handle result
@@ -113,7 +127,21 @@ public class HttpClient {
                     onFailure(statusCode, headers, rawJsonResponse, new CommonError(response.getMsg()));
                 } else {
                     if (handler != null) {
-                        handler.onSuccess((T) new Gson().fromJson(response.getData(), type));
+                        try {
+                            handler.onSuccess((T) new Gson().fromJson(response.getData(), type));
+                        } catch (Exception e) {
+                            //可能 response.getData() 是空字符而type 是数组进行如下处理：
+                            if (response.getData().getAsString().equals("")) {
+                                try {
+                                    Log.i(TAG, "get empty string as \"[]\"");
+                                    handler.onSuccess((T) new Gson().fromJson("[]", type));
+                                } catch (Exception e2) {
+                                    onFailure(statusCode, headers, e2, rawJsonResponse, response);
+                                }
+                            } else {
+                                onFailure(statusCode, headers, e, rawJsonResponse, response);
+                            }
+                        }
                     }
                 }
             }

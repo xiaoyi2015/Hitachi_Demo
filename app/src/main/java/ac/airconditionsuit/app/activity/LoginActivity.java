@@ -129,6 +129,7 @@ public class LoginActivity extends BaseActivity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         switch (requestCode) {
             case REQUEST_CODE_REGISTER:
                 break;
