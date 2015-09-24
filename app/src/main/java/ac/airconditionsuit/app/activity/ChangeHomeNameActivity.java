@@ -15,6 +15,13 @@ public class ChangeHomeNameActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             super.onClick(v);
+            switch (v.getId()) {
+                case R.id.left_icon:
+                    finish();
+                    break;
+                case R.id.right_icon:
+                    break;
+            }
         }
     };
     @Override
@@ -23,6 +30,7 @@ public class ChangeHomeNameActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.home_name));
+        commonTopBar.setIconView(myOnClickListener,myOnClickListener);
     }
 
 }

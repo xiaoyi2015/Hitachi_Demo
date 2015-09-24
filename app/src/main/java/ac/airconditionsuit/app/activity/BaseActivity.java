@@ -1,13 +1,9 @@
 package ac.airconditionsuit.app.activity;
 
-
 import ac.airconditionsuit.app.Constant;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-
 import android.os.Bundle;
-
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.view.CommonTopBar;
 import android.support.v4.app.FragmentActivity;

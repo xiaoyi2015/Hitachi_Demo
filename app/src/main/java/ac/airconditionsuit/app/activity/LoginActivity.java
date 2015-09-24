@@ -105,9 +105,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onFailure() {
                         dismissWaitProgress();
-                        //TODO for zhulinan, 这边弹一条提示信息(toast)，初始化配置文件错误。
-                        //Toast相关的在MyApp类里面有:
-                        //MyApp.getApp().showToast();
+                        MyApp.getApp().showToast(R.string.init_file_error);
                     }
                 });
             }

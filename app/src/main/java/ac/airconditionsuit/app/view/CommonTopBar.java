@@ -2,18 +2,14 @@ package ac.airconditionsuit.app.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
-import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.listener.MyOnClickListener;
 
 /**
  * document your custom view class.
@@ -21,12 +17,7 @@ import ac.airconditionsuit.app.R;
 public class CommonTopBar extends RelativeLayout {
     private TextView titleView;
     private ImageView leftIconView;
-    private ImageView leftArrowView;
-    private ImageView rightImageView;
-    private ImageView rightEditView;
-    private ImageView rightYesView;
-    private ImageView rightAddView;
-    private ImageView leftCancelView;
+    private ImageView rightIconView;
 
     public CommonTopBar(Context context) {
         super(context);
@@ -50,12 +41,7 @@ public class CommonTopBar extends RelativeLayout {
 
         String titleLabel = a.getString(R.styleable.CommonTopBar_title);
         Drawable leftIcon = a.getDrawable(R.styleable.CommonTopBar_leftIcon);
-        Drawable leftArrow = a.getDrawable(R.styleable.CommonTopBar_leftArrow);
-        Drawable rightImage = a.getDrawable(R.styleable.CommonTopBar_rightImage);
-        Drawable rightEdit = a.getDrawable(R.styleable.CommonTopBar_rightEdit);
-        Drawable rightYes = a.getDrawable(R.styleable.CommonTopBar_rightYes);
-        Drawable rightAdd = a.getDrawable(R.styleable.CommonTopBar_rightAdd);
-        Drawable leftCancel = a.getDrawable(R.styleable.CommonTopBar_leftCancel);
+        Drawable rightIcon = a.getDrawable(R.styleable.CommonTopBar_rightIcon);
 
         a.recycle();
 
@@ -63,54 +49,37 @@ public class CommonTopBar extends RelativeLayout {
 
         titleView = (TextView) findViewById(R.id.title_label);
         leftIconView = (ImageView) findViewById(R.id.left_icon);
-        leftArrowView = (ImageView) findViewById(R.id.left_arrow);
-        rightImageView = (ImageView) findViewById(R.id.right_image);
-        rightEditView = (ImageView) findViewById(R.id.right_edit);
-        rightYesView = (ImageView) findViewById(R.id.right_yes);
-        rightAddView = (ImageView) findViewById(R.id.right_add);
-        leftCancelView = (ImageView) findViewById(R.id.left_cancel);
+        rightIconView = (ImageView) findViewById(R.id.right_icon);
+
 
         titleView.setText(titleLabel);
+
         if (leftIcon == null) {
             leftIconView.setVisibility(GONE);
         } else {
             leftIconView.setImageDrawable(leftIcon);
         }
-        if (leftArrow == null) {
-            leftArrowView.setVisibility(GONE);
+        if (rightIcon == null) {
+            rightIconView.setVisibility(GONE);
         } else {
-            leftArrowView.setImageDrawable(leftArrow);
-        }
-        if (rightImage == null) {
-            rightImageView.setVisibility(GONE);
-        } else {
-            rightImageView.setImageDrawable(rightImage);
-        }
-        if (rightEdit == null) {
-            rightEditView.setVisibility(GONE);
-        } else {
-            rightEditView.setImageDrawable(rightEdit);
-        }
-        if (rightYes == null) {
-            rightYesView.setVisibility(GONE);
-        } else {
-            rightYesView.setImageDrawable(rightYes);
-        }
-        if (rightAdd == null) {
-            rightAddView.setVisibility(GONE);
-        } else {
-            rightAddView.setImageDrawable(rightAdd);
-        }
-        if (leftCancel == null) {
-            leftCancelView.setVisibility(GONE);
-        } else {
-            leftCancelView.setImageDrawable(leftCancel);
+            rightIconView.setImageDrawable(rightIcon);
         }
         setBackgroundResource(R.drawable.top_banner);
     }
 
     public void setTitle(String title){
         titleView.setText(title);
+    }
+
+    public void setIconView(OnClickListener leftListener, OnClickListener rightListener){
+        if(leftListener == null)
+            leftIconView.setVisibility(GONE);
+        else
+            leftIconView.setOnClickListener(leftListener);
+        if(rightListener == null)
+            rightIconView.setVisibility(GONE);
+        else
+            rightIconView.setOnClickListener(rightListener);
     }
 
 }

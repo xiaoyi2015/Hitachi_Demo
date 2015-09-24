@@ -9,8 +9,8 @@
         android:id="@+id/default_top_bar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        app:leftArrow="@drawable/back"
-        app:rightYes="@drawable/save">
+        app:leftIcon="@drawable/back"
+        app:rightIcon="@drawable/save">
     </ac.airconditionsuit.app.view.CommonTopBar>
     
     <EditText

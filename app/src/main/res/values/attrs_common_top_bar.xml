@@ -2,11 +2,6 @@
     <declare-styleable name="CommonTopBar">
         <attr name="title" format="string" />
         <attr name="leftIcon" format="reference" />
-        <attr name="leftArrow" format="reference" />
-        <attr name="rightImage" format="reference" />
-        <attr name="rightEdit" format="reference" />
-        <attr name="rightYes" format="reference" />
-        <attr name="rightAdd" format="reference" />
-        <attr name="leftCancel" format="reference" />
+        <attr name="rightIcon" format="reference" />
     </declare-styleable>
 </resources>
