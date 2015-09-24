@@ -60,9 +60,7 @@
             android:layout_weight="1"
             android:background="@android:color/white"
             android:inputType="phone"
-            android:hint="@string/register_phone_number_hint"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp" />
+            android:hint="@string/register_phone_number_hint" />
 
         <Button
             android:layout_width="wrap_content"

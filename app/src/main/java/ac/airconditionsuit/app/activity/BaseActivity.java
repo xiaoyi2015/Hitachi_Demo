@@ -7,8 +7,12 @@ import android.os.Bundle;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.view.CommonTopBar;
 import android.support.v4.app.FragmentActivity;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 /**
  * Created by ac on 9/18/15.
@@ -56,11 +60,6 @@ public class BaseActivity extends FragmentActivity {
         startActivity(intent);
     }
 
-    /**
-     * TODO for zhulinan
-     * @param c
-     * @param keyAndValue
-     */
     public void shortStartActivityForResult(Class c, int requsetCode, String... keyAndValue) {
         Intent intent = new Intent(this, c);
         int keyAndValueLength = keyAndValue.length;
@@ -77,6 +76,23 @@ public class BaseActivity extends FragmentActivity {
 
     public void dismissWaitProgress(){
         waitDialog.dismiss();
+    }
+
+    protected void setOnclickListenerOnTextViewDrawable(final View.OnClickListener onClickListener, EditText... editTexts) {
+        for (final EditText editText : editTexts) {
+            editText.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        if (event.getRawX() >= editText.getRight() - editText.getTotalPaddingRight()) {
+                            onClickListener.onClick(v);
+                            return false;
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
     }
 
 }
