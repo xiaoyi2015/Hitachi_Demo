@@ -68,7 +68,12 @@ public class LocalConfig extends RootEntity {
     }
 
     public String getCurrentUserRememberedPassword(){
-        return getCurrentUserForLocalConfig().getRememberedPassword();
+        UserForLocalConfig currentUserForLocalConfig = getCurrentUserForLocalConfig();
+        if (currentUserForLocalConfig == null) {
+            return null;
+        } else {
+            return currentUserForLocalConfig.getRememberedPassword();
+        }
     }
 
 
@@ -77,6 +82,11 @@ public class LocalConfig extends RootEntity {
     }
 
     public String getCurrentUserPhoneNumber(){
-        return getCurrentUserForLocalConfig().getPhoneNumber();
+        UserForLocalConfig currentUserForLocalConfig = getCurrentUserForLocalConfig();
+        if (currentUserForLocalConfig == null) {
+            return null;
+        } else {
+            return currentUserForLocalConfig.getPhoneNumber();
+        }
     }
 }

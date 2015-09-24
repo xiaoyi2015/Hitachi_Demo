@@ -153,7 +153,6 @@ public class SocketManager {
                     byte[] data = socket.readMessage();
                     //TODO for luzheqi
                 } catch (IOException e) {
-                    //TODO for luzheqi
                     Log.e(TAG, "read data from socket failed");
                     reconnect();
                     e.printStackTrace();
