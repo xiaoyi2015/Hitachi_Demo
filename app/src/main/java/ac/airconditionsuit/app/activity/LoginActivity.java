@@ -107,7 +107,7 @@ public class LoginActivity extends BaseActivity {
                 MyApp app = MyApp.getApp();
                 app.setUser(user);
                 app.getLocalConfigManager().updateUser(user);
-                app.initConfigManager(new CommonNetworkListener() {
+                app.initServerConfigManager(new CommonNetworkListener() {
 
                     @Override
                     public void onSuccess() {

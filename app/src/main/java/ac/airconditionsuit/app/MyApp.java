@@ -4,6 +4,8 @@ import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.Config.LocalConfigManager;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
+import ac.airconditionsuit.app.network.socket.SocketManager;
+import ac.airconditionsuit.app.network.socket.SocketPackage;
 import android.app.Application;
 import android.widget.Toast;
 
@@ -20,6 +22,8 @@ public class MyApp extends Application {
 
 
     private LocalConfigManager localConfigManager;
+
+    private SocketManager socketManager;
 
     //user will be assigned after localConfigManager is init
     private MyUser user;
@@ -65,7 +69,7 @@ public class MyApp extends Application {
      *
      * @param commonNetworkListener
      */
-    public void initConfigManager(CommonNetworkListener commonNetworkListener) {
+    public void initServerConfigManager(CommonNetworkListener commonNetworkListener) {
         serverConfigManager = new ServerConfigManager();
         serverConfigManager.downloadDeviceInformationFromServer(commonNetworkListener);
     }
@@ -76,6 +80,11 @@ public class MyApp extends Application {
     private void initLocalConfigManager() {
         this.localConfigManager = new LocalConfigManager();
         user = localConfigManager.getCurrentUserInformation();
+    }
+
+    public void initSocketManager() {
+        socketManager = new SocketManager();
+        socketManager.init();
     }
 
     /**
@@ -97,6 +106,10 @@ public class MyApp extends Application {
         return serverConfigManager;
     }
 
+
+    public SocketManager getSocketManager() {
+        return socketManager;
+    }
 
     /**
      * last Toast show by {@link MyApp#showToast(int)} or {@link MyApp#showToast(String)},
