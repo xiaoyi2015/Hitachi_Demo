@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,6 +14,18 @@ import ac.airconditionsuit.app.R;
  * Created by Administrator on 2015/9/20.
  */
 public class CheckUtil {
+
+    public static String checkEmpty(EditText nickNameEditText,int toastStringId) {
+        String text = nickNameEditText.getText().toString();
+        if (text.length() == 0) {
+            if (toastStringId != 0) {
+                MyApp.getApp().showToast(toastStringId);
+            }
+            return null;
+        }
+        return text;
+    }
+
     public static String checkMobilePhone(EditText editText) {
         String mobilePhone = editText.getText().toString();
         if (mobilePhone.length() == 0) {

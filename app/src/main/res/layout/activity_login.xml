@@ -54,7 +54,7 @@
             android:singleLine="true" />
 
         <CheckBox
-            android:id="@+id/remember_psd"
+            android:id="@+id/remember_psd_box"
             android:background="@drawable/login_select_box"
             android:layout_below="@id/password"
             android:button="@drawable/checkbox"
@@ -65,7 +65,7 @@
         <TextView
             android:id="@+id/remember_psd_text"
             android:layout_below="@id/password"
-            android:layout_toRightOf="@id/remember_psd"
+            android:layout_toRightOf="@id/remember_psd_box"
             android:textSize="16sp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
