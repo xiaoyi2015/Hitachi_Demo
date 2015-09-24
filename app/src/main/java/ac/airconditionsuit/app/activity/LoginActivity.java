@@ -9,10 +9,13 @@ import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.LoginResponseData;
+import ac.airconditionsuit.app.util.CheckUtil;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import com.loopj.android.http.RequestParams;
 
@@ -23,6 +26,7 @@ public class LoginActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_REGISTER = 123;
     private EditText userNameEditText;
+    private CheckBox rememberCheckBox;
     private EditText passwordEditText;
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
@@ -49,6 +53,7 @@ public class LoginActivity extends BaseActivity {
 
         userNameEditText = (EditText) findViewById(R.id.user_name);
         passwordEditText = (EditText) findViewById(R.id.password);
+        rememberCheckBox = (CheckBox) findViewById(R.id.remember_psd_box);
 
         findViewById(R.id.login_button).setOnClickListener(myOnClickListener);
         findViewById(R.id.forget_psd).setOnClickListener(myOnClickListener);
@@ -61,15 +66,26 @@ public class LoginActivity extends BaseActivity {
          * 取得当前用户的登录手机号码 {@link LocalConfigManager#getCurrentUserPhoneNumber()}
          * 填入到对应的EdtiText。
          */
+        if(MyApp.getApp().getLocalConfigManager().getCurrentUserConfig() != null){
+            userNameEditText.setText(MyApp.getApp().getLocalConfigManager().getCurrentUserPhoneNumber());
+        }
+
     }
 
     private void login() {
-        //TODO for zhulinan, 这边的用户名和密码需要check,你参照上一个项目中的accheck，写一下
-        String userName = userNameEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
-        userName = "13989880921";
-        password = "123456";
-        //end TODO
+
+        final String userName = userNameEditText.getText().toString();
+        final String password = passwordEditText.getText().toString();
+
+        String userNameCheck = CheckUtil.checkEmpty(userNameEditText, R.string.user_name_empty_info);
+        if (userNameCheck == null) {
+            return;
+        }
+
+        String passwordCheck = CheckUtil.checkEmpty(passwordEditText, R.string.password_empty_info);
+        if (passwordCheck == null) {
+            return;
+        }
 
         final RequestParams requestParams = new RequestParams();
 
@@ -98,6 +114,11 @@ public class LoginActivity extends BaseActivity {
                          * 如果不用记住密码，则传入空字符串
                          * 无论是不是记住密码，都要把登录手机好设置到LocalConfig {@link LocalConfigManager#setCurrentUserPhoneNumber(String)},这个函数在注册成功时也要调用。
                          */
+                        MyApp.getApp().getLocalConfigManager().setCurrentUserPhoneNumber(userName);
+                        if (rememberCheckBox.isChecked())
+                            MyApp.getApp().getLocalConfigManager().setCurrentUserRememberedPassword(password);
+                        else
+                            MyApp.getApp().getLocalConfigManager().setCurrentUserRememberedPassword("");
                         shortStartActivity(MainActivity.class);
                         finish();
                     }

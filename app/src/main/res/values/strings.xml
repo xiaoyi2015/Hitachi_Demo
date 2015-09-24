@@ -83,4 +83,6 @@
     <string name="login_failure">登录失败</string>
     <string name="register_phone_number_hint">请输入手机号</string>
     <string name="init_file_error">初始化配置文件错误</string>
+    <string name="user_name_empty_info">请输入手机号</string>
+    <string name="password_empty_info">请输入密码</string>
 </resources>
