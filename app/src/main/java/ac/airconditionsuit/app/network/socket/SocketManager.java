@@ -10,9 +10,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Created by ac on 9/18/15.
@@ -112,7 +110,6 @@ public class SocketManager {
 
         @Override
         public void connect() throws SocketException, UnknownHostException {
-
             datagramSocket = new DatagramSocket();
             datagramSocket.connect(InetAddress.getByName(HOST), PORT);
         }
@@ -135,7 +132,9 @@ public class SocketManager {
 
         @Override
         public void close() {
-
+            if (datagramSocket != null && !datagramSocket.isClosed()) {
+                datagramSocket.close();
+            }
         }
 
         @Override
@@ -164,7 +163,14 @@ public class SocketManager {
     }
 
     private void reconnect() {
-
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                close();
+                init();
+            }
+        }, 3000);
     }
 
     private SocketWrap socket;
