@@ -78,9 +78,11 @@ public class ServerConfigManager {
         }
     }
 
+    /**
+     * 本类中的所有setter方法结束之后都必须调用这个函数！
+     */
     public void writeToFile() {
-        FileOutputStream fos = null;
-        try {
+        FileOutputStream fos = null; try {
             File serverConfigFile = MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFile();
             if (serverConfigFile == null) {
                 Log.i(TAG, "can not find device config file");
@@ -114,17 +116,11 @@ public class ServerConfigManager {
     }
 
 
-    Boolean isUploading = false;
 
     /**
-     * 本类中的所有setter方法结束之后都必须调用这个函数！
+     * 当配置文件有改动时，上传配置文件当服务器
      */
     public void uploadToServer() {
-        if (isUploading) {
-            return;
-        }
-        isUploading = true;
-
         RequestParams requestParams = new RequestParams();
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_FILE);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_UPLOAD_DEVICE_CONFIG_FILE);
@@ -140,7 +136,6 @@ public class ServerConfigManager {
             @Override
             public void onSuccess(UploadConfigResponse response) {
                 Log.i(TAG, "upload host device file success");
-                System.out.println(response.getUrl());
             }
 
             @Override
@@ -204,9 +199,9 @@ public class ServerConfigManager {
         } else {
             //当所有的设备配置文件下载下来以后，更新设备配置文件.
             //TODO for luzheqi,这里有bug, 明天继续
-//            MyApp.getApp().getLocalConfigManager().updataHostDeviceConfigFile(fileNames);
-//            readFromFile();
-//            writeToFile();
+            MyApp.getApp().getLocalConfigManager().updataHostDeviceConfigFile(fileNames);
+            readFromFile();
+            writeToFile();
             commonNetworkListener.onSuccess();
         }
     }
