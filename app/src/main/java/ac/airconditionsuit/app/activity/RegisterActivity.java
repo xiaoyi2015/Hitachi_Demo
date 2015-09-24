@@ -171,7 +171,7 @@ public class RegisterActivity extends BaseActivity {
             HttpClient.get(requestParams, RegisterResponseData.class, new HttpClient.JsonResponseHandler<RegisterResponseData>() {
                 @Override
                 public void onSuccess(RegisterResponseData response) {
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
                     finish();
                 }

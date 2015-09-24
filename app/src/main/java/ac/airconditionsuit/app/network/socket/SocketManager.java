@@ -1,4 +1,4 @@
-package ac.airconditionsuit.app.network;
+package ac.airconditionsuit.app.network.socket;
 
 import android.app.ProgressDialog;
 
@@ -47,7 +47,6 @@ public class SocketManager {
         UdpSocket(String host, int port) {
             try {
                 datagramSocket = new DatagramSocket(new InetSocketAddress(host, port));
-                datagramSocket.connect(new InetSocketAddress(host, port));
             } catch (SocketException e) {
                 e.printStackTrace();
             }
@@ -71,5 +70,23 @@ public class SocketManager {
 
 
     private SocketWrap socket;
+
+    private void sendMessage(SocketPackage socketPackage){
+
+    }
+
+    /**
+     *
+     */
+    private void connect(){
+
+    }
+
+    /**
+     * 在退出登录，被踢下线的时候都要调用本方法。
+     */
+    private void close(){
+
+    }
 
 }
