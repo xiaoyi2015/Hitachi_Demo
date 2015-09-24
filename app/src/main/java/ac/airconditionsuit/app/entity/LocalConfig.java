@@ -29,7 +29,7 @@ public class LocalConfig extends RootEntity {
         this.currentIndex = currentIndex;
     }
 
-    public UserForLocalConfig getCurrentUser() {
+    public UserForLocalConfig getCurrentUserForLocalConfig() {
         if (currentIndex < 0 || currentIndex >= users.size()) {
             return null;
         }
@@ -58,8 +58,25 @@ public class LocalConfig extends RootEntity {
         currentIndex = users.size() - 1;
     }
 
-    public void updateHostDeviceConfigFile(List<String> fileNames) {
-        UserForLocalConfig user = getCurrentUser();
+    public void updateCurrentUserHostDeviceConfigFile(List<String> fileNames) {
+        UserForLocalConfig user = getCurrentUserForLocalConfig();
         user.updateHostDeviceConfigFiles(fileNames);
+    }
+
+    public void rememberCurrentUserPassword(String password){
+        getCurrentUserForLocalConfig().setRememberedPassword(password);
+    }
+
+    public String getCurrentUserRememberedPassword(){
+        return getCurrentUserForLocalConfig().getRememberedPassword();
+    }
+
+
+    public void setCurrentUserPhoneNumber(String phoneNumber){
+        getCurrentUserForLocalConfig().setPhoneNumber(phoneNumber);
+    }
+
+    public String getCurrentUserPhoneNumber(){
+        return getCurrentUserForLocalConfig().getPhoneNumber();
     }
 }

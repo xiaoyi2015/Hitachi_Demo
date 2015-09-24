@@ -38,10 +38,10 @@ public class LocalConfigManager {
     }
 
     public UserForLocalConfig getCurrentUserConfig () {
-        return getLocalConfig().getCurrentUser();
+        return getLocalConfig().getCurrentUserForLocalConfig();
     }
 
-    public MyUser getCurrentUser() {
+    public MyUser getCurrentUserInformation() {
         if (getCurrentUserConfig() == null) {
             return null;
         }
@@ -56,19 +56,23 @@ public class LocalConfigManager {
      */
     public void updateUser(MyUser user) {
         getLocalConfig().updateUser(user);
+        saveToDisk();
     }
 
+    /**
+     * 所有这个类中，改变了设置的方法末尾都应该调用这个函数
+     */
     public void saveToDisk() {
         getSharePreference().edit().putString(Constant.PREFERENCE_KEY_LOCAL_CONFIG, localConfig.toJsonString()).apply();
     }
 
     public void updataHostDeviceConfigFile(List<String> fileNames) {
-        getLocalConfig().updateHostDeviceConfigFile(fileNames);
+        getLocalConfig().updateCurrentUserHostDeviceConfigFile(fileNames);
         saveToDisk();
     }
 
     public String getCurrentHomeDeviceId() {
-        String currentHomeConfigFileName = localConfig.getCurrentUser().getCurrentHomeConfigFileName();
+        String currentHomeConfigFileName = localConfig.getCurrentUserForLocalConfig().getCurrentHomeConfigFileName();
         return currentHomeConfigFileName.substring(0, currentHomeConfigFileName.lastIndexOf(Constant.CONFIG_FILE_SUFFIX));
     }
 
@@ -82,5 +86,25 @@ public class LocalConfigManager {
 
     public File getCurrentHomeConfigFile() {
         return MyApp.getApp().getPrivateFile(getCurrentHomeConfigFileName(), null);
+    }
+
+    /**
+     * @param password 当传入是{@code ""}时，表示去掉记住密码的选项。
+     */
+    public void setCurrentUserRememberedPassword(String password){
+        getLocalConfig().rememberCurrentUserPassword(password);
+        saveToDisk();
+    }
+
+    public String getCurrentUserRememberedPassword(){
+        return getLocalConfig().getCurrentUserRememberedPassword();
+    }
+
+    public void setCurrentUserPhoneNumber(String phoneNumber){
+        getLocalConfig().setCurrentUserPhoneNumber(phoneNumber);
+    }
+
+    public String getCurrentUserPhoneNumber(){
+        return getLocalConfig().getCurrentUserPhoneNumber();
     }
 }

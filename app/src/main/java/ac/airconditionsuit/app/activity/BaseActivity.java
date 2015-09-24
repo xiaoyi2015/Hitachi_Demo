@@ -56,6 +56,21 @@ public class BaseActivity extends FragmentActivity {
         startActivity(intent);
     }
 
+    /**
+     * TODO for zhulinan
+     * @param c
+     * @param keyAndValue
+     */
+    public void shortStartActivityForResult(Class c, int requsetCode, String... keyAndValue) {
+        Intent intent = new Intent(this, c);
+        int keyAndValueLength = keyAndValue.length;
+        for (int i = 0; i < keyAndValueLength / 2; ++i) {
+            intent.putExtra(keyAndValue[i * 2], keyAndValue[i * 2 + 1]);
+        }
+        intent.putExtra(Constant.INTENT_DATA_KEY_ACTIVITY_FROM, this.getClass().getName());
+        startActivityForResult(intent, requsetCode);
+    }
+
     public void showWaitProgress(){
         waitDialog.show();
     }

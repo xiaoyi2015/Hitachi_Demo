@@ -10,7 +10,8 @@ import java.util.List;
  */
 public class UserForLocalConfig {
     private MyUser myUser;
-    private boolean isRemember = false;
+    private String rememberedPassword = "";
+    private String phoneNumber = "";
     List<String> homeConfigFileNames = new ArrayList<>();
     int currentHomeIndex = -1;
 
@@ -26,13 +27,23 @@ public class UserForLocalConfig {
         this.myUser = myUser;
     }
 
-    public boolean isRemember() {
-        return isRemember;
+
+    public String getRememberedPassword() {
+        return rememberedPassword;
     }
 
-    public void setIsRemember(boolean isRemember) {
-        this.isRemember = isRemember;
+    public void setRememberedPassword(String rememberedPassword) {
+        this.rememberedPassword = rememberedPassword;
     }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
 
     public List<String> getHomeConfigFileNames() {
         return homeConfigFileNames;
