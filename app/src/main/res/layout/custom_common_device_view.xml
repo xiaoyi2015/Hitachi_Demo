@@ -6,21 +6,27 @@
 
     <ImageView
         android:id="@+id/bg_icon"
+        android:scaleType="fitXY"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="8dp"
         android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/right_up_text"
+        android:layout_marginTop="-5dp"
+        android:layout_marginRight="-5dp"
         android:layout_alignRight="@+id/bg_icon"
         android:layout_alignTop="@+id/bg_icon"
         android:gravity="center"
         android:layout_width="wrap_content"
-        android:background="@drawable/drag_air_name_bar"
         android:layout_height="wrap_content" />
 
     <ImageView
         android:id="@+id/right_up_icon"
+        android:layout_marginTop="-5dp"
+        android:layout_marginRight="-5dp"
         android:layout_alignRight="@+id/bg_icon"
         android:layout_alignTop="@+id/bg_icon"
         android:layout_width="wrap_content"

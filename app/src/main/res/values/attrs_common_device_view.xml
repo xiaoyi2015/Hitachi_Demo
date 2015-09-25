@@ -4,5 +4,6 @@
         <attr name="right_up_text" format="string" />
         <attr name="right_up_icon" format="reference" />
         <attr name="bottom_name" format="string" />
+        <attr name="right_up_text_bg" format="reference" />
     </declare-styleable>
 </resources>

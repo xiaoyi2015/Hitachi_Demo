@@ -1,8 +1,13 @@
 package ac.airconditionsuit.app.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
@@ -18,7 +23,15 @@ public class SoftwarePageActivity extends BaseActivity {
             super.onClick(v);
             switch (v.getId()){
                 case R.id.add_group:
-                    shortStartActivity(DragDeviceActivity.class);
+                    final EditText et = new EditText(SoftwarePageActivity.this);
+                    new AlertDialog.Builder(SoftwarePageActivity.this).setTitle(R.string.pls_input_group_name).setView(et).
+                            setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+
                     break;
                 case R.id.left_icon:
                     finish();
@@ -34,8 +47,8 @@ public class SoftwarePageActivity extends BaseActivity {
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.software_page));
         commonTopBar.setIconView(myOnClickListener, null);
-        TextView dragDeviceView = (TextView) findViewById(R.id.add_group);
-        dragDeviceView.setOnClickListener(myOnClickListener);
+        TextView add_new_group = (TextView) findViewById(R.id.add_group);
+        add_new_group.setOnClickListener(myOnClickListener);
     }
 
 }

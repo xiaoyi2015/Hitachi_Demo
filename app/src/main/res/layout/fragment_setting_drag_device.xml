@@ -13,7 +13,22 @@
 
     </ac.airconditionsuit.app.view.CommonTopBar>
 
+    <GridView
+        android:id="@+id/receiver"
+        android:layout_below="@+id/default_top_bar"
+        android:layout_above="@+id/bottom_bar"
+        android:numColumns="3"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="0dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </GridView>
+
     <LinearLayout
+        android:id="@+id/bottom_bar"
         android:layout_alignParentBottom="true"
         android:gravity="center_vertical"
         android:background="@drawable/top_banner"
@@ -28,6 +43,7 @@
             app:bg_icon="@drawable/drag_air_icon"
             app:bottom_name="111"
             app:right_up_text="222"
+            app:right_up_text_bg="@drawable/drag_air_name_bar"
             android:background="@drawable/top_banner">
 
         </ac.airconditionsuit.app.view.CommonDeviceView>

@@ -43,6 +43,7 @@ public class CommonDeviceView extends RelativeLayout {
         Drawable bg_icon = a.getDrawable(R.styleable.CommonDeviceView_bg_icon);
         Drawable right_up_icon = a.getDrawable(R.styleable.CommonDeviceView_right_up_icon);
         String right_up_text = a.getString(R.styleable.CommonDeviceView_right_up_text);
+        Drawable right_up_text_bg = a.getDrawable(R.styleable.CommonDeviceView_right_up_text_bg);
 
         a.recycle();
         inflate(context, R.layout.custom_common_device_view, this);
@@ -54,16 +55,10 @@ public class CommonDeviceView extends RelativeLayout {
 
         bottomName.setText(bottom_name);
         bgIcon.setImageDrawable(bg_icon);
-        if (right_up_icon == null) {
-            rightUpIcon.setVisibility(GONE);
-        } else {
-            rightUpIcon.setImageDrawable(right_up_icon);
-        }
-        if (right_up_text == null) {
-            rightUpText.setVisibility(GONE);
-        } else {
-            rightUpText.setText(right_up_text);
-        }
+        rightUpIcon.setImageDrawable(right_up_icon);
+        rightUpText.setBackgroundDrawable(right_up_text_bg);
+        rightUpText.setText(right_up_text);
+
 
     }
 
