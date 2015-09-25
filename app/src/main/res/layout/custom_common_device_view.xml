@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/bg_icon"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -13,6 +14,7 @@
         android:id="@+id/right_up_text"
         android:layout_alignRight="@+id/bg_icon"
         android:layout_alignTop="@+id/bg_icon"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:background="@drawable/drag_air_name_bar"
         android:layout_height="wrap_content" />
@@ -29,7 +31,7 @@
         android:gravity="center"
         android:layout_below="@+id/bg_icon"
         android:layout_width="match_parent"
-        android:layout_height="30dp" />
+        android:layout_height="wrap_content" />
 
 
 </RelativeLayout>

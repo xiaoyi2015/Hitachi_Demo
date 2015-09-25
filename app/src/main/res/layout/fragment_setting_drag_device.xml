@@ -15,6 +15,7 @@
 
     <LinearLayout
         android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
         android:background="@drawable/top_banner"
         android:layout_width="match_parent"
         android:layout_height="100dp">
