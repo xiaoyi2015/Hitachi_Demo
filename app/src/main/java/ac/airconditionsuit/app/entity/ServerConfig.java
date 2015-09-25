@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
@@ -195,8 +196,6 @@ public class ServerConfig extends RootEntity{
             this.name = name;
         }
     }
-
-
 
 
     public class Section extends RootEntity{
@@ -395,6 +394,9 @@ public class ServerConfig extends RootEntity{
     }
 
     public List<Section> getSections() {
+        if (sections == null) {
+            sections = new ArrayList<>();
+        }
         return sections;
     }
 

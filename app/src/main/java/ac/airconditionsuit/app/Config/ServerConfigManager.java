@@ -10,6 +10,7 @@ import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.UploadConfigResponse;
 import ac.airconditionsuit.app.util.MyBase64Util;
 import ac.airconditionsuit.app.util.PlistUtil;
+import android.graphics.drawable.RotateDrawable;
 import android.util.Log;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
@@ -40,6 +41,16 @@ public class ServerConfigManager {
      * 这个field中以java对象的形式，储存着当前家整个配置文件的内容。其实这个家的内容和root
      */
     private ServerConfig rootJavaObj;
+
+    public List<ServerConfig.Section> getSections() {
+        return rootJavaObj.getSections();
+    }
+
+    public void addSections(ServerConfig.Section section) {
+        List<ServerConfig.Section> sections = rootJavaObj.getSections();
+        sections.add(section);
+        writeToFile();
+    }
 
     private void readFromFile() {
         if (!MyApp.getApp().isUserLogin()) {
@@ -82,7 +93,8 @@ public class ServerConfigManager {
      * 本类中的所有setter方法结束之后都必须调用这个函数！
      */
     public void writeToFile() {
-        FileOutputStream fos = null; try {
+        FileOutputStream fos = null;
+        try {
             File serverConfigFile = MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFile();
             if (serverConfigFile == null) {
                 Log.i(TAG, "can not find device config file");
@@ -98,6 +110,7 @@ public class ServerConfigManager {
             fos.flush();
             fos.close();
             Log.i(TAG, "write server config file error");
+
             //call when write success
             uploadToServer();
         } catch (IOException e) {
@@ -114,7 +127,6 @@ public class ServerConfigManager {
         }
 
     }
-
 
 
     /**
@@ -199,6 +211,7 @@ public class ServerConfigManager {
         } else {
             //当所有的设备配置文件下载下来以后，更新设备配置文件.
             MyApp.getApp().getLocalConfigManager().updataHostDeviceConfigFile(fileNames);
+
             readFromFile();
             commonNetworkListener.onSuccess();
         }
