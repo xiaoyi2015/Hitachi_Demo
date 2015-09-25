@@ -11,6 +11,7 @@ public class Constant {
     public static final String PREFERENCE_KEY_LOCAL_CONFIG = "localConfig";
 
     public static final String INTENT_DATA_KEY_ACTIVITY_FROM = "activity_from" ;
+    public static final String INTENT_DATA_KEY_IS_FIRST = "isFirst" ;
 
     //params key
     public static final String REQUEST_PARAMS_KEY_CUST_CLASS = "cust_class";

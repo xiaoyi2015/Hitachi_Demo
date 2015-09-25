@@ -1,11 +1,16 @@
 package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.util.ACByteQueue;
+import ac.airconditionsuit.app.util.ByteUtil;
 import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
+import ac.airconditionsuit.app.view.TabIndicator;
+import android.app.ProgressDialog;
 import android.util.Log;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.*;
 
 /**
  * Created by ac on 9/18/15.
@@ -22,25 +27,26 @@ public class SocketManager {
     private int currentSocketType = TCP;
 
     interface SocketWrap {
-        void connect();
+        void connect() throws IOException;
 
         void sendMessage(SocketPackage socketPackage);
 
-        void close();
+        void close() throws IOException;
 
-        byte[] readMessage();
+        byte[] readMessage() throws IOException;
 
     }
 
     static class TcpSocket implements SocketWrap {
         private static final String IP = "114.215.83.189";//日立
-        private static final int PORT = 9002;//日立
+        private static final int PORT = 7000;
 
         private Socket socket;
+        private ACByteQueue readQueue = new ACByteQueue();
 
         @Override
-        public void connect() {
-
+        public void connect() throws IOException {
+            socket = new Socket(IP, PORT);
         }
 
         @Override
@@ -58,14 +64,41 @@ public class SocketManager {
         }
 
         @Override
-        public void close() {
-
+        public void close() throws IOException {
+            if (socket != null && !socket.isClosed()) {
+                socket.close();
+            }
         }
 
         @Override
-        public byte[] readMessage() {
+        public byte[] readMessage() throws IOException {
+            byte[] tempForRead = new byte[256];
+            //先读取tcp包头部的六个字节
+            while (readQueue.size() < 6) {
+                int readCount = socket.getInputStream().read(tempForRead, 0, 255);
+                readQueue.offer(tempForRead, 0, readCount);
+            }
+            byte[] header = readQueue.poll(6);
 
-            return new byte[0];
+
+            //读取body
+            int bodyLength = ByteUtil.byteArrayToShort(header, 1);
+            while (readQueue.size() < bodyLength) {
+                int readCount = socket.getInputStream().read(tempForRead, 0, 255);
+                readQueue.offer(tempForRead, 0, readCount);
+            }
+
+            byte[] body = readQueue.poll(bodyLength);
+
+            byte[] result = new byte[6 + bodyLength];
+
+            //copy header to result
+            System.arraycopy(result, 0, header, 0, 6);
+
+            //copy body to result
+            System.arraycopy(result, 6, body, 0, bodyLength);
+
+            return result;
         }
     }
 
@@ -74,17 +107,11 @@ public class SocketManager {
         private static final int PORT = 9002;//日立
         private DatagramSocket datagramSocket;
 
-        UdpSocket() {
-            try {
-                datagramSocket = new DatagramSocket();
-            } catch (SocketException e) {
-                e.printStackTrace();
-            }
-        }
 
         @Override
-        public void connect() {
-
+        public void connect() throws SocketException, UnknownHostException {
+            datagramSocket = new DatagramSocket();
+            datagramSocket.connect(InetAddress.getByName(HOST), PORT);
         }
 
         @Override
@@ -105,17 +132,48 @@ public class SocketManager {
 
         @Override
         public void close() {
-
+            if (datagramSocket != null && !datagramSocket.isClosed()) {
+                datagramSocket.close();
+            }
         }
 
         @Override
-        public byte[] readMessage() {
-
-            return new byte[0];
+        public byte[] readMessage() throws IOException {
+            DatagramPacket datagramPacket = new DatagramPacket(new byte[1024], 1024);
+            datagramSocket.receive(datagramPacket);
+            return Arrays.copyOf(datagramPacket.getData(), datagramPacket.getLength());
         }
     }
 
+    class ReceiveThread extends Thread {
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                try {
+                    byte[] data = socket.readMessage();
+                    //TODO for luzheqi
+                } catch (IOException e) {
+                    Log.e(TAG, "read data from socket failed");
+                    reconnect();
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void reconnect() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                close();
+                init();
+            }
+        }, 3000);
+    }
+
     private SocketWrap socket;
+    private Thread receiveThread;
 
     public void sendMessage(SocketPackage socketPackage) {
         socket.sendMessage(socketPackage);
@@ -125,7 +183,17 @@ public class SocketManager {
      * 在退出登录，被踢下线的时候都要调用本方法。
      */
     public void close() {
-        socket.close();
+        try {
+            socket.close();
+        } catch (IOException e) {
+            Log.e(TAG, "close socket error");
+            reconnect();
+            e.printStackTrace();
+        }
+
+        if (receiveThread != null && !receiveThread.isInterrupted()) {
+            receiveThread.interrupt();
+        }
     }
 
     public void init(int status) {
@@ -142,10 +210,23 @@ public class SocketManager {
             //no_connect
             currentSocketType = UNCONNECT;
 
+            //如果没有联网，就不进行后面的操作了，直接return
             return;
         }
 
-        socket.connect();
+        try {
+            socket.connect();
+        } catch (IOException e) {
+            Log.e(TAG, "establish socket connect failed!");
+            reconnect();
+            e.printStackTrace();
+        }
+
+        //socket链接后开始读取
+        receiveThread = new ReceiveThread();
+        receiveThread.start();
+
+        //登录
         SocketPackage loginPackage = new SocketPackage();
         sendMessage(loginPackage);
     }

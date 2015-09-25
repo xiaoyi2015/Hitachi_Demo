@@ -198,10 +198,8 @@ public class ServerConfigManager {
                     });
         } else {
             //当所有的设备配置文件下载下来以后，更新设备配置文件.
-            //TODO for luzheqi,这里有bug, 明天继续
             MyApp.getApp().getLocalConfigManager().updataHostDeviceConfigFile(fileNames);
             readFromFile();
-            writeToFile();
             commonNetworkListener.onSuccess();
         }
     }
