@@ -10,6 +10,25 @@
         android:layout_height="?android:attr/actionBarSize"
         app:leftIcon="@drawable/back"
         app:rightIcon="@drawable/save">
+
     </ac.airconditionsuit.app.view.CommonTopBar>
 
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/top_banner"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <ac.airconditionsuit.app.view.CommonDeviceView
+            android:id="@+id/device1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/default_top_bar"
+            app:bg_icon="@drawable/drag_air_icon"
+            app:bottom_name="111"
+            app:right_up_text="222"
+            android:background="@drawable/top_banner">
+
+        </ac.airconditionsuit.app.view.CommonDeviceView>
+    </LinearLayout>
 </RelativeLayout>
