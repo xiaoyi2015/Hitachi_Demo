@@ -107,17 +107,16 @@ public class LoginActivity extends BaseActivity {
                 MyApp app = MyApp.getApp();
                 app.setUser(user);
                 app.getLocalConfigManager().updateUser(user);
+                MyApp.getApp().getLocalConfigManager().setCurrentUserPhoneNumber(userName);
+                if (rememberCheckBox.isChecked())
+                    MyApp.getApp().getLocalConfigManager().setCurrentUserRememberedPassword(password);
+                else
+                    MyApp.getApp().getLocalConfigManager().setCurrentUserRememberedPassword("");
                 app.initServerConfigManager(new CommonNetworkListener() {
 
                     @Override
                     public void onSuccess() {
                         dismissWaitProgress();
-
-                        MyApp.getApp().getLocalConfigManager().setCurrentUserPhoneNumber(userName);
-                        if (rememberCheckBox.isChecked())
-                            MyApp.getApp().getLocalConfigManager().setCurrentUserRememberedPassword(password);
-                        else
-                            MyApp.getApp().getLocalConfigManager().setCurrentUserRememberedPassword("");
                         shortStartActivity(MainActivity.class);
                         finish();
                     }

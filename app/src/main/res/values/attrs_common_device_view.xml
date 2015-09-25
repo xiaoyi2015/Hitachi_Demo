@@ -1,0 +1,8 @@
+<resources>
+    <declare-styleable name="CommonDeviceView">
+        <attr name="bg_icon" format="reference" />
+        <attr name="right_up_text" format="string" />
+        <attr name="right_up_icon" format="reference" />
+        <attr name="bottom_name" format="string" />
+    </declare-styleable>
+</resources>

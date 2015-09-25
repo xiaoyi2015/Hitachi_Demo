@@ -71,11 +71,6 @@ public class CommonTopBar extends RelativeLayout {
         titleView.setText(title);
     }
 
-    /**
-     *
-     * @param leftListener 为null时表示无left_button;
-     * @param rightListener 为null时表示无right_button;
-     */
     public void setIconView(OnClickListener leftListener, OnClickListener rightListener){
         if(leftListener == null)
             leftIconView.setVisibility(GONE);
