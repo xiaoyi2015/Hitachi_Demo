@@ -3,16 +3,11 @@
 
     <TextView
             android:id="@+id/label_text"
-            style="@style/text_view_label_black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/setting_home_setting"/>
-
-    <TextView
-            android:id="@+id/value_text"
             style="@style/arrow_right_text_view"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
 </merge>
 

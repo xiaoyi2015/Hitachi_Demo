@@ -4,6 +4,7 @@ import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.Device;
+import ac.airconditionsuit.app.entity.Section;
 import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.HttpClient;
@@ -42,12 +43,12 @@ public class ServerConfigManager {
      */
     private ServerConfig rootJavaObj;
 
-    public List<ServerConfig.Section> getSections() {
+    public List<Section> getSections() {
         return rootJavaObj.getSections();
     }
 
-    public void addSections(ServerConfig.Section section) {
-        List<ServerConfig.Section> sections = rootJavaObj.getSections();
+    public void addSections(Section section) {
+        List<Section> sections = rootJavaObj.getSections();
         sections.add(section);
         writeToFile();
     }

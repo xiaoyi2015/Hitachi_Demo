@@ -27,7 +27,6 @@ public class DragDeviceActivity extends BaseActivity {
 
         }
     };
-    private GridView gridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class DragDeviceActivity extends BaseActivity {
         CommonTopBar commonTopBar = getCommonTopBar();
 
 
-        gridView = (GridView)findViewById(R.id.receiver);
+        GridView gridView = (GridView) findViewById(R.id.receiver);
         DragDeviceAdapter dragDeviceAdapter = new DragDeviceAdapter(this);
         gridView.setAdapter(dragDeviceAdapter);
 

@@ -198,27 +198,6 @@ public class ServerConfig extends RootEntity{
     }
 
 
-    public class Section extends RootEntity{
-        String name;
-        List<Room> pages;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public List<Room> getPages() {
-            return pages;
-        }
-
-        public void setPages(List<Room> pages) {
-            this.pages = pages;
-        }
-    }
-
     public class Home extends RootEntity{
         String name;
         String filename;

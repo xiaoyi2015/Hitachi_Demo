@@ -1,7 +1,6 @@
 <resources>
     <declare-styleable name="CommonButtonWithArrow">
         <attr name="textLabel" format="string"/>
-        <attr name="textValue" format="string"/>
         <attr name="rightArrow" format="boolean"/>
     </declare-styleable>
 </resources>

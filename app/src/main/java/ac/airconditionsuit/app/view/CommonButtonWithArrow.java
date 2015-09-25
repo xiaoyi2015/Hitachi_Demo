@@ -12,7 +12,6 @@ import android.widget.TextView;
  */
 public class CommonButtonWithArrow extends LinearLayout {
     private TextView labelTextView;
-    private TextView valueTextView;
 
     public CommonButtonWithArrow(Context context) {
         super(context);
@@ -36,8 +35,6 @@ public class CommonButtonWithArrow extends LinearLayout {
 
         String textLabel = a.getString(
                 R.styleable.CommonButtonWithArrow_textLabel);
-        String textValue = a.getString(
-                R.styleable.CommonButtonWithArrow_textValue);
         Boolean rightArrow = a.getBoolean(
                 R.styleable.CommonButtonWithArrow_rightArrow,true);
 
@@ -46,23 +43,18 @@ public class CommonButtonWithArrow extends LinearLayout {
         inflate(context, R.layout.custom_common_button_with_arrow, this);
 
         labelTextView = (TextView) findViewById(R.id.label_text);
-        valueTextView = (TextView) findViewById(R.id.value_text);
 
         if(!rightArrow)
         {
-            valueTextView.setCompoundDrawables(null,null,null,null);
+            labelTextView.setCompoundDrawables(null,null,null,null);
         }
 
         labelTextView.setText(textLabel);
-        valueTextView.setText(textValue);
     }
 
     public void setTextLabel(String textLabel){
         labelTextView.setText(textLabel);
     }
 
-    public void setValueText(String valueText){
-        valueTextView.setText(valueText);
-    }
 
 }

@@ -62,7 +62,6 @@
 
         <ac.airconditionsuit.app.view.CommonButtonWithArrow
             android:id="@+id/connect_status"
-            style="@style/white_text_view_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -73,7 +72,6 @@
 
         <ac.airconditionsuit.app.view.CommonButtonWithArrow
             android:id="@+id/setting_home_setting"
-            style="@style/white_text_view_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="1dp"
@@ -82,7 +80,6 @@
 
         <ac.airconditionsuit.app.view.CommonButtonWithArrow
             android:id="@+id/software_page"
-            style="@style/white_text_view_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -101,7 +98,6 @@
 
         <ac.airconditionsuit.app.view.CommonButtonWithArrow
             android:id="@+id/add_device"
-            style="@style/white_text_view_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="1dp"

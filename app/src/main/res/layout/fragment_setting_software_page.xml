@@ -11,11 +11,18 @@
         app:leftIcon="@drawable/back">
     </ac.airconditionsuit.app.view.CommonTopBar>
 
+    <ListView
+        android:id="@+id/group_view"
+        android:layout_below="@+id/default_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
     <TextView
         android:id="@+id/add_group"
         style="@style/white_text_view_layout"
         android:text="@string/add_group"
-        android:layout_below="@+id/default_top_bar"
+        android:layout_below="@+id/group_view"
         android:layout_marginTop="25dp"
         android:gravity="center"
         android:layout_width="match_parent"
