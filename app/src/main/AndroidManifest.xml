@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <!-- TODO 这边我把 android:screenOrientation="portrait" 都去掉了, 因为这句话加在了AppTheme里面。所有Activity默认都是portrait -->
     <application
