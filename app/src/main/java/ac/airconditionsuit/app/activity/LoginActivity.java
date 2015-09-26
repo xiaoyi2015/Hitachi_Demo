@@ -73,7 +73,6 @@ public class LoginActivity extends BaseActivity {
         if (MyApp.getApp().getLocalConfigManager().getCurrentUserConfig() != null) {
             userNameEditText.setText(MyApp.getApp().getLocalConfigManager().getCurrentUserPhoneNumber());
         }
-
     }
 
     private void login() {
