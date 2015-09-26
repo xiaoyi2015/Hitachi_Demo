@@ -3,7 +3,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.DeviceDefault.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:screenOrientation">portrait</item>
     </style>
     <style name="tab_indicator" >
         <item name="android:gravity"> center </item>
