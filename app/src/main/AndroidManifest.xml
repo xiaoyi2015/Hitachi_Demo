@@ -60,6 +60,10 @@
         <activity
                 android:name=".activity.DragDeviceActivity">
         </activity>
+
+        <activity
+            android:name=".activity.AddRoomActivity">
+        </activity>
     </application>
 
 </manifest>

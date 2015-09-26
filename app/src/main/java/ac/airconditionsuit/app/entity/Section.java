@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.entity;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +22,8 @@ public class Section extends RootEntity{
     }
 
     public List<Room> getPages() {
+        if(pages == null)
+            pages = new ArrayList<>();
         return pages;
     }
 

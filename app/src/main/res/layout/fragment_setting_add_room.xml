@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        style="@style/white_text_view_layout"
+        android:gravity="center"
+        android:id="@+id/room_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <GridView
+        android:background="@color/white"
+        android:layout_below="@+id/room_name"
+        android:numColumns="3"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="0dp"
+        android:stretchMode="columnWidth"
+        android:padding="10dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </GridView>
+
+</RelativeLayout>
