@@ -41,7 +41,7 @@ public class BaseActivity extends FragmentActivity {
     private void initWaitProgressBar() {
         waitDialog = new Dialog(this);
         waitDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        waitDialog.setContentView(new ProgressBar(this, null, android.R.attr.progressBarStyleLargeInverse));
+        waitDialog.setContentView(new ProgressBar(this, null, android.R.attr.progressBarStyleInverse));
         waitDialog.setCancelable(false);
         waitDialog.getWindow().setDimAmount(0.5f);
     }

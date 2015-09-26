@@ -6,7 +6,9 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.network.response.CommonResponse;
 
+import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.widget.ImageView;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.loopj.android.http.*;
@@ -186,6 +188,22 @@ public class HttpClient {
     public interface DownloadFileHandler {
         void onFailure(Throwable throwable);
         void onSuccess(File file);
+    }
+
+    public static void loadImage(final String url, final ImageView imageView){
+        new AsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(MyApp.getApp()) {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                Log.e(TAG, "download from " + url + "failed");
+                //TODO for zhulinan 给imageview 设置一张默认的表示下载失败的图片
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, File file) {
+                Log.i(TAG, "download from " + url + "success");
+                imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+            }
+        });
     }
 
     public static void downloadFile(final String url, File file, final DownloadFileHandler handler) {

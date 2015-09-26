@@ -7,6 +7,7 @@ import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.socket.SocketManager;
 import ac.airconditionsuit.app.network.socket.SocketPackage;
 import android.app.Application;
+import android.content.Context;
 import android.widget.Toast;
 
 import java.io.*;

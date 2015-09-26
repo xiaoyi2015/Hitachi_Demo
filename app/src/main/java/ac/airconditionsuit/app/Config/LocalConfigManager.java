@@ -31,7 +31,9 @@ public class LocalConfigManager {
     public LocalConfig getLocalConfig() {
         if (localConfig == null) {
             localConfig = LocalConfig.getInstanceFromJsonString(getSharePreference().getString(Constant.PREFERENCE_KEY_LOCAL_CONFIG, null));
-            localConfig = new LocalConfig();
+            if (localConfig == null) {
+                localConfig = new LocalConfig();
+            }
             saveToDisk();
         }
         return localConfig;
