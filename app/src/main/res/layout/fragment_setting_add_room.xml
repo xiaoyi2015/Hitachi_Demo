@@ -4,11 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        style="@style/white_text_view_layout"
-        android:gravity="center"
+    <EditText
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/login_button"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:id="@+id/room_name"
-        android:layout_width="match_parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <GridView
@@ -18,6 +24,9 @@
         android:verticalSpacing="5dp"
         android:horizontalSpacing="0dp"
         android:stretchMode="columnWidth"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="80dp"
         android:padding="10dp"
         android:gravity="center"
         android:layout_width="match_parent"

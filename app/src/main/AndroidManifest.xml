@@ -62,7 +62,8 @@
         </activity>
 
         <activity
-            android:name=".activity.AddRoomActivity">
+            android:name=".activity.AddRoomActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
     </application>
 

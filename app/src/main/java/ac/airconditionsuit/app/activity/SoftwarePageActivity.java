@@ -1,15 +1,21 @@
 package ac.airconditionsuit.app.activity;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -47,6 +53,7 @@ public class SoftwarePageActivity extends BaseActivity {
                 case R.id.left_icon:
                     finish();
                     break;
+
             }
         }
     };
@@ -88,7 +95,58 @@ public class SoftwarePageActivity extends BaseActivity {
                 public void onClick(View v) {
                     super.onClick(v);
                     String section = list.get(position).toJsonString();
-                    shortStartActivity(DragDeviceActivity.class,"section",section);
+                    shortStartActivity(DragDeviceActivity.class, "section", section);
+                }
+            });
+
+            convertView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    LayoutInflater inflater = LayoutInflater.from(SoftwarePageActivity.this);
+                    v = inflater.inflate(R.layout.pop_up_window, null);
+                    final PopupWindow pop = new PopupWindow(v, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+                    pop.setBackgroundDrawable(new BitmapDrawable());
+                    pop.setOutsideTouchable(true);
+                    RelativeLayout view = (RelativeLayout)findViewById(R.id.software_page_layout);
+                    pop.showAtLocation(view, Gravity.BOTTOM,0,0);
+
+                    Button cancel = (Button)v.findViewById(R.id.cancel);
+                    Button delete = (Button)v.findViewById(R.id.delete_section);
+                    Button change_name = (Button)v.findViewById(R.id.change_name);
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            pop.dismiss();
+                        }
+                    });
+                    delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MyApp.getApp().getServerConfigManager().deleteSection(position);
+                            notifyDataSetChanged();
+                            pop.dismiss();
+                        }
+                    });
+                    change_name.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final EditText et = new EditText(SoftwarePageActivity.this);
+                            new AlertDialog.Builder(SoftwarePageActivity.this).setTitle(R.string.pls_input_group_name).setView(et).
+                                    setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String group_new_name = et.getText().toString();
+                                            MyApp.getApp().getServerConfigManager().getSections().get(position).setName(group_new_name);
+                                            MyApp.getApp().getServerConfigManager().writeToFile();
+                                            notifyDataSetChanged();
+                                        }
+                                    }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+                            pop.dismiss();
+                        }
+                    });
+
+                    return true;
+
                 }
             });
 

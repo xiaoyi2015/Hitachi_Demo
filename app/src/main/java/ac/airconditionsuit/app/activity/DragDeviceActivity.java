@@ -1,18 +1,14 @@
 package ac.airconditionsuit.app.activity;
 
-import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +17,6 @@ import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
-import ac.airconditionsuit.app.adapter.DragDeviceAdapter;
 import ac.airconditionsuit.app.entity.Room;
 import ac.airconditionsuit.app.entity.Section;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
@@ -85,7 +80,6 @@ public class DragDeviceActivity extends BaseActivity {
         }
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_setting_drag_device);
@@ -93,12 +87,8 @@ public class DragDeviceActivity extends BaseActivity {
         CommonTopBar commonTopBar = getCommonTopBar();
         Intent intent = getIntent();
         String section = intent.getStringExtra("section");
-        Section room_info = Section.getSectionFromJsonString(section);
+        final Section room_info = Section.getSectionFromJsonString(section);
         commonTopBar.setTitle(room_info.getName());
-
-        GridView gridView = (GridView) findViewById(R.id.receiver);
-        DragDeviceAdapter dragDeviceAdapter = new DragDeviceAdapter(this,room_info.getPages());
-        gridView.setAdapter(dragDeviceAdapter);
 
         final CommonDeviceView drag_view = (CommonDeviceView) findViewById(R.id.device1);
         drag_view.setOnLongClickListener(new View.OnLongClickListener() {
@@ -135,7 +125,10 @@ public class DragDeviceActivity extends BaseActivity {
                     case DragEvent.ACTION_DRAG_EXITED:
                         return true;
                     case DragEvent.ACTION_DROP:
-                        shortStartActivityForResult(AddRoomActivity.class,REQUEST_CODE_ADD_ROOM);
+                        Room room = new Room();
+                        room.setName("111");
+                        MyApp.getApp().getServerConfigManager().addRoom(room_info, room);
+                        shortStartActivityForResult(AddRoomActivity.class, REQUEST_CODE_ADD_ROOM);
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:
                         System.out.println(event.getResult());
@@ -145,6 +138,10 @@ public class DragDeviceActivity extends BaseActivity {
                 }
             }
         });
+
+        GridView gridView = (GridView) findViewById(R.id.receiver);
+        DragDeviceAdapter dragDeviceAdapter = new DragDeviceAdapter(this,room_info.getPages());
+        gridView.setAdapter(dragDeviceAdapter);
 
     }
     /**
