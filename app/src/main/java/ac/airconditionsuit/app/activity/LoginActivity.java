@@ -109,10 +109,9 @@ public class LoginActivity extends BaseActivity {
 
                 app.getLocalConfigManager().setCurrentUserPhoneNumber(userName);
                 if (rememberCheckBox.isChecked())
-                else {
                     app.getLocalConfigManager().setCurrentUserRememberedPassword(password);
+                else
                     app.getLocalConfigManager().setCurrentUserRememberedPassword("");
-                }
 
                 app.initServerConfigManager(new CommonNetworkListener() {
 
