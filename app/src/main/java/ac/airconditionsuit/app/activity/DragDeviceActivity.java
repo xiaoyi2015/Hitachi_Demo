@@ -110,7 +110,6 @@ public class DragDeviceActivity extends BaseActivity {
                                                  return false;
                                              }
                                          }
-
         );
 
         findViewById(R.id.receiver).setOnDragListener(new View.OnDragListener() {

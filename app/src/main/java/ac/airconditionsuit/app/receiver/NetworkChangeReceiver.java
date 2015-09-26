@@ -1,4 +1,4 @@
-package ac.airconditionsuit.app.Recerver;
+package ac.airconditionsuit.app.receiver;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.network.socket.SocketManager;
