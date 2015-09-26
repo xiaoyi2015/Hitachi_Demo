@@ -12,5 +12,7 @@ public class AddRoomActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_setting_add_room);
         super.onCreate(savedInstanceState);
+        //TODO
+
     }
 }

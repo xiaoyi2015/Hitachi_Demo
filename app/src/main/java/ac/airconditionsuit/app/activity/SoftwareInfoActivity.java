@@ -20,6 +20,8 @@ public class SoftwareInfoActivity extends BaseActivity {
                 case R.id.left_icon:
                     finish();
                     break;
+
+
             }
         }
     };

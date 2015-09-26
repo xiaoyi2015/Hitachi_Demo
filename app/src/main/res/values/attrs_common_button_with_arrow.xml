@@ -2,5 +2,6 @@
     <declare-styleable name="CommonButtonWithArrow">
         <attr name="textLabel" format="string"/>
         <attr name="rightArrow" format="boolean"/>
+        <attr name="onlineLabel" format="string"/>
     </declare-styleable>
 </resources>

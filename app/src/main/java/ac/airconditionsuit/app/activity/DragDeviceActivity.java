@@ -128,6 +128,7 @@ public class DragDeviceActivity extends BaseActivity {
                         Room room = new Room();
                         room.setName("111");
                         MyApp.getApp().getServerConfigManager().addRoom(room_info, room);
+                        //TODO
                         shortStartActivityForResult(AddRoomActivity.class, REQUEST_CODE_ADD_ROOM);
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:

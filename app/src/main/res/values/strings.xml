@@ -90,4 +90,6 @@
     <string name="cancel">取消</string>
     <string name="change_name">修改名称</string>
     <string name="delete">删除</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
 </resources>
