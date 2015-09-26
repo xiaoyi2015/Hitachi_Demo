@@ -87,6 +87,7 @@ public class DragDeviceActivity extends BaseActivity {
         CommonTopBar commonTopBar = getCommonTopBar();
         Intent intent = getIntent();
         String section = intent.getStringExtra("section");
+        final int index = Integer.parseInt(intent.getStringExtra("position"));
         final Section room_info = Section.getSectionFromJsonString(section);
         commonTopBar.setTitle(room_info.getName());
 
@@ -127,7 +128,7 @@ public class DragDeviceActivity extends BaseActivity {
                     case DragEvent.ACTION_DROP:
                         Room room = new Room();
                         room.setName("111");
-                        MyApp.getApp().getServerConfigManager().addRoom(room_info, room);
+                        MyApp.getApp().getServerConfigManager().addRoom(index, room);
                         //TODO
                         shortStartActivityForResult(AddRoomActivity.class, REQUEST_CODE_ADD_ROOM);
                         return true;

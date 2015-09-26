@@ -60,8 +60,9 @@ public class ServerConfigManager {
         writeToFile();
     }
 
-    public void addRoom(Section section,Room room){
-        section.getPages().add(room);
+    public void addRoom(int position,Room room){
+        List<Section> sections = rootJavaObj.getSections();
+        sections.get(position).getPages().add(room);
         writeToFile();
     }
 

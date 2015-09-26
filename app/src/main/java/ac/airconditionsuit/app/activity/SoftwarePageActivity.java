@@ -95,7 +95,7 @@ public class SoftwarePageActivity extends BaseActivity {
                 public void onClick(View v) {
                     super.onClick(v);
                     String section = list.get(position).toJsonString();
-                    shortStartActivity(DragDeviceActivity.class, "section", section);
+                    shortStartActivity(DragDeviceActivity.class, "section", section,"position",String.valueOf(position));
                 }
             });
 
