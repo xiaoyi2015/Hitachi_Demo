@@ -37,6 +37,7 @@ public class DragDeviceActivity extends BaseActivity {
 
         }
     };
+    private DragDeviceAdapter dragDeviceAdapter;
 
     private class DragDeviceAdapter extends BaseAdapter {
         private Context context;
@@ -77,6 +78,11 @@ public class DragDeviceActivity extends BaseActivity {
             imageView1.setImageResource(R.drawable.drag_setting_cancel);
 
             return convertView;
+        }
+
+        public void addRoom(Room room) {
+            rooms.add(room);
+            notifyDataSetChanged();
         }
     }
 
@@ -128,7 +134,7 @@ public class DragDeviceActivity extends BaseActivity {
                         Room room = new Room();
                         room.setName("111");
                         MyApp.getApp().getServerConfigManager().addRoom(index, room);
-                        //TODO
+                        dragDeviceAdapter.addRoom(room);
                         shortStartActivityForResult(AddRoomActivity.class, REQUEST_CODE_ADD_ROOM);
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:
@@ -141,7 +147,7 @@ public class DragDeviceActivity extends BaseActivity {
         });
 
         GridView gridView = (GridView) findViewById(R.id.receiver);
-        DragDeviceAdapter dragDeviceAdapter = new DragDeviceAdapter(this,room_info.getPages());
+        dragDeviceAdapter = new DragDeviceAdapter(this,room_info.getPages());
         gridView.setAdapter(dragDeviceAdapter);
 
     }
