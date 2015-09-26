@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.entity;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 /**
@@ -24,5 +26,12 @@ public class Section extends RootEntity{
 
     public void setPages(List<Room> pages) {
         this.pages = pages;
+    }
+
+    public static Section getSectionFromJsonString(String section) {
+        if (section == null) {
+            return null;
+        }
+        return new Gson().fromJson(section, Section.class);
     }
 }
