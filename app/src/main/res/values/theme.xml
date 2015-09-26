@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="arrow_right_text_view">
-        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:gravity">right|center_vertical</item>
         <item name="android:drawableRight">@drawable/icon_arrow_right</item>
-        <item name="android:drawablePadding">20dp</item>
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:paddingRight">8dp</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
+        <item name="android:drawablePadding">10dp</item>
         <item name="android:background">@android:color/white</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/text_color_black</item>
+        <item name="android:textColor">@color/text_color_gray</item>
     </style>
 
     <style name="white_text_view_layout">

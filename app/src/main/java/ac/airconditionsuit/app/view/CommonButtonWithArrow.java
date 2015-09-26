@@ -12,6 +12,7 @@ import android.widget.TextView;
  */
 public class CommonButtonWithArrow extends LinearLayout {
     private TextView labelTextView;
+    private TextView onlineTextView;
 
     public CommonButtonWithArrow(Context context) {
         super(context);
@@ -42,19 +43,19 @@ public class CommonButtonWithArrow extends LinearLayout {
 
         inflate(context, R.layout.custom_common_button_with_arrow, this);
 
-        labelTextView = (TextView) findViewById(R.id.label_text);
+
+        labelTextView = (TextView)findViewById(R.id.label_text);
+        onlineTextView = (TextView)findViewById(R.id.online_text);
 
         if(!rightArrow)
         {
-            labelTextView.setCompoundDrawables(null,null,null,null);
+            onlineTextView.setCompoundDrawables(null,null,null,null);
         }
-
         labelTextView.setText(textLabel);
     }
 
-    public void setTextLabel(String textLabel){
-        labelTextView.setText(textLabel);
+    public void setOnlineTextView(String string){
+        onlineTextView.setText(string);
     }
-
 
 }

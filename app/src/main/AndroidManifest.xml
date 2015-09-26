@@ -60,6 +60,11 @@
         <activity
                 android:name=".activity.DragDeviceActivity">
         </activity>
+
+        <activity
+            android:name=".activity.AddRoomActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+        </activity>
     </application>
 
 </manifest>

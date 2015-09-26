@@ -88,4 +88,8 @@
     <string name="pls_input_group_name">请输入群组名称</string>
     <string name="make_sure">确定</string>
     <string name="cancel">取消</string>
+    <string name="change_name">修改名称</string>
+    <string name="delete">删除</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
 </resources>
