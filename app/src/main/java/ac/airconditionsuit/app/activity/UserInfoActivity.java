@@ -1,9 +1,15 @@
 package ac.airconditionsuit.app.activity;
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
@@ -36,6 +42,56 @@ public class UserInfoActivity extends BaseActivity {
                     shortStartActivityForResult(ChangeUserNameActivity.class,REQUEST_CODE_USER_NAME,"title",getString(R.string.nick_name));
                     break;
                 case R.id.gender:
+                    LayoutInflater inflater = LayoutInflater.from(UserInfoActivity.this);
+                    View v1 = inflater.inflate(R.layout.gender_pop_up_window, null);
+                    final PopupWindow pop = new PopupWindow(v1, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+                    pop.setBackgroundDrawable(new BitmapDrawable());
+                    pop.setOutsideTouchable(true);
+                    RelativeLayout view = (RelativeLayout)findViewById(R.id.user_info_page);
+                    pop.showAtLocation(view,Gravity.BOTTOM,0,0);
+
+                    TextView male = (TextView)v1.findViewById(R.id.male);
+                    final TextView female = (TextView)v1.findViewById(R.id.female);
+                    TextView cancel = (TextView)v1.findViewById(R.id.cancel);
+                    male.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            pop.dismiss();
+                        }
+                    });
+
+                    female.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final RequestParams requestParams = new RequestParams();
+                            requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
+                            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF);
+                            requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_SEX);
+                            requestParams.put(Constant.REQUEST_PARAMS_VALUE, R.string.female);
+
+                            HttpClient.post(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
+                                @Override
+                                public void onSuccess(String response) {
+
+                                }
+
+                                @Override
+                                public void onFailure(Throwable throwable) {
+                                    MyApp.getApp().showToast(R.string.change_user_sex_failure);
+                                }
+                            });
+                            pop.dismiss();
+                        }
+                    });
+
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            pop.dismiss();
+                        }
+                    });
+
                     break;
                 case R.id.change_birth:
                     break;

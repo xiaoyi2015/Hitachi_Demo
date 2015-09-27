@@ -35,7 +35,7 @@ public class ChangeUserNameActivity extends BaseActivity{
                     final RequestParams requestParams = new RequestParams();
                     requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
                     requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF);
-                    requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_USER_NAME);
+                    requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_CUST_NAME);
                     requestParams.put(Constant.REQUEST_PARAMS_VALUE, user_name);
 
                     HttpClient.post(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {

@@ -111,7 +111,7 @@ public class HttpClient {
 
             @Override
             protected CommonResponse parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
-//                Log.i(TAG, "response rawJsonData:\n" + rawJsonData);
+                Log.i(TAG, "response rawJsonData:\n" + rawJsonData);
                 return new Gson().fromJson(rawJsonData, CommonResponse.class);
             }
         });
