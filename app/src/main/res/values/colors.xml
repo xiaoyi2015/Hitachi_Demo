@@ -5,4 +5,5 @@
     <color name="tab_indicator_text_normal">#ddd</color>
     <color name="text_color_gray">#c5c5c5</color>
     <color name="text_color_black">#000000</color>
+    <color name="text_color_transparent_gray">#e0c5c5c5</color>
 </resources>

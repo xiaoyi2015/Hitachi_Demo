@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:gravity="center"
+    android:gravity="bottom"
+    android:background="@color/text_color_transparent_gray"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,21 +10,47 @@
         android:id="@+id/male"
         android:text="@string/male"
         android:gravity="center"
-        android:layout_width="100dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        style="@style/white_text_view_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <ImageView
+        android:background="@color/text_color_transparent_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
 
     <TextView
         android:id="@+id/female"
         android:text="@string/female"
+        style="@style/white_text_view_layout"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:gravity="center"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <ImageView
+        android:background="@color/text_color_transparent_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
 
     <TextView
         android:id="@+id/cancel"
         android:text="@string/cancel"
+        style="@style/white_text_view_layout"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginBottom="40dp"
         android:gravity="center"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

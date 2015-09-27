@@ -44,7 +44,7 @@ public class UserInfoActivity extends BaseActivity {
                 case R.id.gender:
                     LayoutInflater inflater = LayoutInflater.from(UserInfoActivity.this);
                     View v1 = inflater.inflate(R.layout.gender_pop_up_window, null);
-                    final PopupWindow pop = new PopupWindow(v1, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+                    final PopupWindow pop = new PopupWindow(v1, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
                     pop.setBackgroundDrawable(new BitmapDrawable());
                     pop.setOutsideTouchable(true);
                     RelativeLayout view = (RelativeLayout)findViewById(R.id.user_info_page);
@@ -56,7 +56,28 @@ public class UserInfoActivity extends BaseActivity {
                     male.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            gender.setOnlineTextView(getString(R.string.male));
+                            final RequestParams requestParams = new RequestParams();
+                            requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
+                            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF);
+                            requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_SEX);
+                            requestParams.put(Constant.REQUEST_PARAMS_VALUE, R.string.male);
 
+                            HttpClient.post(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
+                                @Override
+                                public void onSuccess(String response) {
+                                    MyApp.getApp().getUser().setSex(1);
+                                }
+
+                                @Override
+                                public void onFailure(Throwable throwable) {
+                                    if(MyApp.getApp().getUser().getSex() == 1)
+                                        gender.setOnlineTextView(getString(R.string.male));
+                                    else
+                                        gender.setOnlineTextView(getString(R.string.female));
+                                    MyApp.getApp().showToast(R.string.change_user_sex_failure);
+                                }
+                            });
                             pop.dismiss();
                         }
                     });
@@ -64,6 +85,7 @@ public class UserInfoActivity extends BaseActivity {
                     female.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            gender.setOnlineTextView(getString(R.string.female));
                             final RequestParams requestParams = new RequestParams();
                             requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
                             requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF);
@@ -73,11 +95,15 @@ public class UserInfoActivity extends BaseActivity {
                             HttpClient.post(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
                                 @Override
                                 public void onSuccess(String response) {
-
+                                    MyApp.getApp().getUser().setSex(2);
                                 }
 
                                 @Override
                                 public void onFailure(Throwable throwable) {
+                                    if(MyApp.getApp().getUser().getSex() == 1)
+                                        gender.setOnlineTextView(getString(R.string.male));
+                                    else
+                                        gender.setOnlineTextView(getString(R.string.female));
                                     MyApp.getApp().showToast(R.string.change_user_sex_failure);
                                 }
                             });
@@ -91,7 +117,6 @@ public class UserInfoActivity extends BaseActivity {
                             pop.dismiss();
                         }
                     });
-
                     break;
                 case R.id.change_birth:
                     break;
@@ -141,7 +166,7 @@ public class UserInfoActivity extends BaseActivity {
         CommonButtonWithArrow clause = (CommonButtonWithArrow)findViewById(R.id.common_agree_clause);
         CommonButtonWithArrow exit = (CommonButtonWithArrow)findViewById(R.id.quit_account);
 
-        HttpClient.loadImage(MyApp.getApp().getUser().getAvatar_big(),userIcon);
+        HttpClient.loadImage(MyApp.getApp().getUser().getAvatar_big(), userIcon);
         nickName.setOnlineTextView(MyApp.getApp().getUser().getCust_name());
         if(MyApp.getApp().getUser().getSex() == 1)
             gender.setOnlineTextView(getString(R.string.male));

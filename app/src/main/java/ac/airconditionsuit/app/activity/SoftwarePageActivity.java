@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -105,15 +106,15 @@ public class SoftwarePageActivity extends BaseActivity {
                 public boolean onLongClick(View v) {
                     LayoutInflater inflater = LayoutInflater.from(SoftwarePageActivity.this);
                     v = inflater.inflate(R.layout.section_pop_up_window, null);
-                    final PopupWindow pop = new PopupWindow(v, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+                    final PopupWindow pop = new PopupWindow(v, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
                     pop.setBackgroundDrawable(new BitmapDrawable());
                     pop.setOutsideTouchable(true);
                     RelativeLayout view = (RelativeLayout)findViewById(R.id.software_page_layout);
                     pop.showAtLocation(view, Gravity.BOTTOM,0,0);
 
-                    Button cancel = (Button)v.findViewById(R.id.cancel);
-                    Button delete = (Button)v.findViewById(R.id.delete_section);
-                    Button change_name = (Button)v.findViewById(R.id.change_name);
+                    TextView cancel = (TextView)v.findViewById(R.id.cancel);
+                    TextView delete = (TextView)v.findViewById(R.id.delete_section);
+                    TextView change_name = (TextView)v.findViewById(R.id.change_name);
                     cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

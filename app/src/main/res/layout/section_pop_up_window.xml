@@ -1,30 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:gravity="center"
-    style="@style/white_text_view_layout"
+    android:gravity="bottom"
+    android:background="@color/text_color_transparent_gray"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <TextView
         android:id="@+id/change_name"
+        style="@style/white_text_view_layout"
         android:text="@string/change_name"
         android:gravity="center"
-        android:layout_width="100dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <Button
+    <ImageView
+        android:background="@color/text_color_transparent_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <TextView
         android:id="@+id/delete_section"
+        style="@style/white_text_view_layout"
         android:text="@string/delete"
         android:gravity="center"
-        android:layout_width="100dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <Button
+    <ImageView
+        android:background="@color/text_color_transparent_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <TextView
         android:id="@+id/cancel"
+        style="@style/white_text_view_layout"
         android:text="@string/cancel"
         android:gravity="center"
-        android:layout_width="100dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginBottom="40dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 </LinearLayout>
