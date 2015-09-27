@@ -191,6 +191,10 @@ public class HttpClient {
     }
 
     public static void loadImage(final String url, final ImageView imageView){
+        if(url == null || imageView == null){
+            Log.e(TAG,"load image fail");
+            return;
+        }
         new AsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(MyApp.getApp()) {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {

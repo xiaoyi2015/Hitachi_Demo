@@ -150,7 +150,8 @@ public class DragDeviceActivity extends BaseActivity {
             commonDeviceView.setBackgroundResource(R.drawable.drag_setting_room_bar);
             commonDeviceView.setBgIcon(R.drawable.drag_air_icon);
             commonDeviceView.setBottomName(devices.get(i).getName());
-            commonDeviceView.setRightUpText(String .valueOf(devices.get(i).getIndoorindex()));
+            commonDeviceView.setRightUpText(String .valueOf(devices.get(i).getIndoorindex())
+                    + "-" + String .valueOf(devices.get(i).getIndoorindex())+String.valueOf(devices.get(i).getIndooraddress()));
             bottomBar.addView(commonDeviceView);
             commonDeviceView.setOnLongClickListener(new View.OnLongClickListener() {
                                                  @Override
