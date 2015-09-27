@@ -79,9 +79,14 @@
                 android:screenOrientation="portrait"
                 >
         </activity>
+        <activity
+            android:name=".activity.ChangeUserNameActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
 
         <activity
-                android:name=".activity.AddRoomActivity"
+                android:name=".activity.ChangeRoomNameActivity"
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>

@@ -52,10 +52,18 @@ public class ServerConfigManager {
         sections.add(section);
         writeToFile();
     }
-
     public void deleteSection(int position){
         List<Section> sections = rootJavaObj.getSections();
         sections.remove(position);
+        writeToFile();
+    }
+    public List<ServerConfig.Device> getDevices(){
+        return rootJavaObj.getDevices();
+    }
+
+    public void deleteRoom(int position,int index){
+        List<Section> sections = rootJavaObj.getSections();
+        sections.get(position).getPages().remove(index);
         writeToFile();
     }
 
@@ -65,6 +73,16 @@ public class ServerConfigManager {
         writeToFile();
     }
 
+    public void renameRoom(int position,int index,String string){
+        List<Section> sections = rootJavaObj.getSections();
+        sections.get(position).getPages().get(index).setName(string);
+        writeToFile();
+    }
+
+    public void submitRoomChanges(int index,List<Room> rooms){
+        rootJavaObj.getSections().get(index).setPages(rooms);
+        writeToFile();
+    }
 
     private void readFromFile() {
         if (!MyApp.getApp().isUserLogin()) {

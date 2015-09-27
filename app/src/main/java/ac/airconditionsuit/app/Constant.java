@@ -64,4 +64,6 @@ public class Constant {
     public static final String NO = "no";
     public static final String X_DC = "x" + CONFIG_FILE_SUFFIX;
 
+    public static final String REQUEST_PARAMS_FIELD = "field";
+    public static final String REQUEST_PARAMS_VALUE = "value";
 }

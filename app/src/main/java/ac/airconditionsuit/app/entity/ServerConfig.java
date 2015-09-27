@@ -392,6 +392,9 @@ public class ServerConfig extends RootEntity{
     }
 
     public List<Device> getDevices() {
+        if(devices == null){
+            devices = new ArrayList<>();
+        }
         return devices;
     }
 
