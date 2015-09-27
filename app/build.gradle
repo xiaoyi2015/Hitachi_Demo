@@ -35,7 +35,7 @@ android {
 
     //ADD THESE LINES:
     packagingOptions {
-        exclude 'LICENSE.txt'
+        exclude 'zln_time'
     }
 }
 
@@ -58,5 +58,8 @@ dependencies {
 
     androidTestCompile 'com.android.support.test:runner:0.4'
     androidTestCompile 'com.android.support.test:rules:0.4'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+    // Set this dependency to build and run UI Automator tests
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
 }

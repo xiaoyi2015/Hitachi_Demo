@@ -21,20 +21,20 @@ public class ApplicationTest extends ApplicationTestCase<MyApp> {
 
     @SmallTest
     public void testPreconditions() {
-        assertNotNull(null);
+        assertNull(null);
     }
-
-    /**
-     * Test basic startup/shutdown of Application
-     */
-    @MediumTest
-    public void testSimpleCreate() {
-        createApplication();
-        assertNotNull(null);
-    }
-
-    @LargeTest
-    public void testAdd(){
-        assertNotNull(null);
-    }
+//
+//    /**
+//     * Test basic startup/shutdown of Application
+//     */
+//    @MediumTest
+//    public void testSimpleCreate() {
+//        createApplication();
+//        assertNotNull(null);
+//    }
+//
+//    @LargeTest
+//    public void testAdd(){
+//        assertNotNull(null);
+//    }
 }

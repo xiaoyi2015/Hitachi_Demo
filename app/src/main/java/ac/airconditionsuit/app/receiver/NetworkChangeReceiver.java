@@ -18,6 +18,9 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, final Intent intent) {
         SocketManager socketManager = MyApp.getApp().getSocketManager();
+        if (socketManager == null) {
+            return;
+        }
         int status = NetworkConnectionStatusUtil.getConnectivityStatus(context);
         String logInf;
         if (status == NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT) {
