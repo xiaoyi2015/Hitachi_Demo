@@ -59,7 +59,19 @@ public class CommonDeviceView extends RelativeLayout {
         rightUpText.setBackgroundDrawable(right_up_text_bg);
         rightUpText.setText(right_up_text);
 
+    }
 
+    public void setBgIcon(int drawable){
+        bgIcon.setImageResource(drawable);
+    }
+
+    public void setBottomName(String string){
+        bottomName.setText(string);
+    }
+
+    public void setRightUpText(String string){
+        rightUpText.setText(string);
+        rightUpText.setBackgroundResource(R.drawable.drag_air_name_bar);
     }
 
 }

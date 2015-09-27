@@ -32,20 +32,10 @@
         android:id="@+id/bottom_bar"
         android:layout_alignParentBottom="true"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:background="@drawable/top_banner"
         android:layout_width="match_parent"
         android:layout_height="100dp">
 
-        <ac.airconditionsuit.app.view.CommonDeviceView
-            android:id="@+id/device1"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:bg_icon="@drawable/drag_air_icon"
-            app:bottom_name="111"
-            app:right_up_text="222"
-            app:right_up_text_bg="@drawable/drag_air_name_bar"
-            android:background="@drawable/top_banner">
-
-        </ac.airconditionsuit.app.view.CommonDeviceView>
     </LinearLayout>
 </RelativeLayout>

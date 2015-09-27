@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -21,8 +22,10 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.Room;
 import ac.airconditionsuit.app.entity.Section;
+import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.util.VibratorUtil;
+import ac.airconditionsuit.app.view.CommonButtonWithArrow;
 import ac.airconditionsuit.app.view.CommonDeviceView;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
@@ -133,27 +136,35 @@ public class DragDeviceActivity extends BaseActivity {
         final Section room_info = Section.getSectionFromJsonString(section);
         commonTopBar.setTitle(room_info.getName());
 
-        final CommonDeviceView drag_view = (CommonDeviceView) findViewById(R.id.device1);
-        drag_view.setOnLongClickListener(new View.OnLongClickListener() {
-                                             @Override
-                                             public boolean onLongClick(View v) {
-                                                 VibratorUtil.vibrate(DragDeviceActivity.this, 100);
-                                                 ClipData.Item item = new ClipData.Item("123");
-                                                 ClipData dragData = new ClipData((CharSequence) v.getTag(),
-                                                         new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN}, item);
-                                                 // Instantiates the drag shadow builder.
-                                                 View.DragShadowBuilder myShadow = new View.DragShadowBuilder(drag_view);
+        LinearLayout bottomBar = (LinearLayout)findViewById(R.id.bottom_bar);
+        List<ServerConfig.Device> devices = MyApp.getApp().getServerConfigManager().getDevices();
+        for (int i = 0; i<devices.size(); i++) {
+            final CommonDeviceView commonDeviceView = new CommonDeviceView(DragDeviceActivity.this);
+            commonDeviceView.setBackgroundResource(R.drawable.drag_setting_room_bar);
+            commonDeviceView.setBgIcon(R.drawable.drag_air_icon);
+            commonDeviceView.setBottomName(devices.get(i).getName());
+            commonDeviceView.setRightUpText(String .valueOf(devices.get(i).getIndoorindex()));
+            bottomBar.addView(commonDeviceView);
+            commonDeviceView.setOnLongClickListener(new View.OnLongClickListener() {
+                                                 @Override
+                                                 public boolean onLongClick(View v) {
+                                                     VibratorUtil.vibrate(DragDeviceActivity.this, 100);
+                                                     ClipData.Item item = new ClipData.Item("123");
+                                                     ClipData dragData = new ClipData((CharSequence) v.getTag(),
+                                                             new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN}, item);
+                                                     // Instantiates the drag shadow builder.
+                                                     View.DragShadowBuilder myShadow = new View.DragShadowBuilder(commonDeviceView);
 
-                                                 v.startDrag(dragData,  // the data to be dragged
-                                                         myShadow,  // the drag shadow builder
-                                                         null,      // no need to use local data
-                                                         0          // flags (not currently used, set to 0)
-                                                 );
-                                                 return false;
+                                                     v.startDrag(dragData,  // the data to be dragged
+                                                             myShadow,  // the drag shadow builder
+                                                             null,      // no need to use local data
+                                                             0          // flags (not currently used, set to 0)
+                                                     );
+                                                     return false;
+                                                 }
                                              }
-                                         }
-        );
-
+            );
+        }
         findViewById(R.id.receiver).setOnDragListener(new View.OnDragListener() {
             @Override
             public boolean onDrag(View v, DragEvent event) {

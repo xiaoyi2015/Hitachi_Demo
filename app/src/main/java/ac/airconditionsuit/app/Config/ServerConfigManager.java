@@ -54,6 +54,10 @@ public class ServerConfigManager {
         writeToFile();
     }
 
+    public List<ServerConfig.Device> getDevices(){
+        return rootJavaObj.getDevices();
+    }
+
     public void deleteSection(int position){
         List<Section> sections = rootJavaObj.getSections();
         sections.remove(position);
