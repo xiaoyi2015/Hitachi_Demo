@@ -12,6 +12,7 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
+import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
@@ -28,17 +29,20 @@ public class ChangeUserNameActivity extends BaseActivity{
                     finish();
                     break;
                 case R.id.right_icon:
+                    final String user_name = CheckUtil.checkLength(changeUserName,10,R.string.pls_input_nickname,R.string.nickname_length_toolong);
+                    if(user_name == null)
+                        return;
                     final RequestParams requestParams = new RequestParams();
                     requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
                     requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF);
-                    requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_USER_NAME);
-                    requestParams.put(Constant.REQUEST_PARAMS_VALUE, changeUserName.getText());
+                    requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_CUST_NAME);
+                    requestParams.put(Constant.REQUEST_PARAMS_VALUE, user_name);
 
                     HttpClient.post(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
                         @Override
                         public void onSuccess(String response) {
                             Intent intent = new Intent();
-                            intent.putExtra("userName", changeUserName.getText().toString());
+                            intent.putExtra("userName", user_name);
                             setResult(RESULT_OK, intent);
                             finish();
                         }

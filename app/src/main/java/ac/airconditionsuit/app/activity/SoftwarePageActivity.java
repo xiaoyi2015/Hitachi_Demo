@@ -38,6 +38,7 @@ public class SoftwarePageActivity extends BaseActivity {
             switch (v.getId()){
                 case R.id.add_group:
                     final EditText et = new EditText(SoftwarePageActivity.this);
+                    et.setBackgroundResource(R.color.white);
                     new AlertDialog.Builder(SoftwarePageActivity.this).setTitle(R.string.pls_input_group_name).setView(et).
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                         @Override
@@ -103,7 +104,7 @@ public class SoftwarePageActivity extends BaseActivity {
                 @Override
                 public boolean onLongClick(View v) {
                     LayoutInflater inflater = LayoutInflater.from(SoftwarePageActivity.this);
-                    v = inflater.inflate(R.layout.pop_up_window, null);
+                    v = inflater.inflate(R.layout.section_pop_up_window, null);
                     final PopupWindow pop = new PopupWindow(v, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
                     pop.setBackgroundDrawable(new BitmapDrawable());
                     pop.setOutsideTouchable(true);
