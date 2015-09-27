@@ -1,6 +1,5 @@
 package ac.airconditionsuit.app.activity;
 
-import ac.airconditionsuit.app.Config.LocalConfigManager;
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
@@ -17,7 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 

@@ -4,8 +4,6 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.util.ACByteQueue;
 import ac.airconditionsuit.app.util.ByteUtil;
 import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
-import ac.airconditionsuit.app.view.TabIndicator;
-import android.app.ProgressDialog;
 import android.util.Log;
 
 import java.io.IOException;

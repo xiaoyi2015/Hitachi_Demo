@@ -12,7 +12,6 @@ import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.UploadConfigResponse;
 import ac.airconditionsuit.app.util.MyBase64Util;
 import ac.airconditionsuit.app.util.PlistUtil;
-import android.graphics.drawable.RotateDrawable;
 import android.util.Log;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
@@ -65,6 +64,7 @@ public class ServerConfigManager {
         sections.get(position).getPages().add(room);
         writeToFile();
     }
+
 
     private void readFromFile() {
         if (!MyApp.getApp().isUserLogin()) {
@@ -230,4 +230,5 @@ public class ServerConfigManager {
             commonNetworkListener.onSuccess();
         }
     }
+
 }
