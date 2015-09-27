@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * Created by ac on 9/20/15.
+ * plist util for convert to json or javaObject to plist
  */
 public class PlistUtil {
 
@@ -30,6 +31,7 @@ public class PlistUtil {
     }
 
 
+    @SuppressWarnings("unchecked")
     public static void JavaObjectToNSDictionary(Object object, NSDictionary nsDictionary) {
         Field[] fields = object.getClass().getDeclaredFields();
         try {
@@ -39,7 +41,7 @@ public class PlistUtil {
                 if (fieldValue == null) {
                     nsDictionary.put(field.getName(), null);
                 } else if (fieldValue instanceof List) {
-                    nsDictionary.put(field.getName(), JavaListToNSArray((List<Object>) fieldValue));
+                    nsDictionary.put(field.getName(), JavaListToNSArray((List)fieldValue));
                 } else if (fieldValue instanceof RootEntity) {
                     nsDictionary.put(field.getName(), JavaObjectToNSDictionary(fieldValue));
                 } else {

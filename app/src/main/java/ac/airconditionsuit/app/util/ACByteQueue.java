@@ -1,7 +1,5 @@
 package ac.airconditionsuit.app.util;
 
-import android.graphics.Color;
-
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 

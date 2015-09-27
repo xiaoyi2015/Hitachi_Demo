@@ -1,9 +1,6 @@
 package ac.airconditionsuit.app.util;
 
-import android.app.Activity;
-import android.content.Context;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
