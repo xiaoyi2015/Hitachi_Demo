@@ -1,8 +1,10 @@
 package ac.airconditionsuit.app.activity;
 
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.DragEvent;
@@ -29,7 +31,7 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  */
 public class DragDeviceActivity extends BaseActivity {
 
-    private static final int REQUEST_CODE_ADD_ROOM = 100;
+    private static final int REQUEST_CODE_CHANGE_NAME = 100;
     private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
         public void onClick(View v) {
@@ -38,6 +40,7 @@ public class DragDeviceActivity extends BaseActivity {
         }
     };
     private DragDeviceAdapter dragDeviceAdapter;
+    private int index;
 
     private class DragDeviceAdapter extends BaseAdapter {
         private Context context;
@@ -64,7 +67,7 @@ public class DragDeviceActivity extends BaseActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if(convertView == null) {
                 convertView = new CommonDeviceView(context);
 
@@ -77,11 +80,44 @@ public class DragDeviceActivity extends BaseActivity {
             imageView.setImageResource(R.drawable.drag_setting_room_bar);
             imageView1.setImageResource(R.drawable.drag_setting_cancel);
 
+            imageView1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(DragDeviceActivity.this).setMessage(R.string.is_delete_room).
+                            setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dragDeviceAdapter.deleteRoom(position);
+                                    MyApp.getApp().getServerConfigManager().getSections().get(index).getPages().remove(position);
+                                    MyApp.getApp().getServerConfigManager().writeToFile();
+
+                                }
+                            }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+                }
+            });
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    shortStartActivityForResult(ChangeRoomNameActivity.class,REQUEST_CODE_CHANGE_NAME,"index",String.valueOf(position));
+                }
+            });
+
             return convertView;
+        }
+
+        private void deleteRoom(int position) {
+            rooms.remove(position);
+            notifyDataSetChanged();
         }
 
         public void addRoom(Room room) {
             rooms.add(room);
+            notifyDataSetChanged();
+        }
+
+        public void changeName(String name,int room_index) {
+            rooms.get(room_index).setName(name);
             notifyDataSetChanged();
         }
     }
@@ -93,7 +129,7 @@ public class DragDeviceActivity extends BaseActivity {
         CommonTopBar commonTopBar = getCommonTopBar();
         Intent intent = getIntent();
         String section = intent.getStringExtra("section");
-        final int index = Integer.parseInt(intent.getStringExtra("position"));
+        index = Integer.parseInt(intent.getStringExtra("position"));
         final Section room_info = Section.getSectionFromJsonString(section);
         commonTopBar.setTitle(room_info.getName());
 
@@ -132,10 +168,9 @@ public class DragDeviceActivity extends BaseActivity {
                         return true;
                     case DragEvent.ACTION_DROP:
                         Room room = new Room();
-                        room.setName("111");
+                        room.setName(getString(R.string.new_room));
                         MyApp.getApp().getServerConfigManager().addRoom(index, room);
                         dragDeviceAdapter.addRoom(room);
-                        shortStartActivityForResult(AddRoomActivity.class, REQUEST_CODE_ADD_ROOM);
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:
                         System.out.println(event.getResult());
@@ -151,15 +186,19 @@ public class DragDeviceActivity extends BaseActivity {
         gridView.setAdapter(dragDeviceAdapter);
 
     }
-    /**
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK)
             switch (requestCode) {
-                case REQUEST_CODE_ADD_ROOM:
+                case REQUEST_CODE_CHANGE_NAME:
+                    String room_name = data.getStringExtra("name");
+                    int room_index = Integer.parseInt(data.getStringExtra("room_index"));
+                    dragDeviceAdapter.changeName(room_name,room_index);
+                    MyApp.getApp().getServerConfigManager().getSections().get(index).getPages().get(room_index).setName(room_name);
+                    MyApp.getApp().getServerConfigManager().writeToFile();
                     break;
-
             }
         super.onActivityResult(requestCode, resultCode, data);
-    }**/
+    }
 }

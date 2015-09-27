@@ -92,4 +92,6 @@
     <string name="delete">删除</string>
     <string name="male">男</string>
     <string name="female">女</string>
+    <string name="new_room">新建房间</string>
+    <string name="is_delete_room">\n 确定要删除该房间吗？</string>
 </resources>

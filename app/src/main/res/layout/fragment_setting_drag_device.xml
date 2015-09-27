@@ -40,7 +40,6 @@
             android:id="@+id/device1"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_below="@id/default_top_bar"
             app:bg_icon="@drawable/drag_air_icon"
             app:bottom_name="111"
             app:right_up_text="222"
