@@ -107,5 +107,38 @@ public class CheckUtil {
         return emailStr;
     }
 
+    private static final boolean isChinese(char c) {
+        Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+        if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+                || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
+                || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
+            return true;
+        }
+        return false;
+    }
+
+    public static String checkLength(EditText nameText, int length, int emptyInf, int tooLongInf) {
+        String name = nameText.getText().toString();
+        if (name.length() == 0) {
+            MyApp.getApp().showToast(emptyInf);
+            return null;
+        }
+        int charCount = 0;
+        for (char c : name.toCharArray()) {
+            if (isChinese(c)) {
+                charCount += 2;
+            } else {
+                charCount++;
+            }
+        }
+        if (charCount > length) {
+            MyApp.getApp().showToast(tooLongInf);
+            return null;
+        }
+        return name;
+    }
 
 }
