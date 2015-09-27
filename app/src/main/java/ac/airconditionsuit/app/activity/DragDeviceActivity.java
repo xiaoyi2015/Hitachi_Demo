@@ -25,7 +25,6 @@ import ac.airconditionsuit.app.entity.Section;
 import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.util.VibratorUtil;
-import ac.airconditionsuit.app.view.CommonButtonWithArrow;
 import ac.airconditionsuit.app.view.CommonDeviceView;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
@@ -39,6 +38,15 @@ public class DragDeviceActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             super.onClick(v);
+            switch (v.getId()){
+                case R.id.left_icon:
+                    finish();
+                    break;
+                case R.id.right_icon:
+                    MyApp.getApp().getServerConfigManager().submitRoomChanges(index,dragDeviceAdapter.rooms);
+                    finish();
+                    break;
+            }
 
         }
     };
@@ -91,9 +99,7 @@ public class DragDeviceActivity extends BaseActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dragDeviceAdapter.deleteRoom(position);
-                                    MyApp.getApp().getServerConfigManager().getSections().get(index).getPages().remove(position);
-                                    MyApp.getApp().getServerConfigManager().writeToFile();
-
+                                    //MyApp.getApp().getServerConfigManager().deleteRoom(index,position);
                                 }
                             }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
                 }
@@ -130,6 +136,7 @@ public class DragDeviceActivity extends BaseActivity {
         setContentView(R.layout.fragment_setting_drag_device);
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
+        commonTopBar.setIconView(myOnClickListener,myOnClickListener);
         Intent intent = getIntent();
         String section = intent.getStringExtra("section");
         index = Integer.parseInt(intent.getStringExtra("position"));
@@ -180,7 +187,7 @@ public class DragDeviceActivity extends BaseActivity {
                     case DragEvent.ACTION_DROP:
                         Room room = new Room();
                         room.setName(getString(R.string.new_room));
-                        MyApp.getApp().getServerConfigManager().addRoom(index, room);
+                        //MyApp.getApp().getServerConfigManager().addRoom(index, room);
                         dragDeviceAdapter.addRoom(room);
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:
@@ -205,9 +212,8 @@ public class DragDeviceActivity extends BaseActivity {
                 case REQUEST_CODE_CHANGE_NAME:
                     String room_name = data.getStringExtra("name");
                     int room_index = Integer.parseInt(data.getStringExtra("room_index"));
-                    dragDeviceAdapter.changeName(room_name,room_index);
-                    MyApp.getApp().getServerConfigManager().getSections().get(index).getPages().get(room_index).setName(room_name);
-                    MyApp.getApp().getServerConfigManager().writeToFile();
+                    dragDeviceAdapter.changeName(room_name, room_index);
+                    //MyApp.getApp().getServerConfigManager().renameRoom(index,room_index,room_name);
                     break;
             }
         super.onActivityResult(requestCode, resultCode, data);
