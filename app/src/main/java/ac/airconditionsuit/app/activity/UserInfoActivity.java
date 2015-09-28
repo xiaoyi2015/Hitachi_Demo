@@ -19,11 +19,8 @@ import com.loopj.android.http.RequestParams;
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
-import ac.airconditionsuit.app.entity.MyUser;
-import ac.airconditionsuit.app.entity.Section;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
-import ac.airconditionsuit.app.network.response.LoginResponseData;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
@@ -31,7 +28,7 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  * Created by Administrator on 2015/9/18.
  */
 public class UserInfoActivity extends BaseActivity {
-    public static final int MAN = 1;
+    public static final int MALE = 1;
     public static final int FEMALE = 2;
     private static final int REQUEST_CODE_USER_NAME = 101;
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
@@ -55,7 +52,7 @@ public class UserInfoActivity extends BaseActivity {
                     pop.showAtLocation(view,Gravity.BOTTOM,0,0);
 
                     TextView male = (TextView)v1.findViewById(R.id.male);
-                    final TextView female = (TextView)v1.findViewById(R.id.female);
+                    TextView female = (TextView)v1.findViewById(R.id.female);
                     TextView cancel = (TextView)v1.findViewById(R.id.cancel);
                     male.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -64,13 +61,14 @@ public class UserInfoActivity extends BaseActivity {
                             requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
                             requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF);
                             requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_SEX);
-                            requestParams.put(Constant.REQUEST_PARAMS_VALUE, MAN);
+                            requestParams.put(Constant.REQUEST_PARAMS_VALUE, MALE);
 
                             HttpClient.post(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
                                 @Override
                                 public void onSuccess(String response) {
                                     gender.setOnlineTextView(getString(R.string.male));
-                                    MyApp.getApp().getUser().setSex(MAN);
+                                    MyApp.getApp().getUser().setSex(MALE);
+                                    MyApp.getApp().getLocalConfigManager().updateUser(MyApp.getApp().getUser());
                                 }
 
                                 @Override
@@ -96,6 +94,7 @@ public class UserInfoActivity extends BaseActivity {
                                 public void onSuccess(String response) {
                                     gender.setOnlineTextView(getString(R.string.female));
                                     MyApp.getApp().getUser().setSex(FEMALE);
+                                    MyApp.getApp().getLocalConfigManager().updateUser(MyApp.getApp().getUser());
                                 }
 
                                 @Override
@@ -202,6 +201,7 @@ public class UserInfoActivity extends BaseActivity {
                     String user_name = data.getStringExtra("userName");
                     nickName.setOnlineTextView(user_name);
                     MyApp.getApp().getUser().setCust_name(user_name);
+                    MyApp.getApp().getLocalConfigManager().updateUser(MyApp.getApp().getUser());
                     break;
 
             }
