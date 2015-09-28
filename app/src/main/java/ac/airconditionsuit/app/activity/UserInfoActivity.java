@@ -130,7 +130,10 @@ public class UserInfoActivity extends BaseActivity {
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    shortStartActivity(LoginActivity.class);
+                                    Intent intent = new Intent();
+                                    intent.setClass(UserInfoActivity.this,LoginActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
                                     finish();
                                 }
                             }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
