@@ -1,6 +1,8 @@
 package ac.airconditionsuit.app.activity;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.MyUser;
+import ac.airconditionsuit.app.entity.Section;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.LoginResponseData;
@@ -28,7 +31,8 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  * Created by Administrator on 2015/9/18.
  */
 public class UserInfoActivity extends BaseActivity {
-
+    public static final int MAN = 1;
+    public static final int FEMALE = 2;
     private static final int REQUEST_CODE_USER_NAME = 101;
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
@@ -56,25 +60,21 @@ public class UserInfoActivity extends BaseActivity {
                     male.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            gender.setOnlineTextView(getString(R.string.male));
                             final RequestParams requestParams = new RequestParams();
                             requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
                             requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF);
                             requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_SEX);
-                            requestParams.put(Constant.REQUEST_PARAMS_VALUE, R.string.male);
+                            requestParams.put(Constant.REQUEST_PARAMS_VALUE, MAN);
 
                             HttpClient.post(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
                                 @Override
                                 public void onSuccess(String response) {
-                                    MyApp.getApp().getUser().setSex(1);
+                                    gender.setOnlineTextView(getString(R.string.male));
+                                    MyApp.getApp().getUser().setSex(MAN);
                                 }
 
                                 @Override
                                 public void onFailure(Throwable throwable) {
-                                    if(MyApp.getApp().getUser().getSex() == 1)
-                                        gender.setOnlineTextView(getString(R.string.male));
-                                    else
-                                        gender.setOnlineTextView(getString(R.string.female));
                                     MyApp.getApp().showToast(R.string.change_user_sex_failure);
                                 }
                             });
@@ -85,25 +85,21 @@ public class UserInfoActivity extends BaseActivity {
                     female.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            gender.setOnlineTextView(getString(R.string.female));
                             final RequestParams requestParams = new RequestParams();
                             requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
                             requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF);
                             requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_SEX);
-                            requestParams.put(Constant.REQUEST_PARAMS_VALUE, R.string.female);
+                            requestParams.put(Constant.REQUEST_PARAMS_VALUE, FEMALE);
 
                             HttpClient.post(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
                                 @Override
                                 public void onSuccess(String response) {
-                                    MyApp.getApp().getUser().setSex(2);
+                                    gender.setOnlineTextView(getString(R.string.female));
+                                    MyApp.getApp().getUser().setSex(FEMALE);
                                 }
 
                                 @Override
                                 public void onFailure(Throwable throwable) {
-                                    if(MyApp.getApp().getUser().getSex() == 1)
-                                        gender.setOnlineTextView(getString(R.string.male));
-                                    else
-                                        gender.setOnlineTextView(getString(R.string.female));
                                     MyApp.getApp().showToast(R.string.change_user_sex_failure);
                                 }
                             });
@@ -131,6 +127,15 @@ public class UserInfoActivity extends BaseActivity {
                 case R.id.common_agree_clause:
                     break;
                 case R.id.quit_account:
+                    new AlertDialog.Builder(UserInfoActivity.this).setMessage(R.string.is_quit_account).
+                            setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    shortStartActivity(LoginActivity.class);
+                                    finish();
+                                }
+                            }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+
                     break;
                 case R.id.network_icon:
                     break;

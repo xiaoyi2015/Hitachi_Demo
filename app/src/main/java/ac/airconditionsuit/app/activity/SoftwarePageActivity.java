@@ -39,7 +39,6 @@ public class SoftwarePageActivity extends BaseActivity {
             switch (v.getId()){
                 case R.id.add_group:
                     final EditText et = new EditText(SoftwarePageActivity.this);
-                    et.setBackgroundResource(R.color.white);
                     new AlertDialog.Builder(SoftwarePageActivity.this).setTitle(R.string.pls_input_group_name).setView(et).
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                         @Override
