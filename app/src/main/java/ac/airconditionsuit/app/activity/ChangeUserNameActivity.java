@@ -29,7 +29,7 @@ public class ChangeUserNameActivity extends BaseActivity{
                     finish();
                     break;
                 case R.id.right_icon:
-                    final String user_name = CheckUtil.checkLength(changeUserName,10,R.string.pls_input_nickname,R.string.nickname_length_toolong);
+                    final String user_name = CheckUtil.checkLength(changeUserName,10,R.string.pls_input_nickname,R.string.nickname_length_too_long);
                     if(user_name == null)
                         return;
                     final RequestParams requestParams = new RequestParams();

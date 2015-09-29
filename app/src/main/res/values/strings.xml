@@ -26,7 +26,7 @@
     <string name="change_phone">修改注册手机</string>
     <string name="change_password">修改登录密码</string>
     <string name="change_email">修改电子邮箱</string>
-    <string name="common_agree_clause">使用条款和隐私策略</string>
+    <string name="common_agree_clause">使用条款和隐私政策</string>
     <string name="quit_account">退出账号</string>
     <string name="home">家</string>
     <string name="connect_status">连接状态</string>
@@ -64,7 +64,7 @@
     <string name="register_password_info">密码区分大小写，长度为6至12位</string>
     <string name="register_new_user">注册新用户</string>
     <string name="find_password">找回密码</string>
-    <string name="pls_read_clause">请先阅读并同意使用条款和隐私策略</string>
+    <string name="pls_read_clause">请先阅读并同意使用条款和隐私政策</string>
     <string name="pls_input_phone">请输入手机号</string>
     <string name="pls_input_right_phone">请输入正确的手机号</string>
     <string name="mobile_number_is_changed">手机号码已改变，请重新获取验证码</string>
@@ -96,7 +96,7 @@
     <string name="is_delete_room">\n 确定要删除该房间吗？\n</string>
     <string name="change_user_name_failure">修改昵称失败</string>
     <string name="pls_input_nickname">请输入昵称</string>
-    <string name="nickname_length_toolong">输入昵称过长，不能超过10个字符</string>
+    <string name="nickname_length_too_long">输入昵称过长，不能超过10个字符</string>
     <string name="change_user_sex_failure">修改性别失败</string>
     <string name="is_quit_account">\n 确定要退出账号吗？\n</string>
     <string name="change_user_birthday_failure">修改生日失败</string>

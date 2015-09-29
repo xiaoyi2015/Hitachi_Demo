@@ -176,6 +176,7 @@ public class UserInfoActivity extends BaseActivity {
                 case R.id.change_password:
                     break;
                 case R.id.common_agree_clause:
+                    shortStartActivity(AgreementActivity.class);
                     break;
                 case R.id.quit_account:
                     new AlertDialog.Builder(UserInfoActivity.this).setMessage(R.string.is_quit_account).
