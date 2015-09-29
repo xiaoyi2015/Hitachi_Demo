@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.activity;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,12 +10,17 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
+
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
@@ -114,6 +120,52 @@ public class UserInfoActivity extends BaseActivity {
                     });
                     break;
                 case R.id.change_birth:
+
+                    String[] birthday = MyApp.getApp().getUser().getBirthday().split("-");
+                    int year, month, day;
+                    if (birthday.length != 3) {
+                        year = 1991;
+                        month = 0;
+                        day = 1;
+                    } else {
+                        try {
+                            year = Integer.valueOf(birthday[0]);
+                            month = Integer.valueOf(birthday[1]) - 1;
+                            day = Integer.valueOf(birthday[2]);
+                        } catch (Exception e) {
+                            year = 1991;
+                            month = 0;
+                            day = 1;
+                            e.printStackTrace();
+                        }
+                    }
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(UserInfoActivity.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                            final String changedBirth = year + "-" + (monthOfYear+1) + "-" + dayOfMonth;
+                            final RequestParams requestParams = new RequestParams();
+                            requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
+                            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF);
+                            requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_BIRTHDAY);
+                            requestParams.put(Constant.REQUEST_PARAMS_VALUE, changedBirth);
+
+                            HttpClient.post(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
+                                @Override
+                                public void onSuccess(String response) {
+                                    birth.setOnlineTextView(changedBirth);
+                                    MyApp.getApp().getUser().setBirthday(changedBirth);
+                                    MyApp.getApp().getLocalConfigManager().updateUser(MyApp.getApp().getUser());
+                                }
+
+                                @Override
+                                public void onFailure(Throwable throwable) {
+                                    MyApp.getApp().showToast(R.string.change_user_birthday_failure);
+                                }
+                            });
+
+                        }
+                    },year,month,day );
+                    datePickerDialog.show();
                     break;
                 case R.id.change_phone:
                     break;

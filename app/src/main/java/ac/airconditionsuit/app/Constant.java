@@ -28,6 +28,7 @@ public class Constant {
     public static final String REQUEST_PARAMS_KEY_PASSWORD = "password";
     public static final String REQUEST_PARAMS_KEY_USER_NAME = "user_name";
     public static final String REQUEST_PARAMS_KEY_SEX = "sex";
+    public static final String REQUEST_PARAMS_KEY_BIRTHDAY = "birthday";
     public static final String REQUEST_PARAMS_KEY_VALIDATE_CODE = "phone_validate_code";
     public static final String REQUEST_PARAMS_KEY_LANGUAGE = "language";
     public static final String REQUEST_PARAMS_KEY_METHOD = "method";

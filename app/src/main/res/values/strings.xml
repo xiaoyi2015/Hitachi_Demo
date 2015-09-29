@@ -99,4 +99,5 @@
     <string name="nickname_length_toolong">输入昵称过长，不能超过10个字符</string>
     <string name="change_user_sex_failure">修改性别失败</string>
     <string name="is_quit_account">\n 确定要退出账号吗？\n</string>
+    <string name="change_user_birthday_failure">修改生日失败</string>
 </resources>
