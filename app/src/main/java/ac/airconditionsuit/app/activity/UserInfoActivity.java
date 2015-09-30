@@ -34,6 +34,8 @@ public class UserInfoActivity extends BaseActivity {
     public static final int FEMALE = 2;
     private static final int REQUEST_CODE_USER_NAME = 101;
     private static final int REQUEST_CODE_EMAIL = 102;
+    private static final int REQUEST_CODE_PHONE = 103;
+    private static final int REQUEST_CODE_PASSWORD = 104;
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
         public void onClick(View v) {
@@ -165,6 +167,7 @@ public class UserInfoActivity extends BaseActivity {
                     datePickerDialog.show();
                     break;
                 case R.id.change_phone:
+                    shortStartActivityForResult(ChangePhoneActivity.class,REQUEST_CODE_PHONE);
                     break;
                 case R.id.change_email:
                     shortStartActivityForResult(ChangeUserNameActivity.class,REQUEST_CODE_EMAIL,"title",getString(R.string.change_email));
@@ -173,6 +176,7 @@ public class UserInfoActivity extends BaseActivity {
                     shortStartActivity(AddHomeActivity.class);
                     break;
                 case R.id.change_password:
+                    shortStartActivityForResult(ChangePasswordActivity.class,REQUEST_CODE_PASSWORD);
                     break;
                 case R.id.common_agree_clause:
                     shortStartActivity(AgreementActivity.class);
@@ -192,6 +196,7 @@ public class UserInfoActivity extends BaseActivity {
 
                     break;
                 case R.id.network_icon:
+                    //TODO for zln
                     break;
             }
         }

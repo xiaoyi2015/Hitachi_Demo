@@ -102,4 +102,7 @@
     <string name="change_user_birthday_failure">修改生日失败</string>
     <string name="change_email_failure">修改电子邮箱失败</string>
     <string name="add_home_text">给家取个名字</string>
+    <string name="old_password">旧密码</string>
+    <string name="make_sure_new_psd">确认新的登录密码</string>
+    <string name="set_new_psd">设置新的登录密码</string>
 </resources>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ac.airconditionsuit.app.view.CommonTopBar
+        android:id="@id/default_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:rightIcon="@drawable/save"
+        app:leftIcon="@drawable/back"/>
+
+    <EditText
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/default_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        style="@style/white_text_view_layout"
+        android:hint="@string/old_password"
+        android:inputType="textPassword"
+        android:id="@+id/old_password_text"/>
+
+    <LinearLayout
+        android:id="@+id/phone_number"
+        android:layout_below="@+id/old_password_text"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        style="@style/white_text_view_layout"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/changed_phone_number_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:inputType="phone"
+            android:hint="@string/register_phone_number_hint" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/change_phone_get_verify_code"
+            android:layout_weight="0"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="@string/get_verify_code"
+            android:background="@color/text_color_gray"
+            />
+
+    </LinearLayout>
+
+    <EditText
+        android:layout_marginTop="1dp"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/phone_number"
+        android:layout_height="48dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        style="@style/white_text_view_layout"
+        android:hint="@string/register_verification_code_hint"
+        android:inputType="number"
+        android:id="@+id/input_verification_code"/>
+
+</RelativeLayout>

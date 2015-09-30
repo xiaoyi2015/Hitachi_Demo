@@ -92,6 +92,18 @@
         </activity>
 
         <activity
+            android:name=".activity.ChangePhoneActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+
+        <activity
+            android:name=".activity.ChangePasswordActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+
+        <activity
             android:name=".activity.AddHomeActivity"
             android:screenOrientation="portrait"
             >

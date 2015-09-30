@@ -70,8 +70,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="@string/get_verify_code"
-            android:background="@color/text_color_gray"
-            android:inputType="number"/>
+            android:background="@color/text_color_gray" />
 
     </LinearLayout>
 
