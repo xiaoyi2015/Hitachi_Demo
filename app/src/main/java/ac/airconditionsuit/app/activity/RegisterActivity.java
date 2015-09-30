@@ -73,7 +73,7 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.login_register);
+        setContentView(R.layout.activity_register);
         super.onCreate(savedInstanceState);
         isRegister = getIntent().getStringExtra(Constant.IS_REGISTER).equals(Constant.YES);
         CommonTopBar commonTopBar = getCommonTopBar();

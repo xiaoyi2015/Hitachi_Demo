@@ -18,10 +18,6 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
@@ -51,7 +47,7 @@ public class UserInfoActivity extends BaseActivity {
                     break;
                 case R.id.gender:
                     LayoutInflater inflater = LayoutInflater.from(UserInfoActivity.this);
-                    View v1 = inflater.inflate(R.layout.gender_pop_up_window, null);
+                    View v1 = inflater.inflate(R.layout.pop_up_window_gender, null);
                     final PopupWindow pop = new PopupWindow(v1, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
                     pop.setBackgroundDrawable(new BitmapDrawable());
                     pop.setOutsideTouchable(true);
@@ -174,6 +170,7 @@ public class UserInfoActivity extends BaseActivity {
                     shortStartActivityForResult(ChangeUserNameActivity.class,REQUEST_CODE_EMAIL,"title",getString(R.string.change_email));
                     break;
                 case R.id.home_list:
+                    shortStartActivity(AddHomeActivity.class);
                     break;
                 case R.id.change_password:
                     break;

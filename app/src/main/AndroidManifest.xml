@@ -92,6 +92,12 @@
         </activity>
 
         <activity
+            android:name=".activity.AddHomeActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+
+        <activity
                 android:name=".activity.ChangeRoomNameActivity"
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="adjustPan|stateHidden">

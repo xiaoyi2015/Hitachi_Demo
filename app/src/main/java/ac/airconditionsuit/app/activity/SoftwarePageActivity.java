@@ -11,9 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -104,7 +102,7 @@ public class SoftwarePageActivity extends BaseActivity {
                 @Override
                 public boolean onLongClick(View v) {
                     LayoutInflater inflater = LayoutInflater.from(SoftwarePageActivity.this);
-                    v = inflater.inflate(R.layout.section_pop_up_window, null);
+                    v = inflater.inflate(R.layout.pop_up_window_section, null);
                     final PopupWindow pop = new PopupWindow(v, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
                     pop.setBackgroundDrawable(new BitmapDrawable());
                     pop.setOutsideTouchable(true);

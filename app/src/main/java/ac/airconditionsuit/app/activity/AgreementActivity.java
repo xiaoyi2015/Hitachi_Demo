@@ -26,7 +26,7 @@ public class AgreementActivity extends BaseActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_aggrement);
+        setContentView(R.layout.fragment_setting_agreement);
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.common_agree_clause));
