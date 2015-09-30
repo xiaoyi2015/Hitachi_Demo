@@ -29,44 +29,80 @@ public class ChangeUserNameActivity extends BaseActivity{
                     finish();
                     break;
                 case R.id.right_icon:
-                    final String user_name = CheckUtil.checkLength(changeUserName,10,R.string.pls_input_nickname,R.string.nickname_length_too_long);
-                    if(user_name == null)
-                        return;
-                    final RequestParams requestParams = new RequestParams();
-                    requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
-                    requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF);
-                    requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_CUST_NAME);
-                    requestParams.put(Constant.REQUEST_PARAMS_VALUE, user_name);
+                    if(title.equals(getString(R.string.nick_name))) {
+                        final String user_name = CheckUtil.checkLength(changeUserName, 10, R.string.pls_input_nickname, R.string.nickname_length_too_long);
+                        if (user_name == null)
+                            return;
+                        final RequestParams requestParams = new RequestParams();
+                        requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
+                        requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF);
+                        requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_CUST_NAME);
+                        requestParams.put(Constant.REQUEST_PARAMS_VALUE, user_name);
 
-                    HttpClient.post(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
-                        @Override
-                        public void onSuccess(String response) {
-                            Intent intent = new Intent();
-                            intent.putExtra("userName", user_name);
-                            setResult(RESULT_OK, intent);
-                            finish();
-                        }
+                        HttpClient.post(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
+                            @Override
+                            public void onSuccess(String response) {
+                                Intent intent = new Intent();
+                                intent.putExtra("userName", user_name);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
 
-                        @Override
-                        public void onFailure(Throwable throwable) {
-                            MyApp.getApp().showToast(R.string.change_user_name_failure);
-                        }
-                    });
+                            @Override
+                            public void onFailure(Throwable throwable) {
+                                MyApp.getApp().showToast(R.string.change_user_name_failure);
+                            }
+                        });
+                    }else{
+                        final String email = CheckUtil.checkEmail(changeUserName);
+                        if (email == null)
+                            return;
+                        final RequestParams requestParams = new RequestParams();
+                        requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
+                        requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF);
+                        requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_EMAIL);
+                        requestParams.put(Constant.REQUEST_PARAMS_VALUE, email);
+
+                        HttpClient.post(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
+                            @Override
+                            public void onSuccess(String response) {
+                                Intent intent = new Intent();
+                                intent.putExtra("email", email);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailure(Throwable throwable) {
+                                MyApp.getApp().showToast(R.string.change_email_failure);
+                            }
+                        });
+                    }
+
                     break;
             }
         }
     };
     private EditText changeUserName;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_setting_change_user_name);
         super.onCreate(savedInstanceState);
+        title = getIntent().getStringExtra("title");
         CommonTopBar commonTopBar = getCommonTopBar();
-        commonTopBar.setTitle(getIntent().getStringExtra("title"));
+        commonTopBar.setTitle(title);
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
         changeUserName = (EditText)findViewById(R.id.edit_user_name);
-        changeUserName.setText(MyApp.getApp().getUser().getCust_name());
-        changeUserName.setSelection(MyApp.getApp().getUser().getCust_name().length());
+
+        String textLabel;
+        if(title.equals(getString(R.string.nick_name))) {
+            textLabel = MyApp.getApp().getUser().getCust_name();
+        } else{
+            textLabel = MyApp.getApp().getUser().getEmail();
+        }
+        changeUserName.setText(textLabel);
+        changeUserName.setSelection(textLabel.length());
     }
 }

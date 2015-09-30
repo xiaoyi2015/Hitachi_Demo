@@ -37,6 +37,7 @@ public class UserInfoActivity extends BaseActivity {
     public static final int MALE = 1;
     public static final int FEMALE = 2;
     private static final int REQUEST_CODE_USER_NAME = 101;
+    private static final int REQUEST_CODE_EMAIL = 102;
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
         public void onClick(View v) {
@@ -170,6 +171,7 @@ public class UserInfoActivity extends BaseActivity {
                 case R.id.change_phone:
                     break;
                 case R.id.change_email:
+                    shortStartActivityForResult(ChangeUserNameActivity.class,REQUEST_CODE_EMAIL,"title",getString(R.string.change_email));
                     break;
                 case R.id.home_list:
                     break;
@@ -257,6 +259,12 @@ public class UserInfoActivity extends BaseActivity {
                     String user_name = data.getStringExtra("userName");
                     nickName.setOnlineTextView(user_name);
                     MyApp.getApp().getUser().setCust_name(user_name);
+                    MyApp.getApp().getLocalConfigManager().updateUser(MyApp.getApp().getUser());
+                    break;
+                case REQUEST_CODE_EMAIL:
+                    String email_text = data.getStringExtra("email");
+                    email.setOnlineTextView(email_text);
+                    MyApp.getApp().getUser().setEmail(email_text);
                     MyApp.getApp().getLocalConfigManager().updateUser(MyApp.getApp().getUser());
                     break;
 
