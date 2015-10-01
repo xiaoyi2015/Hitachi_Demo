@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.activity;
 
 import ac.airconditionsuit.app.Constant;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import ac.airconditionsuit.app.R;
@@ -41,7 +42,7 @@ public class BaseActivity extends FragmentActivity {
     private void initWaitProgressBar() {
         waitDialog = new Dialog(this);
         waitDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        waitDialog.setContentView(new ProgressBar(this, null, android.R.attr.progressBarStyleInverse));
+        waitDialog.setContentView(new ProgressBar(this, null, android.R.attr.progressBarStyleLargeInverse));
         waitDialog.setCancelable(false);
         waitDialog.getWindow().setDimAmount(0.5f);
     }

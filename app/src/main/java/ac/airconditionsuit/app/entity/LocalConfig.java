@@ -63,6 +63,19 @@ public class LocalConfig extends RootEntity {
         user.updateHostDeviceConfigFiles(fileNames);
     }
 
+    public void setCurrentPassword(String password) {
+        getCurrentUserForLocalConfig().setPassword(password);
+    }
+
+    public String getCurrentPassword() {
+        UserForLocalConfig currentUserForLocalConfig = getCurrentUserForLocalConfig();
+        if (currentUserForLocalConfig == null) {
+            return null;
+        } else {
+            return currentUserForLocalConfig.getPassword();
+        }
+    }
+
     public void rememberCurrentUserPassword(String password){
         getCurrentUserForLocalConfig().setRememberedPassword(password);
     }

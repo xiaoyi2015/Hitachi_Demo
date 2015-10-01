@@ -102,6 +102,15 @@ public class LocalConfigManager {
         return getLocalConfig().getCurrentUserRememberedPassword();
     }
 
+    public void setCurrentPassword(String password) {
+        getLocalConfig().setCurrentPassword(password);
+        saveToDisk();
+    }
+
+    public String getCurrentPassword() {
+        return getLocalConfig().getCurrentPassword();
+    }
+
     public void setCurrentUserPhoneNumber(String phoneNumber){
         getLocalConfig().setCurrentUserPhoneNumber(phoneNumber);
     }

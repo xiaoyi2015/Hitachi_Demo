@@ -187,7 +187,7 @@ public class UserInfoActivity extends BaseActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent intent = new Intent();
                                     intent.setClass(UserInfoActivity.this,LoginActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
                                     finish();
                                 }
@@ -206,7 +206,6 @@ public class UserInfoActivity extends BaseActivity {
     private CommonButtonWithArrow phone;
     private CommonButtonWithArrow email;
     private CommonButtonWithArrow addHome;
-    private CommonButtonWithArrow password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,7 +224,7 @@ public class UserInfoActivity extends BaseActivity {
         phone = (CommonButtonWithArrow)findViewById(R.id.change_phone);
         email = (CommonButtonWithArrow)findViewById(R.id.change_email);
         addHome = (CommonButtonWithArrow)findViewById(R.id.home_list);
-        password = (CommonButtonWithArrow)findViewById(R.id.change_password);
+        CommonButtonWithArrow password = (CommonButtonWithArrow) findViewById(R.id.change_password);
         CommonButtonWithArrow clause = (CommonButtonWithArrow)findViewById(R.id.common_agree_clause);
         CommonButtonWithArrow exit = (CommonButtonWithArrow)findViewById(R.id.quit_account);
 

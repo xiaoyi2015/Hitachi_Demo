@@ -43,7 +43,6 @@ public class SplashActivity extends BaseActivity {
 
                     MyUser user = MyApp.getApp().getUser();
                     if (user.infComplete()) {
-                        MyApp.getApp().getLocalConfigManager().getCurrentUserConfig().setPassword(password);
                         shortStartActivity(MainActivity.class);
                     } else {
                         //TODO
@@ -62,9 +61,6 @@ public class SplashActivity extends BaseActivity {
                             e.printStackTrace();
                         }
                     }
-                    //TODO for zhulinan,
-                    // 之前有一个地方说的不对，记住密码也有可能会跳转到LoginActivity,所以你在LoginActivity里面
-                    // 根据是否记住密码，把密码框里面的东西也得填上。
                     shortStartActivity(LoginActivity.class);
                     finish();
                 }

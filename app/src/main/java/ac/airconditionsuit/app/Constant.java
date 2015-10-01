@@ -70,4 +70,9 @@ public class Constant {
     public static final String REQUEST_PARAMS_KEY_SEX = "sex";
     public static final String REQUEST_PARAMS_KEY_BIRTHDAY = "birthday";
     public static final String REQUEST_PARAMS_KEY_EMAIL = "email";
+
+    public static final String REQUEST_PARAMS_TYPE_MODIFY_PASSWORD = "modifyPassword";
+    public static final String REQUEST_PARAMS_TYPE_MODIFY_MOBILE = "modifyMobile";
+    public static final String REQUEST_PARAMS_KEY_CONFIRM_PASSWORD = "confirm_password";
+    public static final String REQUEST_PARAMS_KEY_OLD_PASSWORD = "old_password";
 }

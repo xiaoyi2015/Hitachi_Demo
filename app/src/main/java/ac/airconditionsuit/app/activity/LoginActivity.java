@@ -71,6 +71,9 @@ public class LoginActivity extends BaseActivity {
         if (MyApp.getApp().getLocalConfigManager().getCurrentUserConfig() != null) {
             userNameEditText.setText(MyApp.getApp().getLocalConfigManager().getCurrentUserPhoneNumber());
         }
+        if(rememberCheckBox.isChecked()){
+            passwordEditText.setText(MyApp.getApp().getLocalConfigManager().getCurrentUserRememberedPassword());
+        }
     }
 
     private void login() {
@@ -106,12 +109,12 @@ public class LoginActivity extends BaseActivity {
                 app.getLocalConfigManager().updateUser(user);
 
                 app.getLocalConfigManager().setCurrentUserPhoneNumber(userName);
-                app.getLocalConfigManager().getCurrentUserConfig().setPassword(password);
-                if (rememberCheckBox.isChecked())
+                app.getLocalConfigManager().setCurrentPassword(password);
+                if (rememberCheckBox.isChecked()){
                     app.getLocalConfigManager().setCurrentUserRememberedPassword(password);
-                else
+                } else {
                     app.getLocalConfigManager().setCurrentUserRememberedPassword("");
-
+                }
                 app.initServerConfigManager(new CommonNetworkListener() {
 
                     @Override
@@ -132,7 +135,9 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onFailure(Throwable throwable) {
                 Log.e(TAG, "login fail");
+                dismissWaitProgress();
                 MyApp.getApp().showToast(R.string.login_failure);
+
             }
         });
     }
