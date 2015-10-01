@@ -19,14 +19,13 @@ public class MyUser extends RootEntity{
     int cust_status;
     String avatar_big;
     String avatar_normal;
-    String cust_nickname;
     String avatar;
     String email;
     String birthday;
     String auth;
+    String password;  //TODO
+    String phone;
 
-    public void setCustNickname(String nickname){ this.cust_nickname = nickname; }
-    public String getCustNickname(){ return cust_nickname; }
 
     /**
      * 获取用户头像的url
@@ -44,7 +43,6 @@ public class MyUser extends RootEntity{
         this.avatar = avatar;
     }
 
-
     public String getPhone() {
         return phone;
     }
@@ -53,8 +51,13 @@ public class MyUser extends RootEntity{
         this.phone = phone;
     }
 
-    String phone;
+    public String getPassword(){
+        return password;
+    }
 
+    public void setPassword(String password){
+        this.password = password;
+    }
 
     public String getToken() {
         return token;

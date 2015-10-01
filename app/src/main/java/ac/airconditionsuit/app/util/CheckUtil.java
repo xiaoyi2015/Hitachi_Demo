@@ -138,4 +138,18 @@ public class CheckUtil {
         return name;
     }
 
+    public static String checkOldPassword(EditText oldPsdText) {
+        String passwordInput = oldPsdText.getText().toString();
+        if (passwordInput.length() == 0) {
+            MyApp.getApp().showToast(R.string.oldPasswordEmptyInf);
+            return null;
+        }
+        if (!passwordInput.equals(MyApp.getApp().getUser().getPassword())) {
+            MyApp.getApp().showToast(R.string.oldPasswordErrorInf);
+            return null;
+        }
+        return passwordInput;
+    }
+
+
 }

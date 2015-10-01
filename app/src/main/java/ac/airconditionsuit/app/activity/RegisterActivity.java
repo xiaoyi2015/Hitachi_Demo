@@ -47,16 +47,6 @@ public class RegisterActivity extends BaseActivity {
                         MyApp.getApp().showToast(R.string.send_verify_code);
                     }
                     break;
-
-                case R.id.register_phone_number_edit_text:
-
-                case R.id.register_verification_code_edit_text:
-
-                case R.id.register_password_edit_text:
-
-                case R.id.register_confirm_password_edit_text:
-
-                case R.id.register_agree_clause:
             }
         }
     };

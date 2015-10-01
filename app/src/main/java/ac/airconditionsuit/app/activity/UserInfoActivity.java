@@ -35,7 +35,6 @@ public class UserInfoActivity extends BaseActivity {
     private static final int REQUEST_CODE_USER_NAME = 101;
     private static final int REQUEST_CODE_EMAIL = 102;
     private static final int REQUEST_CODE_PHONE = 103;
-    private static final int REQUEST_CODE_PASSWORD = 104;
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
         public void onClick(View v) {
@@ -176,7 +175,7 @@ public class UserInfoActivity extends BaseActivity {
                     shortStartActivity(AddHomeActivity.class);
                     break;
                 case R.id.change_password:
-                    shortStartActivityForResult(ChangePasswordActivity.class,REQUEST_CODE_PASSWORD);
+                    shortStartActivity(ChangePasswordActivity.class);
                     break;
                 case R.id.common_agree_clause:
                     shortStartActivity(AgreementActivity.class);
@@ -267,6 +266,12 @@ public class UserInfoActivity extends BaseActivity {
                     String email_text = data.getStringExtra("email");
                     email.setOnlineTextView(email_text);
                     MyApp.getApp().getUser().setEmail(email_text);
+                    MyApp.getApp().getLocalConfigManager().updateUser(MyApp.getApp().getUser());
+                    break;
+                case REQUEST_CODE_PHONE:
+                    String phone_text = data.getStringExtra("userName");
+                    phone.setOnlineTextView(phone_text);
+                    MyApp.getApp().getUser().setPhone(phone_text);
                     MyApp.getApp().getLocalConfigManager().updateUser(MyApp.getApp().getUser());
                     break;
 
