@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class UserForLocalConfig {
     private MyUser myUser;
+    private String password;
     private String rememberedPassword = "";
     private String phoneNumber = "";
     List<String> homeConfigFileNames = new ArrayList<>();
@@ -27,6 +28,13 @@ public class UserForLocalConfig {
         this.myUser = myUser;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getRememberedPassword() {
         return rememberedPassword;

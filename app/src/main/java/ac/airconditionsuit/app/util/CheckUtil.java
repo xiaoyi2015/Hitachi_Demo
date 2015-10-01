@@ -144,7 +144,7 @@ public class CheckUtil {
             MyApp.getApp().showToast(R.string.oldPasswordEmptyInf);
             return null;
         }
-        if (!passwordInput.equals(MyApp.getApp().getUser().getPassword())) {
+        if (!passwordInput.equals(MyApp.getApp().getLocalConfigManager().getCurrentUserConfig().getPassword())) {
             MyApp.getApp().showToast(R.string.oldPasswordErrorInf);
             return null;
         }

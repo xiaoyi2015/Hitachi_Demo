@@ -25,7 +25,7 @@ public class SplashActivity extends BaseActivity {
 
         beginTime = System.currentTimeMillis();
 
-        String password = MyApp.getApp().getLocalConfigManager().getCurrentUserRememberedPassword();
+        final String password = MyApp.getApp().getLocalConfigManager().getCurrentUserRememberedPassword();
         if (password != null && password.length() != 0) {
             MyApp app = MyApp.getApp();
             app.initServerConfigManager(new CommonNetworkListener() {
@@ -43,6 +43,7 @@ public class SplashActivity extends BaseActivity {
 
                     MyUser user = MyApp.getApp().getUser();
                     if (user.infComplete()) {
+                        MyApp.getApp().getLocalConfigManager().getCurrentUserConfig().setPassword(password);
                         shortStartActivity(MainActivity.class);
                     } else {
                         //TODO
