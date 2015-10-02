@@ -199,7 +199,7 @@ public class HttpClient {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                 Log.e(TAG, "download from " + url + "failed");
-                //TODO for zhulinan 给imageview 设置一张默认的表示下载失败的图片
+                imageView.setImageResource(R.drawable.user);
             }
 
             @Override

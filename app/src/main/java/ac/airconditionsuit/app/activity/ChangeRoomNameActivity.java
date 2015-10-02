@@ -45,6 +45,5 @@ public class ChangeRoomNameActivity extends BaseActivity{
         ChangeRoomNamePage.setOnClickListener(myOnClickListener);
         roomName.setOnClickListener(myOnClickListener);
         //TODO
-
     }
 }
