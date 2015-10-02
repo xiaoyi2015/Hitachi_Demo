@@ -3,6 +3,7 @@ package ac.airconditionsuit.app.activity;
 import android.os.Bundle;
 import android.view.View;
 
+import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
@@ -35,6 +36,7 @@ public class HomeSettingActivity extends BaseActivity {
         commonTopBar.setTitle(getString(R.string.home));
         commonTopBar.setIconView(myOnClickListener, null);
         CommonButtonWithArrow homeName = (CommonButtonWithArrow) findViewById(R.id.home_name);
+        homeName.setOnlineTextView(MyApp.getApp().getServerConfigManager().getHome().getName());
         homeName.setOnClickListener(myOnClickListener);
 
     }

@@ -35,6 +35,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         view = inflater.inflate(R.layout.fragment_setting, container, false);
         RoundImageView roundImageView =(RoundImageView)view.findViewById(R.id.user_icon);
         HttpClient.loadImage(MyApp.getApp().getUser().getAvatar_normal(), roundImageView);
+        TextView home_name = (TextView)view.findViewById(R.id.setting_home_name);
+        home_name.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
         view.findViewById(R.id.software_information).setOnClickListener(this);
         view.findViewById(R.id.user_icon).setOnClickListener(this);
         view.findViewById(R.id.setting_home_setting).setOnClickListener(this);

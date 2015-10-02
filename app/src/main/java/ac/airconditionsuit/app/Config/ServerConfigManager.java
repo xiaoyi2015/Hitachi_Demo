@@ -61,6 +61,10 @@ public class ServerConfigManager {
         return rootJavaObj.getDevices();
     }
 
+    public ServerConfig.Home getHome(){
+        return rootJavaObj.getHome();
+    }
+
     public void deleteRoom(int position,int index){
         List<Section> sections = rootJavaObj.getSections();
         sections.get(position).getPages().remove(index);

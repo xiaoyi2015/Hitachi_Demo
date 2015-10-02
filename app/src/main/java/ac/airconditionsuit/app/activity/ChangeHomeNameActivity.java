@@ -2,7 +2,9 @@ package ac.airconditionsuit.app.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
+import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
@@ -20,6 +22,7 @@ public class ChangeHomeNameActivity extends BaseActivity {
                     finish();
                     break;
                 case R.id.right_icon:
+                //TODO for zln
                     break;
             }
         }
@@ -30,7 +33,11 @@ public class ChangeHomeNameActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.home_name));
-        commonTopBar.setIconView(myOnClickListener,myOnClickListener);
+        commonTopBar.setIconView(myOnClickListener, myOnClickListener);
+        EditText changeName = (EditText)findViewById(R.id.edit_home_name);
+        changeName.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
+        changeName.setSelection(MyApp.getApp().getServerConfigManager().getHome().getName().length());
+
     }
 
 }
