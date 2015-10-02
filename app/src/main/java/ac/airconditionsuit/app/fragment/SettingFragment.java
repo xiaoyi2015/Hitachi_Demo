@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.Timer;
 
+import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.activity.AddDeviceActivity;
 import ac.airconditionsuit.app.activity.BaseActivity;
@@ -18,7 +19,9 @@ import ac.airconditionsuit.app.activity.HomeSettingActivity;
 import ac.airconditionsuit.app.activity.SoftwareInfoActivity;
 import ac.airconditionsuit.app.activity.SoftwarePageActivity;
 import ac.airconditionsuit.app.activity.UserInfoActivity;
+import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.view.CommonTopBar;
+import ac.airconditionsuit.app.view.RoundImageView;
 
 /**
  * Created by ac on 9/17/15.
@@ -30,6 +33,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_setting, container, false);
+        RoundImageView roundImageView =(RoundImageView)view.findViewById(R.id.user_icon);
+        HttpClient.loadImage(MyApp.getApp().getUser().getAvatar_normal(), roundImageView);
         view.findViewById(R.id.software_information).setOnClickListener(this);
         view.findViewById(R.id.user_icon).setOnClickListener(this);
         view.findViewById(R.id.setting_home_setting).setOnClickListener(this);

@@ -19,13 +19,19 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-            <ImageButton
-                android:id="@+id/user_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <FrameLayout
                 android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/user" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ac.airconditionsuit.app.view.RoundImageView
+                    android:id="@+id/user_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:background="@null"
+                    android:src="@drawable/user" />
+            </FrameLayout>
 
             <ImageView
                 android:id="@+id/split_line"
@@ -33,13 +39,19 @@
                 android:layout_height="match_parent"
                 android:src="@color/text_color_gray" />
 
-            <ImageButton
-                android:id="@+id/software_information"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <FrameLayout
                 android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/info" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageButton
+                    android:id="@+id/software_information"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:background="@null"
+                    android:src="@drawable/info" />
+            </FrameLayout>
 
         </LinearLayout>
 
