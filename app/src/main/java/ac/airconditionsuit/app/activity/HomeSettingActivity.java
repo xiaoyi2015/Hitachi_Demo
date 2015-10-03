@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
@@ -25,6 +26,10 @@ public class HomeSettingActivity extends BaseActivity {
                 case R.id.left_icon:
                     finish();
                     break;
+                case R.id.delete_home:
+                    //TODO for luzheqi
+                    //É¾³ý¼Ò
+                    break;
             }
         }
     };
@@ -38,6 +43,8 @@ public class HomeSettingActivity extends BaseActivity {
         CommonButtonWithArrow homeName = (CommonButtonWithArrow) findViewById(R.id.home_name);
         homeName.setOnlineTextView(MyApp.getApp().getServerConfigManager().getHome().getName());
         homeName.setOnClickListener(myOnClickListener);
+        TextView deleteHome = (TextView)findViewById(R.id.delete_home);
+        deleteHome.setOnClickListener(myOnClickListener);
 
     }
 
