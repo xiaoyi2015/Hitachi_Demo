@@ -8,8 +8,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
+import ac.airconditionsuit.app.network.HttpClient;
 
 /**
  * document your custom view class.
@@ -18,6 +20,7 @@ public class CommonTopBar extends RelativeLayout {
     private TextView titleView;
     private ImageView leftIconView;
     private ImageView rightIconView;
+    private RoundImageView roundLeftIconView;
 
     public CommonTopBar(Context context) {
         super(context);
@@ -50,20 +53,11 @@ public class CommonTopBar extends RelativeLayout {
         titleView = (TextView) findViewById(R.id.title_label);
         leftIconView = (ImageView) findViewById(R.id.left_icon);
         rightIconView = (ImageView) findViewById(R.id.right_icon);
-
+        roundLeftIconView = (RoundImageView)findViewById(R.id.round_left_icon);
 
         titleView.setText(titleLabel);
-
-        if (leftIcon == null) {
-            leftIconView.setVisibility(GONE);
-        } else {
-            leftIconView.setImageDrawable(leftIcon);
-        }
-        if (rightIcon == null) {
-            rightIconView.setVisibility(GONE);
-        } else {
-            rightIconView.setImageDrawable(rightIcon);
-        }
+        leftIconView.setImageDrawable(leftIcon);
+        rightIconView.setImageDrawable(rightIcon);
         setBackgroundResource(R.drawable.top_banner);
     }
 
@@ -80,6 +74,21 @@ public class CommonTopBar extends RelativeLayout {
             rightIconView.setVisibility(GONE);
         else
             rightIconView.setOnClickListener(rightListener);
+    }
+
+    public void setRightIconView(int id){
+        rightIconView.setImageResource(id);
+    }
+
+    public void setRoundLeftIconView(OnClickListener listener){
+        if(listener == null){
+            roundLeftIconView.setVisibility(GONE);
+        }else {
+            HttpClient.loadImage(MyApp.getApp().getUser().getAvatar_normal(),roundLeftIconView);
+            roundLeftIconView.setOnClickListener(listener);
+            roundLeftIconView.setVisibility(VISIBLE);
+        }
+
     }
 
 }

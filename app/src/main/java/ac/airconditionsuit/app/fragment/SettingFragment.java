@@ -72,5 +72,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         BaseActivity baseActivity = myGetActivity();
         CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(baseActivity.getString(R.string.tab_label_setting));
+        commonTopBar.setIconView(null,null);
+        commonTopBar.setRoundLeftIconView(null);
     }
 }

@@ -3,6 +3,7 @@ package ac.airconditionsuit.app.activity;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.fragment.BaseFragment;
+import ac.airconditionsuit.app.fragment.MyAirFragment;
 import ac.airconditionsuit.app.fragment.SettingFragment;
 import ac.airconditionsuit.app.view.TabIndicator;
 import android.os.Bundle;
@@ -20,7 +21,7 @@ public class MainActivity extends BaseActivity {
     private static final int DEFAULT_FRAGMENT_POSITION = 3;
     private ViewPager pager;
     BaseFragment[] fragments = new BaseFragment[]{
-            new BaseFragment(),
+            new MyAirFragment(),
             new BaseFragment(),
             new BaseFragment(),
             new SettingFragment()

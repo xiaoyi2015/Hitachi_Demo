@@ -21,6 +21,17 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"/>
 
+    <ac.airconditionsuit.app.view.RoundImageView
+        android:id="@+id/round_left_icon"
+        android:padding="10dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:scaleType="fitXY"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"/>
+
     <ImageView
         android:id="@+id/right_icon"
         android:layout_width="wrap_content"
