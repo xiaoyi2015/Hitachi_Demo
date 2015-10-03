@@ -67,10 +67,8 @@ public class TabIndicator extends TextView {
     public void select(){
         setCompoundDrawablesWithIntrinsicBounds(null, icon_selected, null, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //TODO for zhulinan, 这边颜色不对，你根据UI改一下。
             setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select, null));
         }else{
-            //TODO for zhulinan 这边颜色不对，你根据UI改一下。
             //noinspection deprecation
             setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select));
         }
@@ -79,10 +77,8 @@ public class TabIndicator extends TextView {
     public void unSelect(){
         setCompoundDrawablesWithIntrinsicBounds(null, icon_normal, null, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //TODO for zhulinan, 这边颜色不对，你根据UI改一下。
             setTextColor(context.getResources().getColor(R.color.tab_indicator_text_normal, null));
         }else{
-            //TODO for zhulinan, 这边颜色不对，你根据UI改一下。
             //noinspection deprecation
             setTextColor(context.getResources().getColor(R.color.tab_indicator_text_normal));
         }

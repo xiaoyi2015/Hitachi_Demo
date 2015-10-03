@@ -44,6 +44,6 @@ public class ChangeRoomNameActivity extends BaseActivity{
         roomName.setSelection(getString(R.string.new_room).length());
         ChangeRoomNamePage.setOnClickListener(myOnClickListener);
         roomName.setOnClickListener(myOnClickListener);
-        //TODO
+        //TODO 添加空调进楼层，改变图标等
     }
 }
