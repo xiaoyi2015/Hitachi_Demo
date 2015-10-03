@@ -113,4 +113,5 @@
     <string name="album">相册</string>
     <string name="info_text">通知</string>
     <string name="family_text">家庭组</string>
+    <string name="delete_msg">管理员可以通过长按成员头像实现删除</string>
 </resources>

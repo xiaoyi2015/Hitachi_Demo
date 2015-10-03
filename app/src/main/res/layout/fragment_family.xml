@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="85dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/current_user_view">
+
+        <ac.airconditionsuit.app.view.RoundImageView
+            android:id="@+id/current_user"
+            android:src="@drawable/user"
+            android:scaleType="fitXY"
+            android:layout_centerHorizontal="true"
+            android:background="@null"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:gravity="center"
+            android:layout_below="@+id/current_user" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/delete_msg"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"/>
+
+    <ListView
+        android:id="@+id/family_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:divider="#00000000"
+        android:dividerHeight="0dip"
+        android:listSelector="@android:color/transparent"
+        android:layout_below="@id/current_user_view"
+        android:layout_above="@id/text_view"
+        />
+</RelativeLayout>
