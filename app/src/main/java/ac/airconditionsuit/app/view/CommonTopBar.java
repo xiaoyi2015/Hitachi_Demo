@@ -78,6 +78,7 @@ public class CommonTopBar extends RelativeLayout {
 
     public void setRightIconView(int id){
         rightIconView.setImageResource(id);
+        rightIconView.setVisibility(VISIBLE);
     }
 
     public void setRoundLeftIconView(OnClickListener listener){

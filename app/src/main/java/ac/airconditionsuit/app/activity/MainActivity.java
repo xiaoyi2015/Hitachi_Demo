@@ -4,6 +4,8 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.fragment.BaseFragment;
 import ac.airconditionsuit.app.fragment.MyAirFragment;
+import ac.airconditionsuit.app.fragment.SceneFragment;
+import ac.airconditionsuit.app.fragment.SetClockFragment;
 import ac.airconditionsuit.app.fragment.SettingFragment;
 import ac.airconditionsuit.app.view.TabIndicator;
 import android.os.Bundle;
@@ -22,8 +24,8 @@ public class MainActivity extends BaseActivity {
     private ViewPager pager;
     BaseFragment[] fragments = new BaseFragment[]{
             new MyAirFragment(),
-            new BaseFragment(),
-            new BaseFragment(),
+            new SceneFragment(),
+            new SetClockFragment(),
             new SettingFragment()
     };
 
@@ -56,7 +58,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.i(TAG, "onPageSeleted");
+                Log.i(TAG, "onPageSelected");
                 changeIndicator(position);
                 fragments[position].setTopBar();
             }
