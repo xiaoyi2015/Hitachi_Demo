@@ -8,5 +8,15 @@
         <item name="android:gravity"> center </item>
         <item name="android:textSize"> 14sp </item>
     </style>
+    <style name="HalfTranslucent"  >
+        <item name="android:windowBackground">@color/transparent_bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <!--<item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>-->
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
+    </style>
 
+
+    <color name="transparent_bg">#e0000000</color>
 </resources>

@@ -111,4 +111,6 @@
     <string name="where_get_icon">从哪里获取图片</string>
     <string name="camera">相机</string>
     <string name="album">相册</string>
+    <string name="info_text">通知</string>
+    <string name="family_text">家庭组</string>
 </resources>

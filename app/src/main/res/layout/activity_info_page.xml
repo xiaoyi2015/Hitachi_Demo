@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ac.airconditionsuit.app.view.SegmentControlView
+        android:id="@+id/SegmentControlView"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true" />
+
+    <View
+        android:id="@+id/blank1"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:layout_below="@id/SegmentControlView"/>
+
+    <FrameLayout
+        android:id="@+id/fragment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/blank1"
+        android:layout_above="@+id/seg_line1">
+    </FrameLayout>
+
+    <View
+        android:id="@+id/seg_line1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#FFFFFF"
+        android:layout_above="@+id/exit_button"/>
+
+    <ImageButton
+        android:id="@+id/exit_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/cancel"
+        android:background="#00000000"
+        />
+
+</RelativeLayout>

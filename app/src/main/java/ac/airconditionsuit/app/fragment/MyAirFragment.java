@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import java.util.List;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.activity.BaseActivity;
+import ac.airconditionsuit.app.activity.InfoPageActivity;
 import ac.airconditionsuit.app.entity.Section;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
@@ -35,7 +37,10 @@ public class MyAirFragment extends BaseFragment {
             super.onClick(v);
             switch (v.getId()){
                 case R.id.round_left_icon:
-                    MyApp.getApp().showToast("111111");
+                    //TODO
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), InfoPageActivity.class);
+                    startActivity(intent);
                     break;
             }
         }
