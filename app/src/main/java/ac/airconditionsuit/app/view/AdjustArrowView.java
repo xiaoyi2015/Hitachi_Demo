@@ -15,9 +15,6 @@ import android.widget.TextView;
 
 import ac.airconditionsuit.app.R;
 
-/**
- * TODO: document your custom view class.
- */
 public class AdjustArrowView extends LinearLayout {
 
     private TextView labelTextView;

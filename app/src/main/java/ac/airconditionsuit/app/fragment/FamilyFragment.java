@@ -303,7 +303,6 @@ public class FamilyFragment extends Fragment{
         }
 
         private void deleteCust(final MyUser myUser) {
-            // TODO
             final RequestParams requestParams = new RequestParams();
             requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
             requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_TYPE_GET_CHAT_CUST_LIST);

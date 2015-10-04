@@ -37,7 +37,6 @@ public class MyAirFragment extends BaseFragment {
             super.onClick(v);
             switch (v.getId()){
                 case R.id.round_left_icon:
-                    //TODO
                     Intent intent = new Intent();
                     intent.setClass(getActivity(), InfoPageActivity.class);
                     startActivity(intent);
