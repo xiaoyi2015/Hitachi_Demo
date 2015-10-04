@@ -8,12 +8,19 @@
     <RelativeLayout
         android:layout_width="140dp"
         android:layout_marginTop="10dp"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:id="@+id/cust1">
+
+        <TextView
+            android:id="@+id/admin_text1"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
 
         <ac.airconditionsuit.app.view.RoundImageView
             android:id="@+id/cust1_picture"
             android:src="@drawable/user"
+            android:layout_below="@+id/admin_text1"
             android:layout_centerHorizontal="true"
             android:layout_width="60dp"
             android:layout_height="60dp"/>
@@ -21,7 +28,7 @@
         <TextView
             android:id="@+id/cust1_name"
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:gravity="center"
             android:layout_below="@+id/cust1_picture" />
 
@@ -30,12 +37,19 @@
     <RelativeLayout
         android:layout_width="140dp"
         android:layout_marginTop="10dp"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:id="@+id/cust2">
+
+        <TextView
+            android:id="@+id/admin_text2"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
 
         <ac.airconditionsuit.app.view.RoundImageView
             android:id="@+id/cust2_picture"
             android:src="@drawable/user"
+            android:layout_below="@+id/admin_text2"
             android:layout_centerHorizontal="true"
             android:layout_width="60dp"
             android:layout_height="60dp"/>
@@ -43,7 +57,7 @@
         <TextView
             android:id="@+id/cust2_name"
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:gravity="center"
             android:layout_below="@+id/cust2_picture" />
 

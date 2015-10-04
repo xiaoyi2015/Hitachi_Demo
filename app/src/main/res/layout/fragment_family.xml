@@ -6,14 +6,21 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
-        android:layout_height="85dp"
+        android:layout_height="110dp"
         android:layout_centerHorizontal="true"
         android:id="@+id/current_user_view">
+
+        <TextView
+            android:id="@+id/admin_text"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:gravity="center" />
 
         <ac.airconditionsuit.app.view.RoundImageView
             android:id="@+id/current_user"
             android:src="@drawable/user"
             android:scaleType="fitXY"
+            android:layout_below="@id/admin_text"
             android:layout_centerHorizontal="true"
             android:background="@null"
             android:layout_width="60dp"

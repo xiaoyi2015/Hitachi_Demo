@@ -114,4 +114,8 @@
     <string name="info_text">通知</string>
     <string name="family_text">家庭组</string>
     <string name="delete_msg">管理员可以通过长按成员头像实现删除</string>
+    <string name="member">成员</string>
+    <string name="admin">管理员</string>
+    <string name="delete_member1">\n确定要删除成员</string>
+    <string name="delete_member2">吗？\n</string>
 </resources>

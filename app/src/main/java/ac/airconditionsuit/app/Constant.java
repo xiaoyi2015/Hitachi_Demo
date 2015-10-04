@@ -78,6 +78,8 @@ public class Constant {
     public static final java.lang.String REQUEST_PARAMS_TYPE_SET_CUSTOMER_AVATAR = "setCustAvatar";
     public static final java.lang.String REQUEST_PARAMS_TYPE_GET_CHAT_CUST_LIST = "getChatAllCustList";
     public static final String REQUEST_PARAMS_KEY_CHAT_ID = "chat_id";
+    public static final String REQUEST_PARAMS_KEY_DELETE_CUST_ID = "delete_cust_id";
+
 
 
 }

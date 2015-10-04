@@ -42,16 +42,18 @@ public class FamilyFragment extends Fragment{
         baseActivity = (BaseActivity) getActivity();
         view = inflater.inflate(R.layout.fragment_family,container,false);
         TextView adminText = (TextView) view.findViewById(R.id.text_view);
+        TextView IsAdmin = (TextView)view.findViewById(R.id.admin_text);
         TextView userName = (TextView) view.findViewById(R.id.user_name);
+        userName.setText(MyApp.getApp().getUser().getCust_name());
         userPicture = (RoundImageView) view.findViewById(R.id.current_user);
         if(false)              //TODO isAdmin
         {
             admin = false;
             adminText.setVisibility(View.GONE);
-            userName.setText(MyApp.getApp().getUser().getCust_name());
+            IsAdmin.setText(getString(R.string.member));
         }else{
             admin = true;
-            userName.setText(MyApp.getApp().getUser().getCust_name());
+            IsAdmin.setText(getString(R.string.admin));
         }
         HttpClient.loadImage(MyApp.getApp().getUser().getAvatar_normal(), userPicture);
         initDataFromInternet();
@@ -64,13 +66,12 @@ public class FamilyFragment extends Fragment{
         final RequestParams requestParams = new RequestParams();
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_TYPE_GET_CHAT_CUST_LIST);
-        requestParams.put(Constant.REQUEST_PARAMS_KEY_CUST_ID, 111);   //TODO getCurrentDeviceId()
+        requestParams.put(Constant.REQUEST_PARAMS_KEY_CHAT_ID, MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId());
 
         HttpClient.get(requestParams, GetChatCustListResponse.class, new HttpClient.JsonResponseHandler<GetChatCustListResponse>() {
             @Override
             public void onSuccess(GetChatCustListResponse response) {
                 inflaterUI(response.getCust_list());
-                //int n = response.getCust_list().size();
             }
 
             @Override
@@ -97,7 +98,7 @@ public class FamilyFragment extends Fragment{
             }
         }
 
-        //int n = cust_list.size();
+        int n = customers1.size();
         ListView listView = (ListView) view.findViewById(R.id.family_list);
         customAdapter = new CustomAdapter(baseActivity,customers1,admin);
         listView.setAdapter(customAdapter);
@@ -112,8 +113,10 @@ public class FamilyFragment extends Fragment{
         private boolean findAdmin;
 
         public final class ListItemView{
+            public TextView adminText1;
             public RoundImageView image1;
             public TextView name1;
+            public TextView adminText2;
             public RoundImageView image2;
             public TextView name2;
         }
@@ -153,8 +156,10 @@ public class FamilyFragment extends Fragment{
             if(convertView == null) {
                 listItemView = new ListItemView();
                 convertView = listContainer.inflate(R.layout.family_items,null);
+                listItemView.adminText1 = (TextView)convertView.findViewById(R.id.admin_text1);
                 listItemView.image1 = (RoundImageView)convertView.findViewById(R.id.cust1_picture);
                 listItemView.name1 = (TextView)convertView.findViewById(R.id.cust1_name);
+                listItemView.adminText2 = (TextView)convertView.findViewById(R.id.admin_text2);
                 listItemView.image2 = (RoundImageView)convertView.findViewById(R.id.cust2_picture);
                 listItemView.name2 = (TextView)convertView.findViewById(R.id.cust2_name);
                 convertView.setTag(listItemView);
@@ -168,9 +173,9 @@ public class FamilyFragment extends Fragment{
                 public boolean onLongClick(View v) {
                     if(isAdmin) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setMessage("\n确定要删除成员" + name1.getText().toString() + "吗？\n");
+                        builder.setMessage(getString(R.string.delete_member1) + name1.getText().toString() + getString(R.string.delete_member2));
                         builder.setCancelable(false);
-                        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton(getString(R.string.make_sure), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 deleteCust(customers.get(2*position));
@@ -178,7 +183,7 @@ public class FamilyFragment extends Fragment{
                                 dialog.dismiss();
                             }
                         });
-                        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -194,19 +199,19 @@ public class FamilyFragment extends Fragment{
             listItemView.image2.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if(isAdmin) {
+                    if (isAdmin) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setMessage("\n确定要删除成员" + name2.getText().toString() + "吗？\n");
+                        builder.setMessage(getString(R.string.delete_member1) + name2.getText().toString() + getString(R.string.delete_member2));
                         builder.setCancelable(false);
-                        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton(getString(R.string.make_sure), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                deleteCust(customers.get(2*position + 1));
+                                deleteCust(customers.get(2 * position + 1));
                                 notifyDataSetChanged();
                                 dialog.dismiss();
                             }
                         });
-                        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -218,7 +223,7 @@ public class FamilyFragment extends Fragment{
                 }
 
             });
-            System.out.println("getView--" + position);
+            //System.out.println("getView--" + position);
             if(isAdmin || findAdmin) {
                 if (position * 2 + 2 <= customers.size()) {
                     listItemView.image1.setVisibility(View.VISIBLE);
@@ -229,6 +234,10 @@ public class FamilyFragment extends Fragment{
                     setImage(context, customers.get(2 * position + 1), listItemView.image2);
                     listItemView.name2.setVisibility(View.VISIBLE);
                     listItemView.name2.setText(customers.get(2 * position + 1).getCust_name());
+                    listItemView.adminText1.setVisibility(View.VISIBLE);
+                    listItemView.adminText1.setText(getString(R.string.member));
+                    listItemView.adminText2.setVisibility(View.VISIBLE);
+                    listItemView.adminText2.setText(getString(R.string.member));
 
                 } else {
                     listItemView.image1.setVisibility(View.VISIBLE);
@@ -237,53 +246,81 @@ public class FamilyFragment extends Fragment{
                     listItemView.name1.setText(customers.get(2 * position).getCust_name());
                     listItemView.image2.setVisibility(View.INVISIBLE);
                     listItemView.name2.setVisibility(View.INVISIBLE);
+                    listItemView.adminText1.setVisibility(View.VISIBLE);
+                    listItemView.adminText1.setText(getString(R.string.member));
+                    listItemView.adminText2.setVisibility(View.INVISIBLE);
+                    
                 }
             }else {
                 if (position * 2 + 2 <= customers.size()) {
                     listItemView.image1.setVisibility(View.VISIBLE);
                     setImage(context, customers.get(2 * position), listItemView.image1);
                     listItemView.name1.setVisibility(View.VISIBLE);
+                    listItemView.name1.setText(customers.get(2 * position).getCust_name());
+                    listItemView.adminText1.setVisibility(View.VISIBLE);
                     if(false){                      //TODO  customers.get(2 * position).getCust_id())
                         findAdmin = true;
-                        listItemView.name1.setText(customers.get(2 * position).getCust_name());
+                        listItemView.adminText1.setText(getString(R.string.admin));
                     }else {
-                        listItemView.name1.setText(customers.get(2 * position).getCust_name());
+                        listItemView.adminText1.setText(getString(R.string.member));
                     }
                     listItemView.image2.setVisibility(View.VISIBLE);
                     setImage(context, customers.get(2 * position + 1), listItemView.image2);
                     listItemView.name2.setVisibility(View.VISIBLE);
+                    listItemView.name2.setText(customers.get(2 * position + 1).getCust_name());
+                    listItemView.adminText2.setVisibility(View.VISIBLE);
                     if(false){                     //TODO
                         findAdmin = true;
-                        listItemView.name2.setText(customers.get(2 * position + 1).getCust_name());
+                        listItemView.adminText2.setText(getString(R.string.admin));
                     }else {
-                        listItemView.name2.setText(customers.get(2 * position + 1).getCust_name());
+                        listItemView.adminText2.setText(getString(R.string.member));
                     }
                 } else {
                     listItemView.image1.setVisibility(View.VISIBLE);
                     setImage(context, customers.get(2 * position), listItemView.image1);
                     listItemView.name1.setVisibility(View.VISIBLE);
+                    listItemView.name1.setText(customers.get(2 * position).getCust_name());
+                    listItemView.adminText1.setVisibility(View.VISIBLE);
                     if(false){                    //TODO
                         findAdmin = true;
-                        listItemView.name1.setText(customers.get(2 * position).getCust_name());
+                        listItemView.adminText1.setText(getString(R.string.admin));
                     }else {
-                        listItemView.name1.setText(customers.get(2 * position).getCust_name());
+                        listItemView.adminText1.setText(getString(R.string.member));
                     }
                     listItemView.image2.setVisibility(View.INVISIBLE);
                     listItemView.name2.setVisibility(View.INVISIBLE);
+                    listItemView.adminText2.setVisibility(View.INVISIBLE);
                 }
             }
             return convertView;
         }
 
         private void setImage(Context context, MyUser myUser, RoundImageView image) {
-            String userAvatar = myUser.getAvatar_normal();
+            String userAvatar = myUser.getAvatar();
             if (userAvatar != null && userAvatar.length() != 0) {
                 HttpClient.loadImage(userAvatar,image);
             }
         }
 
-        private void deleteCust(MyUser myUser) {
+        private void deleteCust(final MyUser myUser) {
             // TODO
+            final RequestParams requestParams = new RequestParams();
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_TYPE_GET_CHAT_CUST_LIST);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_CHAT_ID, MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId());
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_DELETE_CUST_ID, myUser.getCust_id());
+
+            HttpClient.post(requestParams, GetChatCustListResponse.class, new HttpClient.JsonResponseHandler<GetChatCustListResponse>() {
+                @Override
+                public void onSuccess(GetChatCustListResponse response) {
+                    customers.remove(myUser);
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    MyApp.getApp().showToast("111");
+                }
+            });
         }
     }
 }
