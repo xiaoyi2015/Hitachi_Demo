@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.activity.InfoPageActivity;
+import ac.airconditionsuit.app.activity.RoomAirSettingActivity;
 import ac.airconditionsuit.app.entity.Room;
 
 public class SectionWithArrowView extends RelativeLayout {
@@ -90,7 +93,7 @@ public class SectionWithArrowView extends RelativeLayout {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if(convertView == null){
                 convertView = new RoomCustomView(context);
             }
@@ -103,7 +106,10 @@ public class SectionWithArrowView extends RelativeLayout {
             roomView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MyApp.getApp().showToast("1111");
+                    Intent intent = new Intent();
+                    intent.setClass(context, RoomAirSettingActivity.class);
+                    intent.putExtra("title",rooms.get(position).getName());
+                    context.startActivity(intent);
                 }
             });
 
@@ -111,7 +117,7 @@ public class SectionWithArrowView extends RelativeLayout {
             roomMode.setImageResource(R.drawable.dc_cool_off);
             roomName.setText(rooms.get(position).getName());
             roomTemp.setText(R.string.default_temp);
-            roomWindSpeed.setImageResource(R.drawable.dc_fan_off);
+            roomWindSpeed.setImageResource(R.drawable.dc_fan_off1);
 
             return convertView;
         }

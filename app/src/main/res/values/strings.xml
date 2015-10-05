@@ -119,4 +119,9 @@
     <string name="delete_member1">\n确定要删除成员</string>
     <string name="delete_member2">吗？\n</string>
     <string name="default_temp">25℃</string>
+    <string name="real_temp">实际温度：30℃</string>
+    <string name="temp">温度</string>
+    <string name="on_off">开关</string>
+    <string name="cool">制冷</string>
+    <string name="low_wind">低风</string>
 </resources>
