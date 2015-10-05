@@ -118,4 +118,5 @@
     <string name="admin">管理员</string>
     <string name="delete_member1">\n确定要删除成员</string>
     <string name="delete_member2">吗？\n</string>
+    <string name="default_temp">25℃</string>
 </resources>

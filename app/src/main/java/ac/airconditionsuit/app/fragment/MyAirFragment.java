@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,11 +20,8 @@ import ac.airconditionsuit.app.activity.BaseActivity;
 import ac.airconditionsuit.app.activity.InfoPageActivity;
 import ac.airconditionsuit.app.entity.Section;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
-import ac.airconditionsuit.app.network.HttpClient;
-import ac.airconditionsuit.app.view.AdjustArrowView;
-import ac.airconditionsuit.app.view.CommonButtonWithArrow;
+import ac.airconditionsuit.app.view.SectionWithArrowView;
 import ac.airconditionsuit.app.view.CommonTopBar;
-import ac.airconditionsuit.app.view.RoundImageView;
 
 /**
  * Created by Administrator on 2015/10/3.
@@ -96,21 +94,25 @@ public class MyAirFragment extends BaseFragment {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             if(convertView == null){
-                convertView = new AdjustArrowView(context);
+                convertView = new SectionWithArrowView(context,list.get(position).getPages());
             }
+            LinearLayout sectionView = (LinearLayout)convertView.findViewById(R.id.section_item);
             TextView sectionName = (TextView)convertView.findViewById(R.id.label_text);
             sectionName.setText(list.get(position).getName());
+            final ListView roomList = (ListView)convertView.findViewById(R.id.room_list);
             final ImageView arrowIcon = (ImageView)convertView.findViewById(R.id.arrow_icon);
             isCheck[position] = false;
-            convertView.setOnClickListener(new MyOnClickListener() {
+            sectionView.setOnClickListener(new MyOnClickListener() {
                 @Override
                 public void onClick(View v) {
                     super.onClick(v);
                     isCheck[position] = !isCheck[position];
-                    if(isCheck[position]){
+                    if (isCheck[position]) {
                         arrowIcon.setImageResource(R.drawable.icon_arrow_down);
-                    }else {
+                        roomList.setVisibility(View.VISIBLE);
+                    } else {
                         arrowIcon.setImageResource(R.drawable.icon_arrow_right);
+                        roomList.setVisibility(View.GONE);
                     }
                 }
             });

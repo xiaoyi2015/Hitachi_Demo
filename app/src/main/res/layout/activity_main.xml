@@ -14,7 +14,7 @@
     <android.support.v4.view.ViewPager
             android:id="@+id/pager"
             android:layout_below="@id/default_top_bar"
-            android:layout_above="@id/pager"
+            android:layout_above="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
