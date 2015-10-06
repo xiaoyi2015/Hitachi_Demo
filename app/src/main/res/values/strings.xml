@@ -124,4 +124,7 @@
     <string name="on_off">开关</string>
     <string name="cool">制冷</string>
     <string name="low_wind">低风</string>
+    <string name="edit_scene">编辑场景</string>
+    <string name="scene_name_hint">场景名称</string>
+    <string name="choose_scene_text">选择需要设定的空调</string>
 </resources>

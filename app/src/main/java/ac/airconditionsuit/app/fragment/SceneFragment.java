@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import java.util.List;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.activity.BaseActivity;
+import ac.airconditionsuit.app.activity.EditSceneActivity;
+import ac.airconditionsuit.app.activity.InfoPageActivity;
 import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
@@ -36,10 +39,12 @@ public class SceneFragment extends BaseFragment {
                     if(click_num == 0) {
                         commonTopBar.setLeftIconView(R.drawable.add);
                         commonTopBar.setRightIconView(R.drawable.save);
+                        commonTopBar.setTitle(getString(R.string.edit_scene));
                         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
                         click_num = 1;
                     }else{
                         // TODO save scene
+                        commonTopBar.setTitle(getString(R.string.tab_label_scene_mode));
                         commonTopBar.setRightIconView(R.drawable.edit);
                         commonTopBar.setIconView(null, myOnClickListener);
                         click_num = 0;
@@ -58,7 +63,6 @@ public class SceneFragment extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_scene,container,false);
         ListView listView = (ListView)view.findViewById(R.id.scene_list);
         List<ServerConfig.Scene> scene_list = MyApp.getApp().getServerConfigManager().getScene();
-        int n = scene_list.size();
         SceneAdapter sceneAdapter = new SceneAdapter(getActivity(),scene_list);
         listView.setAdapter(sceneAdapter);
         return view;
@@ -99,7 +103,7 @@ public class SceneFragment extends BaseFragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if(convertView == null){
                 convertView = new SceneCustomView(context);
             }
@@ -109,7 +113,10 @@ public class SceneFragment extends BaseFragment {
             sceneView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = new Intent();
+                    intent.putExtra("title",list.get(position).getName());
+                    intent.setClass(getActivity(), EditSceneActivity.class);
+                    startActivity(intent);
                 }
             });
             return convertView;
