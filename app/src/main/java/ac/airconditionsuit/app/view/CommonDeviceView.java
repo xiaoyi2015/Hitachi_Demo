@@ -46,7 +46,7 @@ public class CommonDeviceView extends RelativeLayout {
         Drawable right_up_text_bg = a.getDrawable(R.styleable.CommonDeviceView_right_up_text_bg);
 
         a.recycle();
-        inflate(context, R.layout.custom_common_device_view, this);
+        inflate(context, R.layout.custom_device_view, this);
 
         bottomName = (TextView)findViewById(R.id.bottom_name);
         bgIcon = (ImageView)findViewById(R.id.bg_icon);

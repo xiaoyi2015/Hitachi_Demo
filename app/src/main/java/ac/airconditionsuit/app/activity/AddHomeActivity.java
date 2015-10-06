@@ -22,8 +22,7 @@ public class AddHomeActivity extends BaseActivity{
                     finish();
                     break;
                 case R.id.right_icon:
-
-
+                    //TODO submit home info
                     break;
             }
         }

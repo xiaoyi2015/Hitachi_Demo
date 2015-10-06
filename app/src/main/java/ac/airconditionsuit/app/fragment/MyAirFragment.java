@@ -20,7 +20,7 @@ import ac.airconditionsuit.app.activity.BaseActivity;
 import ac.airconditionsuit.app.activity.InfoPageActivity;
 import ac.airconditionsuit.app.entity.Section;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
-import ac.airconditionsuit.app.view.SectionWithArrowView;
+import ac.airconditionsuit.app.view.SectionAndRoomView;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
@@ -94,7 +94,7 @@ public class MyAirFragment extends BaseFragment {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             if(convertView == null){
-                convertView = new SectionWithArrowView(context,list.get(position).getPages());
+                convertView = new SectionAndRoomView(context,list.get(position).getPages());
             }
             //TODO read the room status and set to UI
 

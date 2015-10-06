@@ -31,7 +31,7 @@ public class SetClockFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_scene,container,false);
+        view = inflater.inflate(R.layout.fragment_set_clock,container,false);
         return view;
     }
 

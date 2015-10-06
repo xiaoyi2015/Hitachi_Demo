@@ -47,6 +47,10 @@ public class ServerConfigManager {
         return rootJavaObj.getSections();
     }
 
+    public List<ServerConfig.Scene> getScene(){
+        return rootJavaObj.getScenes();
+    }
+
     public void addSections(Section section) {
         List<Section> sections = rootJavaObj.getSections();
         sections.add(section);

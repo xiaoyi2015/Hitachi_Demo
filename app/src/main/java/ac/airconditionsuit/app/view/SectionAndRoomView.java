@@ -15,34 +15,32 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
-import ac.airconditionsuit.app.activity.InfoPageActivity;
 import ac.airconditionsuit.app.activity.RoomAirSettingActivity;
 import ac.airconditionsuit.app.entity.Room;
 
-public class SectionWithArrowView extends RelativeLayout {
+public class SectionAndRoomView extends RelativeLayout {
 
     private List<Room> rooms;
 
-    public SectionWithArrowView(Context context, List<Room> roomList) {
+    public SectionAndRoomView(Context context, List<Room> roomList) {
         super(context);
         this.rooms = roomList;
         init(context);
     }
 
-    public SectionWithArrowView(Context context, AttributeSet attrs) {
+    public SectionAndRoomView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public SectionWithArrowView(Context context, AttributeSet attrs, int defStyle) {
+    public SectionAndRoomView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
 
     private void init(Context context) {
-        inflate(context, R.layout.custom_common_section_with_arrow_view, this);
+        inflate(context, R.layout.custom_section_and_room_view, this);
         ImageView arrowIconView = (ImageView) findViewById(R.id.arrow_icon);
         arrowIconView.setImageResource(R.drawable.icon_arrow_right);
 
@@ -123,6 +121,19 @@ public class SectionWithArrowView extends RelativeLayout {
 
             return convertView;
         }
+    }
+
+    public class RoomCustomView extends LinearLayout{
+
+        public RoomCustomView(Context context) {
+            super(context);
+            init(context);
+        }
+
+        private void init(Context context) {
+            inflate(context, R.layout.custom_room_view,this);
+        }
+
     }
 
 }
