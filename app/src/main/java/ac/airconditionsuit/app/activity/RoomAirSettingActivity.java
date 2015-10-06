@@ -22,7 +22,7 @@ public class RoomAirSettingActivity extends BaseActivity{
                 case R.id.left_icon:
                     finish();
                     break;
-
+                //TODO change color and status, write to file
                 case R.id.on_off_view:
                     break;
                 case R.id.mode_view:

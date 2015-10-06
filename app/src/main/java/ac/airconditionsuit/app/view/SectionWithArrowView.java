@@ -46,6 +46,7 @@ public class SectionWithArrowView extends RelativeLayout {
         ImageView arrowIconView = (ImageView) findViewById(R.id.arrow_icon);
         arrowIconView.setImageResource(R.drawable.icon_arrow_right);
 
+        //TODO set room status
         ListView listView = (ListView)findViewById(R.id.room_list);
         MyAirRoomAdapter myAirRoomAdapter = new MyAirRoomAdapter(context);
         listView.setAdapter(myAirRoomAdapter);
@@ -106,6 +107,7 @@ public class SectionWithArrowView extends RelativeLayout {
             roomView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // TODO click to change bg
                     Intent intent = new Intent();
                     intent.setClass(context, RoomAirSettingActivity.class);
                     intent.putExtra("title",rooms.get(position).getName());
