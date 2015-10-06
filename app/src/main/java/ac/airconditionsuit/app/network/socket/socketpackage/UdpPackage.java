@@ -1,11 +1,6 @@
-package ac.airconditionsuit.app.network.socket;
+package ac.airconditionsuit.app.network.socket.socketpackage;
 
-import ac.airconditionsuit.app.Constant;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.ArrayList;
-import java.util.Arrays;
+import ac.airconditionsuit.app.network.socket.socketpackage.SocketPackage;
 
 /**
  * Created by ac on 9/24/15.
