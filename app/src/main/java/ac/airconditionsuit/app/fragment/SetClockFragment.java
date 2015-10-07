@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -27,6 +29,8 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  */
 public class SetClockFragment extends BaseFragment {
     private View view;
+    private static String[] weekName = new String[]{"一","二","三","四","五","六","日"};
+
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
         public void onClick(View v) {
@@ -57,7 +61,7 @@ public class SetClockFragment extends BaseFragment {
         CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_set_time));
         commonTopBar.setRightIconView(R.drawable.add);
-        commonTopBar.setIconView(null,myOnClickListener);
+        commonTopBar.setIconView(null, myOnClickListener);
         commonTopBar.setRoundLeftIconView(null);
     }
 
@@ -91,6 +95,67 @@ public class SetClockFragment extends BaseFragment {
             if(convertView == null){
                 convertView = new ClockCustomView(context);
             }
+            ImageView bgBar = (ImageView)convertView.findViewById(R.id.bg_bar);
+            TextView clockName = (TextView)convertView.findViewById(R.id.clock_name);
+            TextView clockSetting1 = (TextView)convertView.findViewById(R.id.clock_setting1);
+            TextView clockSetting2 = (TextView)convertView.findViewById(R.id.clock_setting2);
+            TextView clockTime = (TextView)convertView.findViewById(R.id.clock_time);
+            clockName.setText(list.get(position).getName());
+            clockTime.setText(list.get(position).getHour()+":"+list.get(position).getMinute());
+            String on_off = "";
+            String mode = "";
+            String fan = "";
+            String temp = list.get(position).getTemperature() + getString(R.string.temp_symbol);
+            String repeat;
+            String week;
+
+            switch (list.get(position).getMode()){
+                case 0:
+                    mode = getString(R.string.cool);
+                    break;
+                case 1:
+                    mode = getString(R.string.hot);
+                    break;
+                case 2:
+                    mode = getString(R.string.dry);
+                    break;
+                case 3:
+                    mode = getString(R.string.wind);
+                    break;
+            }
+            switch (list.get(position).getFan()){
+                case 0:
+                    fan = getString(R.string.low_wind);
+                    break;
+                case 1:
+                    fan = getString(R.string.medium_wind);
+                    break;
+                case 2:
+                    fan = getString(R.string.high_wind);
+                    break;
+            }
+            if(list.get(position).isRepeat()){
+                repeat = getString(R.string.repeat);
+                week = getString(R.string.week_name);
+                for(int i = 0; i < list.get(position).getWeek().size()-1; i++){
+                    week = week + weekName[list.get(position).getWeek().get(i)] + "|";
+                }
+                week = week + weekName[list.get(position).getWeek().get(list.get(position).getWeek().size()-1)];
+                clockSetting2.setText(repeat + "|" + week);
+            }else{
+                repeat = getString(R.string.not_repeat);
+                clockSetting2.setText(repeat);
+            }
+
+            if(list.get(position).isOnoff()){
+                on_off = getString(R.string.on);
+                bgBar.setImageResource(R.drawable.dc_clock_bg_bar_on);
+            }else {
+                on_off = getString(R.string.off);
+                bgBar.setImageResource(R.drawable.dc_clock_bg_bar_off);
+            }
+            clockSetting1.setText(on_off + "|" + mode + "|" + fan + "|" + temp);
+
             //TODO set clock info to clock_view
             return convertView;
         }
