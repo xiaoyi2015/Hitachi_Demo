@@ -5,15 +5,14 @@ import ac.airconditionsuit.app.Config.LocalConfigManager;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.socket.SocketManager;
-import ac.airconditionsuit.app.network.socket.SocketPackage;
 import android.app.Application;
-import android.content.Context;
 import android.widget.Toast;
 
 import java.io.*;
 
 /**
  * Created by ac on 9/19/15.
+ *
  */
 public class MyApp extends Application {
     private static MyApp INSTANCE;
@@ -68,7 +67,7 @@ public class MyApp extends Application {
      * init for configManager
      * this function show be call after user login.
      *
-     * @param commonNetworkListener
+     * @param commonNetworkListener the listener call after init config from server
      */
     public void initServerConfigManager(CommonNetworkListener commonNetworkListener) {
         serverConfigManager = new ServerConfigManager();
@@ -92,7 +91,7 @@ public class MyApp extends Application {
      * this method should be called after login,
      * to avoid {@link #user} is null when user first use app
      *
-     * @param user
+     * @param user the user get after login
      */
     public void setUser(MyUser user) {
         this.user = user;
