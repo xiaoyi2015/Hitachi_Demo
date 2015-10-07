@@ -51,6 +51,10 @@ public class ServerConfigManager {
         return rootJavaObj.getScenes();
     }
 
+    public List<ServerConfig.Timer> getTimer(){
+        return rootJavaObj.getTimers();
+    }
+
     public void addSections(Section section) {
         List<Section> sections = rootJavaObj.getSections();
         sections.add(section);
