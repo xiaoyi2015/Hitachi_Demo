@@ -57,7 +57,7 @@
             android:id="@+id/remember_psd_box"
             android:background="@drawable/login_select_box"
             android:layout_below="@id/password"
-            android:button="@drawable/checkbox"
+            android:button="@drawable/checkbox_remember_psd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false" />

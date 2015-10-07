@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:background="@drawable/dc_clock_bg_normal"
+    android:background="@drawable/checkbox_clock"
     android:id="@+id/scene_view"
     android:layout_marginLeft="25dp"
     android:layout_marginRight="25dp"
@@ -9,8 +9,8 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@id/bg_bar"
-        android:src="@drawable/dc_bg_bar_off"
+        android:id="@+id/bg_bar"
+        android:src="@drawable/dc_clock_bg_bar_off"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -21,17 +21,30 @@
 
         <TextView
             android:id="@+id/clock_name"
-            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_alignParentTop="true"
-            android:text="111111"
+            android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/clock_setting"
-            android:layout_margin="5dp"
-            android:layout_below="@+id/clock_name"
-            android:text="11111"
+        android:id="@+id/clock_setting1"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/clock_name"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/clock_setting2"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/clock_setting1"
+            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -39,16 +52,19 @@
             android:id="@+id/clock_time"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_margin="5dp"
-            android:text="11111111111"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="28sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/clock_on_off"
             android:layout_alignParentRight="true"
-            android:layout_margin="5dp"
-            android:src="@drawable/user"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
             android:layout_below="@+id/clock_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

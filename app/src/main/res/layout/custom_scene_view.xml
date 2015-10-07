@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:background="@drawable/dc_room_bg_normal"
+    android:background="@drawable/checkbox_scene"
     android:id="@+id/scene_view"
     android:layout_marginLeft="25dp"
     android:layout_marginRight="25dp"
@@ -9,7 +9,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@id/bg_bar"
+        android:id="@+id/bg_bar"
         android:src="@drawable/dc_bg_bar_off"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

@@ -6,6 +6,8 @@
     <ListView
         android:id="@+id/clock_list"
         android:divider="@null"
+        android:layout_marginTop="30dp"
+        android:listSelector="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </ListView>

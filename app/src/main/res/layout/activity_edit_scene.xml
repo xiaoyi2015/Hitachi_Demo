@@ -39,6 +39,7 @@
 
     <ListView
         android:id="@+id/air_device_list"
+        android:listSelector="@android:color/transparent"
         android:layout_below="@+id/choose_scene_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
