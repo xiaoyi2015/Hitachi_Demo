@@ -183,6 +183,7 @@ public class ServerConfigManager {
         } catch (FileNotFoundException e) {
             Log.e(TAG, "uploaded file can not found");
             e.printStackTrace();
+            return;
         }
         HttpClient.post(requestParams, UploadConfigResponse.class, new HttpClient.JsonResponseHandler<UploadConfigResponse>() {
             @Override

@@ -127,4 +127,6 @@
     <string name="edit_scene">编辑场景</string>
     <string name="scene_name_hint">场景名称</string>
     <string name="choose_scene_text">选择需要设定的空调</string>
+    <string name="upload_success">上传成功</string>
+    <string name="upload_failure">上传失败</string>
 </resources>

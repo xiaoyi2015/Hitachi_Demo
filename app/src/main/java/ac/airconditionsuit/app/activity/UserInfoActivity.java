@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import ac.airconditionsuit.app.Constant;
@@ -30,6 +32,7 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
+import ac.airconditionsuit.app.network.response.UploadConfigResponse;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
@@ -321,7 +324,24 @@ public class UserInfoActivity extends BaseActivity {
         final RequestParams requestParams = new RequestParams();
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_TYPE_SET_CUSTOMER_AVATAR);
-        //TODO for luzheqi : need a http request about upload avatar
+        try {
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_UPLOAD_FILE,avatar);
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, "uploaded file can not found");
+            e.printStackTrace();
+            return;
+        }
+        HttpClient.post(requestParams, UploadConfigResponse.class, new HttpClient.JsonResponseHandler<UploadConfigResponse>() {
+            @Override
+            public void onSuccess(UploadConfigResponse response) {
+                MyApp.getApp().showToast(R.string.upload_success);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                MyApp.getApp().showToast(R.string.upload_failure);
+            }
+        });
 
     }
 
