@@ -218,8 +218,6 @@ public class UserInfoActivity extends BaseActivity {
                                         photoPickerIntent.setType("image/*");
                                         startActivityForResult(photoPickerIntent, PICK_FROM_GALLERY_CODE);
                                     } else {
-                                        //TODO for luzheqi there is a bug for getting the camera
-
                                         Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                                         intentFromCapture.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
                                         intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, getAuxUri());
@@ -243,7 +241,6 @@ public class UserInfoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_setting_user_information);
         super.onCreate(savedInstanceState);
-
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.fill_user_info));
         commonTopBar.setIconView(myOnClickListener, null);

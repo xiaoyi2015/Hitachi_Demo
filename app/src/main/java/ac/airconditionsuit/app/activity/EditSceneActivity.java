@@ -30,6 +30,12 @@ public class EditSceneActivity extends BaseActivity{
         public void onClick(View v) {
             super.onClick(v);
             switch (v.getId()) {
+                case R.id.left_icon:
+                    finish();
+                    break;
+                case R.id.right_icon:
+                    //TODO submit the commands
+                    break;
 
             }
         }

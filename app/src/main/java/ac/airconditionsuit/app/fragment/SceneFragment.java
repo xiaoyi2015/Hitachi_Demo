@@ -33,7 +33,6 @@ public class SceneFragment extends BaseFragment {
         @Override
         public void onClick(View v) {
             super.onClick(v);
-
             switch (v.getId()){
                 case R.id.right_icon:
                     if(click_num == 0) {
