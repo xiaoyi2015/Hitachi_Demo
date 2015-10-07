@@ -346,15 +346,12 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     private File createImageFile() {
-        // Create an image file name
-        File storageDir = Environment.getExternalStorageDirectory();
-
         // Save a file: path for use with ACTION_VIEW intents
         try {
             return File.createTempFile(
                     "temp",  /* prefix */
                     ".jpg",         /* suffix */
-                    storageDir      /* directory */
+                    getCacheDir()      /* directory */
             );
         } catch (IOException e) {
             e.printStackTrace();
