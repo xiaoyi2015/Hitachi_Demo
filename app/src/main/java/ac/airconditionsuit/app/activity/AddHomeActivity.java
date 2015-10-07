@@ -37,6 +37,6 @@ public class AddHomeActivity extends BaseActivity{
         commonTopBar.setTitle(getString(R.string.add_new_home));
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
         addHomeText = (EditText)findViewById(R.id.edit_new_home_name);
-        //TODO for luzheqi Ìí¼Ó¼Ò
+        //TODO for luzheqi add_home function
     }
 }

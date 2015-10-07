@@ -215,7 +215,7 @@ public class UserInfoActivity extends BaseActivity {
                                         photoPickerIntent.setType("image/*");
                                         startActivityForResult(photoPickerIntent, PICK_FROM_GALLERY_CODE);
                                     } else {
-                                        //TODO for luzheqi 获取相机有bug
+                                        //TODO for luzheqi there is a bug for getting the camera
 
                                         Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                                         intentFromCapture.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
@@ -321,7 +321,7 @@ public class UserInfoActivity extends BaseActivity {
         final RequestParams requestParams = new RequestParams();
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_TYPE_SET_CUSTOMER_AVATAR);
-        //TODO for luzheqi 定义一个上传头像文件的http请求，成功将network_icon填上头像，再保存在本地文件，失败弹个toast
+        //TODO for luzheqi : need a http request about upload avatar
 
     }
 
@@ -355,12 +355,10 @@ public class UserInfoActivity extends BaseActivity {
     public void startPhotoCrop(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
-        // 设置裁剪
-        // aspectX aspectY 是宽高的比例
+
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
 
-        // outputX outputY 是裁剪图片宽高
         intent.putExtra("outputX", 150);
         intent.putExtra("outputY", 150);
         intent.putExtra("scale", true);
