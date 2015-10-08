@@ -143,4 +143,6 @@
     <string name="clock_name_hint">定时名称</string>
     <string name="air_mode">空调模式</string>
     <string name="choose_clock_text">选择需要定时的空调</string>
+    <string name="to_do_control_together">将对本场景执行一键式集中控制</string>
+    <string name="is_to_do_control">\n是否要执行?</string>
 </resources>

@@ -1,8 +1,12 @@
 package ac.airconditionsuit.app.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,7 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.activity.BaseActivity;
 import ac.airconditionsuit.app.activity.EditSceneActivity;
 import ac.airconditionsuit.app.activity.InfoPageActivity;
+import ac.airconditionsuit.app.entity.Section;
 import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
@@ -112,10 +117,24 @@ public class SceneFragment extends BaseFragment {
             sceneView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.putExtra("title",list.get(position).getName());
-                    intent.setClass(getActivity(), EditSceneActivity.class);
-                    startActivity(intent);
+                    if (click_num == 1) {
+                        Intent intent = new Intent();
+                        intent.putExtra("title", list.get(position).getName());
+                        intent.setClass(getActivity(), EditSceneActivity.class);
+                        startActivity(intent);
+                    } else {
+                        TextView toDoControl = new TextView(getActivity());
+                        toDoControl.setGravity(Gravity.CENTER);
+                        toDoControl.setText(R.string.is_to_do_control);
+                        toDoControl.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+                        new AlertDialog.Builder(getActivity()).setTitle(R.string.to_do_control_together).setView(toDoControl).
+                                setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+                    }
                 }
             });
             return convertView;

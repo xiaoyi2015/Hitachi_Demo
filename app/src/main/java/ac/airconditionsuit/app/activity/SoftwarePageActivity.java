@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,9 @@ public class SoftwarePageActivity extends BaseActivity {
             switch (v.getId()){
                 case R.id.add_group:
                     final EditText et = new EditText(SoftwarePageActivity.this);
+                    et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+                    et.setHeight(150);
+                    et.setBackgroundResource(R.color.text_color_white);
                     new AlertDialog.Builder(SoftwarePageActivity.this).setTitle(R.string.pls_input_group_name).setView(et).
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                         @Override
@@ -130,6 +134,9 @@ public class SoftwarePageActivity extends BaseActivity {
                         @Override
                         public void onClick(View v) {
                             final EditText et = new EditText(SoftwarePageActivity.this);
+                            et.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+                            et.setHeight(150);
+                            et.setBackgroundResource(R.color.text_color_white);
                             new AlertDialog.Builder(SoftwarePageActivity.this).setTitle(R.string.pls_input_group_name).setView(et).
                                     setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                         @Override
