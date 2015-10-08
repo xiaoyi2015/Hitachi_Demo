@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -25,6 +26,9 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  */
 public class EditSceneActivity extends BaseActivity{
 
+    private boolean is_add;
+    private EditText sceneName;
+
     private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
         public void onClick(View v) {
@@ -34,21 +38,36 @@ public class EditSceneActivity extends BaseActivity{
                     finish();
                     break;
                 case R.id.right_icon:
-                    //TODO submit the commands
+                    if(is_add){
+                        //TODO add a scene
+                    }else{
+                        //TODO edit a scene
+                    }
+                    Intent intent = new Intent();
+                    intent.putExtra("isAdd",is_add);
+                    intent.putExtra("title",sceneName.getText());
+                    setResult(RESULT_OK, intent);
+                    finish();
                     break;
 
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_edit_scene);
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         String scene_name  = getIntent().getStringExtra("title");
+        if(scene_name.equals("")){
+            is_add = true;
+        }else{
+            is_add = false;
+        }
         commonTopBar.setTitle(scene_name);
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
-        EditText sceneName = (EditText)findViewById(R.id.scene_name_text);
+        sceneName = (EditText)findViewById(R.id.scene_name_text);
         sceneName.setText(scene_name);
         sceneName.setSelection(scene_name.length());
 
@@ -119,7 +138,15 @@ public class EditSceneActivity extends BaseActivity{
             TextView deviceName = (TextView)convertView.findViewById(R.id.label_text);
             TextView settingText = (TextView)convertView.findViewById(R.id.online_text);
             deviceName.setText(list.get(position).getName());
-            deviceName.setTextSize(TypedValue.COMPLEX_UNIT_SP,19);
+            deviceName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
             return convertView;
         }
     }

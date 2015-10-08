@@ -33,7 +33,11 @@ import ac.airconditionsuit.app.view.CommonTopBar;
 public class SceneFragment extends BaseFragment {
 
     private View view;
+    private CommonTopBar commonTopBar;
     private int click_num = 0;
+    private static final int RESULT_OK = -1;
+    private static final int REQUEST_CODE_EDIT_SCENE = 110;
+
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
         public void onClick(View v) {
@@ -47,7 +51,6 @@ public class SceneFragment extends BaseFragment {
                         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
                         click_num = 1;
                     }else{
-                        // TODO save scene
                         commonTopBar.setTitle(getString(R.string.tab_label_scene_mode));
                         commonTopBar.setRightIconView(R.drawable.edit);
                         commonTopBar.setIconView(null, myOnClickListener);
@@ -55,12 +58,14 @@ public class SceneFragment extends BaseFragment {
                     }
                     break;
                 case R.id.left_icon:
-                    //TODO add new scene
+                    Intent intent = new Intent();
+                    intent.putExtra("title", "");
+                    intent.setClass(getActivity(), EditSceneActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_EDIT_SCENE);
                     break;
             }
         }
     };
-    private CommonTopBar commonTopBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -121,7 +126,7 @@ public class SceneFragment extends BaseFragment {
                         Intent intent = new Intent();
                         intent.putExtra("title", list.get(position).getName());
                         intent.setClass(getActivity(), EditSceneActivity.class);
-                        startActivity(intent);
+                        startActivityForResult(intent,REQUEST_CODE_EDIT_SCENE);
                     } else {
                         TextView toDoControl = new TextView(getActivity());
                         toDoControl.setGravity(Gravity.CENTER);
@@ -131,13 +136,25 @@ public class SceneFragment extends BaseFragment {
                                 setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-
+                                        //TODO submit the data to server
                                     }
                                 }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
                     }
                 }
             });
             return convertView;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK){
+            switch (requestCode){
+                case REQUEST_CODE_EDIT_SCENE:
+                    //TODO
+                    break;
+
+            }
         }
     }
 
