@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -12,4 +13,105 @@
         app:rightIcon="@drawable/save">
     </ac.airconditionsuit.app.view.CommonTopBar>
 
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/default_top_bar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/clock_name_text"
+                style="@style/white_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/login_title_cancel"
+                android:hint="@string/clock_name_hint"
+                android:textSize="19sp" />
+
+            <ImageView
+                android:id="@+id/divide_line1"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_below="@+id/clock_name_text"
+                />
+
+            <TimePicker
+                android:id="@+id/time_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divide_line1"
+                android:background="@color/text_color_white"
+                android:timePickerMode="spinner">
+            </TimePicker>
+
+            <ac.airconditionsuit.app.view.CommonButtonWithArrow
+                android:id="@+id/clock_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/time_picker"
+                android:layout_marginTop="15dp"
+                app:textLabel="@string/air_mode">
+            </ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+            <ImageView
+                android:id="@+id/divide_line2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/clock_mode"
+                android:background="@color/text_color_gray" />
+
+            <ac.airconditionsuit.app.view.CommonButtonWithArrow
+                android:id="@+id/clock_repeat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divide_line2">
+            </ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+            <TextView
+                android:id="@+id/choose_clock_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/clock_repeat"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/choose_clock_text"
+                android:textColor="@color/text_color_gray"
+                android:textSize="16sp" />
+
+            <ListView
+                android:id="@+id/air_device_list1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/choose_clock_text"
+                android:layout_marginTop="5dp">
+
+            </ListView>
+
+            <TextView
+                android:id="@+id/delete_clock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/air_device_list1"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/switch_on_pink"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/delete"
+                android:textColor="@color/text_color_white"
+                android:textSize="19sp" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
 </RelativeLayout>
+

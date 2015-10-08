@@ -14,7 +14,6 @@ import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
-import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
@@ -54,8 +53,8 @@ public class EditSceneActivity extends BaseActivity{
 
         ListView listView = (ListView)findViewById(R.id.air_device_list);
         List<ServerConfig.Device> devices = MyApp.getApp().getServerConfigManager().getDevices();
-        AirDeviceSettingAdapter airDeviceSettingAdapter = new AirDeviceSettingAdapter(EditSceneActivity.this,devices);
-        listView.setAdapter(airDeviceSettingAdapter);
+        AirDeviceSceneSettingAdapter airDeviceSceneSettingAdapter = new AirDeviceSceneSettingAdapter(EditSceneActivity.this,devices);
+        listView.setAdapter(airDeviceSceneSettingAdapter);
 
         setOnclickListenerOnTextViewDrawable(new View.OnClickListener() {
             @Override
@@ -67,12 +66,12 @@ public class EditSceneActivity extends BaseActivity{
         }, sceneName);
     }
 
-    private class AirDeviceSettingAdapter extends BaseAdapter{
+    private class AirDeviceSceneSettingAdapter extends BaseAdapter{
 
         private Context context;
         List<ServerConfig.Device> list;
 
-        public AirDeviceSettingAdapter(Context context,List<ServerConfig.Device> list){
+        public AirDeviceSceneSettingAdapter(Context context, List<ServerConfig.Device> list){
             this.context = context;
             this.list = list;
         }
@@ -100,7 +99,7 @@ public class EditSceneActivity extends BaseActivity{
             TextView deviceName = (TextView)convertView.findViewById(R.id.label_text);
             TextView settingText = (TextView)convertView.findViewById(R.id.online_text);
             deviceName.setText(list.get(position).getName());
-            deviceName.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+            deviceName.setTextSize(TypedValue.COMPLEX_UNIT_SP,19);
             return convertView;
         }
     }

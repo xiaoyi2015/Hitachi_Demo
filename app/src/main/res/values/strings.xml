@@ -140,4 +140,7 @@
     <string name="week_name">周</string>
     <string name="on">开机</string>
     <string name="off">关机</string>
+    <string name="clock_name_hint">定时名称</string>
+    <string name="air_mode">空调模式</string>
+    <string name="choose_clock_text">选择需要定时的空调</string>
 </resources>

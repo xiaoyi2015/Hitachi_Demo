@@ -26,7 +26,9 @@
 
             <LinearLayout
                 android:id="@+id/icon_name_gender"
-                style="@style/white_text_view_layout"
+                android:background="@color/text_color_white"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -36,6 +38,7 @@
                     android:id="@+id/network_icon"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/user" />

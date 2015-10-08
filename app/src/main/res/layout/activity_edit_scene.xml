@@ -41,9 +41,22 @@
         android:id="@+id/air_device_list"
         android:listSelector="@android:color/transparent"
         android:layout_below="@+id/choose_scene_text"
+        android:layout_above="@+id/delete_scene"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
     </ListView>
+
+    <TextView
+        android:id="@+id/delete_scene"
+        android:padding="10dp"
+        android:layout_below="@+id/air_device_list"
+        android:text="@string/delete"
+        android:gravity="center"
+        android:background="@color/switch_on_pink"
+        android:textColor="@color/text_color_white"
+        android:textSize="19sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
