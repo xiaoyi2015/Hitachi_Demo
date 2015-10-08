@@ -172,7 +172,7 @@ public class ChangePhoneActivity extends BaseActivity{
 
     private void disableButton(Button getVerifyCodeButton) {
         getVerifyCodeButton.setTag(true);
-        getVerifyCodeButton.setTextColor(getResources().getColor(R.color.white));
+        getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_white));
     }
 
 }
