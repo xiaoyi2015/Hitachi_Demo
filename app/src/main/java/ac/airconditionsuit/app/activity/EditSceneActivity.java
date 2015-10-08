@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -56,6 +57,8 @@ public class EditSceneActivity extends BaseActivity{
         AirDeviceSceneSettingAdapter airDeviceSceneSettingAdapter = new AirDeviceSceneSettingAdapter(EditSceneActivity.this,devices);
         listView.setAdapter(airDeviceSceneSettingAdapter);
 
+        setListViewHeightBasedOnChildren(listView);
+
         setOnclickListenerOnTextViewDrawable(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +67,23 @@ public class EditSceneActivity extends BaseActivity{
                 }
             }
         }, sceneName);
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
     }
 
     private class AirDeviceSceneSettingAdapter extends BaseAdapter{
