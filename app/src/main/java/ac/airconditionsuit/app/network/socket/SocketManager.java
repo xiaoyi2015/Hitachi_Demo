@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.network.socket.socketpackage.LoginPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.SocketPackage;
 import ac.airconditionsuit.app.util.ACByteQueue;
 import ac.airconditionsuit.app.util.ByteUtil;
@@ -46,14 +47,15 @@ public class SocketManager {
         @Override
         public void connect() throws IOException {
             socket = new Socket(IP, PORT);
+            Log.i(TAG, "connect to host by tcp success");
         }
 
         @Override
         public void sendMessage(SocketPackage socketPackage) {
             if (socket != null && socket.isConnected()) {
                 try {
-                    socket.getOutputStream().write(socketPackage.getBytes());
-                } catch (IOException e) {
+                    socket.getOutputStream().write(socketPackage.getBytesTCP());
+                } catch (Exception e) {
                     Log.e(TAG, "sendMessage by Tcp failed: socket.getOutputStream() error");
                     e.printStackTrace();
                 }
@@ -118,11 +120,11 @@ public class SocketManager {
         public void sendMessage(SocketPackage socketPackage) {
             if (datagramSocket != null && datagramSocket.isConnected()) {
                 try {
-                    byte[] sentContent = socketPackage.getBytes();
+                    byte[] sentContent = socketPackage.getBytesUDP();
                     DatagramPacket pack = new DatagramPacket(sentContent, sentContent.length, InetAddress.getByName(HOST), PORT);
                     datagramSocket.send(pack);
-                } catch (IOException e) {
-                    Log.e(TAG, "sendMessage by Tcp failed: socket.getOutputStream() error");
+                } catch (Exception e) {
+                    Log.e(TAG, "sendMessage by Tcp failed: socket.getOutputStream() error or gen udp package error");
                     e.printStackTrace();
                 }
             } else {
@@ -196,13 +198,20 @@ public class SocketManager {
         }
     }
 
+    public int getCurrentSocketType() {
+        return currentSocketType;
+    }
+
     public void init(int status) {
+        //TODO temp code for debug
+        status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
+
         if (status == NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT) {
             //udp
             currentSocketType = UDP;
             socket = new UdpSocket();
         } else if (status == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT
-                || status == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT) {
+                || status == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
             //tcp
             currentSocketType = TCP;
             socket = new TcpSocket();
@@ -211,11 +220,9 @@ public class SocketManager {
             currentSocketType = UNCONNECT;
 
             //如果没有联网，就不进行后面的操作了，直接return
+            Log.i(TAG, "init socket manager failed due to no network");
             return;
         }
-
-//        currentSocketType = UDP;
-//        socket = new UdpSocket();
 
         //network task should be run on background
         new Thread(new Runnable() {
@@ -234,7 +241,7 @@ public class SocketManager {
                 receiveThread.start();
 
                 //登录
-                SocketPackage loginPackage = new SocketPackage();
+                LoginPackage loginPackage = new LoginPackage("abc");
                 sendMessage(loginPackage);
             }
         }).start();
