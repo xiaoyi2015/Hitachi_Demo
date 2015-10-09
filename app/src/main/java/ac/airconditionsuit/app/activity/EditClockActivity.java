@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -21,6 +22,7 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
+import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
@@ -29,6 +31,8 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  */
 public class EditClockActivity extends BaseActivity{
 
+    private boolean is_add;
+    private int index;
     private static String[] weekName = new String[]{"周一","周二","周三","周四","周五","周六","周日"};
 
     private MyOnClickListener myOnClickListener = new MyOnClickListener() {
@@ -41,11 +45,33 @@ public class EditClockActivity extends BaseActivity{
                     break;
                 case R.id.right_icon:
                     //TODO save clock setting
+                    final String check_clock_name = CheckUtil.checkLength(clockNameText, 10, R.string.pls_input_clock_name, R.string.clock_name_length_too_long);
+                    if (check_clock_name == null)
+                        return;
+                    if(is_add){
+                        //TODO add device setting
+                        ServerConfig serverConfig = new ServerConfig();
+                        ServerConfig.Timer timer = serverConfig.new Timer();
+                        timer.setName(check_clock_name);
+                        MyApp.getApp().getServerConfigManager().addTimer(timer);
+                        finish();
+                    }else{
+                        //TODO save device setting
+                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setName(check_clock_name);
+                        MyApp.getApp().getServerConfigManager().writeToFile();
+                        Intent intent = new Intent();
+                        intent.putExtra("index",index);
+                        intent.putExtra("title",check_clock_name);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+
                     break;
 
             }
         }
     };
+    private EditText clockNameText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +81,11 @@ public class EditClockActivity extends BaseActivity{
         commonTopBar.setTitle(getString(R.string.tab_label_set_time));
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
 
-        EditText clockNameText = (EditText)findViewById(R.id.clock_name_text);
-        String clock_name  = getIntent().getStringExtra("title");
+        clockNameText = (EditText)findViewById(R.id.clock_name_text);
+        index = getIntent().getIntExtra("index",-1);
+        String clock_name = getIntent().getStringExtra("title");
+        is_add = clock_name.equals("");
+
         clockNameText.setText(clock_name);
         clockNameText.setSelection(clock_name.length());
         setOnclickListenerOnTextViewDrawable(new View.OnClickListener() {

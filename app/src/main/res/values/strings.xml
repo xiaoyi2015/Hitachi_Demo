@@ -147,4 +147,6 @@
     <string name="is_to_do_control">\n是否要执行?</string>
     <string name="pls_input_scene_name">请输入场景名称</string>
     <string name="scene_name_length_too_long">场景名称不能超过10个字符</string>
+    <string name="pls_input_clock_name">请输入定时名称</string>
+    <string name="clock_name_length_too_long">定时名称长度不能超过10个字符</string>
 </resources>

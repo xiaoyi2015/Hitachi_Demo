@@ -49,12 +49,13 @@ public class SetClockFragment extends BaseFragment {
     };
     private static final int REQUEST_CODE_CLOCK = 200;
     private static final int RESULT_OK = 201;
+    private ClockSettingAdapter clockSettingAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_set_clock,container,false);
         ListView listView = (ListView)view.findViewById(R.id.clock_list);
-        ClockSettingAdapter clockSettingAdapter = new ClockSettingAdapter(getActivity(),MyApp.getApp().getServerConfigManager().getTimer());
+        clockSettingAdapter = new ClockSettingAdapter(getActivity(),MyApp.getApp().getServerConfigManager().getTimer());
         listView.setAdapter(clockSettingAdapter);
         return view;
     }
@@ -74,7 +75,9 @@ public class SetClockFragment extends BaseFragment {
         if (resultCode == RESULT_OK)
             switch (requestCode) {
                 case REQUEST_CODE_CLOCK:
-                    //TODO
+                    //TODO setting other setting
+                    clockSettingAdapter.list.get(data.getIntExtra("index", -1)).setName(data.getStringExtra("title"));
+                    clockSettingAdapter.notifyDataSetChanged();
                     break;
             }
         super.onActivityResult(requestCode, resultCode, data);
@@ -182,6 +185,7 @@ public class SetClockFragment extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                    intent.putExtra("index",position);
                     intent.putExtra("title",list.get(position).getName());
                     intent.putExtra("data",list.get(position).toJsonString());
                     intent.setClass(getActivity(), EditClockActivity.class);
