@@ -12,38 +12,66 @@
         app:rightIcon="@drawable/save">
     </ac.airconditionsuit.app.view.CommonTopBar>
 
-    <EditText
-        android:id="@+id/scene_name_text"
-        android:layout_below="@+id/default_top_bar"
-        android:layout_marginTop="25dp"
-        style="@style/white_text_view_layout"
-        android:textSize="19sp"
-        android:hint="@string/scene_name_hint"
-        android:drawableRight="@drawable/login_title_cancel"
-        android:drawablePadding="10dp"
+    <ScrollView
+        android:id="@+id/scroll_scene"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/default_top_bar">
 
-    <TextView
-        android:id="@+id/choose_scene_text"
-        android:textSize="16sp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/choose_scene_text"
-        android:textColor="@color/text_color_gray"
-        android:layout_below="@+id/scene_name_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <ListView
-        android:id="@+id/air_device_list"
-        android:listSelector="@android:color/transparent"
-        android:layout_below="@+id/choose_scene_text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-    </ListView>
+            <EditText
+                android:id="@+id/scene_name_text"
+                style="@style/white_text_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/login_title_cancel"
+                android:hint="@string/scene_name_hint"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/choose_scene_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/scene_name_text"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/choose_scene_text"
+                android:textColor="@color/text_color_gray"
+                android:textSize="16sp" />
+
+            <ListView
+                android:id="@+id/air_device_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/choose_scene_text"
+                android:listSelector="@android:color/transparent">
+
+            </ListView>
+
+            <TextView
+                android:id="@+id/delete_scene"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/air_device_list"
+                android:background="@color/switch_on_pink"
+                android:gravity="center"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="30dp"
+                android:padding="10dp"
+                android:text="@string/delete"
+                android:textColor="@color/text_color_white"
+                android:textSize="19sp" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

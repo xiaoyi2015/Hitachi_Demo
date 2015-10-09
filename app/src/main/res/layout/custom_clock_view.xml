@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:background="@drawable/checkbox_clock"
-    android:id="@+id/scene_view"
+    android:id="@+id/clock_view"
     android:layout_marginLeft="25dp"
     android:layout_marginRight="25dp"
     android:layout_width="match_parent"
@@ -55,20 +56,20 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginBottom="5dp"
             android:textSize="28sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ImageView
+        <com.kyleduo.switchbutton.SwitchButton
             android:id="@+id/clock_on_off"
             android:layout_alignParentRight="true"
+            app:kswOffColor="@color/switch_off_gray"
+            app:kswOnColor="@color/switch_on_pink"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:layout_below="@+id/clock_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
 
     </RelativeLayout>
 

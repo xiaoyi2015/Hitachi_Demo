@@ -28,6 +28,8 @@
         android:layout_below="@+id/old_password_text"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:layout_marginTop="20dp"
         style="@style/white_text_view_layout"
         android:orientation="horizontal"

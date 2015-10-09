@@ -60,11 +60,38 @@ public class ServerConfigManager {
         sections.add(section);
         writeToFile();
     }
+
+    public void addScene(ServerConfig.Scene scene) {
+        List<ServerConfig.Scene> scenes = rootJavaObj.getScenes();
+        scenes.add(scene);
+        writeToFile();
+    }
+
+    public void addTimer(ServerConfig.Timer timer) {
+        List<ServerConfig.Timer> timers = rootJavaObj.getTimers();
+        timers.add(timer);
+        writeToFile();
+    }
+
     public void deleteSection(int position){
         List<Section> sections = rootJavaObj.getSections();
         sections.remove(position);
         writeToFile();
     }
+
+
+    public void deleteScene(int position){
+        List<ServerConfig.Scene> scenes = rootJavaObj.getScenes();
+        scenes.remove(position);
+        writeToFile();
+    }
+
+    public void deleteTimer(int position){
+        List<ServerConfig.Timer> timers = rootJavaObj.getTimers();
+        timers.remove(position);
+        writeToFile();
+    }
+
     public List<ServerConfig.Device> getDevices(){
         return rootJavaObj.getDevices();
     }

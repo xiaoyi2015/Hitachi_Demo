@@ -58,4 +58,12 @@ public class CommonButtonWithArrow extends LinearLayout {
         onlineTextView.setText(string);
     }
 
+    public TextView getLabelTextView(){
+        return labelTextView;
+    }
+
+    public TextView getOnlineTextView(){
+        return onlineTextView;
+    }
+
 }

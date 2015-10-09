@@ -5,6 +5,8 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -172,8 +174,12 @@ public class FamilyFragment extends Fragment{
                 @Override
                 public boolean onLongClick(View v) {
                     if(isAdmin) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setMessage(getString(R.string.delete_member1) + name1.getText().toString() + getString(R.string.delete_member2));
+                        TextView toDoDelete = new TextView(getActivity());
+                        toDoDelete.setGravity(Gravity.CENTER);
+                        toDoDelete.setText(getString(R.string.delete_member1) + name1.getText().toString() + getString(R.string.delete_member2));
+                        toDoDelete.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setView(toDoDelete);
                         builder.setCancelable(false);
                         builder.setPositiveButton(getString(R.string.make_sure), new DialogInterface.OnClickListener() {
                             @Override

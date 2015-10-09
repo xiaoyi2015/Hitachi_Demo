@@ -1,8 +1,12 @@
 package ac.airconditionsuit.app.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,7 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.activity.BaseActivity;
 import ac.airconditionsuit.app.activity.EditSceneActivity;
 import ac.airconditionsuit.app.activity.InfoPageActivity;
+import ac.airconditionsuit.app.entity.Section;
 import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
@@ -28,7 +33,11 @@ import ac.airconditionsuit.app.view.CommonTopBar;
 public class SceneFragment extends BaseFragment {
 
     private View view;
+    private CommonTopBar commonTopBar;
     private int click_num = 0;
+    private static final int RESULT_OK = -1;
+    private static final int REQUEST_CODE_EDIT_SCENE = 110;
+
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
         public void onClick(View v) {
@@ -42,7 +51,6 @@ public class SceneFragment extends BaseFragment {
                         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
                         click_num = 1;
                     }else{
-                        // TODO save scene
                         commonTopBar.setTitle(getString(R.string.tab_label_scene_mode));
                         commonTopBar.setRightIconView(R.drawable.edit);
                         commonTopBar.setIconView(null, myOnClickListener);
@@ -50,19 +58,22 @@ public class SceneFragment extends BaseFragment {
                     }
                     break;
                 case R.id.left_icon:
-                    //TODO add new scene
+                    Intent intent = new Intent();
+                    intent.putExtra("title", "");
+                    intent.setClass(getActivity(), EditSceneActivity.class);
+                    startActivity(intent);
                     break;
             }
         }
     };
-    private CommonTopBar commonTopBar;
+    private SceneAdapter sceneAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_scene,container,false);
-        ListView listView = (ListView)view.findViewById(R.id.scene_list);
+        ListView listView = (ListView) view.findViewById(R.id.scene_list);
         List<ServerConfig.Scene> scene_list = MyApp.getApp().getServerConfigManager().getScene();
-        SceneAdapter sceneAdapter = new SceneAdapter(getActivity(),scene_list);
+        sceneAdapter = new SceneAdapter(getActivity(),scene_list);
         listView.setAdapter(sceneAdapter);
         return view;
     }
@@ -112,13 +123,41 @@ public class SceneFragment extends BaseFragment {
             sceneView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.putExtra("title",list.get(position).getName());
-                    intent.setClass(getActivity(), EditSceneActivity.class);
-                    startActivity(intent);
+                    if (click_num == 1) {
+                        Intent intent = new Intent();
+                        intent.putExtra("index",position);
+                        intent.putExtra("title", list.get(position).getName());
+                        intent.setClass(getActivity(), EditSceneActivity.class);
+                        startActivityForResult(intent,REQUEST_CODE_EDIT_SCENE);
+                    } else {
+                        TextView toDoControl = new TextView(getActivity());
+                        toDoControl.setGravity(Gravity.CENTER);
+                        toDoControl.setText(R.string.is_to_do_control);
+                        toDoControl.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+                        new AlertDialog.Builder(getActivity()).setTitle(R.string.to_do_control_together).setView(toDoControl).
+                                setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //TODO submit the data to server
+                                    }
+                                }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+                    }
                 }
             });
             return convertView;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK){
+            switch (requestCode){
+                case REQUEST_CODE_EDIT_SCENE:
+                    sceneAdapter.list.get(data.getIntExtra("index", -1)).setName(data.getStringExtra("title"));
+                    sceneAdapter.notifyDataSetChanged();
+                    break;
+
+            }
         }
     }
 

@@ -42,7 +42,7 @@ public class CommonTopBar extends RelativeLayout {
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.CommonTopBar, defStyle, 0);
 
-        String titleLabel = a.getString(R.styleable.CommonTopBar_title);
+        String titleLabel = a.getString(R.styleable.CommonTopBar_titleText);
         Drawable leftIcon = a.getDrawable(R.styleable.CommonTopBar_leftIcon);
         Drawable rightIcon = a.getDrawable(R.styleable.CommonTopBar_rightIcon);
 
