@@ -61,18 +61,19 @@ public class SceneFragment extends BaseFragment {
                     Intent intent = new Intent();
                     intent.putExtra("title", "");
                     intent.setClass(getActivity(), EditSceneActivity.class);
-                    startActivityForResult(intent, REQUEST_CODE_EDIT_SCENE);
+                    startActivity(intent);
                     break;
             }
         }
     };
+    private SceneAdapter sceneAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_scene,container,false);
-        ListView listView = (ListView)view.findViewById(R.id.scene_list);
+        ListView listView = (ListView) view.findViewById(R.id.scene_list);
         List<ServerConfig.Scene> scene_list = MyApp.getApp().getServerConfigManager().getScene();
-        SceneAdapter sceneAdapter = new SceneAdapter(getActivity(),scene_list);
+        sceneAdapter = new SceneAdapter(getActivity(),scene_list);
         listView.setAdapter(sceneAdapter);
         return view;
     }
@@ -124,6 +125,7 @@ public class SceneFragment extends BaseFragment {
                 public void onClick(View v) {
                     if (click_num == 1) {
                         Intent intent = new Intent();
+                        intent.putExtra("index",position);
                         intent.putExtra("title", list.get(position).getName());
                         intent.setClass(getActivity(), EditSceneActivity.class);
                         startActivityForResult(intent,REQUEST_CODE_EDIT_SCENE);
@@ -151,7 +153,8 @@ public class SceneFragment extends BaseFragment {
         if (resultCode == RESULT_OK){
             switch (requestCode){
                 case REQUEST_CODE_EDIT_SCENE:
-                    //TODO
+                    sceneAdapter.list.get(data.getIntExtra("index", -1)).setName(data.getStringExtra("title"));
+                    sceneAdapter.notifyDataSetChanged();
                     break;
 
             }

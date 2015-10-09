@@ -18,6 +18,7 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
+import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
@@ -38,27 +39,40 @@ public class EditSceneActivity extends BaseActivity{
                     finish();
                     break;
                 case R.id.right_icon:
+                    final String check_scene_name = CheckUtil.checkLength(sceneName, 10, R.string.pls_input_scene_name, R.string.scene_name_length_too_long);
+                    if (check_scene_name == null)
+                        return;
                     if(is_add){
-                        //TODO add a scene
+                        //TODO add device setting
+                        ServerConfig serverConfig = new ServerConfig();
+                        ServerConfig.Scene scene = serverConfig.new Scene();
+                        scene.setName(check_scene_name);
+                        MyApp.getApp().getServerConfigManager().addScene(scene);
+                        finish();
                     }else{
-                        //TODO edit a scene
+                        //TODO save device setting
+                        MyApp.getApp().getServerConfigManager().getScene().get(index).setName(check_scene_name);
+                        MyApp.getApp().getServerConfigManager().writeToFile();
+                        Intent intent = new Intent();
+                        intent.putExtra("index",index);
+                        intent.putExtra("title",check_scene_name);
+                        setResult(RESULT_OK, intent);
+                        finish();
                     }
-                    Intent intent = new Intent();
-                    intent.putExtra("isAdd",is_add);
-                    intent.putExtra("title",sceneName.getText());
-                    setResult(RESULT_OK, intent);
-                    finish();
+
                     break;
 
             }
         }
     };
+    private int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_edit_scene);
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
+        index = getIntent().getIntExtra("index",-1);
         String scene_name  = getIntent().getStringExtra("title");
         if(scene_name.equals("")){
             is_add = true;
@@ -140,10 +154,11 @@ public class EditSceneActivity extends BaseActivity{
             deviceName.setText(list.get(position).getName());
             deviceName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
 
+
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    //TODO PICKER VIEW
                 }
             });
 
