@@ -111,6 +111,7 @@ public class SocketManager {
         public void connect() throws SocketException, UnknownHostException {
             datagramSocket = new DatagramSocket();
             datagramSocket.connect(InetAddress.getByName(HOST), PORT);
+            Log.i(TAG, "connect to host by udp success");
         }
 
         @Override
@@ -213,21 +214,30 @@ public class SocketManager {
             return;
         }
 
-        try {
-            socket.connect();
-        } catch (IOException e) {
-            Log.e(TAG, "establish socket connect failed!");
-            reconnect();
-            e.printStackTrace();
-        }
+//        currentSocketType = UDP;
+//        socket = new UdpSocket();
 
-        //socket链接后开始读取
-        receiveThread = new ReceiveThread();
-        receiveThread.start();
+        //network task should be run on background
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    socket.connect();
+                } catch (IOException e) {
+                    Log.e(TAG, "establish socket connect failed!");
+                    reconnect();
+                    e.printStackTrace();
+                }
 
-        //登录
-        SocketPackage loginPackage = new SocketPackage();
-        sendMessage(loginPackage);
+                //socket链接后开始读取
+                receiveThread = new ReceiveThread();
+                receiveThread.start();
+
+                //登录
+                SocketPackage loginPackage = new SocketPackage();
+                sendMessage(loginPackage);
+            }
+        }).start();
     }
 
     public void init() {
