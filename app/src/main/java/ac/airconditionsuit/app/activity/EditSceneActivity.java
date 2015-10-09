@@ -74,11 +74,8 @@ public class EditSceneActivity extends BaseActivity{
         CommonTopBar commonTopBar = getCommonTopBar();
         index = getIntent().getIntExtra("index",-1);
         String scene_name  = getIntent().getStringExtra("title");
-        if(scene_name.equals("")){
-            is_add = true;
-        }else{
-            is_add = false;
-        }
+        is_add = scene_name.equals("");
+
         commonTopBar.setTitle(scene_name);
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
         sceneName = (EditText)findViewById(R.id.scene_name_text);

@@ -126,6 +126,7 @@ public class SceneFragment extends BaseFragment {
                     if (click_num == 1) {
                         Intent intent = new Intent();
                         intent.putExtra("index",position);
+                        intent.putExtra("data",list.get(position).toJsonString());
                         intent.putExtra("title", list.get(position).getName());
                         intent.setClass(getActivity(), EditSceneActivity.class);
                         startActivityForResult(intent,REQUEST_CODE_EDIT_SCENE);
