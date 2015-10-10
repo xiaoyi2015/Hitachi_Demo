@@ -120,7 +120,14 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onSuccess() {
                         dismissWaitProgress();
-                        shortStartActivity(MainActivity.class);
+
+                        MyUser user = MyApp.getApp().getUser();
+                        if (user.infComplete()) {
+                            shortStartActivity(MainActivity.class);
+                        } else {
+                            //TODO
+                            shortStartActivity(UserInfoActivity.class);
+                        }
                         finish();
                     }
 

@@ -5,7 +5,16 @@ import ac.airconditionsuit.app.network.socket.SocketManager;
 /**
  * Created by ac on 9/24/15.
  */
-public interface SocketPackage {
-    byte[] getBytesUDP() throws Exception;
-    byte[] getBytesTCP();
+public abstract class SocketPackage {
+    public abstract byte[] getBytesUDP() throws Exception;
+    public abstract byte[] getBytesTCP();
+
+    String ip;
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+    public String getIp() {
+        return ip;
+    }
+
 }

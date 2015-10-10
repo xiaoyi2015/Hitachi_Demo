@@ -179,7 +179,7 @@ public class HttpClient {
 
             @Override
             protected CommonResponse parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
-//                Log.i(TAG, "response rawJsonData:\n" + rawJsonData);
+                Log.i(TAG, "response rawJsonData:\n" + rawJsonData);
                 return new Gson().fromJson(rawJsonData, CommonResponse.class);
             }
         });
@@ -198,13 +198,13 @@ public class HttpClient {
         new AsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(MyApp.getApp()) {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                Log.e(TAG, "download from " + url + "failed");
+                Log.e(TAG, "download from " + url + " failed");
                 imageView.setImageResource(R.drawable.user);
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, File file) {
-                Log.i(TAG, "download from " + url + "success");
+                Log.i(TAG, "download from " + url + " success");
                 imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
             }
         });

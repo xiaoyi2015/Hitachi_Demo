@@ -31,16 +31,16 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  */
 public class SetClockFragment extends BaseFragment {
     private View view;
-    private static String[] weekName = new String[]{"一","二","三","四","五","六","日"};
+    private static String[] weekName = new String[]{"一", "二", "三", "四", "五", "六", "日"};
 
-    private MyOnClickListener myOnClickListener = new MyOnClickListener(){
+    private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
         public void onClick(View v) {
             super.onClick(v);
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.right_icon:
                     Intent intent = new Intent();
-                    intent.putExtra("title","");
+                    intent.putExtra("title", "");
                     intent.setClass(getActivity(), EditClockActivity.class);
                     startActivity(intent);
                     break;
@@ -53,10 +53,15 @@ public class SetClockFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_set_clock,container,false);
-        ListView listView = (ListView)view.findViewById(R.id.clock_list);
-        clockSettingAdapter = new ClockSettingAdapter(getActivity(),MyApp.getApp().getServerConfigManager().getTimer());
-        listView.setAdapter(clockSettingAdapter);
+        view = inflater.inflate(R.layout.fragment_set_clock, container, false);
+        ListView listView = (ListView) view.findViewById(R.id.clock_list);
+        //这边也要判断一下有没有设备
+        if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+            clockSettingAdapter = new ClockSettingAdapter(getActivity(), MyApp.getApp().getServerConfigManager().getTimer());
+            listView.setAdapter(clockSettingAdapter);
+        } else {
+            //TODO for zhulinan,没有设备做相应处理
+        }
         return view;
     }
 
@@ -83,12 +88,12 @@ public class SetClockFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private class ClockSettingAdapter extends BaseAdapter{
+    private class ClockSettingAdapter extends BaseAdapter {
 
         private Context context;
         private List<ServerConfig.Timer> list;
 
-        public ClockSettingAdapter(Context context,List<ServerConfig.Timer> list){
+        public ClockSettingAdapter(Context context, List<ServerConfig.Timer> list) {
             this.context = context;
             this.list = list;
         }
@@ -110,18 +115,18 @@ public class SetClockFragment extends BaseFragment {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            if(convertView == null){
+            if (convertView == null) {
                 convertView = new ClockCustomView(context);
             }
-            LinearLayout clockView = (LinearLayout)convertView.findViewById(R.id.clock_view);
-            ImageView bgBar = (ImageView)convertView.findViewById(R.id.bg_bar);
-            TextView clockName = (TextView)convertView.findViewById(R.id.clock_name);
-            TextView clockSetting1 = (TextView)convertView.findViewById(R.id.clock_setting1);
-            TextView clockSetting2 = (TextView)convertView.findViewById(R.id.clock_setting2);
-            TextView clockTime = (TextView)convertView.findViewById(R.id.clock_time);
-            SwitchButton switchOn = (SwitchButton)convertView.findViewById(R.id.clock_on_off);
+            LinearLayout clockView = (LinearLayout) convertView.findViewById(R.id.clock_view);
+            ImageView bgBar = (ImageView) convertView.findViewById(R.id.bg_bar);
+            TextView clockName = (TextView) convertView.findViewById(R.id.clock_name);
+            TextView clockSetting1 = (TextView) convertView.findViewById(R.id.clock_setting1);
+            TextView clockSetting2 = (TextView) convertView.findViewById(R.id.clock_setting2);
+            TextView clockTime = (TextView) convertView.findViewById(R.id.clock_time);
+            SwitchButton switchOn = (SwitchButton) convertView.findViewById(R.id.clock_on_off);
             clockName.setText(list.get(position).getName());
-            clockTime.setText(list.get(position).getHour()+":"+list.get(position).getMinute());
+            clockTime.setText(list.get(position).getHour() + ":" + list.get(position).getMinute());
             String on_off = "";
             String mode = "";
             String fan = "";
@@ -129,7 +134,7 @@ public class SetClockFragment extends BaseFragment {
             String repeat;
             String week;
 
-            switch (list.get(position).getMode()){
+            switch (list.get(position).getMode()) {
                 case 0:
                     mode = getString(R.string.cool);
                     break;
@@ -143,7 +148,7 @@ public class SetClockFragment extends BaseFragment {
                     mode = getString(R.string.wind);
                     break;
             }
-            switch (list.get(position).getFan()){
+            switch (list.get(position).getFan()) {
                 case 0:
                     fan = getString(R.string.low_wind);
                     break;
@@ -154,24 +159,24 @@ public class SetClockFragment extends BaseFragment {
                     fan = getString(R.string.high_wind);
                     break;
             }
-            if(list.get(position).isRepeat()){
+            if (list.get(position).isRepeat()) {
                 repeat = getString(R.string.repeat);
                 week = getString(R.string.week_name);
-                for(int i = 0; i < list.get(position).getWeek().size()-1; i++){
+                for (int i = 0; i < list.get(position).getWeek().size() - 1; i++) {
                     week = week + weekName[list.get(position).getWeek().get(i)] + "|";
                 }
-                week = week + weekName[list.get(position).getWeek().get(list.get(position).getWeek().size()-1)];
+                week = week + weekName[list.get(position).getWeek().get(list.get(position).getWeek().size() - 1)];
                 clockSetting2.setText(repeat + "|" + week);
-            }else{
+            } else {
                 repeat = getString(R.string.not_repeat);
                 clockSetting2.setText(repeat);
             }
 
-            if(list.get(position).isOnoff()){
+            if (list.get(position).isOnoff()) {
                 on_off = getString(R.string.on);
                 bgBar.setImageResource(R.drawable.dc_clock_bg_bar_on);
                 switchOn.setChecked(true);
-            }else {
+            } else {
                 on_off = getString(R.string.off);
                 bgBar.setImageResource(R.drawable.dc_clock_bg_bar_off);
                 switchOn.setChecked(false);
@@ -185,9 +190,9 @@ public class SetClockFragment extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.putExtra("index",position);
-                    intent.putExtra("title",list.get(position).getName());
-                    intent.putExtra("data",list.get(position).toJsonString());
+                    intent.putExtra("index", position);
+                    intent.putExtra("title", list.get(position).getName());
+                    intent.putExtra("data", list.get(position).toJsonString());
                     intent.setClass(getActivity(), EditClockActivity.class);
                     startActivityForResult(intent, REQUEST_CODE_CLOCK);
                 }
@@ -204,7 +209,7 @@ public class SetClockFragment extends BaseFragment {
         }
 
         private void init(Context context) {
-            inflate(context,R.layout.custom_clock_view,this);
+            inflate(context, R.layout.custom_clock_view, this);
         }
     }
 }

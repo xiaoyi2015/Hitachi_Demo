@@ -72,9 +72,16 @@ public class SceneFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_scene,container,false);
         ListView listView = (ListView) view.findViewById(R.id.scene_list);
-        List<ServerConfig.Scene> scene_list = MyApp.getApp().getServerConfigManager().getScene();
-        sceneAdapter = new SceneAdapter(getActivity(),scene_list);
-        listView.setAdapter(sceneAdapter);
+
+        //这边也要判断一下有没有设备
+        if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+            List<ServerConfig.Scene> scene_list = MyApp.getApp().getServerConfigManager().getScene();
+            sceneAdapter = new SceneAdapter(getActivity(),scene_list);
+            listView.setAdapter(sceneAdapter);
+        } else {
+            //TODO for zhulinan,没有设备做相应处理
+        }
+
         return view;
     }
 

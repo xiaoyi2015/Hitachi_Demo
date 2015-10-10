@@ -55,6 +55,10 @@ public class ServerConfigManager {
         return rootJavaObj.getTimers();
     }
 
+    public boolean hasDevice(){
+        return rootJavaObj != null;
+    }
+
     public void addSections(Section section) {
         List<Section> sections = rootJavaObj.getSections();
         sections.add(section);
@@ -77,6 +81,18 @@ public class ServerConfigManager {
         List<Section> sections = rootJavaObj.getSections();
         sections.remove(position);
         writeToFile();
+    }
+
+    public List<ServerConfig.Connection> getConnections(){
+        return rootJavaObj.getConnection();
+    }
+
+    public String getCurrentHostMac(){
+        return rootJavaObj.getConnection().get(0).getMac();
+    }
+
+    public String getCurrentHostIP(){
+        return rootJavaObj.getConnection().get(0).getAddress();
     }
 
 

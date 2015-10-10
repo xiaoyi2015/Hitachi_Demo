@@ -48,9 +48,15 @@ public class MyAirFragment extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_my_air, container, false);
 
         ListView listView = (ListView) view.findViewById(R.id.section_view);
-        List<Section> list = MyApp.getApp().getServerConfigManager().getSections();
-        MyAirSectionAdapter myAirSectionAdapter= new MyAirSectionAdapter(getActivity(),list);
-        listView.setAdapter(myAirSectionAdapter);
+
+        //这边也要判断一下有没有设备
+        if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+            List<Section> list = MyApp.getApp().getServerConfigManager().getSections();
+            MyAirSectionAdapter myAirSectionAdapter= new MyAirSectionAdapter(getActivity(),list);
+            listView.setAdapter(myAirSectionAdapter);
+        } else {
+            //TODO for zhulinan,没有设备做相应处理
+        }
 
         return view;
     }
