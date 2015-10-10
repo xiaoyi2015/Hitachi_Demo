@@ -154,7 +154,9 @@ public class SceneFragment extends BaseFragment {
         if (resultCode == RESULT_OK){
             switch (requestCode){
                 case REQUEST_CODE_EDIT_SCENE:
-                    sceneAdapter.list.get(data.getIntExtra("index", -1)).setName(data.getStringExtra("title"));
+                    if (data.getIntExtra("index", -1) != -1) {
+                        sceneAdapter.list.get(data.getIntExtra("index", -1)).setName(data.getStringExtra("title"));
+                    }
                     sceneAdapter.notifyDataSetChanged();
                     break;
 
