@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.i(TAG, "onPageSelected");
+//                Log.i(TAG, "onPageSelected");
                 changeIndicator(position);
                 fragments[position].setTopBar();
             }

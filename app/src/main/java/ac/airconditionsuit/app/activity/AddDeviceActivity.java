@@ -10,7 +10,7 @@ import ac.airconditionsuit.app.view.CommonTopBar;
 /**
  * Created by Administrator on 2015/9/18.
  */
-public class AddDeviceActivity extends BaseActivity {
+public class AddDeviceActivity extends BaseActivity implements View.OnClickListener {
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
         public void onClick(View v) {
@@ -31,6 +31,11 @@ public class AddDeviceActivity extends BaseActivity {
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.add_device));
         commonTopBar.setIconView(myOnClickListener,null);
+        findViewById(R.id.search_by_udp).setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View v) {
+        shortStartActivity(searchDeviceByUdpResultActivity.class);
+    }
 }

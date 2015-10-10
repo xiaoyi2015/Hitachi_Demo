@@ -7,18 +7,21 @@ import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 /**
  * Created by ac on 10/9/15.
  */
-public class LoginPackage extends SocketPackage {
+public class BroadcastPackage extends SocketPackage {
 
     @Override
     public byte[] getBytesUDP() throws Exception {
         UdpPackage udpPackage = new UdpPackage();
-        udpPackage.setContent(new UdpPackage.LoginUdpPackageContent());
+        udpPackage.setContent(new UdpPackage.BroadcastUdpPackageContent());
         return udpPackage.getBytes();
     }
 
+    /**
+     * this method won't bu called because broadcast only send by udp;
+     * @return null
+     */
     @Override
     public byte[] getBytesTCP() {
-        //TODO for luzheqi
-        return new TcpPackage().getBytes();
+        return null;
     }
 }

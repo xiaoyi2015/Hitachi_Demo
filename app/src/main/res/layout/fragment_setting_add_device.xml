@@ -22,7 +22,7 @@
         android:text="@string/add_explain_text"/>
 
     <TextView
-        android:id="@+id/auto_find_device"
+        android:id="@+id/search_by_udp"
         android:layout_below="@id/add_explain_text"
         style="@style/white_text_view_layout"
         android:layout_marginTop="80dp"
@@ -33,9 +33,9 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/scan_scan"
+        android:id="@+id/scan_qrcode"
         style="@style/white_text_view_layout"
-        android:layout_below="@id/auto_find_device"
+        android:layout_below="@id/search_by_udp"
         android:text="@string/scan_scan"
         android:gravity="center"
         android:layout_width="match_parent"

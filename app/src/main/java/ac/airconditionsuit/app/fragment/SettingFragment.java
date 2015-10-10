@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.fragment;
 
+import ac.airconditionsuit.app.Config.ServerConfigManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -36,7 +37,15 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         RoundImageView roundImageView =(RoundImageView)view.findViewById(R.id.user_icon);
         HttpClient.loadImage(MyApp.getApp().getUser().getAvatar_normal(), roundImageView);
         TextView home_name = (TextView)view.findViewById(R.id.setting_home_name);
-        home_name.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
+        /**TODO for zhulinan
+         * 如果用户没有关联任何主机的话,这边getHome(),会产生控制指针。先通过这个函数判断一下是否关联了设备
+         * {@link ServerConfigManager#hasDevice()}这个函数
+         */
+        if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+            home_name.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
+        }else{
+            //TODO for zhulinan, 如果没有家，做相应处理。
+        }
         view.findViewById(R.id.software_information).setOnClickListener(this);
         view.findViewById(R.id.user_icon).setOnClickListener(this);
         view.findViewById(R.id.setting_home_setting).setOnClickListener(this);
