@@ -68,7 +68,7 @@ public class EditClockActivity extends BaseActivity{
                     if (check_clock_name == null)
                         return;
                     if(is_add){
-                        //TODO add device setting
+                        //TODO add device setting and set default attrs
                         ServerConfig serverConfig = new ServerConfig();
                         ServerConfig.Timer timer = serverConfig.new Timer();
                         timer.setName(check_clock_name);
@@ -255,6 +255,16 @@ public class EditClockActivity extends BaseActivity{
                 convertView = new CommonButtonWithArrow(context);
             }
 
+            TextView deviceName = (TextView)convertView.findViewById(R.id.label_text);
+            deviceName.setText(list.get(position).getName());
+            deviceName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO choose or not
+                }
+            });
             //TODO
             return convertView;
         }
