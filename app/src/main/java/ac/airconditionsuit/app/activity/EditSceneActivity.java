@@ -51,7 +51,6 @@ public class EditSceneActivity extends BaseActivity{
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     MyApp.getApp().getServerConfigManager().deleteScene(index);
-                                    MyApp.getApp().getServerConfigManager().writeToFile();
                                     Intent intent1 = new Intent();
                                     setResult(RESULT_OK, intent1);
                                     finish();

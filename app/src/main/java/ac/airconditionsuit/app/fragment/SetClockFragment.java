@@ -76,7 +76,9 @@ public class SetClockFragment extends BaseFragment {
             switch (requestCode) {
                 case REQUEST_CODE_CLOCK:
                     //TODO setting other setting
-                    clockSettingAdapter.list.get(data.getIntExtra("index", -1)).setName(data.getStringExtra("title"));
+                    if(data.getIntExtra("index", -1) != -1) {
+                        clockSettingAdapter.list.get(data.getIntExtra("index", -1)).setName(data.getStringExtra("title"));
+                    }
                     clockSettingAdapter.notifyDataSetChanged();
                     break;
             }
@@ -186,8 +188,8 @@ public class SetClockFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.putExtra("index",position);
+                    //intent.putExtra("data",list.get(position).toJsonString());
                     intent.putExtra("title",list.get(position).getName());
-                    intent.putExtra("data",list.get(position).toJsonString());
                     intent.setClass(getActivity(), EditClockActivity.class);
                     startActivityForResult(intent, REQUEST_CODE_CLOCK);
                 }

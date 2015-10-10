@@ -1,9 +1,12 @@
 package ac.airconditionsuit.app.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -42,6 +45,22 @@ public class EditClockActivity extends BaseActivity{
             switch (v.getId()) {
                 case R.id.left_icon:
                     finish();
+                    break;
+                case R.id.delete_clock:
+                    TextView toDoDelete = new TextView(EditClockActivity.this);
+                    toDoDelete.setGravity(Gravity.CENTER);
+                    toDoDelete.setText(getString(R.string.is_delete_clock));
+                    toDoDelete.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+                    new AlertDialog.Builder(EditClockActivity.this).setView(toDoDelete).
+                            setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    MyApp.getApp().getServerConfigManager().deleteTimer(index);
+                                    Intent intent1 = new Intent();
+                                    setResult(RESULT_OK, intent1);
+                                    finish();
+                                }
+                            }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
                     break;
                 case R.id.right_icon:
                     //TODO save clock setting
@@ -82,9 +101,14 @@ public class EditClockActivity extends BaseActivity{
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
 
         clockNameText = (EditText)findViewById(R.id.clock_name_text);
+        TextView deleteClock = (TextView)findViewById(R.id.delete_clock);
+        deleteClock.setOnClickListener(myOnClickListener);
         index = getIntent().getIntExtra("index",-1);
         String clock_name = getIntent().getStringExtra("title");
         is_add = clock_name.equals("");
+        if(is_add){
+            deleteClock.setVisibility(View.GONE);
+        }
 
         clockNameText.setText(clock_name);
         clockNameText.setSelection(clock_name.length());
@@ -123,7 +147,7 @@ public class EditClockActivity extends BaseActivity{
         String temp = getString(R.string.default_temp);
         String repeat = getString(R.string.not_repeat);
         String week = "";
-
+        /*
         if(!clock_name.equals("")){
             timer = new Gson().fromJson(getIntent().getStringExtra("data"), ServerConfig.Timer.class);
 
@@ -172,6 +196,7 @@ public class EditClockActivity extends BaseActivity{
             clockRepeat.getLabelTextView().setText(repeat);
             clockRepeat.getOnlineTextView().setText(week);
         }
+        */
         //TODO color set and delete
 
         ListView listView = (ListView)findViewById(R.id.air_device_list1);
