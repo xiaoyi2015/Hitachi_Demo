@@ -47,16 +47,18 @@ public class ServerConfigManager {
         return rootJavaObj.getSections();
     }
 
-    public List<ServerConfig.Scene> getScene(){
+    public List<ServerConfig.Scene> getScene() {
         return rootJavaObj.getScenes();
     }
 
-    public List<ServerConfig.Timer> getTimer(){
+    public List<ServerConfig.Timer> getTimer() {
         return rootJavaObj.getTimers();
     }
 
-    public boolean hasDevice(){
-        return rootJavaObj != null;
+    public boolean hasDevice() {
+        return rootJavaObj != null
+                && rootJavaObj.getConnection() != null
+                && rootJavaObj.getConnection().size() != 0;
     }
 
     public void addSections(Section section) {
@@ -77,64 +79,64 @@ public class ServerConfigManager {
         writeToFile();
     }
 
-    public void deleteSection(int position){
+    public void deleteSection(int position) {
         List<Section> sections = rootJavaObj.getSections();
         sections.remove(position);
         writeToFile();
     }
 
-    public List<ServerConfig.Connection> getConnections(){
+    public List<ServerConfig.Connection> getConnections() {
         return rootJavaObj.getConnection();
     }
 
-    public String getCurrentHostMac(){
+    public String getCurrentHostMac() {
         return rootJavaObj.getConnection().get(0).getMac();
     }
 
-    public String getCurrentHostIP(){
+    public String getCurrentHostIP() {
         return rootJavaObj.getConnection().get(0).getAddress();
     }
 
 
-    public void deleteScene(int position){
+    public void deleteScene(int position) {
         List<ServerConfig.Scene> scenes = rootJavaObj.getScenes();
         scenes.remove(position);
         writeToFile();
     }
 
-    public void deleteTimer(int position){
+    public void deleteTimer(int position) {
         List<ServerConfig.Timer> timers = rootJavaObj.getTimers();
         timers.remove(position);
         writeToFile();
     }
 
-    public List<ServerConfig.Device> getDevices(){
+    public List<ServerConfig.Device> getDevices() {
         return rootJavaObj.getDevices();
     }
 
-    public ServerConfig.Home getHome(){
+    public ServerConfig.Home getHome() {
         return rootJavaObj.getHome();
     }
 
-    public void deleteRoom(int position,int index){
+    public void deleteRoom(int position, int index) {
         List<Section> sections = rootJavaObj.getSections();
         sections.get(position).getPages().remove(index);
         writeToFile();
     }
 
-    public void addRoom(int position,Room room){
+    public void addRoom(int position, Room room) {
         List<Section> sections = rootJavaObj.getSections();
         sections.get(position).getPages().add(room);
         writeToFile();
     }
 
-    public void renameRoom(int position,int index,String string){
+    public void renameRoom(int position, int index, String string) {
         List<Section> sections = rootJavaObj.getSections();
         sections.get(position).getPages().get(index).setName(string);
         writeToFile();
     }
 
-    public void submitRoomChanges(int index,List<Room> rooms){
+    public void submitRoomChanges(int index, List<Room> rooms) {
         rootJavaObj.getSections().get(index).setPages(rooms);
         writeToFile();
     }
@@ -305,4 +307,11 @@ public class ServerConfigManager {
         }
     }
 
+    public long getAdminCustId() {
+        if (hasDevice()) {
+            return rootJavaObj.getConnection().get(0).getCreator_cust_id();
+        }else{
+            return -1;
+        }
+    }
 }

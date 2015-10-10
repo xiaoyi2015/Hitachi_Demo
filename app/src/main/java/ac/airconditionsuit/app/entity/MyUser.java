@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.entity;
 
+import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.fragment.MyAirFragment;
 import com.google.gson.Gson;
 
 /**
@@ -171,4 +173,9 @@ public class MyUser extends RootEntity{
         }
         return new Gson().fromJson(currentUserString, MyUser.class);
     }
+
+    public boolean isAdmin() {
+        return cust_id == MyApp.getApp().getServerConfigManager().getAdminCustId();
+    }
+
 }
