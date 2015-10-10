@@ -143,7 +143,7 @@ public class LoginActivity extends BaseActivity {
             public void onFailure(Throwable throwable) {
                 Log.e(TAG, "login fail");
                 dismissWaitProgress();
-                MyApp.getApp().showToast(R.string.login_failure);
+                //MyApp.getApp().showToast(R.string.login_failure);
 
             }
         });
