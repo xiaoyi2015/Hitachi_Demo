@@ -1,9 +1,12 @@
 package ac.airconditionsuit.app.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -38,6 +41,22 @@ public class EditSceneActivity extends BaseActivity{
                 case R.id.left_icon:
                     finish();
                     break;
+                case R.id.delete_scene:
+                    TextView toDoDelete = new TextView(EditSceneActivity.this);
+                    toDoDelete.setGravity(Gravity.CENTER);
+                    toDoDelete.setText(getString(R.string.is_delete_scene));
+                    toDoDelete.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+                    new AlertDialog.Builder(EditSceneActivity.this).setView(toDoDelete).
+                            setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    MyApp.getApp().getServerConfigManager().deleteScene(index);
+                                    Intent intent1 = new Intent();
+                                    setResult(RESULT_OK, intent1);
+                                    finish();
+                                }
+                            }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+                    break;
                 case R.id.right_icon:
                     final String check_scene_name = CheckUtil.checkLength(sceneName, 10, R.string.pls_input_scene_name, R.string.scene_name_length_too_long);
                     if (check_scene_name == null)
@@ -53,10 +72,10 @@ public class EditSceneActivity extends BaseActivity{
                         //TODO save device setting
                         MyApp.getApp().getServerConfigManager().getScene().get(index).setName(check_scene_name);
                         MyApp.getApp().getServerConfigManager().writeToFile();
-                        Intent intent = new Intent();
-                        intent.putExtra("index",index);
-                        intent.putExtra("title",check_scene_name);
-                        setResult(RESULT_OK, intent);
+                        Intent intent2 = new Intent();
+                        intent2.putExtra("index",index);
+                        intent2.putExtra("title",check_scene_name);
+                        setResult(RESULT_OK, intent2);
                         finish();
                     }
 
@@ -72,7 +91,7 @@ public class EditSceneActivity extends BaseActivity{
         setContentView(R.layout.activity_edit_scene);
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
-        index = getIntent().getIntExtra("index",-1);
+        index = getIntent().getIntExtra("index", -1);
         String scene_name  = getIntent().getStringExtra("title");
         is_add = scene_name.equals("");
 
@@ -81,6 +100,12 @@ public class EditSceneActivity extends BaseActivity{
         sceneName = (EditText)findViewById(R.id.scene_name_text);
         sceneName.setText(scene_name);
         sceneName.setSelection(scene_name.length());
+
+        TextView deleteScene = (TextView)findViewById(R.id.delete_scene);
+        deleteScene.setOnClickListener(myOnClickListener);
+        if(is_add){
+            deleteScene.setVisibility(View.GONE);
+        }
 
         ListView listView = (ListView)findViewById(R.id.air_device_list);
         List<ServerConfig.Device> devices = MyApp.getApp().getServerConfigManager().getDevices();
