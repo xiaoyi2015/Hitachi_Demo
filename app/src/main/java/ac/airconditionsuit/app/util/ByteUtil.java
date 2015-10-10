@@ -13,6 +13,23 @@ public class ByteUtil {
         return (short) (bytes[offset] + bytes[offset + 1] * 256);
     }
 
+    static public byte[] shortToByteArray(short input) {
+        byte[] result = new byte[2];
+        result[0] = (byte) (input & 0xff);
+        result[1] = (byte) (input >>> 8);
+        return result;
+    }
+
+    public static byte[] longToByteArray(Long input) {
+        byte[] result = new byte[8];
+        int i = 0;
+        while (input > 0) {
+            result[i++] = (byte) (input & 0xff);
+            input >>>= 8;
+        }
+        return result;
+    }
+
     public static byte[] hexStringToByteArray(String s) throws Exception {
         int len = s.length();
         if (len % 2 == 1) {
@@ -28,6 +45,19 @@ public class ByteUtil {
     }
 
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+
+    public static String byteArrayToReadableHexString(byte[] bytes) {
+        String result = "";
+        for (byte b : bytes) {
+            int v = b & 0xFF;
+            char[] hexChars = new char[2];
+            hexChars[0] = hexArray[v >>> 4];
+            hexChars[1] = hexArray[v & 0x0F];
+            result += (new String(hexChars) + " ");
+        }
+
+        return result;
+    }
 
     public static String byteArrayToHexString(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
@@ -46,4 +76,5 @@ public class ByteUtil {
         }
         return result;
     }
+
 }

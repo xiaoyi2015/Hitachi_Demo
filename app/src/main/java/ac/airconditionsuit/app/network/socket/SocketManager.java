@@ -5,10 +5,12 @@ import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.network.socket.socketpackage.BroadcastPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.LoginPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.SocketPackage;
+import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TcpPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 import ac.airconditionsuit.app.util.ACByteQueue;
 import ac.airconditionsuit.app.util.ByteUtil;
 import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 
 import java.io.IOException;
@@ -59,7 +61,9 @@ public class SocketManager extends Observable {
         public void sendMessage(SocketPackage socketPackage) {
             if (socket != null && socket.isConnected()) {
                 try {
-                    socket.getOutputStream().write(socketPackage.getBytesTCP());
+                    byte[] dataSent = socketPackage.getBytesTCP();
+                    socket.getOutputStream().write(dataSent);
+                    Log.i(TAG, "tcp send data: " + ByteUtil.byteArrayToReadableHexString(dataSent));
                 } catch (Exception e) {
                     Log.e(TAG, "sendMessage by Tcp failed: socket.getOutputStream() error");
                     e.printStackTrace();
@@ -81,6 +85,9 @@ public class SocketManager extends Observable {
             //先读取tcp包头部的六个字节
             while (readQueue.size() < 6) {
                 int readCount = socket.getInputStream().read(tempForRead, 0, 255);
+                if (readCount <= 0) {
+                    throw new IOException("read data return -1 or 0");
+                }
                 readQueue.offer(tempForRead, 0, readCount);
             }
             byte[] header = readQueue.poll(6);
@@ -98,24 +105,43 @@ public class SocketManager extends Observable {
             byte[] result = new byte[6 + bodyLength];
 
             //copy header to result
-            System.arraycopy(result, 0, header, 0, 6);
+            System.arraycopy(header, 0, result, 0, 6);
 
             //copy body to result
-            System.arraycopy(result, 6, body, 0, bodyLength);
+            System.arraycopy(body, 0, result, 6, bodyLength);
 
             return result;
         }
 
         @Override
-        public void receiveDataAndHandle() {
-            //TODO for luzheqi
-            return;
+        public void receiveDataAndHandle() throws IOException {
+            byte[] receiveData = readMessage();
+            Log.i(TAG, "receive data from tcp: " + ByteUtil.byteArrayToReadableHexString(receiveData));
+
+            int receiveDataLength = receiveData.length;
+
+            //check head and end
+            if (receiveData[0] != TcpPackage.START_BYTE
+                    || receiveData[receiveDataLength - 1] != TcpPackage.END_BYTE) {
+                throw new IOException("udp package start flag or end flag error!");
+            }
+
+            //check checksum
+            byte[] checksum = TcpPackage.getCheckSum(receiveData);
+            if (!Arrays.equals(checksum, Arrays.copyOfRange(receiveData, receiveDataLength - 3, receiveDataLength - 1))) {
+                throw new IOException("udp package checksum error");
+            }
+
+            //check length
+            short dataLength = ByteUtil.byteArrayToShort(receiveData, 1);
+            if (dataLength + 6 != receiveDataLength) {
+                throw new IOException("udp package length error");
+            }
         }
     }
 
     class UdpSocket implements SocketWrap {
-        //        private static final String HOST = "192.168.1.150";//日立
-        private static final int PORT = 9002;//日立
+        private static final int PORT = 9002; // udp port
         private DatagramSocket datagramSocket;
         private String currentHostIP;
 
@@ -131,7 +157,7 @@ public class SocketManager extends Observable {
             if (datagramSocket != null) {
                 try {
                     byte[] sentContent = socketPackage.getBytesUDP();
-                    Log.i(TAG, "send data by udp: " + ByteUtil.byteArrayToHexString(sentContent));
+                    Log.i(TAG, "send data by udp: " + ByteUtil.byteArrayToReadableHexString(sentContent));
                     DatagramPacket pack = new DatagramPacket(sentContent, sentContent.length);
                     //多数情况下，getIp()获得的ip都为null, 只有在udp广播包的时候，Ip为255.255.255.255
                     if (socketPackage.getIp() != null) {
@@ -163,7 +189,7 @@ public class SocketManager extends Observable {
             DatagramPacket datagramPacket = new DatagramPacket(new byte[1024], 1024);
             datagramSocket.receive(datagramPacket);
             byte[] receiveData = Arrays.copyOf(datagramPacket.getData(), datagramPacket.getLength());
-            Log.i(TAG, "receive data after broadcast: " + ByteUtil.byteArrayToHexString(receiveData));
+            Log.i(TAG, "receive data after broadcast: " + ByteUtil.byteArrayToReadableHexString(receiveData));
             int receiveDataLength = receiveData.length;
 
             //check head and end
@@ -276,8 +302,8 @@ public class SocketManager extends Observable {
     }
 
     public void init(int status) {
-        //TODO temp code for debug
-        status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
+//        TODO temp code for debug
+//        status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
 
         if (status == NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT) {
             //udp
