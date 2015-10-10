@@ -5,6 +5,7 @@ import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.network.socket.socketpackage.BroadcastPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.LoginPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.SocketPackage;
+import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPLoginPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TcpPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 import ac.airconditionsuit.app.util.ACByteQueue;
@@ -77,6 +78,7 @@ public class SocketManager extends Observable {
         public void close() throws IOException {
             if (socket != null && !socket.isClosed()) {
                 socket.close();
+                socket = null;
             }
         }
 
@@ -84,11 +86,15 @@ public class SocketManager extends Observable {
             byte[] tempForRead = new byte[256];
             //先读取tcp包头部的六个字节
             while (readQueue.size() < 6) {
-                int readCount = socket.getInputStream().read(tempForRead, 0, 255);
-                if (readCount <= 0) {
-                    throw new IOException("read data return -1 or 0");
+                if (socket != null && socket.isConnected()) {
+                    int readCount = socket.getInputStream().read(tempForRead, 0, 255);
+                    if (readCount <= 0) {
+                        throw new IOException("read data return -1 or 0");
+                    }
+                    readQueue.offer(tempForRead, 0, readCount);
+                }else{
+                    throw new IOException("read fail because socket is null or socket is close");
                 }
-                readQueue.offer(tempForRead, 0, readCount);
             }
             byte[] header = readQueue.poll(6);
 
@@ -96,8 +102,15 @@ public class SocketManager extends Observable {
             //读取body
             int bodyLength = ByteUtil.byteArrayToShort(header, 1);
             while (readQueue.size() < bodyLength) {
-                int readCount = socket.getInputStream().read(tempForRead, 0, 255);
-                readQueue.offer(tempForRead, 0, readCount);
+                if (socket != null && socket.isConnected()) {
+                    int readCount = socket.getInputStream().read(tempForRead, 0, 255);
+                    if (readCount <= 0) {
+                        throw new IOException("read data return -1 or 0");
+                    }
+                    readQueue.offer(tempForRead, 0, readCount);
+                }else{
+                    throw new IOException("read fail because socket is null or socket is close");
+                }
             }
 
             byte[] body = readQueue.poll(bodyLength);
@@ -136,6 +149,26 @@ public class SocketManager extends Observable {
             short dataLength = ByteUtil.byteArrayToShort(receiveData, 1);
             if (dataLength + 6 != receiveDataLength) {
                 throw new IOException("udp package length error");
+            }
+
+            byte msg_type = receiveData[5];
+
+            switch (msg_type) {
+                case TCPLoginPackage.LOGIN_TETURN_MSG_TYPE:
+                    short result_code = ByteUtil.byteArrayToShort(receiveData, 15);
+                    if (result_code == 200) {
+                        Log.i(TAG, "tcp login success");
+                        //TODO for luzheqi
+                        //start heartbeat
+                        //check if device online
+                    } else {
+                        throw new IOException("tcp login fail");
+                    }
+                    break;
+
+                default:
+                    throw new IOException("tcp package message type error");
+
             }
         }
     }
@@ -257,20 +290,22 @@ public class SocketManager extends Observable {
                     Log.e(TAG, "read data from socket failed");
                     reconnect();
                     e.printStackTrace();
+                    break;
                 }
             }
         }
     }
 
     private void reconnect() {
+        close();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                close();
                 init();
             }
-        }, 3000);
+        }, 5000);
+        Log.i(TAG, "reconnecttttttttttttttttttttttttttt");
     }
 
     private SocketWrap socket;

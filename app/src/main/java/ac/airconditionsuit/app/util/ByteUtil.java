@@ -10,7 +10,10 @@ public class ByteUtil {
     public static final String TAG = "ByteUtil";
 
     static public short byteArrayToShort(byte[] bytes, int offset) {
-        return (short) (bytes[offset] + bytes[offset + 1] * 256);
+        short result = 0;
+        result ^= (bytes[offset] & 0xff);
+        result ^= ((bytes[offset + 1] << 8) & 0xffff);
+        return result;
     }
 
     static public byte[] shortToByteArray(short input) {
@@ -72,7 +75,7 @@ public class ByteUtil {
     public static byte[] encodeAuthCode(byte[] authCodeBytes) {
         byte[] result = new byte[authCodeBytes.length];
         for (int i = 0; i < result.length; ++i) {
-            result[i] = (byte) (~authCodeBytes[i] + 0x33);
+            result[i] = (byte) (0xff & (~(0xff & authCodeBytes[i]) + 0x33));
         }
         return result;
     }

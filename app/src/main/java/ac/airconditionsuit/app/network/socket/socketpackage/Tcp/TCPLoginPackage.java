@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class TCPLoginPackage extends TcpPackage {
     public static final byte LOGIN_MSG_TYPE = 0x1;
+    public static final byte LOGIN_TETURN_MSG_TYPE = 0x2;
     public static final int MIDDLE_LENGHT = 41;
 
     private Long cust_id;
