@@ -151,4 +151,11 @@
     <string name="clock_name_length_too_long">定时名称长度不能超过10个字符</string>
     <string name="is_delete_scene">\n确定要删除该场景吗？\n</string>
     <string name="is_delete_clock">\n确定要删除该定时吗？\n</string>
+    <string name="Monday">周一</string>
+    <string name="Tuesday">周二</string>
+    <string name="Wednesday">周三</string>
+    <string name="Thursday">周四</string>
+    <string name="Friday">周五</string>
+    <string name="Saturday">周六</string>
+    <string name="Sunday">周日</string>
 </resources>

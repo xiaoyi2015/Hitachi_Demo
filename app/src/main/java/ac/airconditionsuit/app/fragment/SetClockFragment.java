@@ -79,10 +79,6 @@ public class SetClockFragment extends BaseFragment {
         if (resultCode == RESULT_OK)
             switch (requestCode) {
                 case REQUEST_CODE_CLOCK:
-                    //TODO setting other setting
-                    if(data.getIntExtra("index", -1) != -1) {
-                        clockSettingAdapter.list.get(data.getIntExtra("index", -1)).setName(data.getStringExtra("title"));
-                    }
                     clockSettingAdapter.notifyDataSetChanged();
                     break;
             }
@@ -215,9 +211,6 @@ public class SetClockFragment extends BaseFragment {
                 on_off = getString(R.string.off);
             }
             clockSetting1.setText(on_off + "|" + mode + "|" + fan + "|" + temp);
-            // TODO switch button onClick
-            // **
-            // END
 
             clockView.setOnClickListener(new View.OnClickListener() {
                 @Override
