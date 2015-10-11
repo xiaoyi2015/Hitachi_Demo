@@ -63,8 +63,7 @@
                 android:id="@+id/divide_line2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@id/clock_mode"
-                android:background="@color/text_color_gray" />
+                android:layout_below="@id/clock_mode" />
 
             <ac.airconditionsuit.app.view.CommonButtonWithArrow
                 android:id="@+id/clock_repeat"

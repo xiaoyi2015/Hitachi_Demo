@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.kyleduo.switchbutton.SwitchButton;
 
+import java.util.Date;
 import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
@@ -129,12 +130,16 @@ public class SetClockFragment extends BaseFragment {
             switchOn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!switchOn.isChecked()){
+                    if (!switchOn.isChecked()) {
                         switchOn.setChecked(true);
                         bgBar.setImageResource(R.drawable.dc_clock_bg_bar_on);
-                    }else{
+                        MyApp.getApp().getServerConfigManager().getTimer().get(position).setTimerenabled(true);
+                        MyApp.getApp().getServerConfigManager().writeToFile();
+                    } else {
                         switchOn.setChecked(false);
                         bgBar.setImageResource(R.drawable.dc_clock_bg_bar_off);
+                        MyApp.getApp().getServerConfigManager().getTimer().get(position).setTimerenabled(false);
+                        MyApp.getApp().getServerConfigManager().writeToFile();
                     }
                 }
             });
@@ -147,7 +152,18 @@ public class SetClockFragment extends BaseFragment {
                 bgBar.setImageResource(R.drawable.dc_clock_bg_bar_off);
             }
             clockName.setText(list.get(position).getName());
-            clockTime.setText(list.get(position).getHour() + ":" + list.get(position).getMinute());
+            String hour;
+            if(list.get(position).getHour() >= 10){
+                hour = list.get(position).getHour() + ":";
+            }else{
+                hour = "0" + list.get(position).getHour() + ":";
+            }
+            if(list.get(position).getMinute() >= 10){
+                clockTime.setText(hour + list.get(position).getMinute());
+            }else{
+                clockTime.setText(hour + "0" + list.get(position).getMinute());
+            }
+
             String on_off = "";
             String mode = "";
             String fan = "";
@@ -208,7 +224,6 @@ public class SetClockFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.putExtra("index",position);
-                    intent.putExtra("data",list.get(position).toJsonString());
                     intent.putExtra("title",list.get(position).getName());
                     intent.setClass(getActivity(), EditClockActivity.class);
                     startActivityForResult(intent, REQUEST_CODE_CLOCK);
