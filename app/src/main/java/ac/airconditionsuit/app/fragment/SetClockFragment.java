@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.kyleduo.switchbutton.SwitchButton;
 
+import java.util.Date;
 import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
@@ -46,7 +47,7 @@ public class SetClockFragment extends BaseFragment {
         }
     };
     private static final int REQUEST_CODE_CLOCK = 200;
-    private static final int RESULT_OK = 201;
+    private static final int RESULT_OK = -1;
     private ClockSettingAdapter clockSettingAdapter;
 
     @Override
@@ -119,14 +120,50 @@ public class SetClockFragment extends BaseFragment {
                 convertView = new ClockCustomView(context);
             }
             LinearLayout clockView = (LinearLayout) convertView.findViewById(R.id.clock_view);
-            ImageView bgBar = (ImageView) convertView.findViewById(R.id.bg_bar);
+            final ImageView bgBar = (ImageView) convertView.findViewById(R.id.bg_bar);
             TextView clockName = (TextView) convertView.findViewById(R.id.clock_name);
             TextView clockSetting1 = (TextView) convertView.findViewById(R.id.clock_setting1);
             TextView clockSetting2 = (TextView) convertView.findViewById(R.id.clock_setting2);
             TextView clockTime = (TextView) convertView.findViewById(R.id.clock_time);
-            SwitchButton switchOn = (SwitchButton) convertView.findViewById(R.id.clock_on_off);
+            final SwitchButton switchOn = (SwitchButton) convertView.findViewById(R.id.clock_on_off);
+
+            switchOn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!switchOn.isChecked()) {
+                        switchOn.setChecked(true);
+                        bgBar.setImageResource(R.drawable.dc_clock_bg_bar_on);
+                        MyApp.getApp().getServerConfigManager().getTimer().get(position).setTimerenabled(true);
+                        MyApp.getApp().getServerConfigManager().writeToFile();
+                    } else {
+                        switchOn.setChecked(false);
+                        bgBar.setImageResource(R.drawable.dc_clock_bg_bar_off);
+                        MyApp.getApp().getServerConfigManager().getTimer().get(position).setTimerenabled(false);
+                        MyApp.getApp().getServerConfigManager().writeToFile();
+                    }
+                }
+            });
+
+            if(list.get(position).isTimerenabled()){
+                switchOn.setChecked(true);
+                bgBar.setImageResource(R.drawable.dc_clock_bg_bar_on);
+            }else {
+                switchOn.setChecked(false);
+                bgBar.setImageResource(R.drawable.dc_clock_bg_bar_off);
+            }
             clockName.setText(list.get(position).getName());
-            clockTime.setText(list.get(position).getHour() + ":" + list.get(position).getMinute());
+            String hour;
+            if(list.get(position).getHour() >= 10){
+                hour = list.get(position).getHour() + ":";
+            }else{
+                hour = "0" + list.get(position).getHour() + ":";
+            }
+            if(list.get(position).getMinute() >= 10){
+                clockTime.setText(hour + list.get(position).getMinute());
+            }else{
+                clockTime.setText(hour + "0" + list.get(position).getMinute());
+            }
+
             String on_off = "";
             String mode = "";
             String fan = "";
@@ -174,12 +211,8 @@ public class SetClockFragment extends BaseFragment {
 
             if (list.get(position).isOnoff()) {
                 on_off = getString(R.string.on);
-                bgBar.setImageResource(R.drawable.dc_clock_bg_bar_on);
-                switchOn.setChecked(true);
             } else {
                 on_off = getString(R.string.off);
-                bgBar.setImageResource(R.drawable.dc_clock_bg_bar_off);
-                switchOn.setChecked(false);
             }
             clockSetting1.setText(on_off + "|" + mode + "|" + fan + "|" + temp);
             // TODO switch button onClick
@@ -191,7 +224,6 @@ public class SetClockFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.putExtra("index",position);
-                    //intent.putExtra("data",list.get(position).toJsonString());
                     intent.putExtra("title",list.get(position).getName());
                     intent.setClass(getActivity(), EditClockActivity.class);
                     startActivityForResult(intent, REQUEST_CODE_CLOCK);

@@ -68,15 +68,24 @@ public class EditClockActivity extends BaseActivity{
                     if (check_clock_name == null)
                         return;
                     if(is_add){
-                        //TODO add device setting and set default attrs
+                        //TODO add device setting
                         ServerConfig serverConfig = new ServerConfig();
-                        ServerConfig.Timer timer = serverConfig.new Timer();
-                        timer.setName(check_clock_name);
-                        MyApp.getApp().getServerConfigManager().addTimer(timer);
+                        ServerConfig.Timer timer_temp = serverConfig.new Timer();
+                        timer_temp.setName(check_clock_name);
+                        timer_temp.setHour(timePicker.getCurrentHour());
+                        timer_temp.setMinute(timePicker.getCurrentMinute());
+                        timer_temp.setMode(0);
+                        timer_temp.setFan(0);
+                        timer_temp.setOnoff(false);
+                        timer_temp.setRepeat(false);
+                        timer_temp.setTemperature(25);
+                        MyApp.getApp().getServerConfigManager().addTimer(timer_temp);
                         finish();
                     }else{
                         //TODO save device setting
                         MyApp.getApp().getServerConfigManager().getTimer().get(index).setName(check_clock_name);
+                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setHour(timePicker.getCurrentHour());
+                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setMinute(timePicker.getCurrentMinute());
                         MyApp.getApp().getServerConfigManager().writeToFile();
                         Intent intent = new Intent();
                         intent.putExtra("index",index);
@@ -91,6 +100,8 @@ public class EditClockActivity extends BaseActivity{
         }
     };
     private EditText clockNameText;
+    ServerConfig.Timer timer;
+    private TimePicker timePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,16 +132,6 @@ public class EditClockActivity extends BaseActivity{
             }
         }, clockNameText);
 
-        TimePicker timePicker = (TimePicker)findViewById(R.id.time_picker);
-        timePicker.setIs24HourView(true);
-        timePicker.setCurrentHour(6);
-        timePicker.setCurrentMinute(12);
-        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                //TODO
-            }
-        });
 
         CommonButtonWithArrow clockMode = (CommonButtonWithArrow)findViewById(R.id.clock_mode);
         clockMode.getLabelTextView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
@@ -140,16 +141,28 @@ public class EditClockActivity extends BaseActivity{
         clockRepeat.getLabelTextView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
         clockRepeat.getOnlineTextView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
 
-        ServerConfig.Timer timer;
+        timePicker = (TimePicker)findViewById(R.id.time_picker);
+        timePicker.setIs24HourView(true);
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                timePicker.setCurrentHour(hourOfDay);
+                timePicker.setCurrentMinute(minute);
+            }
+        });
+
         String on_off = getString(R.string.off);
         String mode = getString(R.string.cool);
         String fan = getString(R.string.low_wind);
         String temp = getString(R.string.default_temp);
         String repeat = getString(R.string.not_repeat);
         String week = "";
-        /*
-        if(!clock_name.equals("")){
-            timer = new Gson().fromJson(getIntent().getStringExtra("data"), ServerConfig.Timer.class);
+
+        if(!is_add){
+            timer = MyApp.getApp().getServerConfigManager().getTimer().get(index);
+
+            timePicker.setCurrentHour(timer.getHour());
+            timePicker.setCurrentMinute(timer.getMinute());
 
             if(timer.isOnoff()){
                 on_off = getString(R.string.on);
@@ -159,7 +172,7 @@ public class EditClockActivity extends BaseActivity{
                     mode = getString(R.string.cool);
                     break;
                 case 1:
-                    mode = getString(R.string.hot);
+                    mode = getString(R.string.heat);
                     break;
                 case 2:
                     mode = getString(R.string.dry);
@@ -187,6 +200,9 @@ public class EditClockActivity extends BaseActivity{
                 }
                 week = week + weekName[timer.getWeek().get(timer.getWeek().size()-1)];
             }
+        }else{
+            timePicker.setCurrentHour(0);
+            timePicker.setCurrentMinute(0);
         }
 
         clockMode.getOnlineTextView().setText(on_off + "|" + mode + "|" + fan + "|" + temp);
@@ -196,8 +212,6 @@ public class EditClockActivity extends BaseActivity{
             clockRepeat.getLabelTextView().setText(repeat);
             clockRepeat.getOnlineTextView().setText(week);
         }
-        */
-        //TODO color set and delete
 
         ListView listView = (ListView)findViewById(R.id.air_device_list1);
         List<ServerConfig.Device> devices = MyApp.getApp().getServerConfigManager().getDevices();
