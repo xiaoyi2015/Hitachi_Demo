@@ -196,9 +196,12 @@ public class SocketManager extends Observable {
             public void run() {
                 try {
                     UdpSocket socket = new UdpSocket();
-//                    socket.connect(BROADCAST_ADDRESS);
-                    socket.connect("192.168.2.150");
+                    socket.connect(BROADCAST_ADDRESS);
+//                    socket.connect("192.168.1.123");
                     SocketPackage socketPackage = new BroadcastPackage();
+                    //重发三遍，主机偶尔会没有应答
+                    socket.sendMessage(socketPackage);
+                    socket.sendMessage(socketPackage);
                     socket.sendMessage(socketPackage);
 
                     //搜索时间十秒

@@ -3,6 +3,7 @@ package ac.airconditionsuit.app.network.socket;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.entity.ObserveData;
+import ac.airconditionsuit.app.network.response.CommonResponse;
 import ac.airconditionsuit.app.network.socket.socketpackage.SocketPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 import ac.airconditionsuit.app.util.ByteUtil;
@@ -100,7 +101,7 @@ class UdpSocket implements SocketWrap {
                 //add ip to device
                 device.getInfo().setIp(datagramPacket.getAddress().toString());
 
-                byte[] authCodeBytes = Arrays.copyOfRange(receiveData, 6, receiveDataLength - 2);
+                byte[] authCodeBytes = Arrays.copyOfRange(receiveData, 6, receiveDataLength - 4);
                 String authCode = ByteUtil.byteArrayToHexString(authCodeBytes);
                 device.setAuthCode(authCode);
                 byte[] authCodeEncodeBytes = ByteUtil.encodeAuthCode(authCodeBytes);

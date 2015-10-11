@@ -33,8 +33,8 @@ public class LocalConfigManager {
             localConfig = LocalConfig.getInstanceFromJsonString(getSharePreference().getString(Constant.PREFERENCE_KEY_LOCAL_CONFIG, null));
             if (localConfig == null) {
                 localConfig = new LocalConfig();
+                saveToDisk();
             }
-            saveToDisk();
         }
         return localConfig;
     }
@@ -117,5 +117,11 @@ public class LocalConfigManager {
 
     public String getCurrentUserPhoneNumber(){
         return getLocalConfig().getCurrentUserPhoneNumber();
+    }
+
+    public void addNewHome(String homeName) {
+        UserForLocalConfig user = getCurrentUserConfig();
+        user.addNewHome(homeName);
+        saveToDisk();
     }
 }

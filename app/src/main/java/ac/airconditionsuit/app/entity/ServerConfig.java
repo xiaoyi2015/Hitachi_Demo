@@ -9,6 +9,7 @@ import java.util.Timer;
  *
  */
 public class ServerConfig extends RootEntity{
+
     public class Command extends RootEntity{
         float temperature;
         int address;
@@ -198,26 +199,6 @@ public class ServerConfig extends RootEntity{
     }
 
 
-    public class Home extends RootEntity{
-        String name;
-        String filename;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getFilename() {
-            return filename;
-        }
-
-        public void setFilename(String filename) {
-            this.filename = filename;
-        }
-    }
 
 
     public class Device extends RootEntity{
@@ -416,5 +397,14 @@ public class ServerConfig extends RootEntity{
 
     public void setConnection(List<Connection> connection) {
         this.connection = connection;
+    }
+
+    public static ServerConfig genNewConfig(String configFileName, String homeName) {
+        ServerConfig sc = new ServerConfig();
+        Home home = new Home();
+        home.setName(homeName);
+        home.setFilename(configFileName);
+        sc.setHome(home);
+        return sc;
     }
 }
