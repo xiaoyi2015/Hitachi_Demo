@@ -129,7 +129,7 @@
     <string name="choose_scene_text">选择需要设定的空调</string>
     <string name="upload_success">上传成功</string>
     <string name="upload_failure">上传失败</string>
-    <string name="hot">制热</string>
+    <string name="heat">制热</string>
     <string name="dry">除湿</string>
     <string name="wind">送风</string>
     <string name="medium_wind">中风</string>

@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -21,7 +20,6 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.activity.BaseActivity;
 import ac.airconditionsuit.app.activity.EditClockActivity;
-import ac.airconditionsuit.app.activity.EditSceneActivity;
 import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
@@ -141,7 +139,7 @@ public class SetClockFragment extends BaseFragment {
                     mode = getString(R.string.cool);
                     break;
                 case 1:
-                    mode = getString(R.string.hot);
+                    mode = getString(R.string.heat);
                     break;
                 case 2:
                     mode = getString(R.string.dry);

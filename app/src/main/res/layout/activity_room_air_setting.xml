@@ -23,7 +23,6 @@
 
         <ImageView
             android:id="@+id/bg_bar1"
-            android:src="@drawable/dc_bg_bar_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -59,13 +58,11 @@
 
         <ImageView
             android:id="@+id/bg_bar2"
-            android:src="@drawable/dc_bg_bar_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/on_off"
-            android:src="@drawable/dc_onoff_off"
             android:layout_margin="15dp"
             android:layout_gravity="top"
             android:layout_width="wrap_content"
@@ -95,14 +92,12 @@
 
         <ImageView
             android:id="@+id/bg_bar3"
-            android:src="@drawable/dc_bg_bar_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/mode"
             android:layout_margin="15dp"
-            android:src="@drawable/dc_cool_off"
             android:layout_gravity="top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -114,7 +109,6 @@
             android:layout_marginRight="6dp"
             android:layout_marginLeft="6dp"
             android:textSize="15sp"
-            android:text="@string/cool"
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -131,7 +125,6 @@
 
         <ImageView
             android:id="@+id/bg_bar4"
-            android:src="@drawable/dc_bg_bar_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -140,7 +133,6 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:src="@drawable/dc_fan_off1"
             android:layout_gravity="top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -152,7 +144,6 @@
             android:layout_marginRight="6dp"
             android:layout_marginLeft="6dp"
             android:textSize="15sp"
-            android:text="@string/low_wind"
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -169,7 +160,6 @@
 
         <ImageView
             android:id="@+id/bg_bar5"
-            android:src="@drawable/dc_bg_bar_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -178,9 +168,28 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:text="@string/default_temp"
             android:textSize="28sp"
             android:layout_gravity="top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/decrease_temp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="top"
+            android:src="@drawable/dc_decrease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/increase_temp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="top"
+            android:src="@drawable/dc_increase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
