@@ -48,7 +48,7 @@ public class FamilyFragment extends Fragment{
         TextView userName = (TextView) view.findViewById(R.id.user_name);
         userName.setText(MyApp.getApp().getUser().getCust_name());
         userPicture = (RoundImageView) view.findViewById(R.id.current_user);
-        if(false)              //TODO isAdmin
+        if(!MyApp.getApp().getUser().isAdmin())
         {
             admin = false;
             adminText.setVisibility(View.GONE);
@@ -264,7 +264,7 @@ public class FamilyFragment extends Fragment{
                     listItemView.name1.setVisibility(View.VISIBLE);
                     listItemView.name1.setText(customers.get(2 * position).getCust_name());
                     listItemView.adminText1.setVisibility(View.VISIBLE);
-                    if(false){                      //TODO  customers.get(2 * position).getCust_id())
+                    if(customers.get(2 * position).isAdmin()){
                         findAdmin = true;
                         listItemView.adminText1.setText(getString(R.string.admin));
                     }else {
@@ -275,7 +275,7 @@ public class FamilyFragment extends Fragment{
                     listItemView.name2.setVisibility(View.VISIBLE);
                     listItemView.name2.setText(customers.get(2 * position + 1).getCust_name());
                     listItemView.adminText2.setVisibility(View.VISIBLE);
-                    if(false){                     //TODO
+                    if(customers.get(2 * position + 1).isAdmin()){
                         findAdmin = true;
                         listItemView.adminText2.setText(getString(R.string.admin));
                     }else {
@@ -287,7 +287,7 @@ public class FamilyFragment extends Fragment{
                     listItemView.name1.setVisibility(View.VISIBLE);
                     listItemView.name1.setText(customers.get(2 * position).getCust_name());
                     listItemView.adminText1.setVisibility(View.VISIBLE);
-                    if(false){                    //TODO
+                    if(customers.get(2 * position).isAdmin()){
                         findAdmin = true;
                         listItemView.adminText1.setText(getString(R.string.admin));
                     }else {
