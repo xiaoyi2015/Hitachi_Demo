@@ -46,7 +46,7 @@ public class SetClockFragment extends BaseFragment {
         }
     };
     private static final int REQUEST_CODE_CLOCK = 200;
-    private static final int RESULT_OK = 201;
+    private static final int RESULT_OK = -1;
     private ClockSettingAdapter clockSettingAdapter;
 
     @Override
@@ -92,6 +92,13 @@ public class SetClockFragment extends BaseFragment {
 
         private Context context;
         private List<ServerConfig.Timer> list;
+        private LinearLayout clockView;
+        private ImageView bgBar;
+        private TextView clockName;
+        private TextView clockSetting1;
+        private TextView clockSetting2;
+        private TextView clockTime;
+        private SwitchButton switchOn;
 
         public ClockSettingAdapter(Context context, List<ServerConfig.Timer> list) {
             this.context = context;
@@ -118,13 +125,13 @@ public class SetClockFragment extends BaseFragment {
             if (convertView == null) {
                 convertView = new ClockCustomView(context);
             }
-            LinearLayout clockView = (LinearLayout) convertView.findViewById(R.id.clock_view);
-            ImageView bgBar = (ImageView) convertView.findViewById(R.id.bg_bar);
-            TextView clockName = (TextView) convertView.findViewById(R.id.clock_name);
-            TextView clockSetting1 = (TextView) convertView.findViewById(R.id.clock_setting1);
-            TextView clockSetting2 = (TextView) convertView.findViewById(R.id.clock_setting2);
-            TextView clockTime = (TextView) convertView.findViewById(R.id.clock_time);
-            SwitchButton switchOn = (SwitchButton) convertView.findViewById(R.id.clock_on_off);
+            clockView = (LinearLayout) convertView.findViewById(R.id.clock_view);
+            bgBar = (ImageView) convertView.findViewById(R.id.bg_bar);
+            clockName = (TextView) convertView.findViewById(R.id.clock_name);
+            clockSetting1 = (TextView) convertView.findViewById(R.id.clock_setting1);
+            clockSetting2 = (TextView) convertView.findViewById(R.id.clock_setting2);
+            clockTime = (TextView) convertView.findViewById(R.id.clock_time);
+            switchOn = (SwitchButton) convertView.findViewById(R.id.clock_on_off);
             clockName.setText(list.get(position).getName());
             clockTime.setText(list.get(position).getHour() + ":" + list.get(position).getMinute());
             String on_off = "";
@@ -191,7 +198,7 @@ public class SetClockFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.putExtra("index",position);
-                    //intent.putExtra("data",list.get(position).toJsonString());
+                    intent.putExtra("data",list.get(position).toJsonString());
                     intent.putExtra("title",list.get(position).getName());
                     intent.setClass(getActivity(), EditClockActivity.class);
                     startActivityForResult(intent, REQUEST_CODE_CLOCK);

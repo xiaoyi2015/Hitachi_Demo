@@ -72,6 +72,13 @@ public class EditClockActivity extends BaseActivity{
                         ServerConfig serverConfig = new ServerConfig();
                         ServerConfig.Timer timer = serverConfig.new Timer();
                         timer.setName(check_clock_name);
+                        timer.setHour(0);
+                        timer.setMinute(0);
+                        timer.setMode(0);
+                        timer.setFan(0);
+                        timer.setOnoff(false);
+                        timer.setRepeat(false);
+                        timer.setTemperature(25);
                         MyApp.getApp().getServerConfigManager().addTimer(timer);
                         finish();
                     }else{
@@ -140,16 +147,17 @@ public class EditClockActivity extends BaseActivity{
         clockRepeat.getLabelTextView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
         clockRepeat.getOnlineTextView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
 
-        ServerConfig.Timer timer;
         String on_off = getString(R.string.off);
         String mode = getString(R.string.cool);
         String fan = getString(R.string.low_wind);
         String temp = getString(R.string.default_temp);
         String repeat = getString(R.string.not_repeat);
         String week = "";
-        /*
+
         if(!clock_name.equals("")){
+            ServerConfig.Timer timer;
             timer = new Gson().fromJson(getIntent().getStringExtra("data"), ServerConfig.Timer.class);
+
 
             if(timer.isOnoff()){
                 on_off = getString(R.string.on);
@@ -159,7 +167,7 @@ public class EditClockActivity extends BaseActivity{
                     mode = getString(R.string.cool);
                     break;
                 case 1:
-                    mode = getString(R.string.hot);
+                    mode = getString(R.string.heat);
                     break;
                 case 2:
                     mode = getString(R.string.dry);
@@ -196,7 +204,8 @@ public class EditClockActivity extends BaseActivity{
             clockRepeat.getLabelTextView().setText(repeat);
             clockRepeat.getOnlineTextView().setText(week);
         }
-        */
+
+
         //TODO color set and delete
 
         ListView listView = (ListView)findViewById(R.id.air_device_list1);
