@@ -2,21 +2,11 @@ package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.Device;
-import ac.airconditionsuit.app.network.socket.socketpackage.BroadcastPackage;
-import ac.airconditionsuit.app.network.socket.socketpackage.LoginPackage;
-import ac.airconditionsuit.app.network.socket.socketpackage.SocketPackage;
-import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPLoginPackage;
-import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TcpPackage;
-import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
-import ac.airconditionsuit.app.util.ACByteQueue;
-import ac.airconditionsuit.app.util.ByteUtil;
+import ac.airconditionsuit.app.network.socket.socketpackage.*;
 import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
-import android.speech.RecognizerIntent;
 import android.util.Log;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.net.*;
 import java.util.*;
 
 /**
@@ -34,250 +24,41 @@ public class SocketManager extends Observable {
 
     private int currentSocketType = TCP;
 
-    interface SocketWrap {
-        void connect() throws IOException;
+    public static final int TCP_HOST_CONNECT = 0;
+    public static final int TCP_DEVICE_CONNECT = 1;
+    public static final int UDP_CONNECT = 2;
+    public static final int TCP_UDP_ALL_UNCONNECT = 3;
+    private int status = UNCONNECT;
 
-        void sendMessage(SocketPackage socketPackage);
 
-        void close() throws IOException;
+    public static final int HEART_BEAT_PERIOD = 10000;
+    public static final int HEART_BEAT_INVAILD_TIME = 20000;
+    private long lastHeartSuccessTime = 0;
+    private Timer heartBeatTimer;
 
-        void receiveDataAndHandle() throws IOException;
+    public void setLastHeartSuccessTime(long lastHeartSuccessTime) {
+        this.lastHeartSuccessTime = lastHeartSuccessTime;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public void startHeartBeat() {
+        heartBeatTimer = new Timer();
+        heartBeatTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                SocketPackage heartBeatSocket = new HeartBeatPackage();
+                sendMessage(heartBeatSocket);
+            }
+        }, 0, HEART_BEAT_PERIOD);
 
     }
 
-    static class TcpSocket implements SocketWrap {
-        private static final String IP = "114.215.83.189";//日立
-        private static final int PORT = 7000;
-
-        private Socket socket;
-        private ACByteQueue readQueue = new ACByteQueue();
-
-        @Override
-        public void connect() throws IOException {
-            socket = new Socket(IP, PORT);
-            Log.i(TAG, "connect to host by tcp success");
-        }
-
-        @Override
-        public void sendMessage(SocketPackage socketPackage) {
-            if (socket != null && socket.isConnected()) {
-                try {
-                    byte[] dataSent = socketPackage.getBytesTCP();
-                    socket.getOutputStream().write(dataSent);
-                    Log.i(TAG, "tcp send data: " + ByteUtil.byteArrayToReadableHexString(dataSent));
-                } catch (Exception e) {
-                    Log.e(TAG, "sendMessage by Tcp failed: socket.getOutputStream() error");
-                    e.printStackTrace();
-                }
-            } else {
-                Log.e(TAG, "sendMessage by Tcp failed: socket is null or socket.isConnected() return false");
-            }
-        }
-
-        @Override
-        public void close() throws IOException {
-            if (socket != null && !socket.isClosed()) {
-                socket.close();
-                socket = null;
-            }
-        }
-
-        public byte[] readMessage() throws IOException {
-            byte[] tempForRead = new byte[256];
-            //先读取tcp包头部的六个字节
-            while (readQueue.size() < 6) {
-                if (socket != null && socket.isConnected()) {
-                    int readCount = socket.getInputStream().read(tempForRead, 0, 255);
-                    if (readCount <= 0) {
-                        throw new IOException("read data return -1 or 0");
-                    }
-                    readQueue.offer(tempForRead, 0, readCount);
-                }else{
-                    throw new IOException("read fail because socket is null or socket is close");
-                }
-            }
-            byte[] header = readQueue.poll(6);
-
-
-            //读取body
-            int bodyLength = ByteUtil.byteArrayToShort(header, 1);
-            while (readQueue.size() < bodyLength) {
-                if (socket != null && socket.isConnected()) {
-                    int readCount = socket.getInputStream().read(tempForRead, 0, 255);
-                    if (readCount <= 0) {
-                        throw new IOException("read data return -1 or 0");
-                    }
-                    readQueue.offer(tempForRead, 0, readCount);
-                }else{
-                    throw new IOException("read fail because socket is null or socket is close");
-                }
-            }
-
-            byte[] body = readQueue.poll(bodyLength);
-
-            byte[] result = new byte[6 + bodyLength];
-
-            //copy header to result
-            System.arraycopy(header, 0, result, 0, 6);
-
-            //copy body to result
-            System.arraycopy(body, 0, result, 6, bodyLength);
-
-            return result;
-        }
-
-        @Override
-        public void receiveDataAndHandle() throws IOException {
-            byte[] receiveData = readMessage();
-            Log.i(TAG, "receive data from tcp: " + ByteUtil.byteArrayToReadableHexString(receiveData));
-
-            int receiveDataLength = receiveData.length;
-
-            //check head and end
-            if (receiveData[0] != TcpPackage.START_BYTE
-                    || receiveData[receiveDataLength - 1] != TcpPackage.END_BYTE) {
-                throw new IOException("udp package start flag or end flag error!");
-            }
-
-            //check checksum
-            byte[] checksum = TcpPackage.getCheckSum(receiveData);
-            if (!Arrays.equals(checksum, Arrays.copyOfRange(receiveData, receiveDataLength - 3, receiveDataLength - 1))) {
-                throw new IOException("udp package checksum error");
-            }
-
-            //check length
-            short dataLength = ByteUtil.byteArrayToShort(receiveData, 1);
-            if (dataLength + 6 != receiveDataLength) {
-                throw new IOException("udp package length error");
-            }
-
-            byte msg_type = receiveData[5];
-
-            switch (msg_type) {
-                case TCPLoginPackage.LOGIN_TETURN_MSG_TYPE:
-                    short result_code = ByteUtil.byteArrayToShort(receiveData, 15);
-                    if (result_code == 200) {
-                        Log.i(TAG, "tcp login success");
-                        //TODO for luzheqi
-                        //start heartbeat
-                        //check if device online
-                    } else {
-                        throw new IOException("tcp login fail");
-                    }
-                    break;
-
-                default:
-                    throw new IOException("tcp package message type error");
-
-            }
-        }
-    }
-
-    class UdpSocket implements SocketWrap {
-        private static final int PORT = 9002; // udp port
-        private DatagramSocket datagramSocket;
-        private String currentHostIP;
-
-        @Override
-        public void connect() throws SocketException, UnknownHostException {
-            datagramSocket = new DatagramSocket();
-            currentHostIP = MyApp.getApp().getServerConfigManager().getCurrentHostIP();
-            Log.i(TAG, "connect to host by udp success, ip " + currentHostIP + " port: " + PORT);
-        }
-
-        @Override
-        public void sendMessage(SocketPackage socketPackage) {
-            if (datagramSocket != null) {
-                try {
-                    byte[] sentContent = socketPackage.getBytesUDP();
-                    Log.i(TAG, "send data by udp: " + ByteUtil.byteArrayToReadableHexString(sentContent));
-                    DatagramPacket pack = new DatagramPacket(sentContent, sentContent.length);
-                    //多数情况下，getIp()获得的ip都为null, 只有在udp广播包的时候，Ip为255.255.255.255
-                    if (socketPackage.getIp() != null) {
-                        pack.setAddress(InetAddress.getByName(socketPackage.getIp()));
-                    } else {
-                        pack.setAddress(InetAddress.getByName(currentHostIP));
-                    }
-                    pack.setPort(PORT);
-
-                    datagramSocket.send(pack);
-                } catch (Exception e) {
-                    Log.e(TAG, "sendMessage by udp failed: socket.getOutputStream() error or gen udp package error");
-                    e.printStackTrace();
-                }
-            } else {
-                Log.e(TAG, "sendMessage by udp failed: socket is null");
-            }
-        }
-
-        @Override
-        public void close() {
-            if (datagramSocket != null && !datagramSocket.isClosed()) {
-                datagramSocket.close();
-            }
-        }
-
-        @Override
-        public void receiveDataAndHandle() throws IOException {
-            DatagramPacket datagramPacket = new DatagramPacket(new byte[1024], 1024);
-            datagramSocket.receive(datagramPacket);
-            byte[] receiveData = Arrays.copyOf(datagramPacket.getData(), datagramPacket.getLength());
-            Log.i(TAG, "receive data after broadcast: " + ByteUtil.byteArrayToReadableHexString(receiveData));
-            int receiveDataLength = receiveData.length;
-
-            //check head and end
-            if (receiveData[0] != UdpPackage.START_BYTE
-                    || receiveData[receiveDataLength - 1] != UdpPackage.END_BYTE) {
-                throw new IOException("udp package start flag or end flag error!");
-            }
-
-            //check checksum
-            byte checksum = UdpPackage.getCheckSum(receiveData);
-            if (checksum != receiveData[receiveDataLength - 2]) {
-                throw new IOException("udp package checksum error");
-            }
-
-            //check length
-            byte dataLength = receiveData[2];
-            if (dataLength + 6 != receiveDataLength) {
-                throw new IOException("udp package length error");
-            }
-
-
-            //control byte
-            byte control = receiveData[1];
-            //1表示启动站，0表示从动站。
-            byte prm = (byte) (control / 128);
-            //帧序列号
-            byte pfc = (byte) (control - 128);
-
-            //数据域的功能码
-            byte afn = receiveData[3];
-
-            switch (afn) {
-                case UdpPackage.AFN_BROADCAST:
-                    Device device = new Device();
-                    //add ip to device
-                    device.getInfo().setIp(datagramPacket.getAddress().toString());
-
-                    byte[] authCodeBytes = Arrays.copyOfRange(receiveData, 6, receiveDataLength - 2);
-                    String authCode = ByteUtil.byteArrayToHexString(authCodeBytes);
-                    device.setAuthCode(authCode);
-                    byte[] authCodeEncodeBytes = ByteUtil.encodeAuthCode(authCodeBytes);
-                    device.setAuthCodeEncode(ByteUtil.byteArrayToHexString(authCodeEncodeBytes));
-
-                    //notify find device
-                    setChanged();
-                    notifyObservers(device);
-                    break;
-
-                case UdpPackage.AFN_LOGIN:
-
-                default:
-                    throw new IOException("udp package afn error");
-
-            }
-        }
+    public void notifyActivity(Device device) {
+        setChanged();
+        notifyObservers(device);
     }
 
     class ReceiveThread extends Thread {
@@ -305,7 +86,7 @@ public class SocketManager extends Observable {
                 init();
             }
         }, 5000);
-        Log.i(TAG, "reconnecttttttttttttttttttttttttttt");
+        Log.i(TAG, "reconnect");
     }
 
     private SocketWrap socket;
@@ -337,9 +118,6 @@ public class SocketManager extends Observable {
     }
 
     public void init(int status) {
-//        TODO temp code for debug
-//        status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
-
         if (status == NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT) {
             //udp
             //udp还要判断是否有设备

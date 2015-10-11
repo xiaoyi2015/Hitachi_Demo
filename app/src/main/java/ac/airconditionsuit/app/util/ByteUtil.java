@@ -26,7 +26,7 @@ public class ByteUtil {
     public static byte[] longToByteArray(Long input) {
         byte[] result = new byte[8];
         int i = 0;
-        while (input > 0) {
+        while (input != 0) {
             result[i++] = (byte) (input & 0xff);
             input >>>= 8;
         }

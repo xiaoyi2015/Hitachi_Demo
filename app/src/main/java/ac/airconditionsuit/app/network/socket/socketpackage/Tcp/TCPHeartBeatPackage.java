@@ -7,18 +7,15 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by ac on 10/10/15.
  */
-public class TCPLoginPackage extends TcpPackage {
-    public static final byte LOGIN_MSG_TYPE = 0x1;
-    public static final byte LOGIN_RETURN_MSG_TYPE = 0x2;
-    public static final int MIDDLE_LENGTH = 41;
+public class TCPHeartBeatPackage extends TcpPackage {
+    public static final byte HEART_BEAT_MSG_TYPE = 0x6;
+    public static final int MIDDLE_LENGTH = 9;
 
     private Long cust_id;
-    private String authString;
 
-    public TCPLoginPackage(Long cust_id, String authString) {
+    public TCPHeartBeatPackage(Long cust_id) {
         this.cust_id = cust_id;
-        this.authString = authString;
-        msg_type = LOGIN_MSG_TYPE;
+        msg_type = HEART_BEAT_MSG_TYPE;
     }
 
     @Override
@@ -29,9 +26,6 @@ public class TCPLoginPackage extends TcpPackage {
 
         //cust_id
         System.arraycopy(ByteUtil.longToByteArray(cust_id), 0, result, 1, 8);
-
-        //auth_code
-        System.arraycopy(authString.getBytes("US-ASCII"), 0, result, 9, 32);
 
         return result;
     }
