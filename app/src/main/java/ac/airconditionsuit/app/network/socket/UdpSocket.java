@@ -19,13 +19,16 @@ class UdpSocket implements SocketWrap {
     private static final int PORT = 9002; // udp port
     private static final String TAG = "UdpSocket";
     private DatagramSocket datagramSocket;
-    private String currentHostIP;
+
+    public void connect(String ip) throws SocketException, UnknownHostException {
+        datagramSocket = new DatagramSocket();
+        datagramSocket.connect(InetAddress.getByName(ip), PORT);
+        Log.i(TAG, "connect to host by udp success, ip " + ip + " port: " + PORT);
+    }
 
     @Override
     public void connect() throws SocketException, UnknownHostException {
-        datagramSocket = new DatagramSocket();
-        currentHostIP = MyApp.getApp().getServerConfigManager().getCurrentHostIP();
-        Log.i(TAG, "connect to host by udp success, ip " + currentHostIP + " port: " + PORT);
+        connect(MyApp.getApp().getServerConfigManager().getCurrentHostIP());
     }
 
     @Override
@@ -33,17 +36,9 @@ class UdpSocket implements SocketWrap {
         if (datagramSocket != null) {
             try {
                 byte[] sentContent = socketPackage.getBytesUDP();
-                Log.i(TAG, "send data by udp: " + ByteUtil.byteArrayToReadableHexString(sentContent));
                 DatagramPacket pack = new DatagramPacket(sentContent, sentContent.length);
-                //多数情况下，getIp()获得的ip都为null, 只有在udp广播包的时候，Ip为255.255.255.255
-                if (socketPackage.getIp() != null) {
-                    pack.setAddress(InetAddress.getByName(socketPackage.getIp()));
-                } else {
-                    pack.setAddress(InetAddress.getByName(currentHostIP));
-                }
-                pack.setPort(PORT);
-
                 datagramSocket.send(pack);
+                Log.i(TAG, "send data by udp: " + ByteUtil.byteArrayToReadableHexString(sentContent));
             } catch (Exception e) {
                 Log.e(TAG, "sendMessage by udp failed: socket.getOutputStream() error or gen udp package error");
                 e.printStackTrace();
@@ -65,7 +60,7 @@ class UdpSocket implements SocketWrap {
         DatagramPacket datagramPacket = new DatagramPacket(new byte[1024], 1024);
         datagramSocket.receive(datagramPacket);
         byte[] receiveData = Arrays.copyOf(datagramPacket.getData(), datagramPacket.getLength());
-        Log.i(TAG, "receive data after broadcast: " + ByteUtil.byteArrayToReadableHexString(receiveData));
+        Log.i(TAG, "receive data " + ByteUtil.byteArrayToReadableHexString(receiveData));
         int receiveDataLength = receiveData.length;
 
         //check head and end
@@ -99,6 +94,8 @@ class UdpSocket implements SocketWrap {
 
         switch (afn) {
             case UdpPackage.AFN_BROADCAST:
+                Log.i(TAG, "broadcast reply, ip: " + datagramPacket.getAddress().toString()
+                        + " port: " + datagramPacket.getPort());
                 Device device = new Device();
                 //add ip to device
                 device.getInfo().setIp(datagramPacket.getAddress().toString());

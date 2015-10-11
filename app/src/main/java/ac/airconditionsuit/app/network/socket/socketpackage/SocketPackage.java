@@ -10,13 +10,4 @@ import java.io.UnsupportedEncodingException;
 public abstract class SocketPackage {
     public abstract byte[] getBytesUDP() throws Exception;
     public abstract byte[] getBytesTCP() throws UnsupportedEncodingException;
-
-    String ip;
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-    public String getIp() {
-        return ip;
-    }
-
 }

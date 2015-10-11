@@ -3,6 +3,7 @@ package ac.airconditionsuit.app.activity;
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.ObserveData;
+import ac.airconditionsuit.app.network.socket.SocketManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -115,12 +116,18 @@ public class BaseActivity extends FragmentActivity implements Observer{
     @Override
     protected void onResume() {
         super.onResume();
-        MyApp.getApp().getSocketManager().addObserver(this);
+        SocketManager socketManager = MyApp.getApp().getSocketManager();
+        if (socketManager != null) {
+            socketManager.addObserver(this);
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MyApp.getApp().getSocketManager().deleteObserver(this);
+        SocketManager socketManager = MyApp.getApp().getSocketManager();
+        if (socketManager != null) {
+            socketManager.deleteObserver(this);
+        }
     }
 }

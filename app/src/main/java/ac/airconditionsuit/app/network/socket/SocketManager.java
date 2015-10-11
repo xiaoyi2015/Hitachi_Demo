@@ -62,7 +62,6 @@ public class SocketManager extends Observable {
         notifyObservers(od);
     }
 
-
     class ReceiveThread extends Thread {
         @Override
         public void run() {
@@ -126,6 +125,7 @@ public class SocketManager extends Observable {
     }
 
     public void init(int status) {
+        status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
         if (status == NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT) {
             //udp
             //udp还要判断是否有设备
@@ -196,9 +196,9 @@ public class SocketManager extends Observable {
             public void run() {
                 try {
                     UdpSocket socket = new UdpSocket();
-                    socket.connect();
+//                    socket.connect(BROADCAST_ADDRESS);
+                    socket.connect("192.168.2.150");
                     SocketPackage socketPackage = new BroadcastPackage();
-                    socketPackage.setIp(BROADCAST_ADDRESS);
                     socket.sendMessage(socketPackage);
 
                     //搜索时间十秒
