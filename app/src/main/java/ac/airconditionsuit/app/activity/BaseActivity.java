@@ -1,6 +1,8 @@
 package ac.airconditionsuit.app.activity;
 
 import ac.airconditionsuit.app.Constant;
+import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.entity.ObserveData;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,10 +17,13 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * Created by ac on 9/18/15.
  */
-public class BaseActivity extends FragmentActivity {
+public class BaseActivity extends FragmentActivity implements Observer{
 
     //Log 信息的时候使用的tag，尽量不要用system.out
     static protected String TAG;
@@ -96,4 +101,26 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    public void update(Observable observable, Object data) {
+        ObserveData od = (ObserveData) data;
+        switch (od.getMsg()) {
+            case ObserveData.OFFLINE:
+                finishAffinity();
+                shortStartActivity(LoginActivity.class);
+                break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApp.getApp().getSocketManager().addObserver(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyApp.getApp().getSocketManager().deleteObserver(this);
+    }
 }

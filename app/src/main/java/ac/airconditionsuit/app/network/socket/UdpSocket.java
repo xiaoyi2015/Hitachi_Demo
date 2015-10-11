@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.Device;
+import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.SocketPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 import ac.airconditionsuit.app.util.ByteUtil;
@@ -109,7 +110,8 @@ class UdpSocket implements SocketWrap {
                 device.setAuthCodeEncode(ByteUtil.byteArrayToHexString(authCodeEncodeBytes));
 
                 //notify find device
-                MyApp.getApp().getSocketManager().notifyActivity(device);
+                ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP, device);
+                MyApp.getApp().getSocketManager().notifyActivity(od);
                 break;
 
             case UdpPackage.AFN_LOGIN:

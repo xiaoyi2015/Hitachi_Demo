@@ -1,0 +1,29 @@
+package ac.airconditionsuit.app.entity;
+
+/**
+ * Created by ac on 10/11/15.
+ */
+public class ObserveData {
+    public static final int FIND_DEVICE_BY_UDP = 0;
+    public static final int FIND_DEVICE_BY_UDP_FAIL = 1;
+    public static final int OFFLINE = 2;
+    int msg;
+    Object data;
+
+    public ObserveData(int msg) {
+        this(msg, null);
+    }
+
+    public ObserveData(int msg, Object data) {
+        this.msg = msg;
+        this.data = data;
+    }
+
+    public int getMsg() {
+        return msg;
+    }
+
+    public Object getData() {
+        return data;
+    }
+}

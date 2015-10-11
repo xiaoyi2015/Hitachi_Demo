@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.PushData.PushDataManager;
+import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.ACKPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.CheckDevicePackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.SocketPackage;
@@ -12,6 +13,7 @@ import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TcpPackage;
 import ac.airconditionsuit.app.util.ACByteQueue;
 import ac.airconditionsuit.app.util.ByteUtil;
 import ac.airconditionsuit.app.view.TabIndicator;
+import android.content.Intent;
 import android.nfc.Tag;
 import android.util.Log;
 
@@ -133,13 +135,21 @@ class TcpSocket implements SocketWrap {
                 break;
 
             case TcpPackage.TICK_OFF_LINE_MSG_TYPE:
-                //TODO for luzheqi 被提下线
+                handleOffLine();
 
                 break;
 
             default:
                 throw new IOException("tcp package message type error");
 
+        }
+    }
+
+    private void handleOffLine(byte[] receiveData) {
+        Log.i(TAG, "tcp receive offline message");
+        if (ByteUtil.byteArrayToShort(receiveData, 15) == 700){
+            MyApp.getApp().getSocketManager().close();
+            MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.OFFLINE));
         }
     }
 

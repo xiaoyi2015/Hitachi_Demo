@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.Device;
+import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.*;
 import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
 import android.util.Log;
@@ -56,10 +57,11 @@ public class SocketManager extends Observable {
 
     }
 
-    public void notifyActivity(Device device) {
+    public void notifyActivity(ObserveData od) {
         setChanged();
-        notifyObservers(device);
+        notifyObservers(od);
     }
+
 
     class ReceiveThread extends Thread {
         @Override
@@ -110,6 +112,12 @@ public class SocketManager extends Observable {
 
         if (receiveThread != null && !receiveThread.isInterrupted()) {
             receiveThread.interrupt();
+            receiveThread = null;
+        }
+
+        if (heartBeatTimer != null) {
+            heartBeatTimer.cancel();
+            heartBeatTimer = null;
         }
     }
 
@@ -200,8 +208,8 @@ public class SocketManager extends Observable {
                     }
 
                 } catch (IOException e) {
-                    setChanged();
-                    notifyObservers(null);
+                    ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP_FAIL);
+                    notifyActivity(od);
                     e.printStackTrace();
                     Log.e(TAG, "send broadcast fail!");
                 }
