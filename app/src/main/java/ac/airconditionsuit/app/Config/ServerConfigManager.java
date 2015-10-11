@@ -314,4 +314,12 @@ public class ServerConfigManager {
             return -1;
         }
     }
+
+    public long getCurrentChatId() {
+        if (hasDevice()) {
+            return rootJavaObj.getConnection().get(0).getChat_id();
+        } else {
+            return -1;
+        }
+    }
 }

@@ -3,6 +3,9 @@ package ac.airconditionsuit.app.network.socket.socketpackage.Udp;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.util.ByteUtil;
+import android.widget.TabHost;
+
+import java.util.List;
 
 /**
  * Created by ac on 9/24/15.
@@ -43,6 +46,19 @@ public class UdpPackage {
         }
     }
 
+    public static final byte AFN_QUERY_STATUS = 0xf;
+    public static class QueryStatusUdpPackageContent extends UdpPackageContent {
+        public QueryStatusUdpPackageContent(List<Byte> addresses) {
+            function = AFN_QUERY_STATUS;
+            content = new byte[addresses.size() + 1];
+            //广播包没有数据段
+            content[0] = (byte) addresses.size();
+            for (int i = 0; i < addresses.size(); ++i){
+                content[i + 1] = addresses.get(i);
+            }
+        }
+    }
+
     public void setContent(UdpPackageContent content) {
         this.content = content;
     }
@@ -69,7 +85,7 @@ public class UdpPackage {
         result[1] = genControlByte();
 
         //数据长度
-        result[2] = (byte) contentBytes.length;
+        result[2] = (byte) (contentBytes.length - 1);
 
         if (contentBytes.length != 0) {
             System.arraycopy(contentBytes, 0, result, 3, contentBytes.length);
