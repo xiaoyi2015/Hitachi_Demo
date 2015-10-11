@@ -3,10 +3,7 @@ package ac.airconditionsuit.app.Config;
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
-import ac.airconditionsuit.app.entity.Device;
-import ac.airconditionsuit.app.entity.Room;
-import ac.airconditionsuit.app.entity.Section;
-import ac.airconditionsuit.app.entity.ServerConfig;
+import ac.airconditionsuit.app.entity.*;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.UploadConfigResponse;
@@ -114,7 +111,7 @@ public class ServerConfigManager {
         return rootJavaObj.getDevices();
     }
 
-    public ServerConfig.Home getHome() {
+    public Home getHome() {
         return rootJavaObj.getHome();
     }
 
@@ -178,13 +175,10 @@ public class ServerConfigManager {
         }
     }
 
-    /**
-     * 本类中的所有setter方法结束之后都必须调用这个函数！
-     */
-    public void writeToFile() {
+    private void writeToFile(String fileName) {
         FileOutputStream fos = null;
         try {
-            File serverConfigFile = MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFile();
+            File serverConfigFile = MyApp.getApp().getPrivateFile(fileName, null);
             if (serverConfigFile == null) {
                 Log.i(TAG, "can not find device config file");
                 return;
@@ -217,11 +211,22 @@ public class ServerConfigManager {
 
     }
 
+    /**
+     * 本类中的所有setter方法结束之后都必须调用这个函数！
+     */
+    public void writeToFile() {
+        String serverConfigFileName = MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFileName();
+        writeToFile(serverConfigFileName);
+    }
+
 
     /**
      * 当配置文件有改动时，上传配置文件当服务器
      */
     public void uploadToServer() {
+        if (!hasDevice()) {
+            return;
+        }
         RequestParams requestParams = new RequestParams();
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_FILE);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_UPLOAD_DEVICE_CONFIG_FILE);
@@ -321,5 +326,15 @@ public class ServerConfigManager {
         } else {
             return -1;
         }
+    }
+
+    public void setRootJavaObj(ServerConfig rootJavaObj) {
+        this.rootJavaObj = rootJavaObj;
+    }
+
+    public static void genNewHomeConfigFile(String configFileName, String homeName) {
+        ServerConfigManager scm = new ServerConfigManager();
+        scm.setRootJavaObj(ServerConfig.genNewConfig(configFileName, homeName));
+        scm.writeToFile(configFileName);
     }
 }

@@ -151,4 +151,5 @@
     <string name="clock_name_length_too_long">定时名称长度不能超过10个字符</string>
     <string name="is_delete_scene">\n确定要删除该场景吗？\n</string>
     <string name="is_delete_clock">\n确定要删除该定时吗？\n</string>
+    <string name="home_name_empty_info">家名称不能为空</string>
 </resources>

@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -38,7 +39,10 @@ import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
  * Created by Administrator on 2015/9/18.
+ *
  */
+//TODO for zhulinan
+//这个activity 中要显示已有的家的列表
 public class UserInfoActivity extends BaseActivity {
     public static final int MALE = 1;
     public static final int FEMALE = 2;
@@ -61,6 +65,7 @@ public class UserInfoActivity extends BaseActivity {
                     break;
                 case R.id.gender:
                     LayoutInflater inflater = LayoutInflater.from(UserInfoActivity.this);
+                    @SuppressLint("InflateParams")
                     View v1 = inflater.inflate(R.layout.pop_up_window_gender, null);
                     final PopupWindow pop = new PopupWindow(v1, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
                     pop.setBackgroundDrawable(new BitmapDrawable());

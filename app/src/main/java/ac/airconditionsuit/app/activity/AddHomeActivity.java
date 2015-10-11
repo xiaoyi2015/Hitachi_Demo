@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import ac.airconditionsuit.app.util.CheckUtil;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -22,12 +23,17 @@ public class AddHomeActivity extends BaseActivity{
                     finish();
                     break;
                 case R.id.right_icon:
-                    //TODO submit home info
+                    String homeName = CheckUtil.checkEmpty(homeNameText, R.string.home_name_empty_info);
+                    if (homeName == null) {
+                        return;
+                    }
+                    MyApp.getApp().getLocalConfigManager().addNewHome(homeName);
+                    finish();
                     break;
             }
         }
     };
-    private EditText addHomeText;
+    private EditText homeNameText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +42,7 @@ public class AddHomeActivity extends BaseActivity{
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.add_new_home));
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
-        addHomeText = (EditText)findViewById(R.id.edit_new_home_name);
+        homeNameText = (EditText)findViewById(R.id.edit_new_home_name);
         //TODO for luzheqi add_home function
     }
 }
