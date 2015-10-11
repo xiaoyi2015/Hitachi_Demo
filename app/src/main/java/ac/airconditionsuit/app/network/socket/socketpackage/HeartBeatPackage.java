@@ -15,7 +15,7 @@ public class HeartBeatPackage extends SocketPackage {
 
     @Override
     public byte[] getBytesUDP() throws Exception {
-        //TODO
+        //TODO for luzheqi
         return null;
     }
 

@@ -11,18 +11,18 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by ac on 9/27/15.
  */
-@RunWith(AndroidJUnit4.class)
-public class SocketManagerTest {
-    private SocketManager socketManager;
-
-    @Before
-    public void createLogHistory() {
-        socketManager = new SocketManager();
-    }
-
-    @Test
-    public void logHistory_ParcelableWriteRead() {
-        // Verify that the received data is correct.
-        assertThat(1, is(1));
-    }
-}
+//@RunWith(AndroidJUnit4.class)
+//public class SocketManagerTest {
+//    private SocketManager socketManager;
+//
+//    @Before
+//    public void createLogHistory() {
+//        socketManager = new SocketManager();
+//    }
+//
+//    @Test
+//    public void logHistory_ParcelableWriteRead() {
+//        // Verify that the received data is correct.
+//        assertThat(1, is(1));
+//    }
+//}

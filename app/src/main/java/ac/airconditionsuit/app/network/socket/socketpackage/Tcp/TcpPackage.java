@@ -10,10 +10,13 @@ import java.io.UnsupportedEncodingException;
  * 这个类用来构建tcp的数据包
  */
 public abstract class TcpPackage {
+    public static final byte TICK_OFF_LINE_MSG_TYPE = 0X7;
+
     public static final byte START_BYTE = 0X2;
     public static final byte END_BYTE = 0X3;
     public static final int HEADER_LENGTH = 6;
     protected byte msg_type;
+    protected byte[] msg_no;
 
     public byte[] getBytes() throws UnsupportedEncodingException {
         int bodyLength = getMiddleLength();
@@ -24,8 +27,11 @@ public abstract class TcpPackage {
         result[0] = START_BYTE;
         //包体总长度
         System.arraycopy(ByteUtil.shortToByteArray(lengthAfterMsgType), 0, result, 1, 2);
-        //编号
-        System.arraycopy(ByteUtil.shortToByteArray(getMsg_no()), 0, result, 3, 2);
+        //编号 在回复消息的时候是固定的。如果是发送消息，编号为null,由getMsg_no()生成。
+        if (msg_no == null) {
+            msg_no = ByteUtil.shortToByteArray(getMsg_no());
+        }
+        System.arraycopy(msg_no, 0, result, 3, 2);
         //消息类型
         result[5] = msg_type;
         //消息体

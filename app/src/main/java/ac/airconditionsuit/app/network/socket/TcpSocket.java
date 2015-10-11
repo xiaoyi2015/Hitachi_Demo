@@ -1,6 +1,8 @@
 package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.PushData.PushDataManager;
+import ac.airconditionsuit.app.network.socket.socketpackage.ACKPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.CheckDevicePackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.SocketPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPHeartBeatPackage;
@@ -9,6 +11,8 @@ import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPSendMessagePa
 import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TcpPackage;
 import ac.airconditionsuit.app.util.ACByteQueue;
 import ac.airconditionsuit.app.util.ByteUtil;
+import ac.airconditionsuit.app.view.TabIndicator;
+import android.nfc.Tag;
 import android.util.Log;
 
 import java.io.IOException;
@@ -21,6 +25,7 @@ import java.util.Arrays;
 class TcpSocket implements SocketWrap {
     private static final String IP = "114.215.83.189";//日立
     private static final int PORT = 7000;
+    private static final String TAG = "TcpSocket";
 
     private Socket socket;
     private ACByteQueue readQueue = new ACByteQueue();
@@ -28,7 +33,7 @@ class TcpSocket implements SocketWrap {
     @Override
     public void connect() throws IOException {
         socket = new Socket(IP, PORT);
-        Log.i(SocketManager.TAG, "connect to host by tcp success");
+        Log.i(TAG, "connect to host by tcp success");
     }
 
     @Override
@@ -37,13 +42,13 @@ class TcpSocket implements SocketWrap {
             try {
                 byte[] dataSent = socketPackage.getBytesTCP();
                 socket.getOutputStream().write(dataSent);
-                Log.i(SocketManager.TAG, "tcp send data: " + ByteUtil.byteArrayToReadableHexString(dataSent));
+                Log.i(TAG, "tcp send data: " + ByteUtil.byteArrayToReadableHexString(dataSent));
             } catch (Exception e) {
-                Log.e(SocketManager.TAG, "sendMessage by Tcp failed: socket.getOutputStream() error");
+                Log.e(TAG, "sendMessage by Tcp failed: socket.getOutputStream() error");
                 e.printStackTrace();
             }
         } else {
-            Log.e(SocketManager.TAG, "sendMessage by Tcp failed: socket is null or socket.isConnected() return false");
+            Log.e(TAG, "sendMessage by Tcp failed: socket is null or socket.isConnected() return false");
         }
     }
 
@@ -102,8 +107,43 @@ class TcpSocket implements SocketWrap {
     @Override
     public void receiveDataAndHandle() throws IOException {
         byte[] receiveData = readMessage();
-        Log.i(SocketManager.TAG, "receive data from tcp: " + ByteUtil.byteArrayToReadableHexString(receiveData));
+        Log.i(TAG, "receive data from tcp: " + ByteUtil.byteArrayToReadableHexString(receiveData));
 
+        //检查头尾标志，长度，checksum, 如果有问题就会抛出异常。
+        commonCheck(receiveData);
+
+        byte msg_type = receiveData[5];
+        switch (msg_type) {
+            case TCPLoginPackage.LOGIN_RETURN_MSG_TYPE:
+                handleLoginReturn(receiveData);
+                break;
+
+            case TCPHeartBeatPackage.HEART_BEAT_MSG_TYPE:
+                handleHeartBeat();
+                break;
+
+            case TCPSendMessagePackage.SEND_MESSAGE_MSG_TYPE:
+                //处理从服务器接受到的消息
+                handleReceiveDataFromServer(receiveData);
+                break;
+
+            case TCPSendMessagePackage.SEND_MESSAGE_RETURN_MSG_TYPE:
+                //处理给服务器发消息的返回值，在这里只要做设备在线处理即可
+                handleCheckDevice(receiveData);
+                break;
+
+            case TcpPackage.TICK_OFF_LINE_MSG_TYPE:
+                //TODO for luzheqi 被提下线
+
+                break;
+
+            default:
+                throw new IOException("tcp package message type error");
+
+        }
+    }
+
+    private void commonCheck(byte[] receiveData) throws IOException {
         int receiveDataLength = receiveData.length;
 
         //check head and end
@@ -123,47 +163,50 @@ class TcpSocket implements SocketWrap {
         if (dataLength + 6 != receiveDataLength) {
             throw new IOException("udp package length error");
         }
-
-        byte msg_type = receiveData[5];
-
-        switch (msg_type) {
-            case TCPLoginPackage.LOGIN_RETURN_MSG_TYPE:
-                handleLoginReturn(receiveData);
-                break;
-
-            case TCPHeartBeatPackage.HEART_BEAT_MSG_TYPE:
-                handleHeartBeat();
-                break;
-
-            case TCPSendMessagePackage.SEND_MESSAGE_MSG_TYPE:
-                //TODO for luzheqi, 处理从服务器接受到的消息
-                break;
-
-            case TCPSendMessagePackage.SEND_MESSAGE_RETURN_MSG_TYPE:
-                //处理给服务器发消息的返回值，在这里只要做设备在线处理即可
-                handleCheckDevice(receiveData);
-                break;
-
-            default:
-                throw new IOException("tcp package message type error");
-
-        }
     }
 
-    private void handleCheckDevice(byte[] receiveData) throws IOException {
+    private void handleReceiveDataFromServer(byte[] receiveData) throws IOException {
+        short contentLen = ByteUtil.byteArrayToShort(receiveData, 39);
+        byte contentType = receiveData[41];
+        byte[] data = Arrays.copyOfRange(receiveData, 42, 42 + contentLen);
+
+        if (contentType == 1) {
+            Log.i(TAG, "handle receive data as bin");
+            long chat_id = ByteUtil.byteArrayToLong(receiveData, 7);
+            if (chat_id == MyApp.getApp().getServerConfigManager().getCurrentChatId()) {
+                //TODO for luzheqi, 对消息进行处理由udp的相应单元处理
+            } else {
+                Log.i(TAG, "receive data not for current device, ignore");
+            }
+
+        } else if (contentLen == 0) {
+            Log.i(TAG, "handle receive data as json");
+            PushDataManager.add(data);
+        } else {
+            throw new IOException("unknow content type");
+        }
+
+        byte[] msg_no = Arrays.copyOfRange(receiveData, 3, 5);
+        byte[] msg_id = Arrays.copyOfRange(receiveData, 31, 39);
+
+        sendMessage(new ACKPackage(msg_no, msg_id));
+
+    }
+
+    private void handleCheckDevice(byte[] receiveData) {
         short result_code = ByteUtil.byteArrayToShort(receiveData, 32);
         if (result_code == 200) {
-            Log.i(SocketManager.TAG, "check Device success");
+            Log.i(TAG, "check Device success");
             MyApp.getApp().getSocketManager().setStatus(SocketManager.TCP_DEVICE_CONNECT);
         } else {
-            Log.i(SocketManager.TAG, "check Device fail, status code is: " + result_code);
+            Log.i(TAG, "check Device fail, status code is: " + result_code);
             MyApp.getApp().getSocketManager().setStatus(SocketManager.TCP_HOST_CONNECT);
         }
     }
 
-    private void handleHeartBeat() throws IOException {
+    private void handleHeartBeat() {
         SocketManager socketManager = MyApp.getApp().getSocketManager();
-        Log.i(SocketManager.TAG, "tcp heart beat ok");
+        Log.i(TAG, "tcp heart beat ok");
         socketManager.setLastHeartSuccessTime(System.currentTimeMillis());
         socketManager.setStatus(SocketManager.TCP_HOST_CONNECT);
         checkDeviceConnect();
@@ -172,7 +215,7 @@ class TcpSocket implements SocketWrap {
     private void handleLoginReturn(byte[] receiveData) throws IOException {
         short result_code = ByteUtil.byteArrayToShort(receiveData, 15);
         if (result_code == 200) {
-            Log.i(SocketManager.TAG, "tcp login success");
+            Log.i(TAG, "tcp login success");
             MyApp.getApp().getSocketManager().startHeartBeat();
         } else if (result_code == 401) {
             throw new IOException("tcp login auth fail");

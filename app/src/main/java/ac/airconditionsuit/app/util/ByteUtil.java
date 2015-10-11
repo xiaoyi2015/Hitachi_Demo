@@ -9,10 +9,27 @@ import android.util.Log;
 public class ByteUtil {
     public static final String TAG = "ByteUtil";
 
+    static public short byteArrayToShort(byte[] bytes) {
+        return byteArrayToShort(bytes, 0);
+    }
+
     static public short byteArrayToShort(byte[] bytes, int offset) {
         short result = 0;
-        result ^= (bytes[offset] & 0xff);
-        result ^= ((bytes[offset + 1] << 8) & 0xffff);
+        result |= (bytes[offset] & 0xff);
+        result |= ((bytes[offset + 1] << 8) & 0xffff);
+        return result;
+    }
+
+    public static long byteArrayToLong(byte[] receiveData) {
+        return byteArrayToLong(receiveData, 0);
+    }
+
+    public static long byteArrayToLong(byte[] receiveData, int start) {
+        long result = 0;
+        for (int i = start + 7; i >= start; --i) {
+            result <<= 8;
+            result |= (receiveData[i] & 0xff);
+        }
         return result;
     }
 
@@ -79,5 +96,4 @@ public class ByteUtil {
         }
         return result;
     }
-
 }
