@@ -105,7 +105,6 @@ public class SectionAndRoomView extends RelativeLayout {
             roomView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO click to change bg
                     Intent intent = new Intent();
                     intent.setClass(context, RoomAirSettingActivity.class);
                     intent.putExtra("title",rooms.get(position).getName());

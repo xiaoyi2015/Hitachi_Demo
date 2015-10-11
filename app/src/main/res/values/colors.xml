@@ -8,4 +8,11 @@
     <color name="text_color_transparent_gray">#e0c5c5c5</color>
     <color name="switch_on_pink">#e07083</color>
     <color name="switch_off_gray">#c5c5c5</color>
+    <color name="clock_off_gray">#b6b6b6</color>
+    <color name="text_normal_color">#4b4b4b</color>
+    <color name="mode_heat_pink">#f26677</color>
+    <color name="mode_cool_blue">#4aa7e1</color>
+    <color name="mode_fan_green">#71b91d</color>
+    <color name="mode_dry_purple">#bd10e0</color>
+
 </resources>
