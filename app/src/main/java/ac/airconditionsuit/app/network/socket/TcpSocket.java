@@ -135,8 +135,7 @@ class TcpSocket implements SocketWrap {
                 break;
 
             case TcpPackage.TICK_OFF_LINE_MSG_TYPE:
-                handleOffLine();
-
+                handleOffLine(receiveData);
                 break;
 
             default:
