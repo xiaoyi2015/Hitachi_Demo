@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ac.airconditionsuit.app.view.CommonTopBar
+        android:id="@+id/default_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:leftIcon="@drawable/cancel"
+        app:rightIcon="@drawable/save">
+    </ac.airconditionsuit.app.view.CommonTopBar>
+
+    <ac.airconditionsuit.app.view.CommonChooseView
+        android:id="@+id/repeat"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/default_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ac.airconditionsuit.app.view.CommonChooseView>
+
+    <ac.airconditionsuit.app.view.CommonChooseView
+        android:id="@+id/week1"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="1dp"
+        android:layout_below="@+id/repeat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ac.airconditionsuit.app.view.CommonChooseView>
+
+    <ac.airconditionsuit.app.view.CommonChooseView
+        android:id="@+id/week2"
+        android:layout_below="@+id/week1"
+        android:layout_marginBottom="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ac.airconditionsuit.app.view.CommonChooseView>
+
+    <ac.airconditionsuit.app.view.CommonChooseView
+        android:id="@+id/week3"
+        android:layout_below="@+id/week2"
+        android:layout_marginBottom="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ac.airconditionsuit.app.view.CommonChooseView>
+
+    <ac.airconditionsuit.app.view.CommonChooseView
+        android:id="@+id/week4"
+        android:layout_below="@+id/week3"
+        android:layout_marginBottom="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ac.airconditionsuit.app.view.CommonChooseView>
+
+    <ac.airconditionsuit.app.view.CommonChooseView
+        android:id="@+id/week5"
+        android:layout_below="@+id/week4"
+        android:layout_marginBottom="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ac.airconditionsuit.app.view.CommonChooseView>
+
+    <ac.airconditionsuit.app.view.CommonChooseView
+        android:id="@+id/week6"
+        android:layout_below="@+id/week5"
+        android:layout_marginBottom="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ac.airconditionsuit.app.view.CommonChooseView>
+
+    <ac.airconditionsuit.app.view.CommonChooseView
+        android:id="@+id/week7"
+        android:layout_below="@+id/week6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ac.airconditionsuit.app.view.CommonChooseView>
+
+</RelativeLayout>

@@ -73,8 +73,6 @@ public class EditSceneActivity extends BaseActivity{
                         MyApp.getApp().getServerConfigManager().getScene().get(index).setName(check_scene_name);
                         MyApp.getApp().getServerConfigManager().writeToFile();
                         Intent intent2 = new Intent();
-                        intent2.putExtra("index",index);
-                        intent2.putExtra("title",check_scene_name);
                         setResult(RESULT_OK, intent2);
                         finish();
                     }
@@ -180,7 +178,7 @@ public class EditSceneActivity extends BaseActivity{
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO PICKER VIEW
+                    //TODO pickerView
                 }
             });
 
