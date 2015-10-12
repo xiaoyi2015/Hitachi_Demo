@@ -34,18 +34,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_setting, container, false);
-        RoundImageView roundImageView =(RoundImageView)view.findViewById(R.id.user_icon);
+        RoundImageView roundImageView = (RoundImageView) view.findViewById(R.id.user_icon);
         HttpClient.loadImage(MyApp.getApp().getUser().getAvatar_normal(), roundImageView);
-        TextView home_name = (TextView)view.findViewById(R.id.setting_home_name);
-        /**TODO for zhulinan
-         * 如果用户没有关联任何主机的话,这边getHome(),会产生控制指针。先通过这个函数判断一下是否关联了设备
-         * {@link ServerConfigManager#hasDevice()}这个函数
-         */
-        if (MyApp.getApp().getServerConfigManager().hasDevice()) {
-            home_name.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
-        }else{
-            //TODO for zhulinan, 如果没有家，做相应处理。
-        }
+        TextView home_name = (TextView) view.findViewById(R.id.setting_home_name);
+        home_name.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
         view.findViewById(R.id.software_information).setOnClickListener(this);
         view.findViewById(R.id.user_icon).setOnClickListener(this);
         view.findViewById(R.id.setting_home_setting).setOnClickListener(this);
@@ -81,7 +73,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         BaseActivity baseActivity = myGetActivity();
         CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(baseActivity.getString(R.string.tab_label_setting));
-        commonTopBar.setIconView(null,null);
+        commonTopBar.setIconView(null, null);
         commonTopBar.setRoundLeftIconView(null);
     }
 }

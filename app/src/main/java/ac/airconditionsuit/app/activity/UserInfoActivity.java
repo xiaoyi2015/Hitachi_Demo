@@ -41,8 +41,6 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  * Created by Administrator on 2015/9/18.
  *
  */
-//TODO for zhulinan
-//这个activity 中要显示已有的家的列表
 public class UserInfoActivity extends BaseActivity {
     public static final int MALE = 1;
     public static final int FEMALE = 2;

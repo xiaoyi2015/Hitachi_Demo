@@ -58,6 +58,11 @@ public class ServerConfigManager {
                 && rootJavaObj.getConnection().size() != 0;
     }
 
+    public boolean hasHome() {
+        return rootJavaObj != null
+                && rootJavaObj.getHome() != null;
+    }
+
     public void addSections(Section section) {
         List<Section> sections = rootJavaObj.getSections();
         sections.add(section);
