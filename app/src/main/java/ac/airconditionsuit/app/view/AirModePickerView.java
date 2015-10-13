@@ -43,8 +43,8 @@ public class AirModePickerView extends LinearLayout {
         modeView = (CommonWheelView)findViewById(R.id.set_mode);
         fanView = (CommonWheelView)findViewById(R.id.set_fan);
         tempView = (CommonWheelView)findViewById(R.id.set_temp);
-        on_off_list.add(getResources().getString(R.string.on));
         on_off_list.add(getResources().getString(R.string.off));
+        on_off_list.add(getResources().getString(R.string.on));
         mode_list.add(getResources().getString(R.string.cool));
         mode_list.add(getResources().getString(R.string.heat));
         mode_list.add(getResources().getString(R.string.dry));
@@ -59,10 +59,6 @@ public class AirModePickerView extends LinearLayout {
         modeView.setData(mode_list);
         fanView.setData(fan_list);
         tempView.setData(temp_list);
-        onOffView.setDefault(1);
-        modeView.setDefault(0);
-        fanView.setDefault(0);
-        tempView.setDefault(7);
 
     }
 

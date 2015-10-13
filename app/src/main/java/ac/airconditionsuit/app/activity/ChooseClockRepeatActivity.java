@@ -27,22 +27,6 @@ public class ChooseClockRepeatActivity extends BaseActivity{
                     finish();
                     break;
                 case R.id.right_icon:
-                    /*MyApp.getApp().getServerConfigManager().getTimer().get(index).getWeek().clear();
-                    if(flag_repeat == 1){
-                        for(int i = 0; i < 7; i++){
-                            if(flag[i]==1){
-                                MyApp.getApp().getServerConfigManager().getTimer().get(index).getWeek().add(i);
-                            }
-                        }
-                        if(MyApp.getApp().getServerConfigManager().getTimer().get(index).getWeek().size() == 0){
-                            MyApp.getApp().getServerConfigManager().getTimer().get(index).setRepeat(false);
-                        }else{
-                            MyApp.getApp().getServerConfigManager().getTimer().get(index).setRepeat(true);
-                        }
-                    }else{
-                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setRepeat(false);
-                    }
-                    MyApp.getApp().getServerConfigManager().writeToFile();*/
                     Intent intent = new Intent();
                     intent.putExtra("repeat",flag_repeat);
                     intent.putExtra("week",flag);
