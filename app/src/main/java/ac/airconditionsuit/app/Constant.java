@@ -46,17 +46,19 @@ public class Constant {
 
     public static final String REQUEST_PARAMS_VALUE_TYPE_VALIDATE_CODE = "sendRegMobileValidateCode";
     public static final String REQUEST_PARAMS_VALUE_TYPE_REGISTER = "register";
+    public static final String REQUEST_PARAMS_VALUE_TYPE_REGISTER_DEVICE = "registerDevice";
     public static final String REQUEST_PARAMS_VALUE_TYPE_FIND_PASSWORD = "verifyMobilePhone";
     public static final String REQUEST_PARAMS_VALUE_TYPE_LOGIN = "login";
     public static final String REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF = "saveCustInfoByField";
     public static final String REQUEST_PARAMS_VALUE_TYPE_GET_CHATGROUPLIST = "getChatGroupList";
-    public static final String REQUEST_PARAMS_VALUE_TYPE_CUST_CLASS_10008 = "10008";
+    public static final String REQUEST_PARAMS_VALUE_TYPE_CUST_CLASS_10001 = "10001";
     public static final String REQUEST_PARAMS_VALUE_TYPE_UPLOAD_DEVICE_CONFIG_FILE = "uploadDeviceConfigFile";
 
     public static final String REQUEST_PARAMS_VALUE_TYPE_VALIDATE_CODE_FOR_FIND_PASSWORD ="sendMobileVerifyCode";
 
     //other
     public static final String CONFIG_FILE_SUFFIX = ".dc";
+    public static final String NO_DEVICE_CONFIG_FILE_PREFIX = "nd";
     public static final int FILE_DECODE_ENCODE_KEY = 0x33;
     public static final String SERVER_CONFIG_FILE_NAME = "serversetting.dc";
     public static final String IS_REGISTER = "is_register";

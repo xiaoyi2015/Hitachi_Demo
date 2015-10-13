@@ -32,8 +32,8 @@ public class SocketManager extends Observable {
     private int status = UNCONNECT;
 
 
-    public static final int HEART_BEAT_PERIOD = 10000;
-    public static final int HEART_BEAT_INVAILD_TIME = 20000;
+    public static final int HEART_BEAT_PERIOD = 60000;
+    public static final int HEART_BEAT_INVAILD_TIME = 70000;
     private long lastHeartSuccessTime = 0;
     private Timer heartBeatTimer;
 
@@ -102,10 +102,12 @@ public class SocketManager extends Observable {
      */
     public void close() {
         try {
-            socket.close();
+            if (socket != null) {
+                socket.close();
+                socket = null;
+            }
         } catch (IOException e) {
             Log.e(TAG, "close socket error");
-            reconnect();
             e.printStackTrace();
         }
 
@@ -125,6 +127,10 @@ public class SocketManager extends Observable {
     }
 
     public void init(int status) {
+        if (!MyApp.getApp().isUserLogin()) {
+            return;
+        }
+
         status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
         if (status == NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT) {
             //udp
@@ -196,8 +202,8 @@ public class SocketManager extends Observable {
             public void run() {
                 try {
                     UdpSocket socket = new UdpSocket();
-                    socket.connect(BROADCAST_ADDRESS);
-//                    socket.connect("192.168.1.123");
+//                    socket.connect(BROADCAST_ADDRESS);
+                    socket.connect("192.168.1.123");
                     SocketPackage socketPackage = new BroadcastPackage();
                     //重发三遍，主机偶尔会没有应答
                     socket.sendMessage(socketPackage);

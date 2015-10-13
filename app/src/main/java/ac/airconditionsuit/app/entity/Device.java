@@ -162,7 +162,6 @@ public class Device extends RootEntity {
 
     public void setAuthCodeEncode(String authCodeEncode) {
         this.authCodeEncode = authCodeEncode;
-        this.info.setChat_id(getIdByAuthCode());
     }
 
     public String getAuthCode() {
@@ -171,6 +170,7 @@ public class Device extends RootEntity {
 
     public void setAuthCode(String authCode) {
         this.authCode = authCode;
+        this.info.setChat_id(getIdByAuthCode());
     }
 
     public String getCust_class() {

@@ -41,8 +41,6 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  * Created by Administrator on 2015/9/18.
  *
  */
-//TODO for zhulinan
-//这个activity 中要显示已有的家的列表
 public class UserInfoActivity extends BaseActivity {
     public static final int MALE = 1;
     public static final int FEMALE = 2;
@@ -203,11 +201,7 @@ public class UserInfoActivity extends BaseActivity {
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent();
-                                    intent.setClass(UserInfoActivity.this,LoginActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                    finish();
+                                    quiteLogin();
                                 }
                             }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
 
@@ -235,6 +229,8 @@ public class UserInfoActivity extends BaseActivity {
             }
         }
     };
+
+
     private CommonButtonWithArrow nickName;
     private CommonButtonWithArrow gender;
     private CommonButtonWithArrow birth;

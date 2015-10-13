@@ -1,7 +1,5 @@
 package ac.airconditionsuit.app.network.socket.socketpackage;
 
-import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TcpPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 
 /**
@@ -11,8 +9,7 @@ public class BroadcastPackage extends SocketPackage {
 
     @Override
     public byte[] getBytesUDP() throws Exception {
-        UdpPackage udpPackage = new UdpPackage();
-        udpPackage.setContent(new UdpPackage.BroadcastUdpPackageContent());
+        udpPackage = UdpPackage.genBroadcastPackage();
         return udpPackage.getBytes();
     }
 

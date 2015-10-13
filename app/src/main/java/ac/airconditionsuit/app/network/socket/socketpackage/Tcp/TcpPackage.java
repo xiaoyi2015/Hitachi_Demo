@@ -10,10 +10,10 @@ import java.io.UnsupportedEncodingException;
  * 这个类用来构建tcp的数据包
  */
 public abstract class TcpPackage {
-    public static final byte TICK_OFF_LINE_MSG_TYPE = 0X7;
+    public static final byte TICK_OFF_LINE_MSG_TYPE = 0x7;
 
-    public static final byte START_BYTE = 0X2;
-    public static final byte END_BYTE = 0X3;
+    public static final byte START_BYTE = 0x2;
+    public static final byte END_BYTE = 0x3;
     public static final int HEADER_LENGTH = 6;
     protected byte msg_type;
     protected byte[] msg_no;

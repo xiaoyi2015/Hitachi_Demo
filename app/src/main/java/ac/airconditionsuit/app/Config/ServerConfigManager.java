@@ -22,6 +22,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 /**
@@ -56,6 +57,11 @@ public class ServerConfigManager {
         return rootJavaObj != null
                 && rootJavaObj.getConnection() != null
                 && rootJavaObj.getConnection().size() != 0;
+    }
+
+    public boolean hasHome() {
+        return rootJavaObj != null
+                && rootJavaObj.getHome() != null;
     }
 
     public void addSections(Section section) {
@@ -93,7 +99,6 @@ public class ServerConfigManager {
     public String getCurrentHostIP() {
         return rootJavaObj.getConnection().get(0).getAddress();
     }
-
 
     public void deleteScene(int position) {
         List<ServerConfig.Scene> scenes = rootJavaObj.getScenes();
@@ -138,7 +143,7 @@ public class ServerConfigManager {
         writeToFile();
     }
 
-    private void readFromFile() {
+    public void readFromFile() {
         if (!MyApp.getApp().isUserLogin()) {
             Log.i(TAG, "readFromFile should be call after user login");
             return;
@@ -147,15 +152,20 @@ public class ServerConfigManager {
         FileInputStream fis = null;
         try {
             File serverConfigFile = MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFile();
+            //配置文件名字不存在
             if (serverConfigFile == null) {
-                Log.i(TAG, "can not find service config file");
+                rootJavaObj = ServerConfig.genNewConfig(Constant.NO_DEVICE_CONFIG_FILE_PREFIX + System.currentTimeMillis() + Constant.CONFIG_FILE_SUFFIX,
+                        "new home");
                 return;
+            }
+            //配置文件名字存在，文件不存在
+            if (!serverConfigFile.exists()) {
+                throw new IOException();
             }
             fis = new FileInputStream(serverConfigFile);
             byte[] bytes = new byte[fis.available()];
             if (fis.read(bytes) != bytes.length) {
-                Log.e(TAG, "read config file error");
-                return;
+                throw new IOException();
             }
             NSDictionary root = (NSDictionary) PropertyListParser.parse(MyBase64Util.decodeToByte(bytes));
             String json = PlistUtil.NSDictionaryToJsonString(root);
@@ -257,23 +267,36 @@ public class ServerConfigManager {
      *
      * @param commonNetworkListener
      */
-    public void downloadDeviceInformationFromServer(final CommonNetworkListener commonNetworkListener) {
+    public static void downloadDeviceInformationFromServer(final CommonNetworkListener commonNetworkListener) {
+        final CommonNetworkListener wrapCommonNetworkListener = new CommonNetworkListener() {
+            @Override
+            public void onSuccess() {
+                MyApp.getApp().getServerConfigManager().readFromFile();
+                commonNetworkListener.onSuccess();
+            }
+
+            @Override
+            public void onFailure() {
+                commonNetworkListener.onFailure();
+            }
+        };
+
         RequestParams requestParams = new RequestParams();
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_GET_CHATGROUPLIST);
-        requestParams.put(Constant.REQUEST_PARAMS_KEY_CUST_CLASS, Constant.REQUEST_PARAMS_VALUE_TYPE_CUST_CLASS_10008);
+        requestParams.put(Constant.REQUEST_PARAMS_KEY_CUST_CLASS, Constant.REQUEST_PARAMS_VALUE_TYPE_CUST_CLASS_10001);
 
         HttpClient.get(requestParams, new TypeToken<List<Device.Info>>() {
         }.getType(), new HttpClient.JsonResponseHandler<List<Device.Info>>() {
             @Override
             public void onSuccess(List<Device.Info> response) {
                 ArrayList<String> fileNames = new ArrayList<>(response.size());
-                downloadDeviceConfigFilesFromServer(response, fileNames, commonNetworkListener);
+                downloadDeviceConfigFilesFromServerIter(response, fileNames, wrapCommonNetworkListener);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                commonNetworkListener.onFailure();
+                wrapCommonNetworkListener.onFailure();
             }
         });
     }
@@ -285,37 +308,38 @@ public class ServerConfigManager {
      * @param fileNames             已经下载的设备配置文件的文件名。
      * @param commonNetworkListener
      */
-    private void downloadDeviceConfigFilesFromServer(final List<Device.Info> response, final List<String> fileNames, final CommonNetworkListener commonNetworkListener) {
+    private static void downloadDeviceConfigFilesFromServerIter(final List<Device.Info> response, final List<String> fileNames, final CommonNetworkListener commonNetworkListener) {
         if (response.size() != 0) {
             Long deviceId = response.remove(0).getChat_id();
-            File outputFile = MyApp.getApp().getPrivateFile(deviceId.toString(), Constant.CONFIG_FILE_SUFFIX);
+            final File outputFile = MyApp.getApp().getPrivateFile(deviceId.toString(), Constant.CONFIG_FILE_SUFFIX);
             HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(deviceId),
                     outputFile, new HttpClient.DownloadFileHandler() {
                         @Override
                         public void onFailure(Throwable throwable) {
-                            commonNetworkListener.onFailure();
                             Log.e(TAG, MyApp.getApp().getString(R.string.toast_inf_download_file_error));
+                            fileNames.add(outputFile.getName());
+                            downloadDeviceConfigFilesFromServerIter(response, fileNames, commonNetworkListener);
                         }
 
                         @Override
                         public void onSuccess(File file) {
                             fileNames.add(file.getName());
-                            downloadDeviceConfigFilesFromServer(response, fileNames, commonNetworkListener);
+                            downloadDeviceConfigFilesFromServerIter(response, fileNames, commonNetworkListener);
                         }
                     });
         } else {
             //当所有的设备配置文件下载下来以后，更新设备配置文件.
             MyApp.getApp().getLocalConfigManager().updataHostDeviceConfigFile(fileNames);
 
-            readFromFile();
             commonNetworkListener.onSuccess();
         }
     }
 
+
     public long getAdminCustId() {
         if (hasDevice()) {
             return rootJavaObj.getConnection().get(0).getCreator_cust_id();
-        }else{
+        } else {
             return -1;
         }
     }

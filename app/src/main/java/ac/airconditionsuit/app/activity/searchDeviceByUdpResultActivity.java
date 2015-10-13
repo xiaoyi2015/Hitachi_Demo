@@ -4,21 +4,16 @@ import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.entity.ObserveData;
-import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.network.HttpClient;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import ac.airconditionsuit.app.R;
-import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
-import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 
 /**TODO for zhulinan
  * 点击自动搜索主机后跳转到该activity
@@ -50,8 +45,6 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
                 //如果不为空，就表示搜索到一个设备,做相应处理
                 Device device = (Device) od.getData();
                 addDevice(device);
-                //temp code
-                bindDevice(device);
 
                 break;
             case ObserveData.FIND_DEVICE_BY_UDP_FAIL:
@@ -64,10 +57,12 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
      * 这个方法用来绑定主机，这个方法中，我是测试用的。可以复制到用户确定绑定的地方调用。
      * @param device
      */
-    private void bindDevice(Device device) {
+    private void bindDevice(final Device device) {
         RequestParams params = new RequestParams();
-        params.put(Constant.REQUEST_PARAMS_KEY_CUST_CLASS, Constant.REQUEST_PARAMS_VALUE_TYPE_CUST_CLASS_10008);
-        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, device.getInfo().getChat_id());
+        params.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
+        params.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_REGISTER_DEVICE);
+        params.put(Constant.REQUEST_PARAMS_KEY_CUST_CLASS, Constant.REQUEST_PARAMS_VALUE_TYPE_CUST_CLASS_10001);
+        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, device.getInfo().getChat_id().toString());
         params.put(Constant.REQUEST_PARAMS_KEY_INTRODUCE, MyApp.getApp().getServerConfigManager().getHome().getName());
         params.put(Constant.REQUEST_PARAMS_KEY_MAC, device.getAuthCode());
         params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_NAME, "deviceName");
@@ -77,28 +72,48 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
         params.put(Constant.REQUEST_PARAMS_KEY_COMMENT, device.getInfo().getChat_id().toString());
 
         showWaitProgress();
-        HttpClient.post(params, String.class, new HttpClient.JsonResponseHandler<String>() {
+        HttpClient.get(params, String.class, new HttpClient.JsonResponseHandler<String>() {
             @Override
             public void onSuccess(String response) {
-                //todo for luzheqi
                 dismissWaitProgress();
+
+                Long deviceId = device.getInfo().getChat_id();
+                File outputFile = MyApp.getApp().getPrivateFile(deviceId.toString(), Constant.CONFIG_FILE_SUFFIX);
+                HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(deviceId),
+                        outputFile, new HttpClient.DownloadFileHandler() {
+                            @Override
+                            public void onFailure(Throwable throwable) {
+                                Log.e(TAG, "下载主机配置文件失败，用新的配置文件上传服务器");
+                            }
+
+                            @Override
+                            public void onSuccess(File file) {
+                                Log.i(TAG, "下载主机配置文件成功，用新的配置文件上传服务器");
+                            }
+                        });
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                //todo for luzheqi
                 dismissWaitProgress();
             }
         });
 
     }
 
-    synchronized private void addDevice(Device device) {
+    synchronized private void addDevice(final Device device) {
         for (Device d : devices) {
             if (d.getInfo().getMac().equals(device.getInfo().getMac())) {
                 return;
             }
         }
         devices.add(device);
+        //temp code
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                bindDevice(device);
+            }
+        });
     }
 }

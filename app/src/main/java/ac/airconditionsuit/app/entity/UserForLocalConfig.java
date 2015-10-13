@@ -54,7 +54,6 @@ public class UserForLocalConfig {
         this.phoneNumber = phoneNumber;
     }
 
-
     public List<String> getHomeConfigFileNames() {
         return homeConfigFileNames;
     }
@@ -104,21 +103,28 @@ public class UserForLocalConfig {
             }
         }
 
+        List<String> temp = new ArrayList<>();
         //如果旧的有配置文件，那么把不在新的配置文件中的文件删除，删除物理上的文件
         //delete unused host device config file
-        //todo for luzheqi这里旧的文件如果没有设备，就不需要删除。
-        for (String oldHostDeviceConfigFile:oldHomeFileNames) {
-            boolean needDelete = true;
-            for (String newFileName : homeConfigFileNames){
-                if (newFileName.equals(oldHostDeviceConfigFile)){
-                    needDelete = false;
-                    break;
+        for (String oldHostDeviceConfigFile : oldHomeFileNames) {
+            if (oldHostDeviceConfigFile.indexOf(Constant.NO_DEVICE_CONFIG_FILE_PREFIX) == 0) {
+                //这里把没有设备的家的配置文件先保存下来，后面添加
+                temp.add(oldHostDeviceConfigFile);
+            } else {
+                boolean needDelete = true;
+                for (String newFileName : homeConfigFileNames) {
+                    if (newFileName.equals(oldHostDeviceConfigFile)) {
+                        needDelete = false;
+                        break;
+                    }
+                }
+                if (needDelete) {
+                    deleteHostDeviceConfigFile(oldHostDeviceConfigFile);
                 }
             }
-            if (needDelete) {
-                deleteHostDeviceConfigFile(oldHostDeviceConfigFile);
-            }
         }
+        //将没有设备的家的配置文件重新加入到配置文件列表
+        homeConfigFileNames.addAll(temp);
     }
 
     private void deleteHostDeviceConfigFile(String oldHostDeviceConfigFile) {
@@ -127,7 +133,7 @@ public class UserForLocalConfig {
     }
 
     public void addNewHome(String homeName) {
-        String configFileName = homeName + System.currentTimeMillis() + Constant.CONFIG_FILE_SUFFIX;
+        String configFileName = Constant.NO_DEVICE_CONFIG_FILE_PREFIX + System.currentTimeMillis() + Constant.CONFIG_FILE_SUFFIX;
         homeConfigFileNames.add(configFileName);
         ServerConfigManager.genNewHomeConfigFile(configFileName, homeName);
     }

@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.view.CommonTopBar;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +26,7 @@ import java.util.Observer;
 /**
  * Created by ac on 9/18/15.
  */
-public class BaseActivity extends FragmentActivity implements Observer{
+public class BaseActivity extends FragmentActivity implements Observer {
 
     //Log 信息的时候使用的tag，尽量不要用system.out
     static protected String TAG;
@@ -36,6 +38,8 @@ public class BaseActivity extends FragmentActivity implements Observer{
 
     private CommonTopBar commonTopBar;
 
+    private static final int SHOW_WAIT_PROGRESS = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +47,7 @@ public class BaseActivity extends FragmentActivity implements Observer{
 
         //init a waitDialog for wait progress bar
         initWaitProgressBar();
+
     }
 
     private void initWaitProgressBar() {
@@ -77,11 +82,13 @@ public class BaseActivity extends FragmentActivity implements Observer{
         startActivityForResult(intent, requsetCode);
     }
 
-    public void showWaitProgress(){
-        waitDialog.show();
+    public void showWaitProgress() {
+        if (!waitDialog.isShowing()) {
+            waitDialog.show();
+        }
     }
 
-    public void dismissWaitProgress(){
+    public void dismissWaitProgress() {
         waitDialog.dismiss();
     }
 
@@ -107,10 +114,15 @@ public class BaseActivity extends FragmentActivity implements Observer{
         ObserveData od = (ObserveData) data;
         switch (od.getMsg()) {
             case ObserveData.OFFLINE:
-                finishAffinity();
-                shortStartActivity(LoginActivity.class);
+                quiteLogin();
                 break;
         }
+    }
+
+    public void quiteLogin() {
+        finishAffinity();
+        shortStartActivity(LoginActivity.class);
+        MyApp.getApp().offLine();
     }
 
     @Override

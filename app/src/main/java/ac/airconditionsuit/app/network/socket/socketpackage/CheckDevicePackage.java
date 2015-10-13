@@ -5,25 +5,19 @@ import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPSendMessagePa
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ac on 10/9/15.
  */
 public class CheckDevicePackage extends SocketPackage {
     private UdpPackage genUdpPackage() {
-        UdpPackage queryStatusPackage = new UdpPackage();
-        List<Byte> addressList = new ArrayList<>();
-        addressList.add((byte) 0);
-        queryStatusPackage.setContent(new UdpPackage.QueryStatusUdpPackageContent(addressList));
-        return queryStatusPackage;
+        udpPackage = UdpPackage.genCheckDevicePackage();
+        return udpPackage;
     }
 
     @Override
     public byte[] getBytesUDP() throws Exception {
-        UdpPackage queryStatusPackage = genUdpPackage();
-        return queryStatusPackage.getBytes();
+        return genUdpPackage().getBytes();
     }
 
     @Override
