@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.view.CommonTopBar;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,6 +38,8 @@ public class BaseActivity extends FragmentActivity implements Observer{
 
     private CommonTopBar commonTopBar;
 
+    private static final int SHOW_WAIT_PROGRESS = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +47,7 @@ public class BaseActivity extends FragmentActivity implements Observer{
 
         //init a waitDialog for wait progress bar
         initWaitProgressBar();
+
     }
 
     private void initWaitProgressBar() {
@@ -78,7 +83,9 @@ public class BaseActivity extends FragmentActivity implements Observer{
     }
 
     public void showWaitProgress(){
-        waitDialog.show();
+        if (!waitDialog.isShowing()) {
+            waitDialog.show();
+        }
     }
 
     public void dismissWaitProgress(){
@@ -107,10 +114,15 @@ public class BaseActivity extends FragmentActivity implements Observer{
         ObserveData od = (ObserveData) data;
         switch (od.getMsg()) {
             case ObserveData.OFFLINE:
-                finishAffinity();
-                shortStartActivity(LoginActivity.class);
+                quiteLogin();
                 break;
         }
+    }
+
+    public void quiteLogin() {
+        finishAffinity();
+        shortStartActivity(LoginActivity.class);
+        MyApp.getApp().offLine();
     }
 
     @Override

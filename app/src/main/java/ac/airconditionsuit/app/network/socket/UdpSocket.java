@@ -20,10 +20,12 @@ class UdpSocket implements SocketWrap {
     private static final int PORT = 9002; // udp port
     private static final String TAG = "UdpSocket";
     private DatagramSocket datagramSocket;
+    private String ip;
 
     public void connect(String ip) throws SocketException, UnknownHostException {
         datagramSocket = new DatagramSocket();
-        datagramSocket.connect(InetAddress.getByName(ip), PORT);
+//        datagramSocket.connect(InetAddress.getByName(ip), PORT);
+        this.ip = ip;
         Log.i(TAG, "connect to host by udp success, ip " + ip + " port: " + PORT);
     }
 
@@ -33,11 +35,13 @@ class UdpSocket implements SocketWrap {
     }
 
     @Override
-    public void sendMessage(SocketPackage socketPackage) {
+    synchronized public void sendMessage(SocketPackage socketPackage) {
         if (datagramSocket != null) {
             try {
                 byte[] sentContent = socketPackage.getBytesUDP();
                 DatagramPacket pack = new DatagramPacket(sentContent, sentContent.length);
+                pack.setAddress(InetAddress.getByName(ip));
+                pack.setPort(PORT);
                 datagramSocket.send(pack);
                 Log.i(TAG, "send data by udp: " + ByteUtil.byteArrayToReadableHexString(sentContent));
             } catch (Exception e) {
@@ -101,7 +105,7 @@ class UdpSocket implements SocketWrap {
                 //add ip to device
                 device.getInfo().setIp(datagramPacket.getAddress().toString());
 
-                byte[] authCodeBytes = Arrays.copyOfRange(receiveData, 6, receiveDataLength - 4);
+                byte[] authCodeBytes = Arrays.copyOfRange(receiveData, 6, receiveDataLength - 2);
                 String authCode = ByteUtil.byteArrayToHexString(authCodeBytes);
                 device.setAuthCode(authCode);
                 byte[] authCodeEncodeBytes = ByteUtil.encodeAuthCode(authCodeBytes);

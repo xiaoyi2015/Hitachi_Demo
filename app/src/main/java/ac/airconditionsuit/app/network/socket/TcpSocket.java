@@ -18,6 +18,7 @@ import android.nfc.Tag;
 import android.util.Log;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Arrays;
 
@@ -34,12 +35,14 @@ class TcpSocket implements SocketWrap {
 
     @Override
     public void connect() throws IOException {
-        socket = new Socket(IP, PORT);
+        socket = new Socket();
+        socket.setKeepAlive(true);
+        socket.connect(new InetSocketAddress(IP, PORT));
         Log.i(TAG, "connect to host by tcp success");
     }
 
     @Override
-    public void sendMessage(SocketPackage socketPackage) {
+    synchronized public void sendMessage(SocketPackage socketPackage) {
         if (socket != null && socket.isConnected()) {
             try {
                 byte[] dataSent = socketPackage.getBytesTCP();
@@ -145,8 +148,8 @@ class TcpSocket implements SocketWrap {
     }
 
     private void handleOffLine(byte[] receiveData) {
-        Log.i(TAG, "tcp receive offline message");
-        if (ByteUtil.byteArrayToShort(receiveData, 15) == 700){
+        if (ByteUtil.byteArrayToShort(receiveData, 15) == 700 || ByteUtil.byteArrayToShort(receiveData, 15) == 701){
+            Log.i(TAG, "tcp receive offline message");
             MyApp.getApp().getSocketManager().close();
             MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.OFFLINE));
         }

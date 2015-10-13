@@ -50,7 +50,7 @@ public class Constant {
     public static final String REQUEST_PARAMS_VALUE_TYPE_LOGIN = "login";
     public static final String REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF = "saveCustInfoByField";
     public static final String REQUEST_PARAMS_VALUE_TYPE_GET_CHATGROUPLIST = "getChatGroupList";
-    public static final String REQUEST_PARAMS_VALUE_TYPE_CUST_CLASS_10008 = "10008";
+    public static final String REQUEST_PARAMS_VALUE_TYPE_CUST_CLASS_10001 = "10001";
     public static final String REQUEST_PARAMS_VALUE_TYPE_UPLOAD_DEVICE_CONFIG_FILE = "uploadDeviceConfigFile";
 
     public static final String REQUEST_PARAMS_VALUE_TYPE_VALIDATE_CODE_FOR_FIND_PASSWORD ="sendMobileVerifyCode";

@@ -17,9 +17,7 @@ import java.io.*;
 public class MyApp extends Application {
     private static MyApp INSTANCE;
 
-
     private ServerConfigManager serverConfigManager;
-
 
     private LocalConfigManager localConfigManager;
 
@@ -71,7 +69,7 @@ public class MyApp extends Application {
      */
     public void initServerConfigManager(CommonNetworkListener commonNetworkListener) {
         serverConfigManager = new ServerConfigManager();
-        serverConfigManager.downloadDeviceInformationFromServer(commonNetworkListener);
+        ServerConfigManager.downloadDeviceInformationFromServer(commonNetworkListener);
     }
 
     /**
@@ -144,4 +142,11 @@ public class MyApp extends Application {
         return INSTANCE;
     }
 
+    public void offLine() {
+        this.user = null;
+//        this.localConfigManager = null;
+        this.serverConfigManager = null;
+        this.socketManager.close();
+        this.socketManager = null;
+    }
 }

@@ -54,7 +54,6 @@ public class UserForLocalConfig {
         this.phoneNumber = phoneNumber;
     }
 
-
     public List<String> getHomeConfigFileNames() {
         return homeConfigFileNames;
     }
@@ -75,7 +74,7 @@ public class UserForLocalConfig {
         if (currentHomeIndex < 0 || currentHomeIndex >= homeConfigFileNames.size()) {
             return null;
         } else {
-            return homeConfigFileNames.get(1);
+            return homeConfigFileNames.get(currentHomeIndex);
         }
     }
 
