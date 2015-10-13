@@ -69,23 +69,6 @@ public class EditClockActivity extends BaseActivity{
                     if (check_clock_name == null)
                         return;
 
-                    MyApp.getApp().getServerConfigManager().getTimer().get(index).getWeek().clear();
-                    if(flag_repeat == 1){
-                        for(int i = 0; i < 7; i++){
-                            if(week_list[i]==1){
-                                MyApp.getApp().getServerConfigManager().getTimer().get(index).getWeek().add(i);
-                            }
-                        }
-                        if(MyApp.getApp().getServerConfigManager().getTimer().get(index).getWeek().size() == 0){
-                            MyApp.getApp().getServerConfigManager().getTimer().get(index).setRepeat(false);
-                        }else{
-                            MyApp.getApp().getServerConfigManager().getTimer().get(index).setRepeat(true);
-                        }
-                    }else{
-                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setRepeat(false);
-                    }
-                    MyApp.getApp().getServerConfigManager().writeToFile();
-
                     if(is_add){
                         //TODO add device setting
                         ServerConfig serverConfig = new ServerConfig();
@@ -96,12 +79,46 @@ public class EditClockActivity extends BaseActivity{
                         timer_temp.setMode(0);
                         timer_temp.setFan(0);
                         timer_temp.setOnoff(false);
-                        timer_temp.setRepeat(false);
                         timer_temp.setTemperature(25);
+                        ArrayList<Integer> week_list_temp = new ArrayList<Integer>();
+                        week_list_temp.clear();
+                        if(flag_repeat == 1){
+                            for(int i = 0; i < 7; i++){
+                                if(week_list[i] == 1){
+                                   week_list_temp.add(i);
+                                }
+                            }
+                            timer_temp.setWeek(week_list_temp);
+                            if(timer_temp.getWeek().size() == 0){
+                                timer_temp.setRepeat(false);
+                            }else{
+                                timer_temp.setRepeat(true);
+                            }
+                        }else{
+                            timer_temp.setRepeat(false);
+                        }
                         MyApp.getApp().getServerConfigManager().addTimer(timer_temp);
                         finish();
                     }else{
                         //TODO save device setting
+
+                        ArrayList<Integer> week_list_temp1 = new ArrayList<Integer>();
+                        week_list_temp1.clear();
+                        if(flag_repeat == 1){
+                            for(int i = 0; i < 7; i++){
+                                if(week_list[i]==1){
+                                    week_list_temp1.add(i);
+                                }
+                            }
+                            MyApp.getApp().getServerConfigManager().getTimer().get(index).setWeek(week_list_temp1);
+                            if(MyApp.getApp().getServerConfigManager().getTimer().get(index).getWeek().size() == 0){
+                                MyApp.getApp().getServerConfigManager().getTimer().get(index).setRepeat(false);
+                            }else{
+                                MyApp.getApp().getServerConfigManager().getTimer().get(index).setRepeat(true);
+                            }
+                        }else{
+                            MyApp.getApp().getServerConfigManager().getTimer().get(index).setRepeat(false);
+                        }
                         MyApp.getApp().getServerConfigManager().getTimer().get(index).setName(check_clock_name);
                         MyApp.getApp().getServerConfigManager().getTimer().get(index).setHour(timePicker.getCurrentHour());
                         MyApp.getApp().getServerConfigManager().getTimer().get(index).setMinute(timePicker.getCurrentMinute());
