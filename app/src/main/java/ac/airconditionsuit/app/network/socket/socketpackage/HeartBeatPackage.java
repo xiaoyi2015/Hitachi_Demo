@@ -13,10 +13,11 @@ import java.io.UnsupportedEncodingException;
  */
 public class HeartBeatPackage extends SocketPackage {
 
+    private static final String TAG = "HeartBeatPackage";
     @Override
     public byte[] getBytesUDP() throws Exception {
-        //TODO for luzheqi
-        return null;
+        udpPackage = UdpPackage.genHeartBeatPackage();
+        return udpPackage.getBytes();
     }
 
     @Override

@@ -46,6 +46,7 @@ public class Constant {
 
     public static final String REQUEST_PARAMS_VALUE_TYPE_VALIDATE_CODE = "sendRegMobileValidateCode";
     public static final String REQUEST_PARAMS_VALUE_TYPE_REGISTER = "register";
+    public static final String REQUEST_PARAMS_VALUE_TYPE_REGISTER_DEVICE = "registerDevice";
     public static final String REQUEST_PARAMS_VALUE_TYPE_FIND_PASSWORD = "verifyMobilePhone";
     public static final String REQUEST_PARAMS_VALUE_TYPE_LOGIN = "login";
     public static final String REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF = "saveCustInfoByField";

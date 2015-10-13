@@ -26,7 +26,7 @@ import java.util.Observer;
 /**
  * Created by ac on 9/18/15.
  */
-public class BaseActivity extends FragmentActivity implements Observer{
+public class BaseActivity extends FragmentActivity implements Observer {
 
     //Log 信息的时候使用的tag，尽量不要用system.out
     static protected String TAG;
@@ -82,13 +82,13 @@ public class BaseActivity extends FragmentActivity implements Observer{
         startActivityForResult(intent, requsetCode);
     }
 
-    public void showWaitProgress(){
+    public void showWaitProgress() {
         if (!waitDialog.isShowing()) {
             waitDialog.show();
         }
     }
 
-    public void dismissWaitProgress(){
+    public void dismissWaitProgress() {
         waitDialog.dismiss();
     }
 

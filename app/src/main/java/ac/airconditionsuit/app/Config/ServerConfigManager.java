@@ -339,7 +339,7 @@ public class ServerConfigManager {
     public long getAdminCustId() {
         if (hasDevice()) {
             return rootJavaObj.getConnection().get(0).getCreator_cust_id();
-        }else{
+        } else {
             return -1;
         }
     }

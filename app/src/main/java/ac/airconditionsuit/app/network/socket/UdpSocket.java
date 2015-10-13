@@ -12,20 +12,24 @@ import android.util.Log;
 import java.io.IOException;
 import java.net.*;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ac on 10/11/15.
  */
-class UdpSocket implements SocketWrap {
+public class UdpSocket implements SocketWrap {
     private static final int PORT = 9002; // udp port
     private static final String TAG = "UdpSocket";
     private DatagramSocket datagramSocket;
     private String ip;
+    private Map<Byte, UdpPackage> sentPackage = new HashMap<>();
 
     public void connect(String ip) throws SocketException, UnknownHostException {
         datagramSocket = new DatagramSocket();
-//        datagramSocket.connect(InetAddress.getByName(ip), PORT);
         this.ip = ip;
+        //temp code todo for luzheqi
+        this.ip = "192.168.1.123";
         Log.i(TAG, "connect to host by udp success, ip " + ip + " port: " + PORT);
     }
 
@@ -39,6 +43,8 @@ class UdpSocket implements SocketWrap {
         if (datagramSocket != null) {
             try {
                 byte[] sentContent = socketPackage.getBytesUDP();
+                UdpPackage udpPackage = socketPackage.getUdpPackage();
+                sentPackage.put(udpPackage.getFramNumber(), udpPackage);
                 DatagramPacket pack = new DatagramPacket(sentContent, sentContent.length);
                 pack.setAddress(InetAddress.getByName(ip));
                 pack.setPort(PORT);
@@ -92,7 +98,7 @@ class UdpSocket implements SocketWrap {
         //1表示启动站，0表示从动站。
         byte prm = (byte) (control / 128);
         //帧序列号
-        byte pfc = (byte) (control - 128);
+        byte pfc = (byte) (control - 128 * prm);
 
         //数据域的功能码
         byte afn = receiveData[3];
@@ -103,7 +109,7 @@ class UdpSocket implements SocketWrap {
                         + " port: " + datagramPacket.getPort());
                 Device device = new Device();
                 //add ip to device
-                device.getInfo().setIp(datagramPacket.getAddress().toString());
+                device.getInfo().setIp(datagramPacket.getAddress().getHostAddress());
 
                 byte[] authCodeBytes = Arrays.copyOfRange(receiveData, 6, receiveDataLength - 2);
                 String authCode = ByteUtil.byteArrayToHexString(authCodeBytes);
@@ -116,7 +122,17 @@ class UdpSocket implements SocketWrap {
                 MyApp.getApp().getSocketManager().notifyActivity(od);
                 break;
 
-            case UdpPackage.AFN_LOGIN:
+            case UdpPackage.AFN_NO:
+                sentPackage.get(pfc).getHandler().fail();
+                sentPackage.remove(pfc);
+
+                break;
+
+            case UdpPackage.AFN_YES:
+                sentPackage.get(pfc).getHandler().success();
+                sentPackage.remove(pfc);
+
+                break;
 
             default:
                 throw new IOException("udp package afn error");

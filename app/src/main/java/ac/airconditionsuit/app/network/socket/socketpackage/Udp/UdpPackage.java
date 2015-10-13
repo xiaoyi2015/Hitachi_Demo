@@ -2,9 +2,11 @@ package ac.airconditionsuit.app.network.socket.socketpackage.Udp;
 
 
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.network.socket.UdpSocket;
 import ac.airconditionsuit.app.util.ByteUtil;
-import android.widget.TabHost;
+import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +14,45 @@ import java.util.List;
  * 这个类用来构建UPD的包
  */
 public class UdpPackage {
-    private static class UdpPackageContent {
+    public static final String TAG = "UdpPackage";
+    public static final byte AFN_YES = 0;
+    public static final byte AFN_NO = 1;
+    private byte framNumber;
+    private Handler handler;
+
+    public static UdpPackage genBroadcastPackage() {
+        UdpPackage p = new UdpPackage();
+        p.setContent(p.new BroadcastUdpPackageContent());
+        return p;
+    }
+
+    public static UdpPackage genLoginPackage() throws Exception {
+        UdpPackage p = new UdpPackage();
+        p.setContent(p.new LoginUdpPackageContent());
+        return p;
+    }
+
+    public static UdpPackage genHeartBeatPackage() {
+        UdpPackage p = new UdpPackage();
+        p.setContent(p.new HeartBeatPackageContent());
+        return p;
+    }
+
+    public static UdpPackage genCheckDevicePackage() {
+        UdpPackage p = new UdpPackage();
+        List<Byte> addressList = new ArrayList<>();
+        addressList.add((byte) 0);
+        p.setContent(p.new QueryStatusUdpPackageContent(addressList));
+        return p;
+    }
+
+    public interface Handler {
+        void success();
+
+        void fail();
+    }
+
+    private class UdpPackageContent {
         byte function;
         byte[] content = new byte[0];
 
@@ -31,15 +71,49 @@ public class UdpPackage {
     }
 
     public static final byte AFN_LOGIN = 0x2;
-    static public class LoginUdpPackageContent extends UdpPackageContent {
+
+    public class LoginUdpPackageContent extends UdpPackageContent {
         public LoginUdpPackageContent() throws Exception {
             function = AFN_LOGIN;
             content = ByteUtil.hexStringToByteArray(MyApp.getApp().getServerConfigManager().getCurrentHostMac());
+            //TODO for luzheqi temp code
+            content = ByteUtil.hexStringToByteArray("001EC00E1FB3");
+            handler = new Handler() {
+                @Override
+                public void success() {
+                    MyApp.getApp().getSocketManager().startHeartBeat();
+                }
+
+                @Override
+                public void fail() {
+
+                }
+            };
+        }
+    }
+
+    public static final byte AFN_HEARTBEAT = 0x3;
+
+    public class HeartBeatPackageContent extends UdpPackageContent {
+        public HeartBeatPackageContent() {
+            function = AFN_HEARTBEAT;
+            handler = new Handler() {
+                @Override
+                public void success() {
+                    Log.i(TAG, "udp heartbeat success");
+                }
+
+                @Override
+                public void fail() {
+
+                }
+            };
         }
     }
 
     public static final byte AFN_BROADCAST = 0xf;
-    public static class BroadcastUdpPackageContent extends UdpPackageContent {
+
+    public class BroadcastUdpPackageContent extends UdpPackageContent {
         public BroadcastUdpPackageContent() {
             function = AFN_BROADCAST;
             //广播包没有数据段
@@ -47,13 +121,14 @@ public class UdpPackage {
     }
 
     public static final byte AFN_QUERY_STATUS = 0xf;
-    public static class QueryStatusUdpPackageContent extends UdpPackageContent {
+
+    public class QueryStatusUdpPackageContent extends UdpPackageContent {
         public QueryStatusUdpPackageContent(List<Byte> addresses) {
             function = AFN_QUERY_STATUS;
             content = new byte[addresses.size() + 1];
             //广播包没有数据段
             content[0] = (byte) addresses.size();
-            for (int i = 0; i < addresses.size(); ++i){
+            for (int i = 0; i < addresses.size(); ++i) {
                 content[i + 1] = addresses.get(i);
             }
         }
@@ -83,6 +158,7 @@ public class UdpPackage {
 
         //控制域
         result[1] = genControlByte();
+        this.framNumber = (byte) (result[1] - 128);
 
         //数据长度
         result[2] = (byte) (contentBytes.length - 1);
@@ -110,13 +186,20 @@ public class UdpPackage {
         return (byte) (res % 256);
     }
 
-    static byte framNO = 0;
+    static byte framNumberCounter = 0;
 
     public static byte genControlByte() {
-        byte aux = framNO;
-        ++framNO;
-        framNO %= 128;
+        byte aux = framNumberCounter;
+        ++framNumberCounter;
+        framNumberCounter %= 128;
         return (byte) (aux + 128);
     }
 
+    public byte getFramNumber() {
+        return framNumber;
+    }
+
+    public Handler getHandler() {
+        return handler;
+    }
 }

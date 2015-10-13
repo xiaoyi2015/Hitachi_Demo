@@ -102,7 +102,10 @@ public class SocketManager extends Observable {
      */
     public void close() {
         try {
-            socket.close();
+            if (socket != null) {
+                socket.close();
+                socket = null;
+            }
         } catch (IOException e) {
             Log.e(TAG, "close socket error");
             e.printStackTrace();
@@ -128,7 +131,7 @@ public class SocketManager extends Observable {
             return;
         }
 
-//        status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
+        status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
         if (status == NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT) {
             //udp
             //udp还要判断是否有设备

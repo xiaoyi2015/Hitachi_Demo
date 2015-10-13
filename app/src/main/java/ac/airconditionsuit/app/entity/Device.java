@@ -221,7 +221,6 @@ public class Device extends RootEntity {
         }
         long chat_id = Long.parseLong(result, 16);
         info.setChat_id(chat_id);
-        System.out.println();
         return chat_id;
     }
 

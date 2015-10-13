@@ -59,8 +59,10 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
      */
     private void bindDevice(final Device device) {
         RequestParams params = new RequestParams();
+        params.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
+        params.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_REGISTER_DEVICE);
         params.put(Constant.REQUEST_PARAMS_KEY_CUST_CLASS, Constant.REQUEST_PARAMS_VALUE_TYPE_CUST_CLASS_10001);
-        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, device.getInfo().getChat_id());
+        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, device.getInfo().getChat_id().toString());
         params.put(Constant.REQUEST_PARAMS_KEY_INTRODUCE, MyApp.getApp().getServerConfigManager().getHome().getName());
         params.put(Constant.REQUEST_PARAMS_KEY_MAC, device.getAuthCode());
         params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_NAME, "deviceName");
@@ -70,12 +72,10 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
         params.put(Constant.REQUEST_PARAMS_KEY_COMMENT, device.getInfo().getChat_id().toString());
 
         showWaitProgress();
-        HttpClient.post(params, String.class, new HttpClient.JsonResponseHandler<String>() {
+        HttpClient.get(params, String.class, new HttpClient.JsonResponseHandler<String>() {
             @Override
             public void onSuccess(String response) {
-                //todo for luzheqi
                 dismissWaitProgress();
-//                MyApp.getApp().getServerConfigManager().downloadDeviceInformationFromServer();
 
                 Long deviceId = device.getInfo().getChat_id();
                 File outputFile = MyApp.getApp().getPrivateFile(deviceId.toString(), Constant.CONFIG_FILE_SUFFIX);

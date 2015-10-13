@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * Created by ac on 10/11/15.
  */
-interface SocketWrap {
+public interface SocketWrap {
     void connect() throws IOException;
 
     void sendMessage(SocketPackage socketPackage);
