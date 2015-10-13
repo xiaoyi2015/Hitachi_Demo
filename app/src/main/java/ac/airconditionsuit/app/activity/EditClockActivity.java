@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -17,9 +19,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.bigkoo.pickerview.lib.WheelView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
@@ -27,8 +31,10 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.util.CheckUtil;
+import ac.airconditionsuit.app.view.AirModePickerView;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
 import ac.airconditionsuit.app.view.CommonTopBar;
+import ac.airconditionsuit.app.view.CommonWheelView;
 
 /**
  * Created by Administrator on 2015/10/7.
@@ -100,7 +106,7 @@ public class EditClockActivity extends BaseActivity{
                         MyApp.getApp().getServerConfigManager().addTimer(timer_temp);
                         finish();
                     }else{
-                        //TODO save device setting
+                        //TODO save mode setting
 
                         ArrayList<Integer> week_list_temp1 = new ArrayList<Integer>();
                         week_list_temp1.clear();
@@ -158,7 +164,6 @@ public class EditClockActivity extends BaseActivity{
             deleteClock.setVisibility(View.GONE);
         }
 
-
         clockNameText.setText(clock_name);
         clockNameText.setSelection(clock_name.length());
         setOnclickListenerOnTextViewDrawable(new View.OnClickListener() {
@@ -170,14 +175,28 @@ public class EditClockActivity extends BaseActivity{
             }
         }, clockNameText);
 
-
         CommonButtonWithArrow clockMode = (CommonButtonWithArrow)findViewById(R.id.clock_mode);
         clockMode.getLabelTextView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
         clockMode.getOnlineTextView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
+
         clockMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO pickerView
+
+                AirModePickerView airModePickerView = new AirModePickerView(EditClockActivity.this);
+                CommonWheelView onOffView = (CommonWheelView) airModePickerView.findViewById(R.id.set_on_off);
+                CommonWheelView modeView = (CommonWheelView) airModePickerView.findViewById(R.id.set_mode);
+                CommonWheelView fanView = (CommonWheelView) airModePickerView.findViewById(R.id.set_fan);
+                CommonWheelView tempView = (CommonWheelView) airModePickerView.findViewById(R.id.set_temp);
+                airModePickerView.setMinimumHeight(400);
+
+                new AlertDialog.Builder(EditClockActivity.this).setTitle(R.string.choose_clock_air_mode).setView(airModePickerView).
+                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
             }
         });
 
@@ -251,7 +270,7 @@ public class EditClockActivity extends BaseActivity{
                     fan = getString(R.string.high_wind);
                     break;
             }
-            temp = timer.getTemperature() + getString(R.string.temp_symbol);
+            temp = (int)timer.getTemperature() + getString(R.string.temp_symbol);
             if(timer.isRepeat()) {
                 repeat = getString(R.string.repeat);
                 for(int i = 0; i < timer.getWeek().size()-1; i++){

@@ -159,5 +159,6 @@
     <string name="Saturday">周六</string>
     <string name="Sunday">周日</string>
     <string name="home_name_empty_info">家名称不能为空</string>
+    <string name="choose_clock_air_mode">选择空调定时模式</string>
 
 </resources>
