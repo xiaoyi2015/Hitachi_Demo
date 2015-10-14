@@ -92,6 +92,8 @@ public class UdpSocket implements SocketWrap {
             throw new IOException("udp package length error");
         }
 
+        //收到的数据没有问题，无论什么包，都可以当作心跳成功
+        MyApp.getApp().getSocketManager().heartSuccess();
 
         //control byte
         byte control = receiveData[1];

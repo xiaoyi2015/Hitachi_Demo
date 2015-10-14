@@ -22,16 +22,16 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
             return;
         }
         int status = NetworkConnectionStatusUtil.getConnectivityStatus(context);
+        socketManager.switchSocketType(status);
+
+        //log
         String logInf;
         if (status == NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT) {
-            socketManager.switchSocketType(SocketManager.UDP);
             logInf = "network status changed, change to udp";
         } else if (status == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT
                 || status == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
-            socketManager.switchSocketType(SocketManager.TCP);
             logInf = "network status changed, change to tcp";
         } else {
-            socketManager.switchSocketType(SocketManager.UNCONNECT);
             logInf = "network status changed, close";
         }
         Log.i(TAG, logInf);
