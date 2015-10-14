@@ -15,15 +15,10 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.bigkoo.pickerview.lib.WheelView;
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
