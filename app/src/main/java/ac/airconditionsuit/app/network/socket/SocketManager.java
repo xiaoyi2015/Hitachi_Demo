@@ -97,6 +97,10 @@ public class SocketManager extends Observable {
         heartBeatTimer.schedule(new TimerTask() {
             @Override
             public void run() {
+                if (System.currentTimeMillis() - lastHeartSuccessTime > HEART_BEAT_INVAILD_TIME) {
+                    reconnect();
+                    return;
+                }
                 SocketPackage heartBeatSocket = new HeartBeatPackage();
                 sendMessage(heartBeatSocket);
             }
