@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ac.airconditionsuit.app.view.CommonWheelView
+        android:id="@+id/set_on_off"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        app:itemNumber="3"
+        app:lineColor="@android:color/holo_blue_dark"
+        app:lineHeight="1.5dp"
+        app:maskHight="32dp"
+        app:noEmpty="true"
+        app:normalTextColor="#777"
+        app:normalTextSize="18sp"
+        app:selectedTextColor="#ff000000"
+        app:selectedTextSize="22sp"
+        app:unitHight="50dp"
+        />
+
+    <ac.airconditionsuit.app.view.CommonWheelView
+        android:id="@+id/set_mode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        app:itemNumber="3"
+        app:lineColor="@android:color/holo_blue_dark"
+        app:lineHeight="1.5dp"
+        app:maskHight="32dp"
+        app:noEmpty="true"
+        app:normalTextColor="#777"
+        app:normalTextSize="18sp"
+        app:selectedTextColor="#ff000000"
+        app:selectedTextSize="22sp"
+        app:unitHight="50dp"
+        />
+
+    <ac.airconditionsuit.app.view.CommonWheelView
+        android:id="@+id/set_fan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        app:itemNumber="3"
+        app:lineColor="@android:color/holo_blue_dark"
+        app:lineHeight="1.5dp"
+        app:maskHight="32dp"
+        app:noEmpty="true"
+        app:normalTextColor="#777"
+        app:normalTextSize="18sp"
+        app:selectedTextColor="#ff000000"
+        app:selectedTextSize="22sp"
+        app:unitHight="50dp"
+        />
+
+    <ac.airconditionsuit.app.view.CommonWheelView
+        android:id="@+id/set_temp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        app:itemNumber="3"
+        app:lineColor="@android:color/holo_blue_dark"
+        app:lineHeight="1.5dp"
+        app:maskHight="32dp"
+        app:noEmpty="true"
+        app:normalTextColor="#777"
+        app:normalTextSize="18sp"
+        app:selectedTextColor="#ff000000"
+        app:selectedTextSize="22sp"
+        app:unitHight="50dp"
+        />
+
+</LinearLayout>

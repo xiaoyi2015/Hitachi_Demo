@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,17 +8,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +26,10 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.util.CheckUtil;
+import ac.airconditionsuit.app.view.AirModePickerView;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
 import ac.airconditionsuit.app.view.CommonTopBar;
+import ac.airconditionsuit.app.view.CommonWheelView;
 
 /**
  * Created by Administrator on 2015/10/7.
@@ -70,16 +71,15 @@ public class EditClockActivity extends BaseActivity{
                         return;
 
                     if(is_add){
-                        //TODO add device setting
                         ServerConfig serverConfig = new ServerConfig();
                         ServerConfig.Timer timer_temp = serverConfig.new Timer();
                         timer_temp.setName(check_clock_name);
                         timer_temp.setHour(timePicker.getCurrentHour());
                         timer_temp.setMinute(timePicker.getCurrentMinute());
-                        timer_temp.setMode(0);
-                        timer_temp.setFan(0);
-                        timer_temp.setOnoff(false);
-                        timer_temp.setTemperature(25);
+                        timer_temp.setMode(temp_mode);
+                        timer_temp.setFan(temp_fan);
+                        timer_temp.setOnoff(temp_on_off);
+                        timer_temp.setTemperature(temp_temp);
                         ArrayList<Integer> week_list_temp = new ArrayList<Integer>();
                         week_list_temp.clear();
                         if(flag_repeat == 1){
@@ -98,10 +98,14 @@ public class EditClockActivity extends BaseActivity{
                             timer_temp.setRepeat(false);
                         }
                         MyApp.getApp().getServerConfigManager().addTimer(timer_temp);
+                        Intent intent = new Intent();
+                        setResult(RESULT_OK, intent);
                         finish();
                     }else{
-                        //TODO save device setting
-
+                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setOnoff(temp_on_off);
+                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setMode(temp_mode);
+                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setFan(temp_fan);
+                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setTemperature(temp_temp);
                         ArrayList<Integer> week_list_temp1 = new ArrayList<Integer>();
                         week_list_temp1.clear();
                         if(flag_repeat == 1){
@@ -139,6 +143,15 @@ public class EditClockActivity extends BaseActivity{
     private CommonButtonWithArrow clockRepeat;
     private int[] week_list = new int[]{0,0,0,0,0,0,0};
     private int flag_repeat = 0;
+    private boolean temp_on_off;
+    private int temp_mode;
+    private int temp_fan;
+    private float temp_temp;
+    private String on_off;
+    private String mode;
+    private String fan;
+    private String temp;
+    private CommonButtonWithArrow clockMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,8 +169,11 @@ public class EditClockActivity extends BaseActivity{
         is_add = clock_name.equals("");
         if(is_add){
             deleteClock.setVisibility(View.GONE);
+            temp_on_off = false;
+            temp_mode = 0;
+            temp_fan = 0;
+            temp_temp = 25;
         }
-
 
         clockNameText.setText(clock_name);
         clockNameText.setSelection(clock_name.length());
@@ -170,14 +186,79 @@ public class EditClockActivity extends BaseActivity{
             }
         }, clockNameText);
 
-
-        CommonButtonWithArrow clockMode = (CommonButtonWithArrow)findViewById(R.id.clock_mode);
+        clockMode = (CommonButtonWithArrow)findViewById(R.id.clock_mode);
         clockMode.getLabelTextView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
         clockMode.getOnlineTextView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
+
         clockMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO pickerView
+
+                AirModePickerView airModePickerView = new AirModePickerView(EditClockActivity.this);
+                final CommonWheelView onOffView = (CommonWheelView) airModePickerView.findViewById(R.id.set_on_off);
+                final CommonWheelView modeView = (CommonWheelView) airModePickerView.findViewById(R.id.set_mode);
+                final CommonWheelView fanView = (CommonWheelView) airModePickerView.findViewById(R.id.set_fan);
+                final CommonWheelView tempView = (CommonWheelView) airModePickerView.findViewById(R.id.set_temp);
+                if (!is_add) {
+                    if (temp_on_off) {
+                        onOffView.setDefault(1);
+                    } else {
+                        onOffView.setDefault(0);
+                    }
+                    modeView.setDefault(temp_mode);
+                    fanView.setDefault(temp_fan);
+                    tempView.setDefault((int) temp_temp - 18);
+                }else{
+                    onOffView.setDefault(0);
+                    modeView.setDefault(temp_mode);
+                    fanView.setDefault(temp_fan);
+                    tempView.setDefault((int) temp_temp - 18);
+                }
+
+                airModePickerView.setMinimumHeight(400);
+
+                new AlertDialog.Builder(EditClockActivity.this).setTitle(R.string.choose_clock_air_mode).setView(airModePickerView).
+                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (onOffView.getSelected() == 1) {
+                                    temp_on_off = true;
+                                }
+                                temp_mode = modeView.getSelected();
+                                temp_fan = fanView.getSelected();
+                                temp_temp = (float) (tempView.getSelected() + 18);
+                                if(temp_on_off){
+                                    on_off = getString(R.string.on);
+                                }
+                                switch (temp_mode){
+                                    case 0:
+                                        mode = getString(R.string.cool);
+                                        break;
+                                    case 1:
+                                        mode = getString(R.string.heat);
+                                        break;
+                                    case 2:
+                                        mode = getString(R.string.dry);
+                                        break;
+                                    case 3:
+                                        mode = getString(R.string.wind);
+                                        break;
+                                }
+                                switch (temp_fan){
+                                    case 0:
+                                        fan = getString(R.string.low_wind);
+                                        break;
+                                    case 1:
+                                        fan = getString(R.string.medium_wind);
+                                        break;
+                                    case 2:
+                                        fan = getString(R.string.high_wind);
+                                        break;
+                                }
+                                temp = (int)temp_temp + getString(R.string.temp_symbol);
+                                clockMode.getOnlineTextView().setText(on_off + "|" + mode + "|" + fan + "|" + temp);
+                            }
+                        }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
             }
         });
 
@@ -188,10 +269,10 @@ public class EditClockActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra("repeat",flag_repeat);
+                intent.putExtra("repeat", flag_repeat);
                 intent.putExtra("week", week_list);
                 intent.setClass(EditClockActivity.this, ChooseClockRepeatActivity.class);
-                startActivityForResult(intent,REQUEST_CODE_REPEAT);
+                startActivityForResult(intent, REQUEST_CODE_REPEAT);
             }
         });
 
@@ -205,15 +286,19 @@ public class EditClockActivity extends BaseActivity{
             }
         });
 
-        String on_off = getString(R.string.off);
-        String mode = getString(R.string.cool);
-        String fan = getString(R.string.low_wind);
-        String temp = getString(R.string.default_temp);
+        on_off = getString(R.string.off);
+        mode = getString(R.string.cool);
+        fan = getString(R.string.low_wind);
+        temp = getString(R.string.default_temp);
         String repeat = getString(R.string.not_repeat);
         String week = "";
 
         if(!is_add){
             timer = MyApp.getApp().getServerConfigManager().getTimer().get(index);
+            temp_on_off = timer.isOnoff();
+            temp_mode = timer.getMode();
+            temp_fan = timer.getFan();
+            temp_temp = timer.getTemperature();
             if(timer.isRepeat()){
                 flag_repeat = 1;
                 for(int i = 0; i < timer.getWeek().size(); i++){
@@ -251,7 +336,7 @@ public class EditClockActivity extends BaseActivity{
                     fan = getString(R.string.high_wind);
                     break;
             }
-            temp = timer.getTemperature() + getString(R.string.temp_symbol);
+            temp = (int)timer.getTemperature() + getString(R.string.temp_symbol);
             if(timer.isRepeat()) {
                 repeat = getString(R.string.repeat);
                 for(int i = 0; i < timer.getWeek().size()-1; i++){
@@ -292,10 +377,9 @@ public class EditClockActivity extends BaseActivity{
                         String week1 = "";
                         for(int i = 0; i < week_list.length; i++){
                             if(week_list[i]==1){
-                                week1 = week1 + weekName[i] + "|";
+                                week1 = week1 + weekName[i];
                             }
                         }
-                        week1.substring(0,week1.length()-1);
                         clockRepeat.getLabelTextView().setText(R.string.repeat);
                         clockRepeat.getOnlineTextView().setText(week1);
                     }else{

@@ -41,7 +41,7 @@ public class SetClockFragment extends BaseFragment {
                     Intent intent = new Intent();
                     intent.putExtra("title", "");
                     intent.setClass(getActivity(), EditClockActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent,REQUEST_CODE_CLOCK);
                     break;
             }
         }
@@ -163,7 +163,7 @@ public class SetClockFragment extends BaseFragment {
             String on_off = "";
             String mode = "";
             String fan = "";
-            String temp = list.get(position).getTemperature() + getString(R.string.temp_symbol);
+            String temp = (int)list.get(position).getTemperature() + getString(R.string.temp_symbol);
             String repeat;
             String week;
 
@@ -232,7 +232,6 @@ public class SetClockFragment extends BaseFragment {
             super(context);
             init(context);
         }
-
         private void init(Context context) {
             inflate(context, R.layout.custom_clock_view, this);
         }
