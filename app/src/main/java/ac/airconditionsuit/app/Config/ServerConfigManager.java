@@ -53,6 +53,15 @@ public class ServerConfigManager {
         return rootJavaObj.getTimers();
     }
 
+    public int getDeviceIndexFromAddress(int index){
+        for(int i = 0; i < rootJavaObj.getDevices().size(); i++){
+            if(index == rootJavaObj.getDevices().get(i).getIndoorindex()){
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public boolean hasDevice() {
         return rootJavaObj != null
                 && rootJavaObj.getConnection() != null

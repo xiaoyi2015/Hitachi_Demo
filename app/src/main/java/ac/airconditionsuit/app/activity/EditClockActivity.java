@@ -1,6 +1,5 @@
 package ac.airconditionsuit.app.activity;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,11 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,6 +27,7 @@ import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.AirModePickerView;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
+import ac.airconditionsuit.app.view.CommonChooseView;
 import ac.airconditionsuit.app.view.CommonTopBar;
 import ac.airconditionsuit.app.view.CommonWheelView;
 
@@ -80,7 +80,7 @@ public class EditClockActivity extends BaseActivity{
                         timer_temp.setFan(temp_fan);
                         timer_temp.setOnoff(temp_on_off);
                         timer_temp.setTemperature(temp_temp);
-                        ArrayList<Integer> week_list_temp = new ArrayList<Integer>();
+                        ArrayList<Integer> week_list_temp = new ArrayList<>();
                         week_list_temp.clear();
                         if(flag_repeat == 1){
                             for(int i = 0; i < 7; i++){
@@ -97,6 +97,15 @@ public class EditClockActivity extends BaseActivity{
                         }else{
                             timer_temp.setRepeat(false);
                         }
+
+                        ArrayList<Integer> device_list_temp = new ArrayList<>();
+                        device_list_temp.clear();
+                        for(int i = 0; i < isDeviceChoose.size(); i++){
+                            if(isDeviceChoose.get(i) == 1){
+                                device_list_temp.add(MyApp.getApp().getServerConfigManager().getDevices().get(i).getIndoorindex());
+                            }
+                        }
+                        timer_temp.setAddress(device_list_temp);
                         MyApp.getApp().getServerConfigManager().addTimer(timer_temp);
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
@@ -126,6 +135,15 @@ public class EditClockActivity extends BaseActivity{
                         MyApp.getApp().getServerConfigManager().getTimer().get(index).setName(check_clock_name);
                         MyApp.getApp().getServerConfigManager().getTimer().get(index).setHour(timePicker.getCurrentHour());
                         MyApp.getApp().getServerConfigManager().getTimer().get(index).setMinute(timePicker.getCurrentMinute());
+
+                        MyApp.getApp().getServerConfigManager().getTimer().get(index).getAddress().clear();
+                        for(int i = 0; i < isDeviceChoose.size(); i++){
+                            if(isDeviceChoose.get(i) == 1){
+                                MyApp.getApp().getServerConfigManager().getTimer().get(index).getAddress().
+                                        add(MyApp.getApp().getServerConfigManager().getDevices().get(i).getIndoorindex());
+                            }
+                        }
+
                         MyApp.getApp().getServerConfigManager().writeToFile();
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
@@ -152,6 +170,7 @@ public class EditClockActivity extends BaseActivity{
     private String fan;
     private String temp;
     private CommonButtonWithArrow clockMode;
+    private ArrayList<Integer> isDeviceChoose = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -357,6 +376,25 @@ public class EditClockActivity extends BaseActivity{
             clockRepeat.getOnlineTextView().setText(week);
         }
 
+        if( MyApp.getApp().getServerConfigManager().getDevices().size() == 0){
+            //TODO
+        }else {
+            for (int i = 0; i < MyApp.getApp().getServerConfigManager().getDevices().size(); i++){
+                isDeviceChoose.add(0);
+            }
+            if(!is_add){
+                int num = timer.getAddress().size();
+                if(timer.getAddress().size() != 0){
+                    for(int i = 0 ;i < timer.getAddress().size(); i++){
+                        int temp_index_device = MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(timer.getAddress().get(i));
+                        if(temp_index_device != -1){
+                            isDeviceChoose.set(temp_index_device,1);
+                        }
+                    }
+                }
+            }
+        }
+
         ListView listView = (ListView)findViewById(R.id.air_device_list1);
         List<ServerConfig.Device> devices = MyApp.getApp().getServerConfigManager().getDevices();
         AirDeviceClockSettingAdapter airDeviceClockSettingAdapter = new AirDeviceClockSettingAdapter(EditClockActivity.this,devices);
@@ -433,19 +471,32 @@ public class EditClockActivity extends BaseActivity{
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if(convertView == null){
-                convertView = new CommonButtonWithArrow(context);
+                convertView = new CommonChooseView(context);
             }
 
             TextView deviceName = (TextView)convertView.findViewById(R.id.label_text);
             deviceName.setText(list.get(position).getName());
             deviceName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
+            final ImageView chooseIcon = (ImageView)convertView.findViewById(R.id.choose_icon);
+            if(isDeviceChoose.get(position) == 1){
+                chooseIcon.setVisibility(View.VISIBLE);
+            }else{
+                chooseIcon.setVisibility(View.GONE);
+            }
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //TODO choose device and set address
+                    if(isDeviceChoose.get(position) == 1){
+                        isDeviceChoose.set(position,0);
+                        chooseIcon.setVisibility(View.GONE);
+                    }else{
+                        isDeviceChoose.set(position,1);
+                        chooseIcon.setVisibility(View.VISIBLE);
+                    }
                 }
             });
             return convertView;
