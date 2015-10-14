@@ -1,7 +1,6 @@
 package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.*;
 import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
@@ -16,24 +15,18 @@ import java.util.*;
 public class SocketManager extends Observable {
     public static final String TAG = "SocketManager";
 
-    //能连接上互联网，以tcp形式与主机连接。
-    public static final int TCP = 0;
-    //不能连接上互联网，但是能连接上主机，以udp形式与主机连接。
-    public static final int UDP = 1;
-    public static final int UDP_NODEVICE = 3;
-    public static final int UNCONNECT = 2;
-
-    private int currentSocketType = TCP;
-
     public static final int TCP_HOST_CONNECT = 0;
     public static final int TCP_DEVICE_CONNECT = 1;
-    public static final int UDP_CONNECT = 2;
+    public static final int UDP_DEVICE_CONNECT = 2;
     public static final int TCP_UDP_ALL_UNCONNECT = 3;
-    private int status = UNCONNECT;
-
 
     public static final int HEART_BEAT_PERIOD = 60000;
     public static final int HEART_BEAT_INVAILD_TIME = 70000;
+
+    private boolean isTcpHostConnect = false;
+    private boolean isTcpDeviceConnect = false;
+    private boolean isUdpDeviceConnect = false;
+
     private long lastHeartSuccessTime = 0;
     private Timer heartBeatTimer;
 
@@ -41,8 +34,62 @@ public class SocketManager extends Observable {
         this.lastHeartSuccessTime = lastHeartSuccessTime;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void heartSuccess() {
+        setLastHeartSuccessTime(System.currentTimeMillis());
+        if (socket == null) {
+            isTcpHostConnect = false;
+            isTcpDeviceConnect = false;
+            isUdpDeviceConnect = false;
+            return;
+        }
+        if (socket instanceof TcpSocket) {
+            isTcpHostConnect = true;
+            isUdpDeviceConnect = false;
+        } else {
+            isUdpDeviceConnect = true;
+            isTcpDeviceConnect = false;
+            isTcpHostConnect = false;
+        }
+    }
+
+    public void checkDevice(boolean success) {
+        setLastHeartSuccessTime(System.currentTimeMillis());
+        if (socket == null) {
+            isTcpHostConnect = false;
+            isTcpDeviceConnect = false;
+            isUdpDeviceConnect = false;
+            return;
+        }
+        if (success) {
+            if (socket instanceof TcpSocket) {
+                isTcpDeviceConnect = true;
+                isTcpHostConnect = true;
+                isUdpDeviceConnect = false;
+            } else {
+                Log.i(TAG, "fucking udp socket receive a tcp package");
+            }
+        } else {
+            if (socket instanceof TcpSocket) {
+                isTcpDeviceConnect = false;
+                isTcpHostConnect = true;
+                isUdpDeviceConnect = false;
+            } else {
+                Log.i(TAG, "fucking udp socket receive a tcp package");
+            }
+        }
+    }
+
+    public int getStatus() {
+        if (isTcpDeviceConnect) {
+            return TCP_DEVICE_CONNECT;
+        }
+        if (isTcpHostConnect) {
+            return TCP_HOST_CONNECT;
+        }
+        if (isUdpDeviceConnect) {
+            return UDP_DEVICE_CONNECT;
+        }
+        return TCP_UDP_ALL_UNCONNECT;
     }
 
     public void startHeartBeat() {
@@ -78,7 +125,7 @@ public class SocketManager extends Observable {
         }
     }
 
-    private void reconnect() {
+    public void reconnect() {
         close();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -122,33 +169,30 @@ public class SocketManager extends Observable {
         }
     }
 
-    public int getCurrentSocketType() {
-        return currentSocketType;
-    }
-
     public void init(int status) {
         if (!MyApp.getApp().isUserLogin()) {
             return;
         }
+
+        isTcpHostConnect = false;
+        isTcpDeviceConnect = false;
+        isUdpDeviceConnect = false;
+        lastHeartSuccessTime = 0;
 
         status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
         if (status == NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT) {
             //udp
             //udp还要判断是否有设备
             if (!MyApp.getApp().getServerConfigManager().hasDevice()) {
-                currentSocketType = UDP_NODEVICE;
                 return;
             }
-            currentSocketType = UDP;
             socket = new UdpSocket();
         } else if (status == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT
                 || status == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
             //tcp
-            currentSocketType = TCP;
             socket = new TcpSocket();
         } else {
-            //no_connect
-            currentSocketType = UNCONNECT;
+            socket = null;
 
             //如果没有联网，就不进行后面的操作了，直接return
             Log.i(TAG, "init socket manager failed due to no network");

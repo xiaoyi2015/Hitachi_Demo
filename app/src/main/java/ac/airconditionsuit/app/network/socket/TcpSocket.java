@@ -12,9 +12,6 @@ import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPSendMessagePa
 import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TcpPackage;
 import ac.airconditionsuit.app.util.ACByteQueue;
 import ac.airconditionsuit.app.util.ByteUtil;
-import ac.airconditionsuit.app.view.TabIndicator;
-import android.content.Intent;
-import android.nfc.Tag;
 import android.util.Log;
 
 import java.io.IOException;
@@ -117,6 +114,9 @@ class TcpSocket implements SocketWrap {
         //检查头尾标志，长度，checksum, 如果有问题就会抛出异常。
         commonCheck(receiveData);
 
+        //收到的数据没有问题，无论什么包，都可以当作心跳成功
+        MyApp.getApp().getSocketManager().heartSuccess();
+
         byte msg_type = receiveData[5];
         switch (msg_type) {
             case TCPLoginPackage.LOGIN_RETURN_MSG_TYPE:
@@ -209,18 +209,16 @@ class TcpSocket implements SocketWrap {
         short result_code = ByteUtil.byteArrayToShort(receiveData, 32);
         if (result_code == 200) {
             Log.i(TAG, "check Device success");
-            MyApp.getApp().getSocketManager().setStatus(SocketManager.TCP_DEVICE_CONNECT);
+            MyApp.getApp().getSocketManager().checkDevice(true);
         } else {
             Log.i(TAG, "check Device fail, status code is: " + result_code);
-            MyApp.getApp().getSocketManager().setStatus(SocketManager.TCP_HOST_CONNECT);
+            MyApp.getApp().getSocketManager().checkDevice(false);
         }
     }
 
     private void handleHeartBeat() {
-        SocketManager socketManager = MyApp.getApp().getSocketManager();
         Log.i(TAG, "tcp heart beat ok");
-        socketManager.setLastHeartSuccessTime(System.currentTimeMillis());
-        socketManager.setStatus(SocketManager.TCP_HOST_CONNECT);
+        //check device after heartbeat
         checkDeviceConnect();
     }
 

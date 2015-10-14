@@ -78,17 +78,7 @@ public class UdpPackage {
             content = ByteUtil.hexStringToByteArray(MyApp.getApp().getServerConfigManager().getCurrentHostMac());
             //TODO for luzheqi temp code
             content = ByteUtil.hexStringToByteArray("001EC00E1FB3");
-            handler = new Handler() {
-                @Override
-                public void success() {
-                    MyApp.getApp().getSocketManager().startHeartBeat();
-                }
-
-                @Override
-                public void fail() {
-
-                }
-            };
+            handler = null;
         }
     }
 
@@ -100,12 +90,15 @@ public class UdpPackage {
             handler = new Handler() {
                 @Override
                 public void success() {
+                    MyApp.getApp().getSocketManager().heartSuccess();
                     Log.i(TAG, "udp heartbeat success");
                 }
 
+                /**
+                 * heartbeat won't be fail
+                 */
                 @Override
                 public void fail() {
-
                 }
             };
         }
