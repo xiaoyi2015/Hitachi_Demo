@@ -28,8 +28,6 @@ public class UdpSocket implements SocketWrap {
     public void connect(String ip) throws SocketException, UnknownHostException {
         datagramSocket = new DatagramSocket();
         this.ip = ip;
-        //temp code todo for luzheqi
-        this.ip = "192.168.1.123";
         Log.i(TAG, "connect to host by udp success, ip " + ip + " port: " + PORT);
     }
 
@@ -122,6 +120,10 @@ public class UdpSocket implements SocketWrap {
                 //notify find device
                 ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP, device);
                 MyApp.getApp().getSocketManager().notifyActivity(od);
+                break;
+
+            case UdpPackage.AFN_GET_AIR_CONDITION_ADDRESS:
+                Log.i(TAG, "udp get air condition success");
                 break;
 
             case UdpPackage.AFN_NO:

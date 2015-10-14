@@ -2,7 +2,6 @@ package ac.airconditionsuit.app.network.socket.socketpackage.Udp;
 
 
 import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.network.socket.UdpSocket;
 import ac.airconditionsuit.app.util.ByteUtil;
 import android.util.Log;
 
@@ -46,6 +45,12 @@ public class UdpPackage {
         return p;
     }
 
+    public static UdpPackage genGetAirConditionAddressPackage() {
+        UdpPackage p = new UdpPackage();
+        p.setContent(p.new GetAirConditionAddressPackageContent());
+        return p;
+    }
+
     public interface Handler {
         void success();
 
@@ -76,9 +81,19 @@ public class UdpPackage {
         public LoginUdpPackageContent() throws Exception {
             function = AFN_LOGIN;
             content = ByteUtil.hexStringToByteArray(MyApp.getApp().getServerConfigManager().getCurrentHostMac());
-            //TODO for luzheqi temp code
-            content = ByteUtil.hexStringToByteArray("001EC00E1FB3");
-            handler = null;
+            handler = new Handler() {
+                @Override
+                public void success() {
+                    MyApp.getApp().getSocketManager().startHeartBeat();
+                    //test code todo for luzheqi
+                    MyApp.getApp().getSocketManager().getAirConditionAddressFromHostDevice();
+                }
+
+                @Override
+                public void fail() {
+                    MyApp.getApp().getSocketManager().reconnect();
+                }
+            };
         }
     }
 
@@ -90,13 +105,28 @@ public class UdpPackage {
             handler = new Handler() {
                 @Override
                 public void success() {
-                    MyApp.getApp().getSocketManager().heartSuccess();
-                    Log.i(TAG, "udp heartbeat success");
+                    Log.i(TAG, "udp heart beat success");
                 }
 
-                /**
-                 * heartbeat won't be fail
-                 */
+                @Override
+                public void fail() {
+
+                }
+            };
+        }
+    }
+
+    public static final byte AFN_GET_AIR_CONDITION_ADDRESS = 0xe;
+
+    public class GetAirConditionAddressPackageContent extends UdpPackageContent {
+        public GetAirConditionAddressPackageContent() {
+            function = AFN_GET_AIR_CONDITION_ADDRESS;
+            handler = new Handler() {
+                @Override
+                public void success() {
+                    Log.i(TAG, "get air condition success");
+                }
+
                 @Override
                 public void fail() {
                 }

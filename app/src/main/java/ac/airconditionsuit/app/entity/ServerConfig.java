@@ -281,7 +281,9 @@ public class ServerConfig extends RootEntity{
         }
 
         public String getAddress() {
-            return address;
+            //TODO for luzheqi
+            return "192.168.1.123";
+//            return address;
         }
 
         public void setAddress(String address) {
@@ -289,7 +291,9 @@ public class ServerConfig extends RootEntity{
         }
 
         public String getMac() {
-            return mac;
+            //TODO for luzheqi
+            return "001EC00E1FB3";
+//            return mac;
         }
 
         public void setMac(String mac) {

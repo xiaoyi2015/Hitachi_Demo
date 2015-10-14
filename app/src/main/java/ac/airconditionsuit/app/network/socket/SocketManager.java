@@ -20,7 +20,7 @@ public class SocketManager extends Observable {
     public static final int UDP_DEVICE_CONNECT = 2;
     public static final int TCP_UDP_ALL_UNCONNECT = 3;
 
-    public static final int HEART_BEAT_PERIOD = 60000;
+    public static final int HEART_BEAT_PERIOD = 10000;
     public static final int HEART_BEAT_INVAILD_TIME = 70000;
 
     private boolean isTcpHostConnect = false;
@@ -244,14 +244,19 @@ public class SocketManager extends Observable {
         void findDevice(String authCode, String authCodeForShow, String ip);
     }
 
+
+    public void getAirConditionAddressFromHostDevice() {
+        sendMessage(new GetAirConditionAddressPackage());
+    }
+
     public void sendBroadCast() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     UdpSocket socket = new UdpSocket();
-//                    socket.connect(BROADCAST_ADDRESS);
-                    socket.connect("192.168.1.123");
+                    socket.connect(BROADCAST_ADDRESS);
+//                    socket.connect("192.168.1.123");
                     SocketPackage socketPackage = new BroadcastPackage();
                     //重发三遍，主机偶尔会没有应答
                     socket.sendMessage(socketPackage);
