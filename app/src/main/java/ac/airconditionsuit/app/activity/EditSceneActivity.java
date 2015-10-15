@@ -234,6 +234,7 @@ public class EditSceneActivity extends BaseActivity{
             if (temp_on_off.get(position) != 2) {
                 settingText.setText(onOffView1.getItemText(temp_on_off.get(position)) + "|" + modeView1.getItemText(temp_mode.get(position)) + "|"
                         + fanView1.getItemText(temp_fan.get(position)) + "|" + tempView1.getItemText(temp_temp.get(position)));
+                setModeTextColor(settingText, temp_on_off.get(position), temp_mode.get(position));
             } else {
                 settingText.setText("");
             }
@@ -268,6 +269,7 @@ public class EditSceneActivity extends BaseActivity{
                                     if (temp_on_off.get(position) != 2) {
                                         settingText.setText(onOffView.getItemText(temp_on_off.get(position)) + "|" + modeView.getItemText(temp_mode.get(position))
                                                 + "|" + fanView.getItemText(temp_fan.get(position)) + "|" + tempView.getItemText(temp_temp.get(position)));
+                                        setModeTextColor(settingText,temp_on_off.get(position),temp_mode.get(position));
                                     }else{
                                         settingText.setText("");
                                     }
@@ -278,6 +280,27 @@ public class EditSceneActivity extends BaseActivity{
             });
 
             return convertView;
+        }
+
+        private void setModeTextColor(TextView settingText,int on_off_color,int mode_color) {
+            if(on_off_color == 0){
+                settingText.setTextColor(getResources().getColor(R.color.text_color_gray));
+            }else{
+                switch (mode_color){
+                    case 0:
+                        settingText.setTextColor(getResources().getColor(R.color.mode_cool_blue));
+                        break;
+                    case 1:
+                        settingText.setTextColor(getResources().getColor(R.color.mode_heat_pink));
+                        break;
+                    case 2:
+                        settingText.setTextColor(getResources().getColor(R.color.mode_dry_purple));
+                        break;
+                    case 3:
+                        settingText.setTextColor(getResources().getColor(R.color.mode_fan_green));
+                        break;
+                }
+            }
         }
     }
 

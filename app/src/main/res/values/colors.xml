@@ -3,7 +3,7 @@
     <color name="tab_indicator_text_select">#000000</color>
     <color name="tab_indicator_text_normal">#c5c5c5</color>
     <color name="text_color_white">#FFFFFF</color>
-    <color name="text_color_gray">#c5c5c5</color>
+    <color name="text_color_gray">#a1a1a6</color>
     <color name="text_color_black">#000000</color>
     <color name="text_color_transparent_gray">#e0c5c5c5</color>
     <color name="switch_on_pink">#e07083</color>
