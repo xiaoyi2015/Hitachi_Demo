@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.activity;
 
+import ac.airconditionsuit.app.entity.Command;
+import ac.airconditionsuit.app.entity.Scene;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -66,11 +68,11 @@ public class EditSceneActivity extends BaseActivity{
                         return;
                     if(is_add){
                         ServerConfig serverConfig = new ServerConfig();
-                        ServerConfig.Scene scene = serverConfig.new Scene();
-                        ArrayList<ServerConfig.Command> commands = new ArrayList<>();
+                        Scene scene = serverConfig.new Scene();
+                        ArrayList<Command> commands = new ArrayList<>();
                         for(int i = 0; i < temp_on_off.size(); i++){
                             if(temp_on_off.get(i) != 2){
-                                ServerConfig.Command command = serverConfig.new Command();
+                                Command command = serverConfig.new Command();
                                 command.setAddress(MyApp.getApp().getServerConfigManager().getDevices().get(i).getIndoorindex());
                                 command.setOnoff(temp_on_off.get(i));
                                 command.setMode(temp_mode.get(i));
@@ -88,7 +90,7 @@ public class EditSceneActivity extends BaseActivity{
                         MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().clear();
                         for(int i = 0; i < temp_on_off.size(); i++){
                             if(temp_on_off.get(i) != 2){
-                                ServerConfig.Command command = serverConfig1.new Command();
+                                Command command = serverConfig1.new Command();
                                 command.setAddress(MyApp.getApp().getServerConfigManager().getDevices().get(i).getIndoorindex());
                                 command.setOnoff(temp_on_off.get(i));
                                 command.setMode(temp_mode.get(i));

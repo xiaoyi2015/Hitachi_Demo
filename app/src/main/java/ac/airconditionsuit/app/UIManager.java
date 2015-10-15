@@ -16,7 +16,7 @@ public class UIManager {
                 return 0;
             case UI_TYPE2:
                 return 0;
-            case UI_TYPE3:
+            default:
                 return 0;
         }
     }

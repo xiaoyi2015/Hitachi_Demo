@@ -13,7 +13,7 @@ public class Room extends RootEntity {
     //room id
     long roomidkey;
 
-    //list里面的每一个integer代表一个在该房间内的
+    //list里面的每一个integer代表一个在该房间内的空调
     List<Integer> elements;
 
     public String getName() {

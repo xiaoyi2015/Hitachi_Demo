@@ -7,6 +7,7 @@ import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -121,6 +122,12 @@ public class SocketManager extends Observable {
     public void notifyActivity(ObserveData od) {
         setChanged();
         notifyObservers(od);
+    }
+
+    public void sendMessage(List<ControlPackage> controlPackages) {
+        for (ControlPackage p : controlPackages) {
+            sendMessage(p);
+        }
     }
 
     class ReceiveThread extends Thread {
