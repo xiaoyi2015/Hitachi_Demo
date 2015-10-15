@@ -116,10 +116,10 @@ public class MyAirFragment extends BaseFragment {
                     super.onClick(v);
                     isCheck[position] = !isCheck[position];
                     if (isCheck[position]) {
-                        arrowIcon.setImageResource(R.drawable.icon_arrow_down);
+                        arrowIcon.setImageResource(R.drawable.icon_arrow_down_dc);
                         roomList.setVisibility(View.VISIBLE);
                     } else {
-                        arrowIcon.setImageResource(R.drawable.icon_arrow_right);
+                        arrowIcon.setImageResource(R.drawable.icon_arrow_right_dc);
                         roomList.setVisibility(View.GONE);
                     }
                 }

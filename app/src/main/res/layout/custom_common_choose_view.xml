@@ -22,7 +22,7 @@
         android:layout_centerVertical="true"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:src="@drawable/login_selected"
+        android:src="@drawable/login_selected_dc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

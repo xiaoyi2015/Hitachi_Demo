@@ -19,7 +19,7 @@
 
         <ac.airconditionsuit.app.view.RoundImageView
             android:id="@+id/cust1_picture"
-            android:src="@drawable/user"
+            android:src="@drawable/user_dc"
             android:layout_below="@+id/admin_text1"
             android:layout_centerHorizontal="true"
             android:layout_width="60dp"
@@ -48,7 +48,7 @@
 
         <ac.airconditionsuit.app.view.RoundImageView
             android:id="@+id/cust2_picture"
-            android:src="@drawable/user"
+            android:src="@drawable/user_dc"
             android:layout_below="@+id/admin_text2"
             android:layout_centerHorizontal="true"
             android:layout_width="60dp"

@@ -199,7 +199,7 @@ public class HttpClient {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                 Log.e(TAG, "download from " + url + " failed");
-                imageView.setImageResource(R.drawable.user);
+                imageView.setImageResource(R.drawable.user_dc);
             }
 
             @Override

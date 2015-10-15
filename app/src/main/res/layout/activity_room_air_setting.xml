@@ -8,7 +8,7 @@
         android:id="@+id/default_top_bar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        app:leftIcon="@drawable/back">
+        app:leftIcon="@drawable/top_bar_back_dc">
     </ac.airconditionsuit.app.view.CommonTopBar>
 
     <LinearLayout
@@ -17,7 +17,7 @@
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        android:background="@drawable/dc_room_bg_normal"
+        android:background="@drawable/room_bg_normal_dc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -52,7 +52,7 @@
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        android:background="@drawable/dc_room_bg_normal"
+        android:background="@drawable/room_bg_normal_dc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -86,7 +86,7 @@
         android:layout_below="@+id/on_off_view"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        android:background="@drawable/dc_room_bg_normal"
+        android:background="@drawable/room_bg_normal_dc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -119,7 +119,7 @@
         android:layout_below="@+id/mode_view"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        android:background="@drawable/dc_room_bg_normal"
+        android:background="@drawable/room_bg_normal_dc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -154,7 +154,7 @@
         android:layout_below="@+id/wind_speed_view"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        android:background="@drawable/dc_room_bg_normal"
+        android:background="@drawable/room_bg_normal_dc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -179,7 +179,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_gravity="top"
-            android:src="@drawable/dc_decrease"
+            android:src="@drawable/temp_decrease_dc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -189,7 +189,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_gravity="top"
-            android:src="@drawable/dc_increase"
+            android:src="@drawable/temp_increase_dc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

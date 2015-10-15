@@ -39,7 +39,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/cancel"
+        android:src="@drawable/top_bar_cancel_dc"
         android:background="#00000000"
         />
 

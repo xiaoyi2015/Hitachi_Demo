@@ -42,7 +42,7 @@ public class SectionAndRoomView extends RelativeLayout {
     private void init(Context context) {
         inflate(context, R.layout.custom_section_and_room_view, this);
         ImageView arrowIconView = (ImageView) findViewById(R.id.arrow_icon);
-        arrowIconView.setImageResource(R.drawable.icon_arrow_right);
+        arrowIconView.setImageResource(R.drawable.icon_arrow_right_dc);
 
         //TODO set room status
         ListView listView = (ListView)findViewById(R.id.room_list);
@@ -112,11 +112,11 @@ public class SectionAndRoomView extends RelativeLayout {
                 }
             });
 
-            bgBar.setImageResource(R.drawable.dc_bg_bar_off);
-            roomMode.setImageResource(R.drawable.dc_cool_off);
+            bgBar.setImageResource(R.drawable.room_bg_bar_off_dc);
+            roomMode.setImageResource(R.drawable.cool_off_dc);
             roomName.setText(rooms.get(position).getName());
             roomTemp.setText(R.string.default_temp);
-            roomWindSpeed.setImageResource(R.drawable.dc_fan_off1);
+            roomWindSpeed.setImageResource(R.drawable.fan_off1_dc);
 
             return convertView;
         }

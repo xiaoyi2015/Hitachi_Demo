@@ -9,8 +9,8 @@
         android:id="@+id/default_top_bar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        app:leftIcon="@drawable/cancel"
-        app:rightIcon="@drawable/save">
+        app:leftIcon="@drawable/top_bar_cancel_dc"
+        app:rightIcon="@drawable/top_bar_save_dc">
     </ac.airconditionsuit.app.view.CommonTopBar>
 
     <ac.airconditionsuit.app.view.CommonChooseView

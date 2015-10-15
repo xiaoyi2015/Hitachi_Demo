@@ -43,14 +43,14 @@ public class SceneFragment extends BaseFragment {
             switch (v.getId()){
                 case R.id.right_icon:
                     if(click_num == 0) {
-                        commonTopBar.setLeftIconView(R.drawable.add);
-                        commonTopBar.setRightIconView(R.drawable.save);
+                        commonTopBar.setLeftIconView(R.drawable.top_bar_add_dc);
+                        commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
                         commonTopBar.setTitle(getString(R.string.edit_scene));
                         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
                         click_num = 1;
                     }else{
                         commonTopBar.setTitle(getString(R.string.tab_label_scene_mode));
-                        commonTopBar.setRightIconView(R.drawable.edit);
+                        commonTopBar.setRightIconView(R.drawable.top_bar_edit_dc);
                         commonTopBar.setIconView(null, myOnClickListener);
                         click_num = 0;
                     }
@@ -88,7 +88,7 @@ public class SceneFragment extends BaseFragment {
         BaseActivity baseActivity = myGetActivity();
         commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_scene_mode));
-        commonTopBar.setRightIconView(R.drawable.edit);
+        commonTopBar.setRightIconView(R.drawable.top_bar_edit_dc);
         commonTopBar.setIconView(null,myOnClickListener);
         commonTopBar.setRoundLeftIconView(null);
     }

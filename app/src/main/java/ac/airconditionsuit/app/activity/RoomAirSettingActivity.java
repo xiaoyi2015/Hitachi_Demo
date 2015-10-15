@@ -128,44 +128,44 @@ public class RoomAirSettingActivity extends BaseActivity{
     private void changeColorAndSetting( int on_off, int mode, int fan, int temp) {
         roomTemp.setText(temp + getString(R.string.temp_symbol));
         if(on_off == 0){
-            bgBar1.setImageResource(R.drawable.dc_bg_bar_off);
-            bgBar2.setImageResource(R.drawable.dc_bg_bar_off);
-            bgBar3.setImageResource(R.drawable.dc_bg_bar_off);
-            bgBar4.setImageResource(R.drawable.dc_bg_bar_off);
-            bgBar5.setImageResource(R.drawable.dc_bg_bar_off);
+            bgBar1.setImageResource(R.drawable.room_bg_bar_off_dc);
+            bgBar2.setImageResource(R.drawable.room_bg_bar_off_dc);
+            bgBar3.setImageResource(R.drawable.room_bg_bar_off_dc);
+            bgBar4.setImageResource(R.drawable.room_bg_bar_off_dc);
+            bgBar5.setImageResource(R.drawable.room_bg_bar_off_dc);
             realTemp.setTextColor(getResources().getColor(R.color.text_normal_color));
-            roomOnOff.setImageResource(R.drawable.dc_onoff_off);
+            roomOnOff.setImageResource(R.drawable.onoff_off_dc);
             roomTemp.setTextColor(getResources().getColor(R.color.text_normal_color));
 
             switch (mode){
                 case 0:
-                    roomMode.setImageResource(R.drawable.dc_cool_off);
+                    roomMode.setImageResource(R.drawable.cool_off_dc);
                     roomModeText.setText(R.string.cool);
                     break;
                 case 1:
-                    roomMode.setImageResource(R.drawable.dc_heat_off);
+                    roomMode.setImageResource(R.drawable.heat_off_dc);
                     roomModeText.setText(R.string.heat);
                     break;
                 case 2:
-                    roomMode.setImageResource(R.drawable.dc_dry_off);
+                    roomMode.setImageResource(R.drawable.dry_off_dc);
                     roomModeText.setText(R.string.dry);
                     break;
                 case 3:
-                    roomMode.setImageResource(R.drawable.dc_fan_off);
+                    roomMode.setImageResource(R.drawable.fan_off_dc);
                     roomModeText.setText(R.string.wind);
                     break;
             }
             switch (fan){
                 case 0:
-                    roomWindSpeed.setImageResource(R.drawable.dc_fan_off1);
+                    roomWindSpeed.setImageResource(R.drawable.fan_off1_dc);
                     roomWindText.setText(R.string.low_wind);
                     break;
                 case 1:
-                    roomWindSpeed.setImageResource(R.drawable.dc_fan_off3);
+                    roomWindSpeed.setImageResource(R.drawable.fan_off3_dc);
                     roomWindText.setText(R.string.medium_wind);
                     break;
                 case 2:
-                    roomWindSpeed.setImageResource(R.drawable.dc_fan_off5);
+                    roomWindSpeed.setImageResource(R.drawable.fan_off5_dc);
                     roomWindText.setText(R.string.high_wind);
                     break;
             }
@@ -173,110 +173,110 @@ public class RoomAirSettingActivity extends BaseActivity{
         }else{
             switch (mode){
                 case 0:
-                    roomMode.setImageResource(R.drawable.dc_cool_on);
+                    roomMode.setImageResource(R.drawable.cool_on_dc);
                     roomModeText.setText(R.string.cool);
-                    bgBar1.setImageResource(R.drawable.dc_bg_bar_cool);
-                    bgBar2.setImageResource(R.drawable.dc_bg_bar_cool);
-                    bgBar3.setImageResource(R.drawable.dc_bg_bar_cool);
-                    bgBar4.setImageResource(R.drawable.dc_bg_bar_cool);
-                    bgBar5.setImageResource(R.drawable.dc_bg_bar_cool);
+                    bgBar1.setImageResource(R.drawable.room_bg_bar_cool_dc);
+                    bgBar2.setImageResource(R.drawable.room_bg_bar_cool_dc);
+                    bgBar3.setImageResource(R.drawable.room_bg_bar_cool_dc);
+                    bgBar4.setImageResource(R.drawable.room_bg_bar_cool_dc);
+                    bgBar5.setImageResource(R.drawable.room_bg_bar_cool_dc);
                     realTemp.setTextColor(getResources().getColor(R.color.mode_cool_blue));
-                    roomOnOff.setImageResource(R.drawable.dc_onoff_cool);
+                    roomOnOff.setImageResource(R.drawable.onoff_cool_dc);
                     roomTemp.setTextColor(getResources().getColor(R.color.mode_cool_blue));
 
                     switch (fan){
                         case 0:
-                            roomWindSpeed.setImageResource(R.drawable.dc_fan_cool1);
+                            roomWindSpeed.setImageResource(R.drawable.fan_cool1_dc);
                             roomWindText.setText(R.string.low_wind);
                             break;
                         case 1:
-                            roomWindSpeed.setImageResource(R.drawable.dc_fan_cool3);
+                            roomWindSpeed.setImageResource(R.drawable.fan_cool3_dc);
                             roomWindText.setText(R.string.medium_wind);
                             break;
                         case 2:
-                            roomWindSpeed.setImageResource(R.drawable.dc_fan_cool5);
+                            roomWindSpeed.setImageResource(R.drawable.fan_cool5_dc);
                             roomWindText.setText(R.string.high_wind);
                             break;
                     }
                     break;
                 case 1:
-                    roomMode.setImageResource(R.drawable.dc_heat_on);
+                    roomMode.setImageResource(R.drawable.heat_on_dc);
                     roomModeText.setText(R.string.heat);
-                    bgBar1.setImageResource(R.drawable.dc_bg_bar_heat);
-                    bgBar2.setImageResource(R.drawable.dc_bg_bar_heat);
-                    bgBar3.setImageResource(R.drawable.dc_bg_bar_heat);
-                    bgBar4.setImageResource(R.drawable.dc_bg_bar_heat);
-                    bgBar5.setImageResource(R.drawable.dc_bg_bar_heat);
+                    bgBar1.setImageResource(R.drawable.room_bg_bar_heat_dc);
+                    bgBar2.setImageResource(R.drawable.room_bg_bar_heat_dc);
+                    bgBar3.setImageResource(R.drawable.room_bg_bar_heat_dc);
+                    bgBar4.setImageResource(R.drawable.room_bg_bar_heat_dc);
+                    bgBar5.setImageResource(R.drawable.room_bg_bar_heat_dc);
                     realTemp.setTextColor(getResources().getColor(R.color.mode_heat_pink));
-                    roomOnOff.setImageResource(R.drawable.dc_onoff_heat);
+                    roomOnOff.setImageResource(R.drawable.onoff_heat_dc);
                     roomTemp.setTextColor(getResources().getColor(R.color.mode_heat_pink));
 
                     switch (fan){
                         case 0:
-                            roomWindSpeed.setImageResource(R.drawable.dc_fan_heat1);
+                            roomWindSpeed.setImageResource(R.drawable.fan_heat1_dc);
                             roomWindText.setText(R.string.low_wind);
                             break;
                         case 1:
-                            roomWindSpeed.setImageResource(R.drawable.dc_fan_heat3);
+                            roomWindSpeed.setImageResource(R.drawable.fan_heat3_dc);
                             roomWindText.setText(R.string.medium_wind);
                             break;
                         case 2:
-                            roomWindSpeed.setImageResource(R.drawable.dc_fan_heat5);
+                            roomWindSpeed.setImageResource(R.drawable.fan_heat5_dc);
                             roomWindText.setText(R.string.high_wind);
                             break;
                     }
                     break;
 
                 case 2:
-                    roomMode.setImageResource(R.drawable.dc_dry_on);
+                    roomMode.setImageResource(R.drawable.dry_on_dc);
                     roomModeText.setText(R.string.dry);
-                    bgBar1.setImageResource(R.drawable.dc_bg_bar_dry);
-                    bgBar2.setImageResource(R.drawable.dc_bg_bar_dry);
-                    bgBar3.setImageResource(R.drawable.dc_bg_bar_dry);
-                    bgBar4.setImageResource(R.drawable.dc_bg_bar_dry);
-                    bgBar5.setImageResource(R.drawable.dc_bg_bar_dry);
+                    bgBar1.setImageResource(R.drawable.room_bg_bar_dry_dc);
+                    bgBar2.setImageResource(R.drawable.room_bg_bar_dry_dc);
+                    bgBar3.setImageResource(R.drawable.room_bg_bar_dry_dc);
+                    bgBar4.setImageResource(R.drawable.room_bg_bar_dry_dc);
+                    bgBar5.setImageResource(R.drawable.room_bg_bar_dry_dc);
                     realTemp.setTextColor(getResources().getColor(R.color.mode_dry_purple));
-                    roomOnOff.setImageResource(R.drawable.dc_onoff_dry);
+                    roomOnOff.setImageResource(R.drawable.onoff_dry_dc);
                     roomTemp.setTextColor(getResources().getColor(R.color.mode_dry_purple));
 
                     switch (fan){
                         case 0:
-                            roomWindSpeed.setImageResource(R.drawable.dc_fan_dry1);
+                            roomWindSpeed.setImageResource(R.drawable.fan_dry1_dc);
                             roomWindText.setText(R.string.low_wind);
                             break;
                         case 1:
-                            roomWindSpeed.setImageResource(R.drawable.dc_fan_dry3);
+                            roomWindSpeed.setImageResource(R.drawable.fan_dry3_dc);
                             roomWindText.setText(R.string.medium_wind);
                             break;
                         case 2:
-                            roomWindSpeed.setImageResource(R.drawable.dc_fan_dry5);
+                            roomWindSpeed.setImageResource(R.drawable.fan_dry5_dc);
                             roomWindText.setText(R.string.high_wind);
                             break;
                     }
                     break;
                 case 3:
-                    roomMode.setImageResource(R.drawable.dc_fan_on);
+                    roomMode.setImageResource(R.drawable.fan_on_dc);
                     roomModeText.setText(R.string.wind);
-                    bgBar1.setImageResource(R.drawable.dc_bg_bar_fan);
-                    bgBar2.setImageResource(R.drawable.dc_bg_bar_fan);
-                    bgBar3.setImageResource(R.drawable.dc_bg_bar_fan);
-                    bgBar4.setImageResource(R.drawable.dc_bg_bar_fan);
-                    bgBar5.setImageResource(R.drawable.dc_bg_bar_fan);
+                    bgBar1.setImageResource(R.drawable.room_bg_bar_fan_dc);
+                    bgBar2.setImageResource(R.drawable.room_bg_bar_fan_dc);
+                    bgBar3.setImageResource(R.drawable.room_bg_bar_fan_dc);
+                    bgBar4.setImageResource(R.drawable.room_bg_bar_fan_dc);
+                    bgBar5.setImageResource(R.drawable.room_bg_bar_fan_dc);
                     realTemp.setTextColor(getResources().getColor(R.color.mode_fan_green));
-                    roomOnOff.setImageResource(R.drawable.dc_onoff_fan);
+                    roomOnOff.setImageResource(R.drawable.onoff_fan_dc);
                     roomTemp.setTextColor(getResources().getColor(R.color.mode_fan_green));
 
                     switch (fan){
                         case 0:
-                            roomWindSpeed.setImageResource(R.drawable.dc_fan_fan1);
+                            roomWindSpeed.setImageResource(R.drawable.fan_fan1_dc);
                             roomWindText.setText(R.string.low_wind);
                             break;
                         case 1:
-                            roomWindSpeed.setImageResource(R.drawable.dc_fan_fan3);
+                            roomWindSpeed.setImageResource(R.drawable.fan_fan3_dc);
                             roomWindText.setText(R.string.medium_wind);
                             break;
                         case 2:
-                            roomWindSpeed.setImageResource(R.drawable.dc_fan_fan5);
+                            roomWindSpeed.setImageResource(R.drawable.fan_fan5_dc);
                             roomWindText.setText(R.string.high_wind);
                             break;
                     }

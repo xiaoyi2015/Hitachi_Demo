@@ -30,7 +30,7 @@
                     android:layout_gravity="center"
                     android:scaleType="fitXY"
                     android:background="@null"
-                    android:src="@drawable/user" />
+                    android:src="@drawable/user_dc" />
             </FrameLayout>
 
             <ImageView
@@ -50,7 +50,7 @@
                     android:layout_gravity="center"
                     android:scaleType="fitXY"
                     android:background="@null"
-                    android:src="@drawable/info" />
+                    android:src="@drawable/info_dc" />
             </FrameLayout>
 
         </LinearLayout>

@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.kyleduo.switchbutton.SwitchButton;
 
-import java.util.Date;
 import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
@@ -69,7 +68,7 @@ public class SetClockFragment extends BaseFragment {
         BaseActivity baseActivity = myGetActivity();
         CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_set_time));
-        commonTopBar.setRightIconView(R.drawable.add);
+        commonTopBar.setRightIconView(R.drawable.top_bar_add_dc);
         commonTopBar.setIconView(null, myOnClickListener);
         commonTopBar.setRoundLeftIconView(null);
     }
@@ -128,12 +127,12 @@ public class SetClockFragment extends BaseFragment {
                 public void onClick(View v) {
                     if (!switchOn.isChecked()) {
                         switchOn.setChecked(true);
-                        bgBar.setImageResource(R.drawable.dc_clock_bg_bar_on);
+                        bgBar.setImageResource(R.drawable.clock_bg_bar_on_dc);
                         MyApp.getApp().getServerConfigManager().getTimer().get(position).setTimerenabled(true);
                         MyApp.getApp().getServerConfigManager().writeToFile();
                     } else {
                         switchOn.setChecked(false);
-                        bgBar.setImageResource(R.drawable.dc_clock_bg_bar_off);
+                        bgBar.setImageResource(R.drawable.clock_bg_bar_off_dc);
                         MyApp.getApp().getServerConfigManager().getTimer().get(position).setTimerenabled(false);
                         MyApp.getApp().getServerConfigManager().writeToFile();
                     }
@@ -142,10 +141,10 @@ public class SetClockFragment extends BaseFragment {
 
             if(list.get(position).isTimerenabled()){
                 switchOn.setChecked(true);
-                bgBar.setImageResource(R.drawable.dc_clock_bg_bar_on);
+                bgBar.setImageResource(R.drawable.clock_bg_bar_on_dc);
             }else {
                 switchOn.setChecked(false);
-                bgBar.setImageResource(R.drawable.dc_clock_bg_bar_off);
+                bgBar.setImageResource(R.drawable.clock_bg_bar_off_dc);
             }
             clockName.setText(list.get(position).getName());
             String hour;

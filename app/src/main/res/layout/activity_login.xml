@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:src="@drawable/login_logo" />
+        android:src="@drawable/login_logo_dc" />
 
     <EditText
         android:id="@+id/user_name"
@@ -17,12 +17,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/login_logo"
         android:layout_centerHorizontal="true"
-        android:drawableRight="@drawable/login_title_cancel"
+        android:drawableRight="@drawable/login_text_cancel"
         android:hint="@string/prompt_user_name"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/login_button"
+        android:background="@drawable/login_edit_text_dc"
         android:inputType="phone"
         android:maxLines="1"
         android:singleLine="true" />
@@ -41,8 +41,8 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:drawableRight="@drawable/login_title_cancel"
-            android:background="@drawable/login_button"
+            android:drawableRight="@drawable/login_text_cancel"
+            android:background="@drawable/login_edit_text_dc"
             android:hint="@string/prompt_password"
             android:imeActionId="@+id/login"
             android:imeActionLabel="@string/action_sign_in"
@@ -92,7 +92,7 @@
         android:layout_below="@id/psd_info"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:background="@drawable/login_button"
+        android:background="@drawable/login_edit_text_dc"
         android:text="@string/action_sign_in"
         android:textSize="16sp" />
 
@@ -103,7 +103,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:padding="20dp"
-        android:src="@drawable/login_add_new_user" />
+        android:src="@drawable/login_add_user_dc" />
 
     <ImageView
         android:id="@+id/login_info"
@@ -112,7 +112,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:padding="20dp"
-        android:src="@drawable/info" />
+        android:src="@drawable/info_dc" />
 
 </RelativeLayout>
 

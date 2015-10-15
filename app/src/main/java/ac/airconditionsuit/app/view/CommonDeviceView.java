@@ -71,7 +71,7 @@ public class CommonDeviceView extends RelativeLayout {
 
     public void setRightUpText(String string){
         rightUpText.setText(string);
-        rightUpText.setBackgroundResource(R.drawable.drag_air_name_bar);
+        rightUpText.setBackgroundResource(R.drawable.drag_device_name_bar);
     }
 
 }

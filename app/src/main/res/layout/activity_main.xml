@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:background="@drawable/under_bar">
+            android:background="@drawable/under_bar_dc">
 
         <ac.airconditionsuit.app.view.TabIndicator
                 android:id="@+id/tab_my_condition"
@@ -32,8 +32,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 style="@style/tab_indicator"
-                app:icon_normal="@drawable/tab_icon_temp_normal"
-                app:icon_selected="@drawable/tab_icon_temp_selected"
+                app:icon_normal="@drawable/tab_icon_temp_normal_dc"
+                app:icon_selected="@drawable/tab_icon_temp_selected_dc"
                 android:text="@string/tab_label_my_air_condition"/>
 
         <ac.airconditionsuit.app.view.TabIndicator
@@ -42,8 +42,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 style="@style/tab_indicator"
-                app:icon_normal="@drawable/tab_icon_scene_normal"
-                app:icon_selected="@drawable/tab_icon_scene_selected"
+                app:icon_normal="@drawable/tab_icon_scene_normal_dc"
+                app:icon_selected="@drawable/tab_icon_scene_selected_dc"
                 android:text="@string/tab_label_scene_mode"/>
 
         <ac.airconditionsuit.app.view.TabIndicator
@@ -52,8 +52,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 style="@style/tab_indicator"
-                app:icon_normal="@drawable/tab_icon_time_normal"
-                app:icon_selected="@drawable/tab_icon_time_selected"
+                app:icon_normal="@drawable/tab_icon_time_normal_dc"
+                app:icon_selected="@drawable/tab_icon_time_selected_dc"
                 android:text="@string/tab_label_set_time"/>
 
         <ac.airconditionsuit.app.view.TabIndicator
@@ -62,8 +62,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 style="@style/tab_indicator"
-                app:icon_normal="@drawable/tab_icon_settings_normal"
-                app:icon_selected="@drawable/tab_icon_settings_selected"
+                app:icon_normal="@drawable/tab_icon_settings_normal_dc"
+                app:icon_selected="@drawable/tab_icon_settings_selected_dc"
                 android:text="@string/tab_label_setting"/>
 
 

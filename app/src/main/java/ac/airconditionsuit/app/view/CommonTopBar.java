@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
-import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
 
 /**
@@ -58,7 +57,7 @@ public class CommonTopBar extends RelativeLayout {
         titleView.setText(titleLabel);
         leftIconView.setImageDrawable(leftIcon);
         rightIconView.setImageDrawable(rightIcon);
-        setBackgroundResource(R.drawable.top_banner);
+        setBackgroundResource(R.drawable.top_banner_dc);
     }
 
     public void setTitle(String title){

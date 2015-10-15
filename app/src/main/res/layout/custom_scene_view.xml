@@ -10,7 +10,7 @@
 
     <ImageView
         android:id="@+id/bg_bar"
-        android:src="@drawable/dc_bg_bar_off"
+        android:src="@drawable/room_bg_bar_off_dc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

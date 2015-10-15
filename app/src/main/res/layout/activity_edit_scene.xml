@@ -8,8 +8,8 @@
         android:id="@+id/default_top_bar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        app:leftIcon="@drawable/back"
-        app:rightIcon="@drawable/save">
+        app:leftIcon="@drawable/top_bar_back_dc"
+        app:rightIcon="@drawable/top_bar_save_dc">
     </ac.airconditionsuit.app.view.CommonTopBar>
 
     <ScrollView
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:drawablePadding="10dp"
-                android:drawableRight="@drawable/login_title_cancel"
+                android:drawableRight="@drawable/login_text_cancel"
                 android:hint="@string/scene_name_hint"
                 android:textSize="19sp" />
 

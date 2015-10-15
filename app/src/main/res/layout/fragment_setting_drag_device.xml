@@ -8,8 +8,8 @@
         android:id="@+id/default_top_bar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        app:leftIcon="@drawable/back"
-        app:rightIcon="@drawable/save">
+        app:leftIcon="@drawable/top_bar_back_dc"
+        app:rightIcon="@drawable/top_bar_save_dc">
 
     </ac.airconditionsuit.app.view.CommonTopBar>
 
@@ -33,7 +33,7 @@
         android:layout_alignParentBottom="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="@drawable/top_banner"
+        android:background="@drawable/top_banner_dc"
         android:layout_width="match_parent"
         android:layout_height="100dp">
 

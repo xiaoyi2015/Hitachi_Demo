@@ -88,8 +88,8 @@ public class DragDeviceActivity extends BaseActivity {
             ImageView imageView1 = (ImageView)convertView.findViewById(R.id.right_up_icon);
 
             textView.setText(rooms.get(position).getName());
-            imageView.setImageResource(R.drawable.drag_setting_room_bar);
-            imageView1.setImageResource(R.drawable.drag_setting_cancel);
+            imageView.setImageResource(R.drawable.drag_device_room_bar);
+            imageView1.setImageResource(R.drawable.drag_device_delete);
 
             imageView1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -147,8 +147,8 @@ public class DragDeviceActivity extends BaseActivity {
         List<ServerConfig.Device> devices = MyApp.getApp().getServerConfigManager().getDevices();
         for (int i = 0; i<devices.size(); i++) {
             final CommonDeviceView commonDeviceView = new CommonDeviceView(DragDeviceActivity.this);
-            commonDeviceView.setBackgroundResource(R.drawable.drag_setting_room_bar);
-            commonDeviceView.setBgIcon(R.drawable.drag_air_icon);
+            commonDeviceView.setBackgroundResource(R.drawable.drag_device_room_bar);
+            commonDeviceView.setBgIcon(R.drawable.drag_device_icon);
             commonDeviceView.setBottomName(devices.get(i).getName());
             commonDeviceView.setRightUpText(String .valueOf(devices.get(i).getIndoorindex())
                     + "-" + String .valueOf(devices.get(i).getIndoorindex())+String.valueOf(devices.get(i).getIndooraddress()));
