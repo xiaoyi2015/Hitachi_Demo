@@ -233,7 +233,8 @@ class TcpSocket implements SocketWrap {
             Log.i(TAG, "tcp login success");
             MyApp.getApp().getSocketManager().startHeartBeat();
         } else if (result_code == 401) {
-            throw new IOException("tcp login auth fail");
+            MyApp.getApp().getSocketManager().close();
+            MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.OFFLINE));
         } else if (result_code == 403) {
             throw new IOException("tcp login fail");
         } else {

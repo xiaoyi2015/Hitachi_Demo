@@ -3,14 +3,14 @@ package ac.airconditionsuit.app.network.socket;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.*;
-import ac.airconditionsuit.app.receiver.NetworkChangeReceiver;
 import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
-import android.content.Context;
-import android.content.IntentFilter;
 import android.util.Log;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Observable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by ac on 9/18/15.
@@ -40,7 +40,6 @@ public class SocketManager extends Observable {
 
     private long lastHeartSuccessTime = 0;
     private Timer heartBeatTimer;
-    private NetworkChangeReceiver receiver;
 
     public void setLastHeartSuccessTime(long lastHeartSuccessTime) {
         this.lastHeartSuccessTime = lastHeartSuccessTime;
@@ -123,6 +122,12 @@ public class SocketManager extends Observable {
     public void notifyActivity(ObserveData od) {
         setChanged();
         notifyObservers(od);
+    }
+
+    public void sendMessage(List<ControlPackage> controlPackages) {
+        for (ControlPackage p : controlPackages) {
+            sendMessage(p);
+        }
     }
 
     class ReceiveThread extends Thread {
@@ -320,21 +325,21 @@ public class SocketManager extends Observable {
         }).start();
     }
 
-    public void onResume(Context context) {
-        if (MyApp.getApp().isUserLogin()) {
-            IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction("android.net.wifi.STATE_CHANGE");
-            intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-            receiver = new NetworkChangeReceiver();
-            context.registerReceiver(receiver, intentFilter);
-        }
-    }
-
-    public void onPause(Context context) {
-        if (MyApp.getApp().isUserLogin() && receiver != null) {
-            context.unregisterReceiver(receiver);
-            receiver = null;
-        }
-    }
+//    public void onResume(Context context) {
+//        if (MyApp.getApp().isUserLogin()) {
+//            IntentFilter intentFilter = new IntentFilter();
+//            intentFilter.addAction("android.net.wifi.STATE_CHANGE");
+//            intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+//            receiver = new NetworkChangeReceiver();
+//            context.registerReceiver(receiver, intentFilter);
+//        }
+//    }
+//
+//    public void onPause(Context context) {
+//        if (MyApp.getApp().isUserLogin() && receiver != null) {
+//            context.unregisterReceiver(receiver);
+//            receiver = null;
+//        }
+//    }
 
 }

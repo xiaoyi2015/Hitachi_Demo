@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.fragment;
 
+import ac.airconditionsuit.app.entity.Scene;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,9 +22,6 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.activity.BaseActivity;
 import ac.airconditionsuit.app.activity.EditSceneActivity;
-import ac.airconditionsuit.app.activity.InfoPageActivity;
-import ac.airconditionsuit.app.entity.Section;
-import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
@@ -75,7 +73,7 @@ public class SceneFragment extends BaseFragment {
 
         //这边也要判断一下有没有设备
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
-            List<ServerConfig.Scene> scene_list = MyApp.getApp().getServerConfigManager().getScene();
+            List<Scene> scene_list = MyApp.getApp().getServerConfigManager().getScene();
             sceneAdapter = new SceneAdapter(getActivity(),scene_list);
             listView.setAdapter(sceneAdapter);
         } else {
@@ -98,8 +96,8 @@ public class SceneFragment extends BaseFragment {
     private class SceneAdapter extends BaseAdapter{
 
         private Context context;
-        private List<ServerConfig.Scene> list;
-        public SceneAdapter(Context context,List<ServerConfig.Scene> list){
+        private List<Scene> list;
+        public SceneAdapter(Context context,List<Scene> list){
             this.context = context;
             this.list = list;
         }

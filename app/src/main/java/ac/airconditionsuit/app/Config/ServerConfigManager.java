@@ -22,7 +22,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.List;
 
 /**
@@ -45,7 +44,7 @@ public class ServerConfigManager {
         return rootJavaObj.getSections();
     }
 
-    public List<ServerConfig.Scene> getScene() {
+    public List<Scene> getScene() {
         return rootJavaObj.getScenes();
     }
 
@@ -79,8 +78,8 @@ public class ServerConfigManager {
         writeToFile();
     }
 
-    public void addScene(ServerConfig.Scene scene) {
-        List<ServerConfig.Scene> scenes = rootJavaObj.getScenes();
+    public void addScene(Scene scene) {
+        List<Scene> scenes = rootJavaObj.getScenes();
         scenes.add(scene);
         writeToFile();
     }
@@ -110,7 +109,7 @@ public class ServerConfigManager {
     }
 
     public void deleteScene(int position) {
-        List<ServerConfig.Scene> scenes = rootJavaObj.getScenes();
+        List<Scene> scenes = rootJavaObj.getScenes();
         scenes.remove(position);
         writeToFile();
     }

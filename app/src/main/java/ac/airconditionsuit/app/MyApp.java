@@ -5,6 +5,8 @@ import ac.airconditionsuit.app.Config.LocalConfigManager;
 import ac.airconditionsuit.app.PushData.PushDataManager;
 import ac.airconditionsuit.app.activity.BaseActivity;
 import ac.airconditionsuit.app.activity.MainActivity;
+import ac.airconditionsuit.app.aircondition.AirConditionStatusResponse;
+import ac.airconditionsuit.app.aircondition.AirconditionManager;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.socket.SocketManager;
@@ -20,6 +22,7 @@ import java.io.*;
  *
  */
 public class MyApp extends Application {
+
     private static MyApp INSTANCE;
 
     private ServerConfigManager serverConfigManager;
@@ -29,6 +32,8 @@ public class MyApp extends Application {
     private PushDataManager pushDataManager;
 
     private SocketManager socketManager;
+
+    private AirconditionManager airconditionManager;
 
     //user will be assigned after localConfigManager is init
     private MyUser user;
@@ -100,6 +105,11 @@ public class MyApp extends Application {
         socketManager.init();
     }
 
+    public void initAirconditionManager() {
+        airconditionManager = new AirconditionManager();
+        airconditionManager.init();
+    }
+
     /**
      * this method should be called after login,
      * to avoid {@link #user} is null when user first use app
@@ -125,6 +135,10 @@ public class MyApp extends Application {
 
     public SocketManager getSocketManager() {
         return socketManager;
+    }
+
+    public AirconditionManager getAirconditionManager() {
+        return airconditionManager;
     }
 
     /**

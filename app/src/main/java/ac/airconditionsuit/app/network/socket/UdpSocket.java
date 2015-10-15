@@ -3,7 +3,7 @@ package ac.airconditionsuit.app.network.socket;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.entity.ObserveData;
-import ac.airconditionsuit.app.network.response.CommonResponse;
+import ac.airconditionsuit.app.aircondition.AirConditionStatusResponse;
 import ac.airconditionsuit.app.network.socket.socketpackage.SocketPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 import ac.airconditionsuit.app.util.ByteUtil;
@@ -126,6 +126,11 @@ public class UdpSocket implements SocketWrap {
 
             case UdpPackage.AFN_GET_AIR_CONDITION_ADDRESS:
                 Log.i(TAG, "udp get air condition success");
+                break;
+
+            case UdpPackage.AFN_AIRCONDITION_STATUS_RESPONSE:
+                Log.i(TAG, "udp get air condition status success");
+                MyApp.getApp().getAirconditionManager().updateAirconditionStatue(UdpPackage.getContentData(receiveData));
                 break;
 
             case UdpPackage.AFN_NO:

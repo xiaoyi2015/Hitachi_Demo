@@ -78,6 +78,7 @@ public class MainActivity extends BaseActivity {
 
         MyApp.getApp().initSocketManager();
         MyApp.getApp().initPushDataManager();
+        MyApp.getApp().initAirconditionManager();
 
     }
 
