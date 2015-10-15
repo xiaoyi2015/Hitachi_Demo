@@ -82,6 +82,10 @@ public class Constant {
     public static final String REQUEST_PARAMS_KEY_CHAT_ID = "chat_id";
     public static final String REQUEST_PARAMS_KEY_DELETE_CUST_ID = "delete_cust_id";
 
+    public static final String REQUEST_PARAMS_VALUE_TYPE_GET_PUSHDATA = "getUnreadMsgList2";
+    public static final java.lang.String REQUEST_PARAMS_VALUE_TYPE_ACK_MSG_ID = "setUnreadMsgListACK";
+    public static final String REQUEST_PARAMS_KEY_PN_MSG_IDS = "msg_ids";
+
 
 
 }

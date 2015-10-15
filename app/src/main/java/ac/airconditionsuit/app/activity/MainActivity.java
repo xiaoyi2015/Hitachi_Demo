@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.activity;
 
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.PushData.PushDataManager;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.fragment.BaseFragment;
 import ac.airconditionsuit.app.fragment.MyAirFragment;
@@ -76,6 +77,7 @@ public class MainActivity extends BaseActivity {
         pager.setCurrentItem(DEFAULT_FRAGMENT_POSITION);
 
         MyApp.getApp().initSocketManager();
+        MyApp.getApp().initPushDataManager();
 
     }
 

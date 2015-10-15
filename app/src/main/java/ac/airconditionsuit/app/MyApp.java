@@ -2,11 +2,14 @@ package ac.airconditionsuit.app;
 
 import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.Config.LocalConfigManager;
+import ac.airconditionsuit.app.PushData.PushDataManager;
+import ac.airconditionsuit.app.activity.BaseActivity;
 import ac.airconditionsuit.app.activity.MainActivity;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.socket.SocketManager;
 import android.app.Application;
+import android.content.Context;
 import android.os.Handler;
 import android.widget.Toast;
 
@@ -22,6 +25,8 @@ public class MyApp extends Application {
     private ServerConfigManager serverConfigManager;
 
     private LocalConfigManager localConfigManager;
+
+    private PushDataManager pushDataManager;
 
     private SocketManager socketManager;
 
@@ -77,6 +82,11 @@ public class MyApp extends Application {
         ServerConfigManager.downloadDeviceInformationFromServer(commonNetworkListener);
     }
 
+    public void initPushDataManager(){
+        pushDataManager = new PushDataManager();
+        pushDataManager.checkPushDataFromService();
+    }
+
     /**
      * the user get from localConfigManager maybe null;
      */
@@ -109,6 +119,9 @@ public class MyApp extends Application {
         return serverConfigManager;
     }
 
+    public PushDataManager getPushDataManager() {
+        return pushDataManager;
+    }
 
     public SocketManager getSocketManager() {
         return socketManager;

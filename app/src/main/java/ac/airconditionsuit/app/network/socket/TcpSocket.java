@@ -198,7 +198,7 @@ class TcpSocket implements SocketWrap {
 
         } else if (contentLen == 0) {
             Log.i(TAG, "handle receive data as json");
-            PushDataManager.add(data);
+            MyApp.getApp().getPushDataManager().add(data);
         } else {
             throw new IOException("unknow content type");
         }
@@ -237,7 +237,7 @@ class TcpSocket implements SocketWrap {
         } else if (result_code == 403) {
             throw new IOException("tcp login fail");
         } else {
-            throw new IOException("tcp login fail, unknow ");
+            throw new IOException("tcp login fail, unknown ");
         }
     }
 

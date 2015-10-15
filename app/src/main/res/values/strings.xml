@@ -161,5 +161,9 @@
     <string name="home_name_empty_info">家名称不能为空</string>
     <string name="choose_clock_air_mode">选择空调定时模式</string>
     <string name="choose_scene_air_mode">选择空调场景模式</string>
+    <string name="delete_push_data_info">删除通知</string>
+    <string name="failure">失败</string>
+    <string name="success">成功</string>
+    <string name="check_push_data_failure">无法获取服务器数据</string>
 
 </resources>
