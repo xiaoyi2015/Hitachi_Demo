@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.activity;
 
 import ac.airconditionsuit.app.entity.Command;
+import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import ac.airconditionsuit.app.entity.Scene;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -22,7 +23,6 @@ import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
-import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.AirModePickerView;
@@ -155,7 +155,7 @@ public class EditSceneActivity extends BaseActivity{
             deleteScene.setVisibility(View.GONE);
         }
         ListView listView = (ListView)findViewById(R.id.air_device_list);
-        List<ServerConfig.Device> devices = MyApp.getApp().getServerConfigManager().getDevices();
+        List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
         AirDeviceSceneSettingAdapter airDeviceSceneSettingAdapter = new AirDeviceSceneSettingAdapter(EditSceneActivity.this,devices);
         listView.setAdapter(airDeviceSceneSettingAdapter);
 
@@ -191,9 +191,9 @@ public class EditSceneActivity extends BaseActivity{
     private class AirDeviceSceneSettingAdapter extends BaseAdapter{
 
         private Context context;
-        List<ServerConfig.Device> list;
+        List<DeviceFromServerConfig> list;
 
-        public AirDeviceSceneSettingAdapter(Context context, List<ServerConfig.Device> list){
+        public AirDeviceSceneSettingAdapter(Context context, List<DeviceFromServerConfig> list){
             this.context = context;
             this.list = list;
         }

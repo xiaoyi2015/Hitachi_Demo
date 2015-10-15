@@ -120,7 +120,7 @@ public class ServerConfigManager {
         writeToFile();
     }
 
-    public List<ServerConfig.Device> getDevices() {
+    public List<DeviceFromServerConfig> getDevices() {
         return rootJavaObj.getDevices();
     }
 

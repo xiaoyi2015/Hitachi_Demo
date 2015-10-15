@@ -3,6 +3,8 @@ package ac.airconditionsuit.app.activity;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.PushData.PushDataManager;
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.entity.AirCondition;
+import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.fragment.BaseFragment;
 import ac.airconditionsuit.app.fragment.MyAirFragment;
 import ac.airconditionsuit.app.fragment.SceneFragment;
@@ -16,6 +18,9 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Switch;
+
+import java.util.Observable;
 
 
 public class MainActivity extends BaseActivity {
@@ -110,5 +115,18 @@ public class MainActivity extends BaseActivity {
             tabIndicator.unSelect();
         }
         tabIndicators[position].select();
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+
+        ObserveData od = (ObserveData) data;
+        switch (od.getMsg()) {
+            case ObserveData.AIR_CONDITION_STATUS_RESPONSE:
+                AirCondition airCondition = (AirCondition) od.getData();
+                //todo for zhulinan
+                break;
+        }
     }
 }

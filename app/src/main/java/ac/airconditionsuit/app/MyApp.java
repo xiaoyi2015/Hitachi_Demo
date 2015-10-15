@@ -3,15 +3,11 @@ package ac.airconditionsuit.app;
 import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.Config.LocalConfigManager;
 import ac.airconditionsuit.app.PushData.PushDataManager;
-import ac.airconditionsuit.app.activity.BaseActivity;
-import ac.airconditionsuit.app.activity.MainActivity;
-import ac.airconditionsuit.app.aircondition.AirConditionStatusResponse;
-import ac.airconditionsuit.app.aircondition.AirconditionManager;
+import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.socket.SocketManager;
 import android.app.Application;
-import android.content.Context;
 import android.os.Handler;
 import android.widget.Toast;
 
@@ -33,7 +29,7 @@ public class MyApp extends Application {
 
     private SocketManager socketManager;
 
-    private AirconditionManager airconditionManager;
+    private AirConditionManager airconditionManager;
 
     //user will be assigned after localConfigManager is init
     private MyUser user;
@@ -106,7 +102,7 @@ public class MyApp extends Application {
     }
 
     public void initAirconditionManager() {
-        airconditionManager = new AirconditionManager();
+        airconditionManager = new AirConditionManager();
         airconditionManager.init();
     }
 
@@ -137,7 +133,7 @@ public class MyApp extends Application {
         return socketManager;
     }
 
-    public AirconditionManager getAirconditionManager() {
+    public AirConditionManager getAirconditionManager() {
         return airconditionManager;
     }
 
