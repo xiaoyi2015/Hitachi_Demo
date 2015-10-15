@@ -76,6 +76,7 @@ public class MainActivity extends BaseActivity {
         pager.setCurrentItem(DEFAULT_FRAGMENT_POSITION);
 
         MyApp.getApp().initSocketManager();
+        MyApp.getApp().initAirconditionManager();
 
     }
 

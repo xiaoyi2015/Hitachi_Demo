@@ -131,7 +131,7 @@ public class BaseActivity extends FragmentActivity implements Observer {
         SocketManager socketManager = MyApp.getApp().getSocketManager();
         if (socketManager != null) {
             socketManager.addObserver(this);
-            socketManager.onResume(this);
+//            socketManager.onResume(this);
         }
     }
 
@@ -141,7 +141,7 @@ public class BaseActivity extends FragmentActivity implements Observer {
         SocketManager socketManager = MyApp.getApp().getSocketManager();
         if (socketManager != null) {
             socketManager.deleteObserver(this);
-            socketManager.onPause(this);
+//            socketManager.onPause(this);
         }
     }
 }

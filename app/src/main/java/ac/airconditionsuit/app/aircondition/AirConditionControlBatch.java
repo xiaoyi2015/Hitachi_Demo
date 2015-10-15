@@ -1,8 +1,7 @@
-package ac.airconditionsuit.app.entity.udp;
+package ac.airconditionsuit.app.aircondition;
 
 import ac.airconditionsuit.app.entity.RootEntity;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**

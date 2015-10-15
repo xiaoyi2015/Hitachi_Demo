@@ -4,9 +4,11 @@ package ac.airconditionsuit.app.network.socket.socketpackage.Udp;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.util.ByteUtil;
 import ac.airconditionsuit.app.util.UdpErrorNoUtil;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,6 +19,7 @@ public class UdpPackage {
     public static final String TAG = "UdpPackage";
     public static final byte AFN_YES = 0;
     public static final byte AFN_NO = 1;
+    public static final byte AFN_AIRCONDITION_STATUS_RESPONSE = 6;
     private byte framNumber;
     private Handler handler;
 
@@ -229,5 +232,9 @@ public class UdpPackage {
 
     public Handler getHandler() {
         return handler;
+    }
+
+    public static byte[] getContentData(byte[] receive) {
+        return Arrays.copyOfRange(receive, 4, receive.length - 2);
     }
 }
