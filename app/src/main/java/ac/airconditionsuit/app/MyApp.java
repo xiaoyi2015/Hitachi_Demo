@@ -2,10 +2,12 @@ package ac.airconditionsuit.app;
 
 import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.Config.LocalConfigManager;
+import ac.airconditionsuit.app.activity.MainActivity;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.socket.SocketManager;
 import android.app.Application;
+import android.os.Handler;
 import android.widget.Toast;
 
 import java.io.*;
@@ -25,6 +27,7 @@ public class MyApp extends Application {
 
     //user will be assigned after localConfigManager is init
     private MyUser user;
+    private Handler handler;
 
     @Override
     public void onCreate() {
@@ -34,6 +37,8 @@ public class MyApp extends Application {
         //init local config which is restore in default share preference.
         //after success, the configManager will init.
         initLocalConfigManager();
+
+        handler = new Handler();
 
     }
 
@@ -129,14 +134,19 @@ public class MyApp extends Application {
      *
      * @param string string will be show
      */
-    public void showToast(String string) {
-        if (lastToast != null) {
-            lastToast.cancel();
-        }
-        lastToast = Toast.makeText(this, string, Toast.LENGTH_SHORT);
-        lastToast.show();
-    }
+    public void showToast(final String string) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (lastToast != null) {
+                    lastToast.cancel();
+                }
+                lastToast = Toast.makeText(MyApp.this, string, Toast.LENGTH_SHORT);
+                lastToast.show();
 
+            }
+        });
+    }
 
     public static MyApp getApp() {
         return INSTANCE;
@@ -149,4 +159,5 @@ public class MyApp extends Application {
         this.socketManager.close();
         this.socketManager = null;
     }
+
 }

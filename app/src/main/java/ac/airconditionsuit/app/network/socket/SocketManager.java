@@ -3,7 +3,10 @@ package ac.airconditionsuit.app.network.socket;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.*;
+import ac.airconditionsuit.app.receiver.NetworkChangeReceiver;
 import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
+import android.content.Context;
+import android.content.IntentFilter;
 import android.util.Log;
 
 import java.io.IOException;
@@ -15,12 +18,20 @@ import java.util.*;
 public class SocketManager extends Observable {
     public static final String TAG = "SocketManager";
 
+    //connection status
     public static final int TCP_HOST_CONNECT = 0;
     public static final int TCP_DEVICE_CONNECT = 1;
     public static final int UDP_DEVICE_CONNECT = 2;
     public static final int TCP_UDP_ALL_UNCONNECT = 3;
 
-    public static final int HEART_BEAT_PERIOD = 10000;
+    //socket type
+
+    public static final int TCP = 0;
+    public static final int UDP = 1;
+    public static final int NONE = 2;
+
+
+    public static final int HEART_BEAT_PERIOD = 60000;
     public static final int HEART_BEAT_INVAILD_TIME = 70000;
 
     private boolean isTcpHostConnect = false;
@@ -29,6 +40,7 @@ public class SocketManager extends Observable {
 
     private long lastHeartSuccessTime = 0;
     private Timer heartBeatTimer;
+    private NetworkChangeReceiver receiver;
 
     public void setLastHeartSuccessTime(long lastHeartSuccessTime) {
         this.lastHeartSuccessTime = lastHeartSuccessTime;
@@ -120,9 +132,14 @@ public class SocketManager extends Observable {
                 try {
                     socket.receiveDataAndHandle();
                 } catch (IOException e) {
-                    Log.e(TAG, "read data from socket failed");
-                    reconnect();
-                    e.printStackTrace();
+                    if (Thread.interrupted()) {
+                        close();
+                        Log.e(TAG, "receive thread interrupted");
+                    } else {
+                        Log.e(TAG, "read data from socket failed");
+                        reconnect();
+                        e.printStackTrace();
+                    }
                     break;
                 }
             }
@@ -152,6 +169,16 @@ public class SocketManager extends Observable {
      * 在退出登录，被踢下线的时候都要调用本方法。
      */
     public void close() {
+        if (heartBeatTimer != null) {
+            heartBeatTimer.cancel();
+            heartBeatTimer = null;
+        }
+
+        if (receiveThread != null && !receiveThread.isInterrupted()) {
+            receiveThread.interrupt();
+            receiveThread = null;
+        }
+
         try {
             if (socket != null) {
                 socket.close();
@@ -162,15 +189,6 @@ public class SocketManager extends Observable {
             e.printStackTrace();
         }
 
-        if (receiveThread != null && !receiveThread.isInterrupted()) {
-            receiveThread.interrupt();
-            receiveThread = null;
-        }
-
-        if (heartBeatTimer != null) {
-            heartBeatTimer.cancel();
-            heartBeatTimer = null;
-        }
     }
 
     public void init(int status) {
@@ -183,21 +201,13 @@ public class SocketManager extends Observable {
         isUdpDeviceConnect = false;
         lastHeartSuccessTime = 0;
 
-        status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
-        if (status == NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT) {
-            //udp
-            //udp还要判断是否有设备
-            if (!MyApp.getApp().getServerConfigManager().hasDevice()) {
-                return;
-            }
+        int socketType = getSocketType(status);
+        if (socketType == UDP) {
             socket = new UdpSocket();
-        } else if (status == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT
-                || status == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
-            //tcp
+        } else if (socketType == TCP) {
             socket = new TcpSocket();
         } else {
             socket = null;
-
             //如果没有联网，就不进行后面的操作了，直接return
             Log.i(TAG, "init socket manager failed due to no network");
             return;
@@ -232,9 +242,40 @@ public class SocketManager extends Observable {
         init(status);
     }
 
-    public void switchSocketType(int socketType) {
+    public static int getSocketType(int status) {
+        status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
+        if (status == NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT) {
+            //udp
+            //udp还要判断是否有设备
+            if (!MyApp.getApp().getServerConfigManager().hasDevice()) {
+                return NONE;
+            } else {
+                return UDP;
+            }
+        } else if (status == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT
+                || status == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
+            //tcp
+            return TCP;
+        } else {
+            return NONE;
+        }
+
+    }
+
+    public void switchSocketType(int connectionStatus) {
+        //当socket可用，且当前socket类型无需变换时，直接return
+        int socketType = getSocketType(connectionStatus);
+        if (socket != null
+                && socket.isConnect()
+                && ((socket instanceof TcpSocket && socketType == TCP)
+                    || (socket instanceof UdpSocket && socketType == UDP))) {
+            return;
+        }
         close();
-        init(socketType);
+        //当所需socketType为none时，不需要连接socket;
+        if (socketType != NONE) {
+            init(connectionStatus);
+        }
     }
 
     private static final String BROADCAST_ADDRESS = "255.255.255.255";
@@ -277,6 +318,23 @@ public class SocketManager extends Observable {
                 }
             }
         }).start();
+    }
+
+    public void onResume(Context context) {
+        if (MyApp.getApp().isUserLogin()) {
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction("android.net.wifi.STATE_CHANGE");
+            intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+            receiver = new NetworkChangeReceiver();
+            context.registerReceiver(receiver, intentFilter);
+        }
+    }
+
+    public void onPause(Context context) {
+        if (MyApp.getApp().isUserLogin() && receiver != null) {
+            context.unregisterReceiver(receiver);
+            receiver = null;
+        }
     }
 
 }

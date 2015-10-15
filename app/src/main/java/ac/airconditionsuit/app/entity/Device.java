@@ -214,14 +214,15 @@ public class Device extends RootEntity {
     }
 
     private Long getIdByAuthCode() {
-        assert authCode != null;
-        String result = "0001";
-        for (int i = 12; i >= 2; i -= 2) {
-            result += authCode.substring(i, i + 2);
-        }
-        long chat_id = Long.parseLong(result, 16);
-        info.setChat_id(chat_id);
-        return chat_id;
+        return Long.parseLong(authCode, 16);
+//        assert authCode != null;
+//        String result = "0001";
+//        for (int i = 12; i >= 2; i -= 2) {
+//            result += authCode.substring(i, i + 2);
+//        }
+//        long chat_id = Long.parseLong(result, 16);
+//        info.setChat_id(chat_id);
+//        return chat_id;
     }
 
     static public Device fromJsonString(String json) {
