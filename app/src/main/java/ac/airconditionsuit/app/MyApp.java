@@ -19,6 +19,7 @@ import java.io.*;
  *
  */
 public class MyApp extends Application {
+
     private static MyApp INSTANCE;
 
     private ServerConfigManager serverConfigManager;
