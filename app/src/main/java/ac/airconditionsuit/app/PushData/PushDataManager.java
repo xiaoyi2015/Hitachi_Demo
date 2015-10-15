@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
@@ -227,7 +228,7 @@ public class PushDataManager {
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_GET_PUSHDATA);
         requestParams.put("auth", MyApp.getApp().getUser().getAuth());
 
-        HttpClient.get(requestParams, PushDataListResponse.class, new HttpClient.JsonResponseHandler<List<PushDataListResponse>>() {
+        HttpClient.get(requestParams, new TypeToken<List<PushData>>(){}.getType(), new HttpClient.JsonResponseHandler<List<PushDataListResponse>>() {
             @Override
             public void onSuccess(List<PushDataListResponse> pushDatas) {
                 if (pushDatas == null) {
@@ -240,7 +241,7 @@ public class PushDataManager {
 
             @Override
             public void onFailure(Throwable throwable) {
-                MyApp.getApp().showToast(R.string.check_push_data_failure);
+//                MyApp.getApp().showToast(R.string.check_push_data_failure);
             }
         });
 

@@ -39,7 +39,6 @@ public class MainActivity extends BaseActivity {
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
 
-
             @Override
             public Fragment getItem(int position) {
                 return fragments[position];
