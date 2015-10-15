@@ -67,12 +67,11 @@ public class EditSceneActivity extends BaseActivity{
                     if (check_scene_name == null)
                         return;
                     if(is_add){
-                        ServerConfig serverConfig = new ServerConfig();
-                        Scene scene = serverConfig.new Scene();
+                        Scene scene = new Scene();
                         ArrayList<Command> commands = new ArrayList<>();
                         for(int i = 0; i < temp_on_off.size(); i++){
                             if(temp_on_off.get(i) != 2){
-                                Command command = serverConfig.new Command();
+                                Command command = new Command();
                                 command.setAddress(MyApp.getApp().getServerConfigManager().getDevices().get(i).getIndoorindex());
                                 command.setOnoff(temp_on_off.get(i));
                                 command.setMode(temp_mode.get(i));
@@ -86,11 +85,10 @@ public class EditSceneActivity extends BaseActivity{
                         MyApp.getApp().getServerConfigManager().addScene(scene);
                         finish();
                     }else{
-                        ServerConfig serverConfig1 = new ServerConfig();
                         MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().clear();
                         for(int i = 0; i < temp_on_off.size(); i++){
                             if(temp_on_off.get(i) != 2){
-                                Command command = serverConfig1.new Command();
+                                Command command = new Command();
                                 command.setAddress(MyApp.getApp().getServerConfigManager().getDevices().get(i).getIndoorindex());
                                 command.setOnoff(temp_on_off.get(i));
                                 command.setMode(temp_mode.get(i));
