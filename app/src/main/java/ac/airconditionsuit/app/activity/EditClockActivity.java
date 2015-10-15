@@ -218,21 +218,15 @@ public class EditClockActivity extends BaseActivity{
                 final CommonWheelView modeView = (CommonWheelView) airModePickerView.findViewById(R.id.set_mode);
                 final CommonWheelView fanView = (CommonWheelView) airModePickerView.findViewById(R.id.set_fan);
                 final CommonWheelView tempView = (CommonWheelView) airModePickerView.findViewById(R.id.set_temp);
-                if (!is_add) {
-                    if (temp_on_off) {
-                        onOffView.setDefault(1);
-                    } else {
-                        onOffView.setDefault(0);
-                    }
-                    modeView.setDefault(temp_mode);
-                    fanView.setDefault(temp_fan);
-                    tempView.setDefault((int) temp_temp - 18);
-                }else{
+
+                if (temp_on_off) {
+                    onOffView.setDefault(1);
+                } else {
                     onOffView.setDefault(0);
-                    modeView.setDefault(temp_mode);
-                    fanView.setDefault(temp_fan);
-                    tempView.setDefault((int) temp_temp - 18);
                 }
+                modeView.setDefault(temp_mode);
+                fanView.setDefault(temp_fan);
+                tempView.setDefault((int) temp_temp - 18);
 
                 airModePickerView.setMinimumHeight(400);
 

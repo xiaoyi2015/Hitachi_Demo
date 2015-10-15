@@ -62,4 +62,9 @@ public class AirModePickerView extends LinearLayout {
 
     }
 
+    public void setOnOffView(int id){
+        on_off_list.add(getResources().getString(id));
+        onOffView.resetData(on_off_list);
+    }
+
 }
