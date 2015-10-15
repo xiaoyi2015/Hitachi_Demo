@@ -1,11 +1,9 @@
 package ac.airconditionsuit.app.aircondition;
 
 import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.entity.AirCondition;
-import ac.airconditionsuit.app.entity.Command;
-import ac.airconditionsuit.app.entity.Room;
-import ac.airconditionsuit.app.entity.Scene;
+import ac.airconditionsuit.app.entity.*;
 import ac.airconditionsuit.app.network.socket.socketpackage.ControlPackage;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +26,56 @@ public class AirConditionManager {
         try {
             AirConditionStatusResponse airConditionStatusResponse =
                     AirConditionStatusResponse.decodeFromByteArray(status);
+
+            AirCondition airCondition = getAirCondition(airConditionStatusResponse.getAddress());
+
+            switch (airConditionStatusResponse.getMode()) {
+                case AirConditionControl.MODE_BLAST:
+                    airCondition.setMode(AirCondition.MODE_BLAST);
+                    break;
+
+                case AirConditionControl.MODE_DEHUMIDIFICATION:
+                    airCondition.setMode(AirCondition.MODE_DEHUMIDIFICATION);
+                    break;
+
+                case AirConditionControl.MODE_HEATING:
+                    airCondition.setMode(AirCondition.MODE_HEATING);
+                    break;
+
+                case AirConditionControl.MODE_REFRIGERATION:
+                    airCondition.setMode(AirCondition.MODE_REFRIGERATION);
+                    break;
+            }
+
+            switch (airConditionStatusResponse.getOnoff()) {
+                case AirConditionControl.ON:
+                    airCondition. setOnoff(AirCondition.ON);
+                    break;
+
+                case AirConditionControl.OFF:
+                    airCondition. setOnoff(AirCondition.OFF);
+                    break;
+            }
+
+            switch (airConditionStatusResponse.getWindVelocity()) {
+                case AirConditionStatusResponse.WINDVELOCITY_HIGH:
+                    airCondition.setFan(AirCondition.WINDVELOCITY_HIGH);
+                    break;
+
+                case AirConditionStatusResponse.WINDVELOCITY_MIDDLE:
+                    airCondition.setFan(AirCondition.WINDVELOCITY_MIDDLE);
+                    break;
+
+                case AirConditionStatusResponse.WINDVELOCITY_LOW:
+                    airCondition.setFan(AirCondition.WINDVELOCITY_LOW);
+                    break;
+            }
+
+            airCondition.setTemperature(airConditionStatusResponse.getTemperature());
+            airCondition.setRealTemperature(airConditionStatusResponse.getHuifengTemperature());
+            airCondition.setWarning(airConditionStatusResponse.getWarning());
+
+            MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.AIR_CONDITION_STATUS_RESPONSE, airCondition));
         } catch (Exception e) {
             e.printStackTrace();
         }

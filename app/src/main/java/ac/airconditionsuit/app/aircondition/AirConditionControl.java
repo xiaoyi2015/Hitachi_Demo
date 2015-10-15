@@ -92,6 +92,26 @@ public class AirConditionControl extends RootEntity{
         return mode;
     }
 
+    public int getOnoff() {
+        return onoff;
+    }
+
+    public int getWindVelocity() {
+        return windVelocity;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public int getAuto() {
+        return auto;
+    }
+
+    public int getTemperature() {
+        return temperature;
+    }
+
     byte[] getBytes() throws Exception {
         if (position < 0 || position > 6) {
             throw new Exception("position error");
@@ -143,4 +163,5 @@ public class AirConditionControl extends RootEntity{
 
         return result;
     }
+
 }
