@@ -241,7 +241,7 @@ public class PushDataManager {
 
             @Override
             public void onFailure(Throwable throwable) {
-//                MyApp.getApp().showToast(R.string.check_push_data_failure);
+                MyApp.getApp().showToast(R.string.check_push_data_failure);
             }
         });
 
