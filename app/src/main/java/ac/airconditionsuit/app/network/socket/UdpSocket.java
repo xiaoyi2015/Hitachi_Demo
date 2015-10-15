@@ -11,6 +11,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.*;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,8 +60,9 @@ public class UdpSocket implements SocketWrap {
 
     @Override
     public void close() {
-        if (datagramSocket != null && !datagramSocket.isClosed()) {
+        if (datagramSocket != null) {
             datagramSocket.close();
+            datagramSocket = null;
         }
     }
 
@@ -127,7 +129,9 @@ public class UdpSocket implements SocketWrap {
                 break;
 
             case UdpPackage.AFN_NO:
-                sentPackage.get(pfc).getHandler().fail();
+                String error_no = new String(Arrays.copyOfRange(receiveData, 4, 8), Charset.forName("US-ASCII"));
+                Log.i(TAG, "udp error: " + error_no);
+                sentPackage.get(pfc).getHandler().fail(Integer.parseInt(error_no));
                 sentPackage.remove(pfc);
 
                 break;
@@ -143,4 +147,10 @@ public class UdpSocket implements SocketWrap {
 
         }
     }
+
+    @Override
+    public boolean isConnect() {
+        return datagramSocket != null;
+    }
+
 }

@@ -147,6 +147,11 @@ class TcpSocket implements SocketWrap {
         }
     }
 
+    @Override
+    public boolean isConnect() {
+        return socket != null && socket.isConnected();
+    }
+
     private void handleOffLine(byte[] receiveData) {
         if (ByteUtil.byteArrayToShort(receiveData, 15) == 700 || ByteUtil.byteArrayToShort(receiveData, 15) == 701){
             Log.i(TAG, "tcp receive offline message");

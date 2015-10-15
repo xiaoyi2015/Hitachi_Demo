@@ -16,4 +16,6 @@ public interface SocketWrap {
 
     void receiveDataAndHandle() throws IOException;
 
+    boolean isConnect();
+
 }

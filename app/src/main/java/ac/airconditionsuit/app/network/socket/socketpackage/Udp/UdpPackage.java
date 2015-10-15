@@ -3,6 +3,7 @@ package ac.airconditionsuit.app.network.socket.socketpackage.Udp;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.util.ByteUtil;
+import ac.airconditionsuit.app.util.UdpErrorNoUtil;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class UdpPackage {
     public interface Handler {
         void success();
 
-        void fail();
+        void fail(int errorNo);
     }
 
     private class UdpPackageContent {
@@ -90,7 +91,8 @@ public class UdpPackage {
                 }
 
                 @Override
-                public void fail() {
+                public void fail(int errorNo) {
+                    //TODO for luzheqi,这里很可能需要退出登录
                     MyApp.getApp().getSocketManager().reconnect();
                 }
             };
@@ -109,7 +111,7 @@ public class UdpPackage {
                 }
 
                 @Override
-                public void fail() {
+                public void fail(int errorNo) {
 
                 }
             };
@@ -121,6 +123,7 @@ public class UdpPackage {
     public class GetAirConditionAddressPackageContent extends UdpPackageContent {
         public GetAirConditionAddressPackageContent() {
             function = AFN_GET_AIR_CONDITION_ADDRESS;
+            content = new byte[1];
             handler = new Handler() {
                 @Override
                 public void success() {
@@ -128,7 +131,9 @@ public class UdpPackage {
                 }
 
                 @Override
-                public void fail() {
+                public void fail(int errorNo) {
+                    Log.i(TAG, "get air condition fail");
+                    MyApp.getApp().showToast(UdpErrorNoUtil.getMessage(errorNo));
                 }
             };
         }
