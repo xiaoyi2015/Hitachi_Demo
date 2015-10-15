@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipDescription;
@@ -22,7 +23,6 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.Room;
 import ac.airconditionsuit.app.entity.Section;
-import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.util.VibratorUtil;
 import ac.airconditionsuit.app.view.CommonDeviceView;
@@ -144,7 +144,7 @@ public class DragDeviceActivity extends BaseActivity {
         commonTopBar.setTitle(room_info.getName());
 
         LinearLayout bottomBar = (LinearLayout)findViewById(R.id.bottom_bar);
-        List<ServerConfig.Device> devices = MyApp.getApp().getServerConfigManager().getDevices();
+        List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
         for (int i = 0; i<devices.size(); i++) {
             final CommonDeviceView commonDeviceView = new CommonDeviceView(DragDeviceActivity.this);
             commonDeviceView.setBackgroundResource(R.drawable.drag_setting_room_bar);

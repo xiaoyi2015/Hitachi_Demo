@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.*;
 import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
@@ -128,6 +129,10 @@ public class SocketManager extends Observable {
         for (ControlPackage p : controlPackages) {
             sendMessage(p);
         }
+    }
+
+    public void getAirConditionStatusFromHostDevice(List<DeviceFromServerConfig> devices) {
+
     }
 
     class ReceiveThread extends Thread {

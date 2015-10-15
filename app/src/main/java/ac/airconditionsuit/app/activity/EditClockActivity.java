@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -390,7 +391,7 @@ public class EditClockActivity extends BaseActivity{
         }
 
         ListView listView = (ListView)findViewById(R.id.air_device_list1);
-        List<ServerConfig.Device> devices = MyApp.getApp().getServerConfigManager().getDevices();
+        List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
         AirDeviceClockSettingAdapter airDeviceClockSettingAdapter = new AirDeviceClockSettingAdapter(EditClockActivity.this,devices);
         listView.setAdapter(airDeviceClockSettingAdapter);
 
@@ -443,8 +444,8 @@ public class EditClockActivity extends BaseActivity{
     private class AirDeviceClockSettingAdapter extends BaseAdapter{
 
         private Context context;
-        private List<ServerConfig.Device> list;
-        public AirDeviceClockSettingAdapter(Context context, List<ServerConfig.Device> list) {
+        private List<DeviceFromServerConfig> list;
+        public AirDeviceClockSettingAdapter(Context context, List<DeviceFromServerConfig> list) {
             this.context = context;
             this.list = list;
         }

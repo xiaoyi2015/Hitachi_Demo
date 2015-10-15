@@ -14,12 +14,14 @@ import java.util.List;
  * Created by ac on 10/15/15.
  *
  */
-public class AirconditionManager {
+public class AirConditionManager {
 
     List<AirCondition> airConditions = new ArrayList<>();
 
     public void init() {
-
+        MyApp.getApp().getSocketManager().getAirConditionStatusFromHostDevice(
+                MyApp.getApp().getServerConfigManager().getDevices()
+        );
     }
 
     public void updateAirconditionStatue(byte[] status) {

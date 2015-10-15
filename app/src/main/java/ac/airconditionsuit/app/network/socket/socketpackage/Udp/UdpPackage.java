@@ -19,7 +19,7 @@ public class UdpPackage {
     public static final String TAG = "UdpPackage";
     public static final byte AFN_YES = 0;
     public static final byte AFN_NO = 1;
-    public static final byte AFN_AIRCONDITION_STATUS_RESPONSE = 6;
+    public static final byte AFN_AIR_CONDITION_STATUS_RESPONSE = 6;
     private byte framNumber;
     private Handler handler;
 
@@ -52,6 +52,12 @@ public class UdpPackage {
     public static UdpPackage genGetAirConditionAddressPackage() {
         UdpPackage p = new UdpPackage();
         p.setContent(p.new GetAirConditionAddressPackageContent());
+        return p;
+    }
+
+    public static UdpPackage genGetAirConditionStatusPackage() {
+        UdpPackage p = new UdpPackage();
+        p.setContent(p.new GetAirConditionStatusPackageContent());
         return p;
     }
 
@@ -126,7 +132,6 @@ public class UdpPackage {
     public class GetAirConditionAddressPackageContent extends UdpPackageContent {
         public GetAirConditionAddressPackageContent() {
             function = AFN_GET_AIR_CONDITION_ADDRESS;
-            content = new byte[1];
             handler = new Handler() {
                 @Override
                 public void success() {
@@ -136,6 +141,25 @@ public class UdpPackage {
                 @Override
                 public void fail(int errorNo) {
                     Log.i(TAG, "get air condition fail");
+                    MyApp.getApp().showToast(UdpErrorNoUtil.getMessage(errorNo));
+                }
+            };
+        }
+    }
+
+    public static final byte AFN_GET_AIR_CONDITION_STATUS = 0x5;
+    public class GetAirConditionStatusPackageContent extends UdpPackageContent {
+        public GetAirConditionStatusPackageContent() {
+            function = AFN_GET_AIR_CONDITION_STATUS;
+            handler = new Handler() {
+                @Override
+                public void success() {
+                    Log.i(TAG, "get air status success");
+                }
+
+                @Override
+                public void fail(int errorNo) {
+                    Log.i(TAG, "get air status fail");
                     MyApp.getApp().showToast(UdpErrorNoUtil.getMessage(errorNo));
                 }
             };

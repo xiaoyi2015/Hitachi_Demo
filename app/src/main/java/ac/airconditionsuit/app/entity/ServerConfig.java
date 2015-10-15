@@ -130,39 +130,6 @@ public class ServerConfig extends RootEntity{
     }
 
 
-
-
-    public class Device extends RootEntity{
-        String name;
-        int indooraddress;
-        int indoorindex;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getIndooraddress() {
-            return indooraddress;
-        }
-
-        public void setIndooraddress(int indooraddress) {
-            this.indooraddress = indooraddress;
-        }
-
-        public int getIndoorindex() {
-            return indoorindex;
-        }
-
-        public void setIndoorindex(int indoorindex) {
-            this.indoorindex = indoorindex;
-        }
-    }
-
-
     public class Setting extends RootEntity{
         String sound;
         String password;
@@ -268,7 +235,7 @@ public class ServerConfig extends RootEntity{
     List<Timer> timers;
     List<Section> sections;
     Home home;
-    List<Device> devices;
+    List<DeviceFromServerConfig> devices;
     Setting settings;
     List<Connection> connection;
 
@@ -307,14 +274,14 @@ public class ServerConfig extends RootEntity{
         this.home = home;
     }
 
-    public List<Device> getDevices() {
+    public List<DeviceFromServerConfig> getDevices() {
         if(devices == null){
             devices = new ArrayList<>();
         }
         return devices;
     }
 
-    public void setDevices(List<Device> devices) {
+    public void setDevices(List<DeviceFromServerConfig> devices) {
         this.devices = devices;
     }
 

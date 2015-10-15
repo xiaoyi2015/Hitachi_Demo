@@ -244,7 +244,6 @@ public class PushDataManager {
                 MyApp.getApp().showToast(R.string.check_push_data_failure);
             }
         });
-
     }
 
     private void ack(List<PushDataListResponse> pushDatas) {
