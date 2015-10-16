@@ -124,16 +124,18 @@ public class EditSceneActivity extends BaseActivity{
         index = getIntent().getIntExtra("index", -1);
         String scene_name  = getIntent().getStringExtra("title");
         is_add = scene_name.equals("");
-
+        TextView deleteScene = (TextView)findViewById(R.id.delete_scene);
         commonTopBar.setTitle(scene_name);
         switch (UIManager.UITYPE){
             case 1:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
                 commonTopBar.setRightIconView(R.drawable.top_bar_save_hit);
+                deleteScene.setBackgroundColor(getResources().getColor(R.color.delete_red_hit));
                 break;
             case 2:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
                 commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                deleteScene.setBackgroundColor(getResources().getColor(R.color.switch_on_pink));
                 break;
             default:
                 break;
@@ -143,7 +145,6 @@ public class EditSceneActivity extends BaseActivity{
         sceneName.setText(scene_name);
         sceneName.setSelection(scene_name.length());
 
-        TextView deleteScene = (TextView)findViewById(R.id.delete_scene);
         deleteScene.setOnClickListener(myOnClickListener);
         for(int i = 0; i < MyApp.getApp().getServerConfigManager().getDevices().size(); i++){
             temp_on_off.add(2);
