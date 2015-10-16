@@ -64,7 +64,6 @@ public class AirConditionControl extends RootEntity{
         this.windVelocity = timer.getFan();
         this.onoff = timer.isTimerenabled() ? ON : OFF;
         this.temperature = (int) timer.getTemperature();
-        this.
     }
 
 
