@@ -11,7 +11,7 @@ import java.io.UnsupportedEncodingException;
 public abstract class SocketPackage {
     protected UdpPackage udpPackage;
     public abstract byte[] getBytesUDP() throws Exception;
-    public abstract byte[] getBytesTCP() throws UnsupportedEncodingException;
+    public abstract byte[] getBytesTCP() throws Exception;
 
     public UdpPackage getUdpPackage() {
         return udpPackage;

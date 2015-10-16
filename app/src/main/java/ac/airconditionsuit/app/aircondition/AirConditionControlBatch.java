@@ -53,7 +53,7 @@ public class AirConditionControlBatch extends RootEntity {
         this.airConditionControl = airConditionControl;
     }
 
-    byte[] getBytes() throws Exception {
+    public byte[] getBytes() throws Exception {
         if (addresses.size() > 255) {
             throw new Exception("addresses size can not be more than 255");
         }

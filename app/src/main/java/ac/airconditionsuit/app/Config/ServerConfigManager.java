@@ -369,4 +369,8 @@ public class ServerConfigManager {
         scm.setRootJavaObj(ServerConfig.genNewConfig(configFileName, homeName));
         scm.writeToFile(configFileName);
     }
+
+    public void updateTimer(Timer timer) {
+        //todo for luzheqi
+    }
 }

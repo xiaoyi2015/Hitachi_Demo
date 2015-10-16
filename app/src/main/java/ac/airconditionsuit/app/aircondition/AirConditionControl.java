@@ -12,7 +12,6 @@ public class AirConditionControl extends RootEntity{
     public static final int OFF = 0;
     int onoff;
 
-
     /**
      * 制冷
      */
@@ -159,10 +158,11 @@ public class AirConditionControl extends RootEntity{
         }
 
         //wind direction
-        if (auto == AUTO) {
-            result[2] |= 0b10000;
-        }
-        result[2] |= (position << 5);
+//        if (auto == AUTO) {
+//            result[2] |= 0b10000;
+//        }
+//        result[2] |= (position << 5);
+        result[2] = (byte) 0xff;
 
         //temp
         result[3] = (byte) temperature;

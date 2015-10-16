@@ -2,9 +2,10 @@ package ac.airconditionsuit.app.network.socket.socketpackage.Udp;
 
 
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.aircondition.AirConditionControlBatch;
+import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.util.ByteUtil;
 import ac.airconditionsuit.app.util.UdpErrorNoUtil;
-import android.speech.RecognizerIntent;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -17,9 +18,10 @@ import java.util.List;
  */
 public class UdpPackage {
     public static final String TAG = "UdpPackage";
-    public static final byte AFN_YES = 0;
-    public static final byte AFN_NO = 1;
-    public static final byte AFN_AIR_CONDITION_STATUS_RESPONSE = 6;
+    public static final byte AFN_YES = 0x0;
+    public static final byte AFN_NO = 0x1;
+    public static final byte AFN_AIR_CONDITION_STATUS_RESPONSE = 0x6;
+    public static final byte AFN_TIMER_RUN_RESPONSE = 0xb;
     private byte framNumber;
     private Handler handler;
 
@@ -45,7 +47,13 @@ public class UdpPackage {
         UdpPackage p = new UdpPackage();
         List<Byte> addressList = new ArrayList<>();
         addressList.add((byte) 0);
-        p.setContent(p.new QueryStatusUdpPackageContent(addressList));
+        p.setContent(p.new QueryAirConditionStatusUdpPackageContent(addressList));
+        return p;
+    }
+
+    public static UdpPackage genQueryAirConditionStatusPackage(List<Byte> addressList) {
+        UdpPackage p = new UdpPackage();
+        p.setContent(p.new QueryAirConditionStatusUdpPackageContent(addressList));
         return p;
     }
 
@@ -55,9 +63,33 @@ public class UdpPackage {
         return p;
     }
 
-    public static UdpPackage genGetAirConditionStatusPackage() {
+//    public static UdpPackage genGetAirConditionStatusPackage() {
+//        UdpPackage p = new UdpPackage();
+//        p.setContent(p.new QueryAirConditionStatusUdpPackageContent());
+//        return p;
+//    }
+
+    public static UdpPackage genTimerPackage(Timer timer) throws Exception {
         UdpPackage p = new UdpPackage();
-        p.setContent(p.new GetAirConditionStatusPackageContent());
+        p.setContent(p.new TimerPackageContent(timer));
+        return p;
+    }
+
+    public static UdpPackage genControlPackage(AirConditionControlBatch airConditionControlBatch) throws Exception {
+        UdpPackage p = new UdpPackage();
+        p.setContent(p.new ControlPackageContent(airConditionControlBatch));
+        return p;
+    }
+
+    public static UdpPackage genDeleteTimerPackage(long id) throws Exception {
+        UdpPackage p = new UdpPackage();
+        p.setContent(p.new DeleteTimerPackageContent(id));
+        return p;
+    }
+
+    public static UdpPackage genQueryTimerPackage(long id) throws Exception {
+        UdpPackage p = new UdpPackage();
+        p.setContent(p.new QueryTimerPackageContent(id));
         return p;
     }
 
@@ -109,7 +141,6 @@ public class UdpPackage {
     }
 
     public static final byte AFN_HEARTBEAT = 0x3;
-
     public class HeartBeatPackageContent extends UdpPackageContent {
         public HeartBeatPackageContent() {
             function = AFN_HEARTBEAT;
@@ -126,6 +157,82 @@ public class UdpPackage {
             };
         }
     }
+
+
+    public static final byte AFN_CONTROL = 0x4;
+    public class ControlPackageContent extends UdpPackageContent{
+        public ControlPackageContent(AirConditionControlBatch airConditionControlBatch) throws Exception {
+            function = AFN_CONTROL;
+            content = airConditionControlBatch.getBytes();
+        }
+    }
+
+    public static final byte AFN_QUERY_STATUS = 0x5;
+
+    public class QueryAirConditionStatusUdpPackageContent extends UdpPackageContent {
+        public QueryAirConditionStatusUdpPackageContent(List<Byte> addresses) {
+            function = AFN_QUERY_STATUS;
+            content = new byte[addresses.size() + 1];
+            //广播包没有数据段
+            content[0] = (byte) addresses.size();
+            for (int i = 0; i < addresses.size(); ++i) {
+                content[i + 1] = addresses.get(i);
+            }
+        }
+    }
+
+
+
+    public static final byte AFN_TIMER = 0x8;
+    public class TimerPackageContent extends UdpPackageContent{
+        public TimerPackageContent(Timer timer) throws Exception {
+            function = AFN_CONTROL;
+            content = timer.getBytesForUdp();
+        }
+    }
+
+    public static final byte AFN_DELETE_TIMER = 0x9;
+    public class DeleteTimerPackageContent extends UdpPackageContent {
+        public DeleteTimerPackageContent(long id) throws Exception {
+            function = AFN_DELETE_TIMER;
+            if (id > 32760) {
+                throw new Exception("id is too big");
+            }
+            content = ByteUtil.shortToByteArray(id);
+        }
+    }
+
+    public static final byte AFN_QUERY_TIMER = 0xa;
+    public class QueryTimerPackageContent extends UdpPackageContent {
+        public QueryTimerPackageContent(long id) throws Exception {
+            function = AFN_QUERY_TIMER;
+            if (id > 32760) {
+                throw new Exception("id is too big");
+            }
+            content = ByteUtil.shortToByteArray(id);
+        }
+    }
+
+
+
+//    public static final byte AFN_GET_AIR_CONDITION_STATUS = 0x5;
+//    public class GetAirConditionStatusPackageContent extends UdpPackageContent {
+//        public GetAirConditionStatusPackageContent() {
+//            function = AFN_GET_AIR_CONDITION_STATUS;
+//            handler = new Handler() {
+//                @Override
+//                public void success() {
+//                    Log.i(TAG, "get air status success");
+//                }
+//
+//                @Override
+//                public void fail(int errorNo) {
+//                    Log.i(TAG, "get air status fail");
+//                    MyApp.getApp().showToast(UdpErrorNoUtil.getMessage(errorNo));
+//                }
+//            };
+//        }
+//    }
 
     public static final byte AFN_GET_AIR_CONDITION_ADDRESS = 0xe;
 
@@ -147,45 +254,12 @@ public class UdpPackage {
         }
     }
 
-    public static final byte AFN_GET_AIR_CONDITION_STATUS = 0x5;
-    public class GetAirConditionStatusPackageContent extends UdpPackageContent {
-        public GetAirConditionStatusPackageContent() {
-            function = AFN_GET_AIR_CONDITION_STATUS;
-            handler = new Handler() {
-                @Override
-                public void success() {
-                    Log.i(TAG, "get air status success");
-                }
-
-                @Override
-                public void fail(int errorNo) {
-                    Log.i(TAG, "get air status fail");
-                    MyApp.getApp().showToast(UdpErrorNoUtil.getMessage(errorNo));
-                }
-            };
-        }
-    }
-
     public static final byte AFN_BROADCAST = 0xf;
 
     public class BroadcastUdpPackageContent extends UdpPackageContent {
         public BroadcastUdpPackageContent() {
             function = AFN_BROADCAST;
             //广播包没有数据段
-        }
-    }
-
-    public static final byte AFN_QUERY_STATUS = 0xf;
-
-    public class QueryStatusUdpPackageContent extends UdpPackageContent {
-        public QueryStatusUdpPackageContent(List<Byte> addresses) {
-            function = AFN_QUERY_STATUS;
-            content = new byte[addresses.size() + 1];
-            //广播包没有数据段
-            content[0] = (byte) addresses.size();
-            for (int i = 0; i < addresses.size(); ++i) {
-                content[i + 1] = addresses.get(i);
-            }
         }
     }
 

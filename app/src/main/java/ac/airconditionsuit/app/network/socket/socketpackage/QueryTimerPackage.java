@@ -3,26 +3,19 @@ package ac.airconditionsuit.app.network.socket.socketpackage;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPSendMessagePackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
-import ac.airconditionsuit.app.util.ByteUtil;
-
-import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 /**
  * Created by ac on 10/9/15.
  */
-public class GetAirConditionStatusPackage extends SocketPackage {
+public class QueryTimerPackage extends SocketPackage {
+    private long id;
 
-    List<Byte> airConditionAddresses;
-
-    public GetAirConditionStatusPackage(List<Integer> airConditionAddresses) {
-        for (int i : airConditionAddresses) {
-            this.airConditionAddresses.add((byte) i);
-        }
+    public QueryTimerPackage(long id) {
+        this.id = id;
     }
 
-    private UdpPackage genUdpPackage() {
-        udpPackage = UdpPackage.genQueryAirConditionStatusPackage(airConditionAddresses);
+    private UdpPackage genUdpPackage() throws Exception {
+        udpPackage = UdpPackage.genQueryTimerPackage(id);
         return udpPackage;
     }
 
@@ -32,7 +25,7 @@ public class GetAirConditionStatusPackage extends SocketPackage {
     }
 
     @Override
-    public byte[] getBytesTCP() throws UnsupportedEncodingException {
+    public byte[] getBytesTCP() throws Exception {
         return new TCPSendMessagePackage(genUdpPackage(),
                 MyApp.getApp().getUser().getCust_id(),
                 MyApp.getApp().getServerConfigManager().getCurrentChatId()).getBytes();

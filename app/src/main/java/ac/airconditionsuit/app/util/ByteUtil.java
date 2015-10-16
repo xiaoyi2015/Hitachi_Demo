@@ -42,6 +42,14 @@ public class ByteUtil {
         return result;
     }
 
+    public static byte[] shortToByteArray(long input) {
+        byte[] result = new byte[2];
+        input &= 0xff;
+        result[0] = (byte) (input & 0xff);
+        result[1] = (byte) (input >>> 8);
+        return result;
+    }
+
     public static byte[] longToByteArray(Long input) {
         byte[] result = new byte[8];
         int i = 0;
@@ -113,4 +121,9 @@ public class ByteUtil {
         result[1] |= (byte) (min % 10);
         return result;
     }
+
+    public static int BCDByteToInt(byte b) {
+        return b & 0xf + (b >>> 4) * 10;
+    }
+
 }
