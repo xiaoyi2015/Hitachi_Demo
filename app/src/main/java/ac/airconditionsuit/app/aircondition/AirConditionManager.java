@@ -28,52 +28,7 @@ public class AirConditionManager {
                     AirConditionStatusResponse.decodeFromByteArray(status);
 
             AirCondition airCondition = getAirCondition(airConditionStatusResponse.getAddress());
-
-            switch (airConditionStatusResponse.getMode()) {
-                case AirConditionControl.MODE_BLAST:
-                    airCondition.setMode(AirCondition.MODE_BLAST);
-                    break;
-
-                case AirConditionControl.MODE_DEHUMIDIFICATION:
-                    airCondition.setMode(AirCondition.MODE_DEHUMIDIFICATION);
-                    break;
-
-                case AirConditionControl.MODE_HEATING:
-                    airCondition.setMode(AirCondition.MODE_HEATING);
-                    break;
-
-                case AirConditionControl.MODE_REFRIGERATION:
-                    airCondition.setMode(AirCondition.MODE_REFRIGERATION);
-                    break;
-            }
-
-            switch (airConditionStatusResponse.getOnoff()) {
-                case AirConditionControl.ON:
-                    airCondition. setOnoff(AirCondition.ON);
-                    break;
-
-                case AirConditionControl.OFF:
-                    airCondition. setOnoff(AirCondition.OFF);
-                    break;
-            }
-
-            switch (airConditionStatusResponse.getWindVelocity()) {
-                case AirConditionStatusResponse.WINDVELOCITY_HIGH:
-                    airCondition.setFan(AirCondition.WINDVELOCITY_HIGH);
-                    break;
-
-                case AirConditionStatusResponse.WINDVELOCITY_MIDDLE:
-                    airCondition.setFan(AirCondition.WINDVELOCITY_MIDDLE);
-                    break;
-
-                case AirConditionStatusResponse.WINDVELOCITY_LOW:
-                    airCondition.setFan(AirCondition.WINDVELOCITY_LOW);
-                    break;
-            }
-
-            airCondition.setTemperature(airConditionStatusResponse.getTemperature());
-            airCondition.setRealTemperature(airConditionStatusResponse.getHuifengTemperature());
-            airCondition.setWarning(airConditionStatusResponse.getWarning());
+            airCondition.changeStatus(airConditionStatusResponse);
 
             MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.AIR_CONDITION_STATUS_RESPONSE, airCondition));
         } catch (Exception e) {
