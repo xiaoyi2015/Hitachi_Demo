@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.network.HttpClient;
 
 /**
@@ -57,7 +58,18 @@ public class CommonTopBar extends RelativeLayout {
         titleView.setText(titleLabel);
         leftIconView.setImageDrawable(leftIcon);
         rightIconView.setImageDrawable(rightIcon);
-        setBackgroundResource(R.drawable.top_banner_dc);
+        switch (UIManager.UITYPE) {
+            case 1:
+                setBackgroundResource(R.drawable.top_banner_hit);
+                titleView.setTextColor(getResources().getColor(R.color.text_color_white));
+                break;
+            case 2:
+                setBackgroundResource(R.drawable.top_banner_dc);
+                break;
+            default:
+                break;
+        }
+
     }
 
     public void setTitle(String title){

@@ -8,9 +8,7 @@
     <ac.airconditionsuit.app.view.CommonTopBar
         android:id="@+id/default_top_bar"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        app:leftIcon="@drawable/top_bar_cancel_dc"
-        app:rightIcon="@drawable/top_bar_save_dc">
+        android:layout_height="?android:attr/actionBarSize">
     </ac.airconditionsuit.app.view.CommonTopBar>
 
     <ScrollView

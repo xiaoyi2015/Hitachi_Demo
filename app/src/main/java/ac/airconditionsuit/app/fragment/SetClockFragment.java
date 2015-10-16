@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.fragment;
 
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.Timer;
 import android.content.Context;
 import android.content.Intent;
@@ -68,7 +69,17 @@ public class SetClockFragment extends BaseFragment {
         BaseActivity baseActivity = myGetActivity();
         CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_set_time));
-        commonTopBar.setRightIconView(R.drawable.top_bar_add_dc);
+        switch (UIManager.UITYPE){
+            case 1:
+                commonTopBar.setRightIconView(R.drawable.top_bar_add_hit);
+                break;
+            case 2:
+                commonTopBar.setRightIconView(R.drawable.top_bar_add_dc);
+                break;
+            default:
+                break;
+        }
+
         commonTopBar.setIconView(null, myOnClickListener);
         commonTopBar.setRoundLeftIconView(null);
     }

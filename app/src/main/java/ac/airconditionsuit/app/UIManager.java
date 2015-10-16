@@ -5,8 +5,8 @@ package ac.airconditionsuit.app;
  */
 public class UIManager {
     public static final int HIT = 1;
-    public static final int HX = 2;
-    public static final int DC = 3;
+    public static final int DC = 2;
+    public static final int HX = 3;
 
     public static final int UITYPE = HIT;
 
@@ -20,5 +20,6 @@ public class UIManager {
                 return 0;
         }
     }
+
 
 }

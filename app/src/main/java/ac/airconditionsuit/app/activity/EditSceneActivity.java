@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.Command;
 import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import ac.airconditionsuit.app.entity.Scene;
@@ -125,6 +126,18 @@ public class EditSceneActivity extends BaseActivity{
         is_add = scene_name.equals("");
 
         commonTopBar.setTitle(scene_name);
+        switch (UIManager.UITYPE){
+            case 1:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
+                commonTopBar.setRightIconView(R.drawable.top_bar_save_hit);
+                break;
+            case 2:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
+                commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                break;
+            default:
+                break;
+        }
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
         sceneName = (EditText)findViewById(R.id.scene_name_text);
         sceneName.setText(scene_name);

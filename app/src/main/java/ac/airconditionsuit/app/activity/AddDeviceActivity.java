@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
@@ -30,6 +31,16 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.add_device));
+        switch (UIManager.UITYPE){
+            case 1:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
+                break;
+            case 2:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
+                break;
+            default:
+                break;
+        }
         commonTopBar.setIconView(myOnClickListener,null);
         findViewById(R.id.search_by_udp).setOnClickListener(this);
     }

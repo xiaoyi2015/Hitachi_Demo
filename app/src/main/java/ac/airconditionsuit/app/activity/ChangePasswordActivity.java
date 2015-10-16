@@ -12,6 +12,7 @@ import com.loopj.android.http.RequestParams;
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.RegisterResponseData;
@@ -50,6 +51,18 @@ public class ChangePasswordActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.change_password));
+        switch (UIManager.UITYPE){
+            case 1:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
+                commonTopBar.setRightIconView(R.drawable.top_bar_save_hit);
+                break;
+            case 2:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
+                commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                break;
+            default:
+                break;
+        }
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
 
         oldPasswordText = (EditText)findViewById(R.id.old_password_text);
