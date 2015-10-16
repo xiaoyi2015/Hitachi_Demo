@@ -1,8 +1,10 @@
 package ac.airconditionsuit.app.entity;
 
+import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.aircondition.AirConditionControl;
 import ac.airconditionsuit.app.util.ByteUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -149,7 +151,7 @@ public class Timer extends RootEntity {
 
         //week
         for (int i : week) {
-            if (i < 0 || i> 7) {
+            if (i < 0 || i > 7) {
                 throw new Exception("week error");
             }
             result[4] |= (i << i);
@@ -181,5 +183,89 @@ public class Timer extends RootEntity {
                 16);
 
         return result;
+    }
+
+    public static Timer decodeFromByteArray(byte[] contentData) throws Exception {
+        Timer timer = new Timer();
+
+        //is enable
+        if ((contentData[0] & 0x80) != 0) {
+            timer.setTimerenabled(true);
+        } else {
+            timer.setTimerenabled(false);
+        }
+
+        contentData[0] &= 0x7f;
+
+        timer.setTimerid(ByteUtil.byteArrayToShort(contentData));
+
+        timer.setHour(ByteUtil.BCDByteToInt(contentData[2]));
+        timer.setMinute(ByteUtil.BCDByteToInt(contentData[3]));
+
+        if ((contentData[4] & 1) != 0) {
+            timer.setRepeat(true);
+        } else {
+            timer.setRepeat(false);
+        }
+
+        //week
+        List<Integer> weeks = new ArrayList<>();
+        for (int i = 1; i <= 7; ++i) {
+            if ((contentData[4] & (1 << i)) != 0) {
+                weeks.add(i);
+            }
+        }
+        timer.setWeek(weeks);
+
+        //address
+        List<Integer> address = new ArrayList<>();
+        for (int i = 5; i < contentData.length - 20; ++i) {
+            address.add((int) contentData[i]);
+        }
+        timer.setAddress(address);
+
+        //mode
+        int mode = contentData[1] & 0b1111;
+        if (mode < 0 || mode > 3) {
+            throw new Exception("mode error");
+        }
+        timer.setMode(mode);
+
+        //wind velocity
+        int windVelocity = contentData[2];
+        if (windVelocity < 1 || windVelocity > 3) {
+            throw new Exception("windVelocity error");
+        }
+        timer.setFan(windVelocity);
+
+//        int position = contentData[3] >>> 5;
+//        if (position < 0 || position > 6) {
+//            throw new Exception("position error");
+//        }
+//        result.setPosition(position);
+//
+//        if ((contentData[3] & 0b10000) > 0) {
+//            result.setAuto(AUTO);
+//        } else {
+//            result.setAuto(NOT_AUTO);
+//        }
+
+        int temperature = contentData[4];
+
+        if (timer.getMode() == AirConditionControl.MODE_HEATING) {
+            if (temperature < 17 || temperature > 30) {
+                throw new Exception("temperature error in heating mode");
+            }
+        } else {
+            if (temperature < 19 || temperature > 30) {
+                throw new Exception("temperature error in other mode");
+            }
+        }
+        timer.setTemperature(temperature);
+
+        //name
+        timer.setName(new String(Arrays.copyOfRange(contentData, contentData.length - 20, contentData.length)));
+
+        return timer;
     }
 }

@@ -59,17 +59,17 @@ public class AirConditionStatusResponse extends AirConditionControl {
         }
 
 
-        int position = input[3] >>> 5;
-        if (position < 0 || position > 6) {
-            throw new Exception("position error");
-        }
-        result.setPosition(position);
-
-        if ((input[3] & 0b10000) > 0) {
-            result.setAuto(AUTO);
-        } else {
-            result.setAuto(NOT_AUTO);
-        }
+//        int position = input[3] >>> 5;
+//        if (position < 0 || position > 6) {
+//            throw new Exception("position error");
+//        }
+//        result.setPosition(position);
+//
+//        if ((input[3] & 0b10000) > 0) {
+//            result.setAuto(AUTO);
+//        } else {
+//            result.setAuto(NOT_AUTO);
+//        }
 
         int temperature = input[4];
 

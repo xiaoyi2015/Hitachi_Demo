@@ -113,4 +113,8 @@ public class ByteUtil {
         result[1] |= (byte) (min % 10);
         return result;
     }
+
+    public static int BCDByteToInt(byte b) {
+        return b & 0xf + (b >>> 4) * 10;
+    }
 }

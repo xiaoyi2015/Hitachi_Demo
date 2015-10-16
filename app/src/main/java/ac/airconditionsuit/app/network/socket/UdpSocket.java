@@ -6,6 +6,7 @@ import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.SocketPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 import ac.airconditionsuit.app.util.ByteUtil;
+import android.nfc.Tag;
 import android.util.Log;
 
 import java.io.IOException;
@@ -131,6 +132,11 @@ public class UdpSocket implements SocketWrap {
                 Log.i(TAG, "udp get air condition status success");
                 MyApp.getApp().getAirconditionManager().updateAirconditionStatue(UdpPackage.getContentData(receiveData));
                 break;
+
+            case UdpPackage.AFN_TIMER:
+                Log.i(TAG, "receive timer");
+                MyApp.getApp().getAirconditionManager().updateTimerStatue(UdpPackage.getContentData(receiveData));
+
 
             case UdpPackage.AFN_NO:
                 String error_no = new String(Arrays.copyOfRange(receiveData, 4, 8), Charset.forName("US-ASCII"));
