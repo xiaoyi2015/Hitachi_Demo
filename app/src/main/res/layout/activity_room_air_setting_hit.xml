@@ -63,9 +63,16 @@
         </LinearLayout>
 
         <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
+            android:id="@+id/temp_seek_bar"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:max="12"
+            android:progress="10"
+            android:progressDrawable="@drawable/seek_drawable"
+            android:thumb="@null"
+            android:layout_width="320dp"
+            android:layout_height="40dp" />
 
     </LinearLayout>
 

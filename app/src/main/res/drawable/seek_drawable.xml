@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background" android:drawable="@drawable/temp_control_bar_bg_hit" />
+    <item android:id="@android:id/secondaryProgress">
+        <clip android:drawable="@drawable/temp_control_bar_bg_hit" />
+    </item>
+    <item android:id="@android:id/progress">
+        <clip android:drawable="@drawable/temp_control_bar_hit" />
+    </item>
+</layer-list>
