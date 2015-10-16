@@ -3,6 +3,7 @@ package ac.airconditionsuit.app.aircondition;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.*;
 import ac.airconditionsuit.app.network.socket.socketpackage.ControlPackage;
+import ac.airconditionsuit.app.util.ByteUtil;
 import ac.airconditionsuit.app.view.TabIndicator;
 import android.util.Log;
 
@@ -51,6 +52,12 @@ public class AirConditionManager {
             Log.i(TAG, "decode timer status failed");
             e.printStackTrace();
         }
+    }
+
+    public void timerRun(byte[] contentData) {
+        //已运行的定时器id
+        int timerId = ByteUtil.byteArrayToShort(contentData);
+        //todo for luzheqi
     }
 
     public void controlScene(Scene scene) throws Exception {

@@ -136,6 +136,12 @@ public class UdpSocket implements SocketWrap {
             case UdpPackage.AFN_TIMER:
                 Log.i(TAG, "receive timer");
                 MyApp.getApp().getAirconditionManager().updateTimerStatue(UdpPackage.getContentData(receiveData));
+                break;
+
+            case UdpPackage.AFN_TIMER_RUN_RESPONSE:
+                Log.i(TAG, "receive timer run");
+                MyApp.getApp().getAirconditionManager().timerRun(UdpPackage.getContentData(receiveData));
+                break;
 
 
             case UdpPackage.AFN_NO:

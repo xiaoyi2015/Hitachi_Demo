@@ -18,9 +18,10 @@ import java.util.List;
  */
 public class UdpPackage {
     public static final String TAG = "UdpPackage";
-    public static final byte AFN_YES = 0;
-    public static final byte AFN_NO = 1;
-    public static final byte AFN_AIR_CONDITION_STATUS_RESPONSE = 6;
+    public static final byte AFN_YES = 0x0;
+    public static final byte AFN_NO = 0x1;
+    public static final byte AFN_AIR_CONDITION_STATUS_RESPONSE = 0x6;
+    public static final byte AFN_TIMER_RUN_RESPONSE = 0xb;
     private byte framNumber;
     private Handler handler;
 
