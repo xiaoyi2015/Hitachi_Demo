@@ -37,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:textColor="@color/delete_red_hit"
         android:text="@string/delete_home"
         android:textSize="16sp"
         android:gravity="center" />

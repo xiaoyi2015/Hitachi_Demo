@@ -28,7 +28,7 @@ public class SoftwareInfoActivity extends BaseActivity {
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.fragment_setting_software_info);
+        setContentView(UIManager.getSoftwareInfoLayout());
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.software_info));
