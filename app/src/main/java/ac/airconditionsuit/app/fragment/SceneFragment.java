@@ -203,7 +203,16 @@ public class SceneFragment extends BaseFragment {
         }
 
         private void init(Context context) {
-            inflate(context,R.layout.custom_scene_view,this);
+            switch (UIManager.UITYPE) {
+                case 1:
+                    inflate(context, R.layout.custom_scene_view_hit, this);
+                    break;
+                case 2:
+                    inflate(context, R.layout.custom_scene_view, this);
+                    break;
+                default:
+                    break;
+            }
         }
 
     }
