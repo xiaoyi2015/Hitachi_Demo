@@ -1,5 +1,10 @@
 package ac.airconditionsuit.app.entity;
 
+import ac.airconditionsuit.app.aircondition.AirConditionControl;
+import ac.airconditionsuit.app.util.ByteUtil;
+
+import java.security.interfaces.RSAKey;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -124,8 +129,9 @@ public class Timer extends RootEntity {
         this.name = name;
     }
 
+
     public byte[] getByteForUdp() throws Exception {
-        byte[] result = new byte[33];
+        byte[] result = new byte[25 + address.size()];
 
         //is enable
         if (timerenabled) {
@@ -139,7 +145,37 @@ public class Timer extends RootEntity {
         result[0] |= timerid / 256;
         result[1] |= timerid % 256;
 
-        //todo for luzheqi
+        //time
+        System.arraycopy(ByteUtil.timeToBCD(hour, minute), 0, result, 2, 2);
+
+        //week
+        for (int i : week) {
+            if (i < 0 || i> 7) {
+                throw new Exception("week error");
+            }
+            result[4] |= (i << i);
+        }
+        if (isRepeat()) {
+            result[4] += 1;
+        }
+
+        //address
+        for (int i = 0; i < address.size(); ++i) {
+            int integer = address.get(i);
+            if (integer < 0 || integer > 255) {
+                throw new Exception("address error");
+            }
+            result[5 + i] = (byte) integer;
+        }
+
+        //control
+        AirConditionControl airConditionControl = new AirConditionControl(this);
+        System.arraycopy(airConditionControl.getBytes(), 0, result, result.length - 20, 4);
+
+        //name
+        System.arraycopy(Arrays.copyOf(name.getBytes(), 16), 0,
+                result, result.length - 16,
+                16);
 
         return result;
     }

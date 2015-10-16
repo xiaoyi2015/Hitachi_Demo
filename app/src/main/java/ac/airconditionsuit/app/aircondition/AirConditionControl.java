@@ -1,15 +1,17 @@
 package ac.airconditionsuit.app.aircondition;
 
 import ac.airconditionsuit.app.entity.RootEntity;
-
-import java.util.List;
+import ac.airconditionsuit.app.entity.Timer;
 
 /**
  * Created by ac on 10/14/15.
+ *
  */
 public class AirConditionControl extends RootEntity{
     public static final int ON = 1;
     public static final int OFF = 0;
+    int onoff;
+
 
     /**
      * 制冷
@@ -30,12 +32,6 @@ public class AirConditionControl extends RootEntity{
      * 制热
      */
     public static final int MODE_HEATING = 3;
-
-
-
-
-    int onoff;
-
     int mode;
 
 
@@ -48,20 +44,28 @@ public class AirConditionControl extends RootEntity{
     /**
      * 挡风板位置0~6
      */
-    int position;
+    int position = 3;
 
     public static final int AUTO = 1;
     public static final int NOT_AUTO = 0;
     /**
      * 风向是否自动
      */
-    int auto;
+    int auto = AUTO;
 
     /**
      * 送风/除湿/制冷：19~30度
      * 制热：17~30度
      */
     int temperature;
+
+    public AirConditionControl(Timer timer) {
+        this.mode = timer.getMode();
+        this.windVelocity = timer.getFan();
+        this.onoff = timer.isTimerenabled() ? ON : OFF;
+        this.temperature = (int) timer.getTemperature();
+        this.
+    }
 
 
     public void setOnoff(int onoff) {
@@ -112,7 +116,7 @@ public class AirConditionControl extends RootEntity{
         return temperature;
     }
 
-    byte[] getBytes() throws Exception {
+    public byte[] getBytes() throws Exception {
         if (position < 0 || position > 6) {
             throw new Exception("position error");
         }
