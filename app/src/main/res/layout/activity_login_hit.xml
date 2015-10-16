@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/login_background_dc"
+    android:background="@drawable/login_background_hit"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/login_logo_dc" />
+        android:layout_marginTop="120dp"
+        android:src="@drawable/login_logo_hit" />
 
     <EditText
         android:id="@+id/user_name"
@@ -22,8 +22,8 @@
         android:hint="@string/prompt_user_name"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/login_edit_text_dc"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/login_edit_text_up_hit"
         android:inputType="phone"
         android:maxLines="1"
         android:singleLine="true" />
@@ -40,10 +40,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="20dp"
             android:drawableRight="@drawable/login_text_cancel"
-            android:background="@drawable/login_edit_text_dc"
+            android:background="@drawable/login_edit_text_down_hit"
             android:hint="@string/prompt_password"
             android:inputType="textPassword"
             android:maxLines="1"
@@ -55,7 +55,7 @@
             android:id="@+id/remember_psd_box"
             android:background="@drawable/login_select_box"
             android:layout_below="@id/password"
-            android:button="@drawable/checkbox_remember_psd"
+            android:button="@drawable/checkbox_remember_psd_hit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false" />
@@ -68,6 +68,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="@string/remember_psd"
+            android:textColor="@color/text_color_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -77,6 +78,7 @@
             android:layout_alignRight="@id/password"
             android:textSize="16sp"
             android:text="@string/forget_psd"
+            android:textColor="@color/text_color_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -90,8 +92,9 @@
         android:layout_below="@id/psd_info"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:background="@drawable/login_edit_text_dc"
+        android:background="@drawable/login_button_hit"
         android:text="@string/action_sign_in"
+        android:textColor="@color/text_color_white"
         android:textSize="16sp" />
 
     <ImageView
@@ -101,7 +104,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:padding="20dp"
-        android:src="@drawable/login_add_user_dc" />
+        android:src="@drawable/login_add_user_hit" />
 
     <ImageView
         android:id="@+id/login_info"
@@ -110,8 +113,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:padding="20dp"
-        android:src="@drawable/info_dc" />
+        android:src="@drawable/info_hit" />
 
 </RelativeLayout>
-
-
