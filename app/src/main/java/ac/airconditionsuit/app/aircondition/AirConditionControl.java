@@ -66,6 +66,9 @@ public class AirConditionControl extends RootEntity{
         this.temperature = (int) timer.getTemperature();
     }
 
+    public AirConditionControl() {
+    }
+
 
     public void setOnoff(int onoff) {
         this.onoff = onoff;
