@@ -3,6 +3,8 @@ package ac.airconditionsuit.app.util;
 
 import android.util.Log;
 
+import java.sql.ResultSet;
+
 /**
  * Created by ac on 9/24/15.
  */
@@ -94,6 +96,21 @@ public class ByteUtil {
         for (int i = 0; i < result.length; ++i) {
             result[i] = (byte) (0xff & (~(0xff & authCodeBytes[i]) + 0x33));
         }
+        return result;
+    }
+
+    public static byte[] timeToBCD(int hour, int min) throws Exception {
+        if (hour < 0 || hour > 23) {
+            throw new Exception("time error");
+        }
+        if (min < 0 || min > 59) {
+            throw new Exception("time error");
+        }
+        byte[] result = new byte[4];
+        result[0] |= (byte) ((hour / 10) << 4);
+        result[0] |= (byte) (hour % 10);
+        result[1] |= (byte) ((min / 10) << 4);
+        result[1] |= (byte) (min % 10);
         return result;
     }
 }
