@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.activity.RoomAirSettingActivity;
 import ac.airconditionsuit.app.entity.Room;
 
@@ -40,7 +41,16 @@ public class SectionAndRoomView extends RelativeLayout {
     }
 
     private void init(Context context) {
-        inflate(context, R.layout.custom_section_and_room_view, this);
+        switch (UIManager.UITYPE) {
+            case 1:
+                inflate(context, R.layout.custom_section_and_room_view_hit, this);
+                break;
+            case 2:
+                inflate(context, R.layout.custom_section_and_room_view, this);
+                break;
+            default:
+                break;
+        }
         ImageView arrowIconView = (ImageView) findViewById(R.id.arrow_icon);
         arrowIconView.setImageResource(R.drawable.icon_arrow_right_dc);
 
@@ -130,7 +140,17 @@ public class SectionAndRoomView extends RelativeLayout {
         }
 
         private void init(Context context) {
-            inflate(context, R.layout.custom_room_view,this);
+            switch (UIManager.UITYPE) {
+                case 1:
+                    inflate(context, R.layout.custom_room_view_hit, this);
+                    break;
+                case 2:
+                    inflate(context, R.layout.custom_room_view,this);
+                    break;
+                default:
+                    break;
+            }
+
         }
 
     }
