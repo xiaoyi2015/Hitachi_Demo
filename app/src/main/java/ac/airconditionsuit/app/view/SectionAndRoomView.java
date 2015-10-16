@@ -18,6 +18,7 @@ import java.util.List;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.activity.RoomAirSettingActivity;
+import ac.airconditionsuit.app.activity.RoomAirSettingHitActivity;
 import ac.airconditionsuit.app.entity.Room;
 
 public class SectionAndRoomView extends RelativeLayout {
@@ -52,7 +53,17 @@ public class SectionAndRoomView extends RelativeLayout {
                 break;
         }
         ImageView arrowIconView = (ImageView) findViewById(R.id.arrow_icon);
-        arrowIconView.setImageResource(R.drawable.icon_arrow_right_dc);
+
+        switch (UIManager.UITYPE) {
+            case 1:
+                arrowIconView.setImageResource(R.drawable.icon_arrow_right_hit);
+                break;
+            case 2:
+                arrowIconView.setImageResource(R.drawable.icon_arrow_right_dc);
+                break;
+            default:
+                break;
+        }
 
         //TODO set room status
         ListView listView = (ListView)findViewById(R.id.room_list);
@@ -106,27 +117,51 @@ public class SectionAndRoomView extends RelativeLayout {
             if(convertView == null){
                 convertView = new RoomCustomView(context);
             }
-            ImageView bgBar =(ImageView)convertView.findViewById(R.id.bg_bar);
             ImageView roomMode = (ImageView)convertView.findViewById(R.id.room_mode);
             ImageView roomWindSpeed = (ImageView)convertView.findViewById(R.id.room_wind_speed);
             TextView roomTemp = (TextView)convertView.findViewById(R.id.room_temp);
             TextView roomName = (TextView)convertView.findViewById(R.id.room_name);
             LinearLayout roomView = (LinearLayout)convertView.findViewById(R.id.custom_room_view);
-            roomView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.setClass(context, RoomAirSettingActivity.class);
-                    intent.putExtra("title",rooms.get(position).getName());
-                    context.startActivity(intent);
-                }
-            });
 
-            bgBar.setImageResource(R.drawable.room_bg_bar_off_dc);
-            roomMode.setImageResource(R.drawable.cool_off_dc);
-            roomName.setText(rooms.get(position).getName());
-            roomTemp.setText(R.string.default_temp);
-            roomWindSpeed.setImageResource(R.drawable.fan_off1_dc);
+            switch (UIManager.UITYPE){
+                case 1:
+                    ImageView roomOnOff = (ImageView)convertView.findViewById(R.id.room_on_off);
+                    roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
+                    roomMode.setImageResource(R.drawable.cool_on_hit);
+                    roomName.setText(rooms.get(position).getName());
+                    roomTemp.setText(R.string.default_temp);
+                    roomWindSpeed.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
+                    roomView.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.setClass(context, RoomAirSettingHitActivity.class);
+                            intent.putExtra("title", rooms.get(position).getName());
+                            context.startActivity(intent);
+                        }
+                    });
+
+                    break;
+                case 2:
+                    ImageView bgBar =(ImageView)convertView.findViewById(R.id.bg_bar);
+                    bgBar.setImageResource(R.drawable.room_bg_bar_off_dc);
+                    roomMode.setImageResource(R.drawable.cool_off_dc);
+                    roomName.setText(rooms.get(position).getName());
+                    roomTemp.setText(R.string.default_temp);
+                    roomWindSpeed.setImageResource(R.drawable.fan_off1_dc);
+                    roomView.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.setClass(context, RoomAirSettingActivity.class);
+                            intent.putExtra("title", rooms.get(position).getName());
+                            context.startActivity(intent);
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
 
             return convertView;
         }

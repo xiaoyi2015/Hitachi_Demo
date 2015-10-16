@@ -165,5 +165,8 @@
     <string name="failure">失败</string>
     <string name="success">成功</string>
     <string name="check_push_data_failure">无法获取服务器数据</string>
+    <string name="set_temp">设定温度</string>
+    <string name="set_mode">模式</string>
+    <string name="set_fan">风速</string>
 
 </resources>

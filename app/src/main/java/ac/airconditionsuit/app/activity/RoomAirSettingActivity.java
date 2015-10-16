@@ -85,16 +85,7 @@ public class RoomAirSettingActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getIntent().getStringExtra("title"));
-        switch (UIManager.UITYPE){
-            case 1:
-                commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
-                break;
-            case 2:
-                commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
-                break;
-            default:
-                break;
-        }
+        commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
         commonTopBar.setIconView(myOnClickListener, null);
         TextView roomName = (TextView)findViewById(R.id.room_name);
         roomName.setText(getIntent().getStringExtra("title"));
