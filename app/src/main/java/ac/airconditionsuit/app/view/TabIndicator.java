@@ -1,6 +1,8 @@
 package ac.airconditionsuit.app.view;
 
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.UIManager;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -67,20 +69,56 @@ public class TabIndicator extends TextView {
     public void select(){
         setCompoundDrawablesWithIntrinsicBounds(null, icon_selected, null, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select, null));
+            switch (UIManager.UITYPE) {
+                case 1:
+                    setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select_hit));
+                    break;
+                case 2:
+                    setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select));
+                    break;
+                default:
+                    break;
+            }
         }else{
             //noinspection deprecation
-            setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select));
+            switch (UIManager.UITYPE) {
+                case 1:
+                    setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select_hit));
+                    break;
+                case 2:
+                    setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select));
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
     public void unSelect(){
         setCompoundDrawablesWithIntrinsicBounds(null, icon_normal, null, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            setTextColor(context.getResources().getColor(R.color.tab_indicator_text_normal, null));
+            switch (UIManager.UITYPE) {
+                case 1:
+                    setTextColor(context.getResources().getColor(R.color.tab_indicator_text_normal_hit));
+                    break;
+                case 2:
+                    setTextColor(context.getResources().getColor(R.color.tab_indicator_text_normal));
+                    break;
+                default:
+                    break;
+            }
         }else{
             //noinspection deprecation
-            setTextColor(context.getResources().getColor(R.color.tab_indicator_text_normal));
+            switch (UIManager.UITYPE) {
+                case 1:
+                    setTextColor(context.getResources().getColor(R.color.tab_indicator_text_normal_hit));
+                    break;
+                case 2:
+                    setTextColor(context.getResources().getColor(R.color.tab_indicator_text_normal));
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
