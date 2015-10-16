@@ -78,7 +78,6 @@ public class MyAirFragment extends BaseFragment {
             default:
                 break;
         }
-        commonTopBar.setIconView(null, null);
         commonTopBar.setRoundLeftIconView(myOnClickListener);
     }
 
