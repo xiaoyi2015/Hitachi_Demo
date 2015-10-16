@@ -21,5 +21,16 @@ public class UIManager {
         }
     }
 
+    public static int getMainActivityLayout() {
+        switch (UITYPE) {
+            case HIT:
+                return R.layout.activity_main_hit;
+            case DC:
+                return R.layout.activity_main;
+            default:
+                return 0;
+        }
+    }
+
 
 }

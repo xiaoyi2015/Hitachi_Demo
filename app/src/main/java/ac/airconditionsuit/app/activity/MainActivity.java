@@ -3,6 +3,7 @@ package ac.airconditionsuit.app.activity;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.PushData.PushDataManager;
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.AirCondition;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.fragment.BaseFragment;
@@ -38,7 +39,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_main);
+        setContentView(UIManager.getMainActivityLayout());
         super.onCreate(savedInstanceState);
 
         pager = (ViewPager) findViewById(R.id.pager);

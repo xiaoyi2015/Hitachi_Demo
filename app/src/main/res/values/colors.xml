@@ -14,5 +14,7 @@
     <color name="mode_cool_blue">#4aa7e1</color>
     <color name="mode_fan_green">#71b91d</color>
     <color name="mode_dry_purple">#bd10e0</color>
+    <color name="tab_indicator_text_select_hit">#FFFFFF</color>
+    <color name="tab_indicator_text_normal_hit">#a1a1a6</color>
 
 </resources>
