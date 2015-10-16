@@ -12,8 +12,8 @@ import java.io.UnsupportedEncodingException;
  * Created by ac on 10/9/15.
  */
 public class HeartBeatPackage extends SocketPackage {
-
     private static final String TAG = "HeartBeatPackage";
+
     @Override
     public byte[] getBytesUDP() throws Exception {
         udpPackage = UdpPackage.genHeartBeatPackage();

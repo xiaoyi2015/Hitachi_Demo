@@ -3,7 +3,6 @@ package ac.airconditionsuit.app.entity;
 import ac.airconditionsuit.app.aircondition.AirConditionControl;
 import ac.airconditionsuit.app.util.ByteUtil;
 
-import java.security.interfaces.RSAKey;
 import java.util.Arrays;
 import java.util.List;
 
@@ -130,7 +129,7 @@ public class Timer extends RootEntity {
     }
 
 
-    public byte[] getByteForUdp() throws Exception {
+    public byte[] getBytesForUdp() throws Exception {
         byte[] result = new byte[25 + address.size()];
 
         //is enable
@@ -173,6 +172,10 @@ public class Timer extends RootEntity {
         System.arraycopy(airConditionControl.getBytes(), 0, result, result.length - 20, 4);
 
         //name
+        if (name.getBytes().length > 16) {
+            throw new Exception("name too length");
+        }
+        name += "                ";
         System.arraycopy(Arrays.copyOf(name.getBytes(), 16), 0,
                 result, result.length - 16,
                 16);

@@ -2,9 +2,10 @@ package ac.airconditionsuit.app.network.socket.socketpackage.Udp;
 
 
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.aircondition.AirConditionControlBatch;
+import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.util.ByteUtil;
 import ac.airconditionsuit.app.util.UdpErrorNoUtil;
-import android.speech.RecognizerIntent;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -61,6 +62,18 @@ public class UdpPackage {
         return p;
     }
 
+    public static UdpPackage genTimerPackage(Timer timer) throws Exception {
+        UdpPackage p = new UdpPackage();
+        p.setContent(p.new TimerPackageContent(timer));
+        return p;
+    }
+
+    public static UdpPackage genControlPackage(AirConditionControlBatch airConditionControlBatch) throws Exception {
+        UdpPackage p = new UdpPackage();
+        p.setContent(p.new ControlPackageContent(airConditionControlBatch));
+        return p;
+    }
+
     public interface Handler {
         void success();
 
@@ -109,7 +122,6 @@ public class UdpPackage {
     }
 
     public static final byte AFN_HEARTBEAT = 0x3;
-
     public class HeartBeatPackageContent extends UdpPackageContent {
         public HeartBeatPackageContent() {
             function = AFN_HEARTBEAT;
@@ -124,6 +136,24 @@ public class UdpPackage {
 
                 }
             };
+        }
+    }
+
+
+    public static final byte AFN_CONTROL = 0x4;
+    public class ControlPackageContent extends UdpPackageContent{
+        public ControlPackageContent(AirConditionControlBatch airConditionControlBatch) throws Exception {
+            function = AFN_CONTROL;
+            content = airConditionControlBatch.getBytes();
+        }
+    }
+
+
+    public static final byte AFN_TIMER = 0x8;
+    public class TimerPackageContent extends UdpPackageContent{
+        public TimerPackageContent(Timer timer) throws Exception {
+            function = AFN_CONTROL;
+            content = timer.getBytesForUdp();
         }
     }
 
