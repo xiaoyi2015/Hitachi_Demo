@@ -5,6 +5,7 @@ import android.view.View;
 import android.webkit.WebView;
 
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
@@ -30,6 +31,16 @@ public class AgreementActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.common_agree_clause));
+        switch (UIManager.UITYPE){
+            case 1:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
+                break;
+            case 2:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
+                break;
+            default:
+                break;
+        }
         commonTopBar.setIconView(myOnClickListener, null);
         WebView webView = (WebView)findViewById(R.id.agreement_web_view);
         webView.loadUrl("file:///android_asset/d-controls-agreement.html");

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonChooseView;
 import ac.airconditionsuit.app.view.CommonTopBar;
@@ -130,6 +131,18 @@ public class ChooseClockRepeatActivity extends BaseActivity{
 
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_set_time));
+        switch (UIManager.UITYPE){
+            case 1:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_cancel_hit);
+                commonTopBar.setRightIconView(R.drawable.top_bar_save_hit);
+                break;
+            case 2:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_cancel_dc);
+                commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                break;
+            default:
+                break;
+        }
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
 
         repeat = (CommonChooseView)findViewById(R.id.repeat);

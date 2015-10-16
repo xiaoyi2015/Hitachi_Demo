@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.fragment;
 
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.Scene;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -43,14 +44,35 @@ public class SceneFragment extends BaseFragment {
             switch (v.getId()){
                 case R.id.right_icon:
                     if(click_num == 0) {
-                        commonTopBar.setLeftIconView(R.drawable.top_bar_add_dc);
-                        commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                        switch (UIManager.UITYPE){
+                            case 1:
+                                commonTopBar.setLeftIconView(R.drawable.top_bar_add_hit);
+                                commonTopBar.setRightIconView(R.drawable.top_bar_save_hit);
+                                break;
+                            case 2:
+                                commonTopBar.setLeftIconView(R.drawable.top_bar_add_dc);
+                                commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                                break;
+                            default:
+                                break;
+                        }
+
                         commonTopBar.setTitle(getString(R.string.edit_scene));
                         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
                         click_num = 1;
                     }else{
                         commonTopBar.setTitle(getString(R.string.tab_label_scene_mode));
-                        commonTopBar.setRightIconView(R.drawable.top_bar_edit_dc);
+                        switch (UIManager.UITYPE){
+                            case 1:
+                                commonTopBar.setRightIconView(R.drawable.top_bar_edit_hit);
+                                break;
+                            case 2:
+                                commonTopBar.setRightIconView(R.drawable.top_bar_edit_dc);
+                                break;
+                            default:
+                                break;
+                        }
+
                         commonTopBar.setIconView(null, myOnClickListener);
                         click_num = 0;
                     }
@@ -88,7 +110,17 @@ public class SceneFragment extends BaseFragment {
         BaseActivity baseActivity = myGetActivity();
         commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_scene_mode));
-        commonTopBar.setRightIconView(R.drawable.top_bar_edit_dc);
+        switch (UIManager.UITYPE){
+            case 1:
+                commonTopBar.setRightIconView(R.drawable.top_bar_edit_hit);
+                break;
+            case 2:
+                commonTopBar.setRightIconView(R.drawable.top_bar_edit_dc);
+                break;
+            default:
+                break;
+        }
+
         commonTopBar.setIconView(null,myOnClickListener);
         commonTopBar.setRoundLeftIconView(null);
     }

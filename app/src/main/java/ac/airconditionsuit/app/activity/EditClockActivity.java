@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import ac.airconditionsuit.app.entity.Timer;
 import android.app.AlertDialog;
@@ -73,7 +74,6 @@ public class EditClockActivity extends BaseActivity{
                         return;
 
                     if(is_add){
-                        ServerConfig serverConfig = new ServerConfig();
                         Timer timer_temp = new Timer();
                         timer_temp.setName(check_clock_name);
                         timer_temp.setHour(timePicker.getCurrentHour());
@@ -180,6 +180,18 @@ public class EditClockActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_set_time));
+        switch (UIManager.UITYPE){
+            case 1:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_cancel_hit);
+                commonTopBar.setRightIconView(R.drawable.top_bar_save_hit);
+                break;
+            case 2:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_cancel_dc);
+                commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                break;
+            default:
+                break;
+        }
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
 
         clockNameText = (EditText)findViewById(R.id.clock_name_text);

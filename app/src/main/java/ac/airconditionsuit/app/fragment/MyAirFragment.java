@@ -16,6 +16,7 @@ import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.activity.BaseActivity;
 import ac.airconditionsuit.app.activity.InfoPageActivity;
 import ac.airconditionsuit.app.entity.Section;
@@ -66,7 +67,17 @@ public class MyAirFragment extends BaseFragment {
         BaseActivity baseActivity = myGetActivity();
         CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(MyApp.getApp().getServerConfigManager().getHome().getName());
-        commonTopBar.setIconView(null, null);
+        switch (UIManager.UITYPE){
+            case 1:
+                commonTopBar.setRightIconView(R.drawable.top_bar_logo_hit);
+                commonTopBar.setIconView(null, myOnClickListener);
+                break;
+            case 2:
+                commonTopBar.setIconView(null, null);
+                break;
+            default:
+                break;
+        }
         commonTopBar.setRoundLeftIconView(myOnClickListener);
     }
 
