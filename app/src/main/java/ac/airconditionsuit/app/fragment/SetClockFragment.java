@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.fragment;
 
+import ac.airconditionsuit.app.entity.Timer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +21,6 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.activity.BaseActivity;
 import ac.airconditionsuit.app.activity.EditClockActivity;
-import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
@@ -87,9 +87,9 @@ public class SetClockFragment extends BaseFragment {
     private class ClockSettingAdapter extends BaseAdapter {
 
         private Context context;
-        private List<ServerConfig.Timer> list;
+        private List<Timer> list;
 
-        public ClockSettingAdapter(Context context, List<ServerConfig.Timer> list) {
+        public ClockSettingAdapter(Context context, List<Timer> list) {
             this.context = context;
             this.list = list;
         }

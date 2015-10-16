@@ -23,52 +23,9 @@ public class AirConditionControlBatch extends RootEntity {
         addresses.add((byte) address);
 
         airConditionControl = new AirConditionControl();
-        switch (c.getOnoff()) {
-            case Command.ON:
-                airConditionControl.setOnoff(AirConditionControl.ON);
-                break;
-            case Command.OFF:
-                airConditionControl.setOnoff(AirConditionControl.OFF);
-                break;
-            default:
-                throw new Exception("air condition onoff error");
-        }
-
-        switch (c.getFan()) {
-            case Command.WINDVELOCITY_HIGH:
-                airConditionControl.setWindVelocity(AirConditionControl.WINDVELOCITY_HIGH);
-                break;
-
-            case Command.WINDVELOCITY_MIDDLE:
-                airConditionControl.setWindVelocity(AirConditionControl.WINDVELOCITY_MIDDLE);
-                break;
-
-            case Command.WINDVELOCITY_LOW:
-                airConditionControl.setWindVelocity(AirConditionControl.WINDVELOCITY_LOW);
-                break;
-            default:
-                throw new Exception("wind velocity error");
-        }
-
-        switch (c.getMode()) {
-            case Command.MODE_BLAST:
-                airConditionControl.setMode(AirConditionControl.MODE_BLAST);
-                break;
-
-            case Command.MODE_DEHUMIDIFICATION:
-                airConditionControl.setMode(AirConditionControl.MODE_DEHUMIDIFICATION);
-                break;
-
-            case Command.MODE_HEATING:
-                airConditionControl.setMode(AirConditionControl.MODE_HEATING);
-                break;
-
-            case Command.MODE_REFRIGERATION:
-                airConditionControl.setMode(AirConditionControl.MODE_REFRIGERATION);
-                break;
-            default:
-                throw new Exception("mode error");
-        }
+        airConditionControl.setOnoff(c.getOnoff());
+        airConditionControl.setWindVelocity(c.getFan());
+        airConditionControl.setMode(c.getMode());
 
         int temperature = (int) c.getTemperature();
         if (airConditionControl.getMode() == AirConditionControl.MODE_HEATING) {
@@ -81,6 +38,7 @@ public class AirConditionControlBatch extends RootEntity {
             }
 
         }
+
         airConditionControl.setTemperature(temperature);
     }
 

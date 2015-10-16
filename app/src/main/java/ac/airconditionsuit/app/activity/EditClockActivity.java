@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.activity;
 
 import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
+import ac.airconditionsuit.app.entity.Timer;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -73,7 +74,7 @@ public class EditClockActivity extends BaseActivity{
 
                     if(is_add){
                         ServerConfig serverConfig = new ServerConfig();
-                        ServerConfig.Timer timer_temp = serverConfig.new Timer();
+                        Timer timer_temp = new Timer();
                         timer_temp.setName(check_clock_name);
                         timer_temp.setHour(timePicker.getCurrentHour());
                         timer_temp.setMinute(timePicker.getCurrentMinute());
@@ -157,7 +158,7 @@ public class EditClockActivity extends BaseActivity{
         }
     };
     private EditText clockNameText;
-    ServerConfig.Timer timer;
+    Timer timer;
     private TimePicker timePicker;
     private CommonButtonWithArrow clockRepeat;
     private int[] week_list = new int[]{0,0,0,0,0,0,0};

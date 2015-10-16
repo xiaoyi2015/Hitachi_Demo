@@ -142,7 +142,7 @@ public class Device extends RootEntity {
 
     private String authCodeEncode;
     private String authCode;
-    private String cust_class = "10008";
+    private String cust_class = "10001";
     private String port;
     private String position;
     private Integer state;
@@ -215,14 +215,6 @@ public class Device extends RootEntity {
 
     private Long getIdByAuthCode() {
         return Long.parseLong(authCode, 16);
-//        assert authCode != null;
-//        String result = "0001";
-//        for (int i = 12; i >= 2; i -= 2) {
-//            result += authCode.substring(i, i + 2);
-//        }
-//        long chat_id = Long.parseLong(result, 16);
-//        info.setChat_id(chat_id);
-//        return chat_id;
     }
 
     static public Device fromJsonString(String json) {

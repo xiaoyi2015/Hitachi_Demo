@@ -48,7 +48,7 @@ public class ServerConfigManager {
         return rootJavaObj.getScenes();
     }
 
-    public List<ServerConfig.Timer> getTimer() {
+    public List<Timer> getTimer() {
         return rootJavaObj.getTimers();
     }
 
@@ -84,8 +84,8 @@ public class ServerConfigManager {
         writeToFile();
     }
 
-    public void addTimer(ServerConfig.Timer timer) {
-        List<ServerConfig.Timer> timers = rootJavaObj.getTimers();
+    public void addTimer(Timer timer) {
+        List<Timer> timers = rootJavaObj.getTimers();
         timers.add(timer);
         writeToFile();
     }
@@ -115,7 +115,7 @@ public class ServerConfigManager {
     }
 
     public void deleteTimer(int position) {
-        List<ServerConfig.Timer> timers = rootJavaObj.getTimers();
+        List<Timer> timers = rootJavaObj.getTimers();
         timers.remove(position);
         writeToFile();
     }
