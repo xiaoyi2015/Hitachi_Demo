@@ -180,14 +180,17 @@ public class EditClockActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_set_time));
+        TextView deleteClock = (TextView)findViewById(R.id.delete_clock);
         switch (UIManager.UITYPE){
             case 1:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_cancel_hit);
                 commonTopBar.setRightIconView(R.drawable.top_bar_save_hit);
+                deleteClock.setBackgroundColor(getResources().getColor(R.color.delete_red_hit));
                 break;
             case 2:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_cancel_dc);
                 commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                deleteClock.setBackgroundColor(getResources().getColor(R.color.switch_on_pink));
                 break;
             default:
                 break;
@@ -195,7 +198,6 @@ public class EditClockActivity extends BaseActivity{
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
 
         clockNameText = (EditText)findViewById(R.id.clock_name_text);
-        TextView deleteClock = (TextView)findViewById(R.id.delete_clock);
         deleteClock.setOnClickListener(myOnClickListener);
         index = getIntent().getIntExtra("index",-1);
         String clock_name = getIntent().getStringExtra("title");
