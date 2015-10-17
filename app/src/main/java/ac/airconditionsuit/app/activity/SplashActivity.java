@@ -3,6 +3,7 @@ package ac.airconditionsuit.app.activity;
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(UIManager.getSplashLayout());
 
         beginTime = System.currentTimeMillis();
 

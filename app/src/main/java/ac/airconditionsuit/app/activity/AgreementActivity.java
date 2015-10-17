@@ -45,7 +45,7 @@ public class AgreementActivity extends BaseActivity{
         WebView webView = (WebView)findViewById(R.id.agreement_web_view);
         switch (UIManager.UITYPE){
             case 1:
-                webView.loadUrl("file:///android_asset/d-controls-agreement.html");
+                webView.loadUrl("file:///android_asset/hitachi-agreement.html");
                 break;
             case 2:
                 webView.loadUrl("file:///android_asset/d-controls-agreement.html");

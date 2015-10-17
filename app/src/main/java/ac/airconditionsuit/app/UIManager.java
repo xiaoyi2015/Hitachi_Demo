@@ -43,4 +43,15 @@ public class UIManager {
         }
     }
 
+    public static int getSplashLayout() {
+        switch (UITYPE) {
+            case HIT:
+                return R.layout.activity_splash_hit;
+            case DC:
+                return R.layout.activity_splash;
+            default:
+                return 0;
+        }
+    }
+
 }
