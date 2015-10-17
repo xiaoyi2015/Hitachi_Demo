@@ -44,6 +44,7 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
+                        android:id="@+id/temp_decrease"
                         android:src="@drawable/temp_decrease_hit"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="20dp"
@@ -52,15 +53,16 @@
                         android:layout_height="wrap_content" />
 
                     <TextView
+                        android:id="@+id/temp_num"
                         android:textSize="48sp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:text="@string/default_temp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <ImageView
+                        android:id="@+id/temp_increase"
                         android:src="@drawable/temp_increase_hit"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="20dp"
@@ -76,7 +78,6 @@
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
                     android:max="12"
-                    android:progress="12"
                     android:progressDrawable="@drawable/seek_drawable"
                     android:thumb="@null"
                     android:layout_width="320dp"
@@ -113,28 +114,24 @@
                     <ImageView
                         android:id="@+id/mode_cool"
                         android:layout_weight="1"
-                        android:src="@drawable/room_icon_cool_off_selected_hit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <ImageView
                         android:id="@+id/mode_heat"
                         android:layout_weight="1"
-                        android:src="@drawable/room_icon_heat_hit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <ImageView
                         android:id="@+id/mode_dry"
                         android:layout_weight="1"
-                        android:src="@drawable/room_icon_dry_hit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <ImageView
                         android:id="@+id/mode_fan"
                         android:layout_weight="1"
-                        android:src="@drawable/room_icon_fan_hit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -171,21 +168,18 @@
                     <ImageView
                         android:id="@+id/fan_fan1"
                         android:layout_weight="1"
-                        android:src="@drawable/room_icon_fan1_off_selected_hit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <ImageView
                         android:id="@+id/fan_fan3"
                         android:layout_weight="1"
-                        android:src="@drawable/room_icon_fan3_hit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <ImageView
                         android:id="@+id/fan_fan5"
                         android:layout_weight="1"
-                        android:src="@drawable/room_icon_fan5_hit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -202,9 +196,8 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/on_off"
+                    android:id="@+id/set_onoff"
                     android:layout_weight="1"
-                    android:src="@drawable/room_icon_onoff_off_selected_hit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

@@ -127,9 +127,9 @@ public class RoomAirSettingActivity extends BaseActivity{
         changeColorAndSetting(on_off,mode,fan,temp);
     }
 
-    private void changeColorAndSetting( int on_off, int mode, int fan, int temp) {
-        roomTemp.setText(temp + getString(R.string.temp_symbol));
-        if(on_off == 0){
+    private void changeColorAndSetting( int temp_on_off, int temp_mode, int temp_fan, int temp_temp) {
+        roomTemp.setText(temp_temp + getString(R.string.temp_symbol));
+        if(temp_on_off == 0){
             bgBar1.setImageResource(R.drawable.room_bg_bar_off_dc);
             bgBar2.setImageResource(R.drawable.room_bg_bar_off_dc);
             bgBar3.setImageResource(R.drawable.room_bg_bar_off_dc);
@@ -139,7 +139,7 @@ public class RoomAirSettingActivity extends BaseActivity{
             roomOnOff.setImageResource(R.drawable.onoff_off_dc);
             roomTemp.setTextColor(getResources().getColor(R.color.text_normal_color));
 
-            switch (mode){
+            switch (temp_mode){
                 case 0:
                     roomMode.setImageResource(R.drawable.cool_off_dc);
                     roomModeText.setText(R.string.cool);
@@ -157,7 +157,7 @@ public class RoomAirSettingActivity extends BaseActivity{
                     roomModeText.setText(R.string.wind);
                     break;
             }
-            switch (fan){
+            switch (temp_fan){
                 case 0:
                     roomWindSpeed.setImageResource(R.drawable.fan_off1_dc);
                     roomWindText.setText(R.string.low_wind);
@@ -173,7 +173,7 @@ public class RoomAirSettingActivity extends BaseActivity{
             }
 
         }else{
-            switch (mode){
+            switch (temp_mode){
                 case 0:
                     roomMode.setImageResource(R.drawable.cool_on_dc);
                     roomModeText.setText(R.string.cool);
@@ -186,7 +186,7 @@ public class RoomAirSettingActivity extends BaseActivity{
                     roomOnOff.setImageResource(R.drawable.onoff_cool_dc);
                     roomTemp.setTextColor(getResources().getColor(R.color.mode_cool_blue));
 
-                    switch (fan){
+                    switch (temp_fan){
                         case 0:
                             roomWindSpeed.setImageResource(R.drawable.fan_cool1_dc);
                             roomWindText.setText(R.string.low_wind);
@@ -213,7 +213,7 @@ public class RoomAirSettingActivity extends BaseActivity{
                     roomOnOff.setImageResource(R.drawable.onoff_heat_dc);
                     roomTemp.setTextColor(getResources().getColor(R.color.mode_heat_pink));
 
-                    switch (fan){
+                    switch (temp_fan){
                         case 0:
                             roomWindSpeed.setImageResource(R.drawable.fan_heat1_dc);
                             roomWindText.setText(R.string.low_wind);
@@ -241,7 +241,7 @@ public class RoomAirSettingActivity extends BaseActivity{
                     roomOnOff.setImageResource(R.drawable.onoff_dry_dc);
                     roomTemp.setTextColor(getResources().getColor(R.color.mode_dry_purple));
 
-                    switch (fan){
+                    switch (temp_fan){
                         case 0:
                             roomWindSpeed.setImageResource(R.drawable.fan_dry1_dc);
                             roomWindText.setText(R.string.low_wind);
@@ -268,7 +268,7 @@ public class RoomAirSettingActivity extends BaseActivity{
                     roomOnOff.setImageResource(R.drawable.onoff_fan_dc);
                     roomTemp.setTextColor(getResources().getColor(R.color.mode_fan_green));
 
-                    switch (fan){
+                    switch (temp_fan){
                         case 0:
                             roomWindSpeed.setImageResource(R.drawable.fan_fan1_dc);
                             roomWindText.setText(R.string.low_wind);
