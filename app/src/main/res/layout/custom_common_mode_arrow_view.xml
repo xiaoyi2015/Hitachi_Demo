@@ -10,16 +10,12 @@
         android:id="@+id/label_text"
         android:textSize="19sp"
         android:layout_gravity="left|center_vertical"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:layout_width="150dp"
         android:layout_height="wrap_content" />
 
     <ImageView
         android:id="@+id/onoff"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:src="@drawable/cool_off_hit"
         android:scaleType="centerInside"
         android:layout_width="20dp"
@@ -27,9 +23,7 @@
 
     <ImageView
         android:id="@+id/mode"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="2dp"
-        android:layout_marginBottom="5dp"
         android:src="@drawable/onoff_off_hit"
         android:scaleType="centerInside"
         android:layout_width="20dp"
@@ -37,9 +31,7 @@
 
     <ImageView
         android:id="@+id/wind"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="2dp"
-        android:layout_marginBottom="5dp"
         android:src="@drawable/fan1_off_hit"
         android:scaleType="centerInside"
         android:layout_width="20dp"
@@ -49,10 +41,8 @@
         android:id="@+id/temp"
         android:textSize="19sp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
         android:layout_gravity="center_vertical"
         android:text="@string/default_temp"
-        android:layout_marginBottom="5dp"
         android:layout_width="50dp"
         android:layout_height="wrap_content" />
 
@@ -61,8 +51,6 @@
         android:id="@+id/arrow_right"
         android:layout_gravity="right|center_vertical"
         android:scaleType="fitEnd"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:src="@drawable/icon_arrow_right_hit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
