@@ -155,7 +155,7 @@ class TcpSocket implements SocketWrap {
     }
 
     private void handleOffLine(byte[] receiveData) {
-        if (ByteUtil.byteArrayToShort(receiveData, 15) == 700 || ByteUtil.byteArrayToShort(receiveData, 15) == 701){
+        if (ByteUtil.byteArrayToShort(receiveData, 15) == 700 || ByteUtil.byteArrayToShort(receiveData, 15) == 701) {
             Log.i(TAG, "tcp receive offline message");
             MyApp.getApp().getSocketManager().close();
             MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.OFFLINE));
@@ -228,7 +228,6 @@ class TcpSocket implements SocketWrap {
         Log.i(TAG, "tcp heart beat ok");
         //check device after heartbeat
         checkDeviceConnect();
-        MyApp.getApp().getAirconditionManager().queryTimer();
     }
 
     private void handleLoginReturn(byte[] receiveData) throws IOException {
@@ -236,6 +235,9 @@ class TcpSocket implements SocketWrap {
         if (result_code == 200) {
             Log.i(TAG, "tcp login success");
             MyApp.getApp().getSocketManager().startHeartBeat();
+            if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+                MyApp.getApp().getSocketManager().queryAirConditionStatus();
+            }
         } else if (result_code == 401) {
             MyApp.getApp().getSocketManager().close();
             MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.OFFLINE));

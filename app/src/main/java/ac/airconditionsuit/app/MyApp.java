@@ -7,7 +7,9 @@ import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.socket.SocketManager;
+import ac.airconditionsuit.app.service.SocketAuxService;
 import android.app.Application;
+import android.content.Intent;
 import android.os.Handler;
 import android.widget.Toast;
 
@@ -46,6 +48,7 @@ public class MyApp extends Application {
 
         handler = new Handler();
 
+        startService(new Intent(this, SocketAuxService.class));
     }
 
     public boolean isUserLogin() {

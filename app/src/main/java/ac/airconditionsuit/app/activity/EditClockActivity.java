@@ -104,7 +104,7 @@ public class EditClockActivity extends BaseActivity{
                         device_list_temp.clear();
                         for(int i = 0; i < isDeviceChoose.size(); i++){
                             if(isDeviceChoose.get(i) == 1){
-                                device_list_temp.add(MyApp.getApp().getServerConfigManager().getDevices().get(i).getIndoorindex());
+                                device_list_temp.add(MyApp.getApp().getServerConfigManager().getDevices().get(i).getAddress());
                             }
                         }
                         timer_temp.setAddress(device_list_temp);
@@ -142,7 +142,7 @@ public class EditClockActivity extends BaseActivity{
                         for(int i = 0; i < isDeviceChoose.size(); i++){
                             if(isDeviceChoose.get(i) == 1){
                                 MyApp.getApp().getServerConfigManager().getTimer().get(index).getAddress().
-                                        add(MyApp.getApp().getServerConfigManager().getDevices().get(i).getIndoorindex());
+                                        add(MyApp.getApp().getServerConfigManager().getDevices().get(i).getAddress());
                             }
                         }
 

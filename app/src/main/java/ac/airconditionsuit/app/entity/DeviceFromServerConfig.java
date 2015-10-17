@@ -16,19 +16,24 @@ public class DeviceFromServerConfig extends RootEntity {
         this.name = name;
     }
 
-    public int getIndooraddress() {
-        return indooraddress;
-    }
+    //todo for zhulinan,空调地址 = indoorindex * 16 + indooraddress
+//    public int getIndooraddress() {
+//        return indooraddress;
+//    }
 
-    public void setIndooraddress(int indooraddress) {
-        this.indooraddress = indooraddress;
-    }
+//    public void setIndooraddress(int indooraddress) {
+//        this.indooraddress = indooraddress;
+//    }
 
-    public int getIndoorindex() {
-        return indoorindex;
-    }
+//    public int getIndoorindex() {
+//        return indoorindex;
+//    }
 
-    public void setIndoorindex(int indoorindex) {
-        this.indoorindex = indoorindex;
+//    public void setIndoorindex(int indoorindex) {
+//        this.indoorindex = indoorindex;
+//    }
+
+    public int getAddress() {
+        return indoorindex * 16 + indooraddress;
     }
 }

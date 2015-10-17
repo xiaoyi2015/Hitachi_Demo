@@ -126,6 +126,8 @@
                 android:screenOrientation="portrait">
         </activity>
 
+        <service android:name=".service.SocketAuxService"/>
+
         <!--<receiver android:name=".receiver.NetworkChangeReceiver">-->
             <!--<intent-filter>-->
                 <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>-->

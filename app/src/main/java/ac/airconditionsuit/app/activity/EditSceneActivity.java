@@ -73,7 +73,7 @@ public class EditSceneActivity extends BaseActivity{
                         for(int i = 0; i < temp_on_off.size(); i++){
                             if(temp_on_off.get(i) != 2){
                                 Command command = new Command();
-                                command.setAddress(MyApp.getApp().getServerConfigManager().getDevices().get(i).getIndoorindex());
+                                command.setAddress(MyApp.getApp().getServerConfigManager().getDevices().get(i).getAddress());
                                 command.setOnoff(temp_on_off.get(i));
                                 command.setMode(temp_mode.get(i));
                                 command.setFan(temp_fan.get(i));
@@ -90,7 +90,7 @@ public class EditSceneActivity extends BaseActivity{
                         for(int i = 0; i < temp_on_off.size(); i++){
                             if(temp_on_off.get(i) != 2){
                                 Command command = new Command();
-                                command.setAddress(MyApp.getApp().getServerConfigManager().getDevices().get(i).getIndoorindex());
+                                command.setAddress(MyApp.getApp().getServerConfigManager().getDevices().get(i).getAddress());
                                 command.setOnoff(temp_on_off.get(i));
                                 command.setMode(temp_mode.get(i));
                                 command.setFan(temp_fan.get(i));

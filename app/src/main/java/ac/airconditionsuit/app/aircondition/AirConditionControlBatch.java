@@ -1,6 +1,8 @@
 package ac.airconditionsuit.app.aircondition;
 
+import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.Command;
+import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import ac.airconditionsuit.app.entity.RootEntity;
 
 import java.util.ArrayList;
@@ -44,7 +46,13 @@ public class AirConditionControlBatch extends RootEntity {
 
     public AirConditionControlBatch(List<Integer> elements, AirConditionControl airConditionControl) throws Exception {
         addresses = new ArrayList<>();
-        for (Integer address : elements) {
+        for (Integer index : elements) {
+            List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
+            if (devices.size() <= index) {
+                throw new Exception("air condition index is to large");
+            }
+            DeviceFromServerConfig deviceFromServerConfig = devices.get(index);
+            int address = (int) deviceFromServerConfig.getAddress();
             if (address > 255 || address < 0) {
                 throw new Exception("air condition address error");
             }

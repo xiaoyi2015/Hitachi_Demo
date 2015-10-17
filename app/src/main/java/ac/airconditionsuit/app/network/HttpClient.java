@@ -68,7 +68,7 @@ public class HttpClient {
                             //可能 response.getData() 是空字符而type 是数组进行如下处理：
                             if (response.getData().getAsString().equals("")) {
                                 try {
-                                    Log.i(TAG, "get empty string as \"[]\"");
+                                    Log.v(TAG, "get empty string as \"[]\"");
                                     handler.onSuccess((T) new Gson().fromJson("[]", type));
                                 } catch (Exception e2) {
                                     onFailure(statusCode, headers, e2, rawJsonResponse, response);
@@ -112,7 +112,7 @@ public class HttpClient {
 
             @Override
             protected CommonResponse parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
-                Log.i(TAG, "response rawJsonData:\n" + rawJsonData);
+                Log.v(TAG, "response rawJsonData:\n" + rawJsonData);
                 return new Gson().fromJson(rawJsonData, CommonResponse.class);
             }
         });
@@ -136,7 +136,7 @@ public class HttpClient {
                             //可能 response.getData() 是空字符而type 是数组进行如下处理：
                             if (response.getData().getAsString().equals("")) {
                                 try {
-                                    Log.i(TAG, "get empty string as \"[]\"");
+                                    Log.v(TAG, "get empty string as \"[]\"");
                                     handler.onSuccess((T) new Gson().fromJson("[]", type));
                                 } catch (Exception e2) {
                                     onFailure(statusCode, headers, e2, rawJsonResponse, response);
@@ -180,7 +180,7 @@ public class HttpClient {
 
             @Override
             protected CommonResponse parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
-                Log.i(TAG, "response rawJsonData:\n" + rawJsonData);
+                Log.v(TAG, "response rawJsonData:\n" + rawJsonData);
                 return new Gson().fromJson(rawJsonData, CommonResponse.class);
             }
         });
@@ -205,7 +205,7 @@ public class HttpClient {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, File file) {
-                Log.i(TAG, "download from " + url + " success");
+                Log.v(TAG, "download from " + url + " success");
                 imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
             }
         });
@@ -224,7 +224,7 @@ public class HttpClient {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, File file) {
-                Log.i(TAG, "download file " + file.getPath() + " success");
+                Log.v(TAG, "download file " + file.getPath() + " success");
                 if (handler != null) {
                     handler.onSuccess(file);
                 }
@@ -234,7 +234,7 @@ public class HttpClient {
 
 
     private static RequestParams wrapParams(RequestParams params) {
-        Log.i(TAG, "output params\n" + params.toString());
+        Log.v(TAG, "output params\n" + params.toString());
         params.put(Constant.REQUEST_PARAMS_KEY_LANGUAGE, "zh-Hans");
         params.put(Constant.REQUEST_PARAMS_KEY_VERSION, "1.0");
 

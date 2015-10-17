@@ -3,15 +3,27 @@ package ac.airconditionsuit.app.network.socket.socketpackage;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPSendMessagePackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
+import ac.airconditionsuit.app.util.ByteUtil;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ac on 10/9/15.
  */
-public class GetAirConditionAddressPackage extends SocketPackage {
+public class QueryAirConditionStatusPackage extends SocketPackage {
+
+    List<Byte> airConditionAddresses = new ArrayList<>();
+
+    public QueryAirConditionStatusPackage(List<Integer> airConditionAddresses) {
+        for (int i : airConditionAddresses) {
+            this.airConditionAddresses.add((byte) i);
+        }
+    }
+
     private UdpPackage genUdpPackage() {
-        udpPackage = UdpPackage.genGetAirConditionAddressPackage();
+        udpPackage = UdpPackage.genQueryAirConditionStatusPackage(airConditionAddresses);
         return udpPackage;
     }
 

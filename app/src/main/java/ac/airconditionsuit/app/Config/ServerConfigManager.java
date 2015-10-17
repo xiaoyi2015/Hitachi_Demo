@@ -52,9 +52,9 @@ public class ServerConfigManager {
         return rootJavaObj.getTimers();
     }
 
-    public int getDeviceIndexFromAddress(int index){
+    public int getDeviceIndexFromAddress(int address){
         for(int i = 0; i < rootJavaObj.getDevices().size(); i++){
-            if(index == rootJavaObj.getDevices().get(i).getIndoorindex()){
+            if(address == rootJavaObj.getDevices().get(i).getAddress()){
                 return i;
             }
         }
@@ -178,7 +178,7 @@ public class ServerConfigManager {
             NSDictionary root = (NSDictionary) PropertyListParser.parse(MyBase64Util.decodeToByte(bytes));
             String json = PlistUtil.NSDictionaryToJsonString(root);
             rootJavaObj = new Gson().fromJson(json, ServerConfig.class);
-            Log.i(TAG, "read server config file success");
+            Log.v(TAG, "read server config file success");
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
             Log.e(TAG, "read server config file error");
             e.printStackTrace();

@@ -6,14 +6,12 @@ import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.*;
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
+import android.provider.Telephony;
 import android.util.Log;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.util.List;
-import java.util.Observable;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * Created by ac on 9/18/15.
@@ -133,8 +131,17 @@ public class SocketManager extends Observable {
         }
     }
 
-    public void getAirConditionStatusFromHostDevice(List<DeviceFromServerConfig> devices) {
-
+    public void getAllAirConditionStatusFromHostDevice(List<DeviceFromServerConfig> devices) throws Exception {
+        List<Integer> addresses = new ArrayList<>();
+        for (DeviceFromServerConfig d : devices) {
+            Integer address = d.getAddress();
+            if (address < 0 || address > 255) {
+                throw new Exception("air condition address error");
+            }
+            addresses.add(address);
+        }
+        QueryAirConditionStatusPackage queryAirConditionStatusPackage = new QueryAirConditionStatusPackage(addresses);
+        sendMessage(queryAirConditionStatusPackage);
     }
 
     public void handUdpPackage(DatagramPacket datagramPacket, byte[] receiveData) throws IOException {
@@ -145,6 +152,10 @@ public class SocketManager extends Observable {
         if (udpPackage != null) {
             udpPackageHandler.addSentPackage(udpPackage);
         }
+    }
+
+    public void queryAirConditionStatus() {
+        MyApp.getApp().initAirconditionManager();
     }
 
     class ReceiveThread extends Thread {
@@ -312,7 +323,7 @@ public class SocketManager extends Observable {
 
 
     public void getAirConditionAddressFromHostDevice() {
-        sendMessage(new GetAirConditionAddressPackage());
+        sendMessage(new QueryAirConditionAddressPackage());
     }
 
     public void sendBroadCast() {

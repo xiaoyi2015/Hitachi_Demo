@@ -3,8 +3,6 @@ package ac.airconditionsuit.app.aircondition;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.*;
 import ac.airconditionsuit.app.network.socket.socketpackage.ControlPackage;
-import ac.airconditionsuit.app.util.ByteUtil;
-import ac.airconditionsuit.app.view.TabIndicator;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -20,9 +18,16 @@ public class AirConditionManager {
     List<Timer> timers = new ArrayList<>();
 
     public void init() {
-        MyApp.getApp().getSocketManager().getAirConditionStatusFromHostDevice(
-                MyApp.getApp().getServerConfigManager().getDevices()
-        );
+        try {
+            MyApp.getApp().getSocketManager().getAllAirConditionStatusFromHostDevice(
+                    MyApp.getApp().getServerConfigManager().getDevices()
+            );
+            //todo test code for luzheqi
+
+        } catch (Exception e) {
+            Log.e(TAG, "init air condition status fail");
+            e.printStackTrace();
+        }
     }
 
     public void updateAirconditionStatue(byte[] status) {

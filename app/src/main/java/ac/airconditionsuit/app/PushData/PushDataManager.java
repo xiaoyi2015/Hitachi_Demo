@@ -145,6 +145,7 @@ public class PushDataManager {
                     System.out.println("insert push data failed!!!");
                 }
             }
+            db.close();
         }
     }
 
@@ -156,6 +157,7 @@ public class PushDataManager {
         } else {
             System.out.println("insert push data success!!!");
         }
+        db.close();
     }
 
     public List<PushData> readPushDataFromDatabase() {
