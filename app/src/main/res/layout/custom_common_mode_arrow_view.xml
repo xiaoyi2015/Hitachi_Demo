@@ -18,32 +18,42 @@
         android:layout_marginLeft="20dp"
         android:src="@drawable/cool_off_hit"
         android:scaleType="centerInside"
-        android:layout_width="20dp"
-        android:layout_height="20dp" />
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
 
     <ImageView
         android:id="@+id/mode"
         android:layout_marginLeft="2dp"
         android:src="@drawable/onoff_off_hit"
         android:scaleType="centerInside"
-        android:layout_width="20dp"
-        android:layout_height="20dp" />
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
 
     <ImageView
         android:id="@+id/wind"
         android:layout_marginLeft="2dp"
         android:src="@drawable/fan1_off_hit"
         android:scaleType="centerInside"
-        android:layout_width="20dp"
-        android:layout_height="20dp" />
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+
+    <ImageView
+        android:id="@+id/temp_none"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone"
+        android:src="@drawable/none_hit"
+        android:scaleType="centerInside"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
 
     <TextView
         android:id="@+id/temp"
         android:textSize="16sp"
         android:layout_marginLeft="5dp"
+        android:layout_marginTop="2dp"
         android:text="@string/default_temp"
         android:layout_width="50dp"
-        android:layout_height="20dp" />
+        android:layout_height="25dp" />
 
 
     <ImageView

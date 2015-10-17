@@ -244,9 +244,13 @@ public class EditSceneActivity extends BaseActivity{
                     final ImageView onoff_view = (ImageView)convertView.findViewById(R.id.onoff);
                     final ImageView wind_view = (ImageView)convertView.findViewById(R.id.wind);
                     final TextView temp_text = (TextView)convertView.findViewById(R.id.temp);
+                    final ImageView temp_none = (ImageView)convertView.findViewById(R.id.temp_none);
 
                     if (temp_on_off.get(position) != 2) {
-                        temp_text.setText(temp_on_off.get(position) + 18 + getString(R.string.temp_symbol));
+                        temp_none.setVisibility(View.GONE);
+                        temp_text.setVisibility(View.VISIBLE);
+                        int flag_temp = temp_temp.get(position) + 18;
+                        temp_text.setText(flag_temp + getString(R.string.temp_symbol));
                         if(temp_on_off.get(position) == 0){
                             onoff_view.setImageResource(R.drawable.onoff_off_hit);
                             temp_text.setTextColor(getResources().getColor(R.color.hit_off_gray));
@@ -342,8 +346,8 @@ public class EditSceneActivity extends BaseActivity{
                         }
 
                     } else {
-                        temp_text.setBackgroundResource(R.drawable.none_hit);
-                        temp_text.setText("");
+                        temp_text.setVisibility(View.GONE);
+                        temp_none.setVisibility(View.VISIBLE);
                         onoff_view.setImageResource(R.drawable.none_hit);
                         mode_view.setImageResource(R.drawable.none_hit);
                         wind_view.setImageResource(R.drawable.none_hit);
@@ -377,7 +381,10 @@ public class EditSceneActivity extends BaseActivity{
                                             temp_temp.set(position, tempView.getSelected());
 
                                             if (temp_on_off.get(position) != 2) {
-                                                temp_text.setText(temp_on_off.get(position) + 18 + getString(R.string.temp_symbol));
+                                                temp_none.setVisibility(View.GONE);
+                                                temp_text.setVisibility(View.VISIBLE);
+                                                int flag_temp1 = temp_temp.get(position) + 18;
+                                                temp_text.setText(flag_temp1 + getString(R.string.temp_symbol));
                                                 if(temp_on_off.get(position) == 0){
                                                     onoff_view.setImageResource(R.drawable.onoff_off_hit);
                                                     temp_text.setTextColor(getResources().getColor(R.color.hit_off_gray));
@@ -473,8 +480,8 @@ public class EditSceneActivity extends BaseActivity{
                                                 }
 
                                             } else {
-                                                temp_text.setBackgroundResource(R.drawable.none_hit);
-                                                temp_text.setText("");
+                                                temp_text.setVisibility(View.GONE);
+                                                temp_none.setVisibility(View.VISIBLE);
                                                 onoff_view.setImageResource(R.drawable.none_hit);
                                                 mode_view.setImageResource(R.drawable.none_hit);
                                                 wind_view.setImageResource(R.drawable.none_hit);
@@ -507,7 +514,8 @@ public class EditSceneActivity extends BaseActivity{
                                 + fanView1.getItemText(temp_fan.get(position)) + "|" + tempView1.getItemText(temp_temp.get(position)));
                         setModeTextColor(settingText, temp_on_off.get(position), temp_mode.get(position));
                     } else {
-                        settingText.setText(getString(R.string.none) + " " + getString(R.string.none) + " "  + getString(R.string.none) + " " + getString(R.string.none));
+                        settingText.setText(getString(R.string.none) + " " + getString(R.string.none) + " "  +
+                                getString(R.string.none) + " " + getString(R.string.none) + "  ");
                         settingText.setTextColor(getResources().getColor(R.color.text_color_gray));
                     }
 
@@ -543,7 +551,8 @@ public class EditSceneActivity extends BaseActivity{
                                                         + "|" + fanView.getItemText(temp_fan.get(position)) + "|" + tempView.getItemText(temp_temp.get(position)));
                                                 setModeTextColor(settingText,temp_on_off.get(position),temp_mode.get(position));
                                             }else{
-                                                settingText.setText(getString(R.string.none) + " " + getString(R.string.none) + " "  + getString(R.string.none) + " " + getString(R.string.none));
+                                                settingText.setText(getString(R.string.none) + " " + getString(R.string.none) + " "  +
+                                                        getString(R.string.none) + " " + getString(R.string.none) + "  ");
                                                 settingText.setTextColor(getResources().getColor(R.color.text_color_gray));
                                             }
                                         }
