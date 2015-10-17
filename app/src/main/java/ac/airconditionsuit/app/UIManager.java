@@ -32,5 +32,15 @@ public class UIManager {
         }
     }
 
+    public static int getSoftwareInfoLayout() {
+        switch (UITYPE) {
+            case HIT:
+                return R.layout.fragment_setting_software_info_hit;
+            case DC:
+                return R.layout.fragment_setting_software_info;
+            default:
+                return 0;
+        }
+    }
 
 }

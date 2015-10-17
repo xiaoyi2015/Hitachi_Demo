@@ -58,7 +58,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/air_device_list"
-                android:background="@color/switch_on_pink"
                 android:gravity="center"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="30dp"

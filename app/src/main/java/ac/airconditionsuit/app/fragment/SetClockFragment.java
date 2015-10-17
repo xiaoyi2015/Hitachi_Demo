@@ -125,25 +125,38 @@ public class SetClockFragment extends BaseFragment {
             if (convertView == null) {
                 convertView = new ClockCustomView(context);
             }
-            LinearLayout clockView = (LinearLayout) convertView.findViewById(R.id.clock_view);
-            final ImageView bgBar = (ImageView) convertView.findViewById(R.id.bg_bar);
-            TextView clockName = (TextView) convertView.findViewById(R.id.clock_name);
-            TextView clockSetting1 = (TextView) convertView.findViewById(R.id.clock_setting1);
-            TextView clockSetting2 = (TextView) convertView.findViewById(R.id.clock_setting2);
-            TextView clockTime = (TextView) convertView.findViewById(R.id.clock_time);
+
+            final LinearLayout clockView = (LinearLayout) convertView.findViewById(R.id.clock_view);
+            final TextView clockName = (TextView) convertView.findViewById(R.id.clock_name);
+            final TextView clockSetting1 = (TextView) convertView.findViewById(R.id.clock_setting1);
+            final TextView clockSetting2 = (TextView) convertView.findViewById(R.id.clock_setting2);
+            final TextView clockTime = (TextView) convertView.findViewById(R.id.clock_time);
             final SwitchButton switchOn = (SwitchButton) convertView.findViewById(R.id.clock_on_off);
+            final ImageView bgBar = (ImageView) convertView.findViewById(R.id.bg_bar);
 
             switchOn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!switchOn.isChecked()) {
                         switchOn.setChecked(true);
-                        bgBar.setImageResource(R.drawable.clock_bg_bar_on_dc);
+                        if(UIManager.UITYPE == 2){
+                            bgBar.setImageResource(R.drawable.clock_bg_bar_on_dc);
+                        }
+                        clockName.setTextColor(getResources().getColor(R.color.text_normal_color));
+                        clockSetting1.setTextColor(getResources().getColor(R.color.text_normal_color));
+                        clockSetting2.setTextColor(getResources().getColor(R.color.text_normal_color));
+                        clockTime.setTextColor(getResources().getColor(R.color.text_normal_color));
                         MyApp.getApp().getServerConfigManager().getTimer().get(position).setTimerenabled(true);
                         MyApp.getApp().getServerConfigManager().writeToFile();
                     } else {
                         switchOn.setChecked(false);
-                        bgBar.setImageResource(R.drawable.clock_bg_bar_off_dc);
+                        if(UIManager.UITYPE == 2){
+                            bgBar.setImageResource(R.drawable.clock_bg_bar_off_dc);
+                        }
+                        clockName.setTextColor(getResources().getColor(R.color.clock_off_gray));
+                        clockSetting1.setTextColor(getResources().getColor(R.color.clock_off_gray));
+                        clockSetting2.setTextColor(getResources().getColor(R.color.clock_off_gray));
+                        clockTime.setTextColor(getResources().getColor(R.color.clock_off_gray));
                         MyApp.getApp().getServerConfigManager().getTimer().get(position).setTimerenabled(false);
                         MyApp.getApp().getServerConfigManager().writeToFile();
                     }
@@ -152,10 +165,23 @@ public class SetClockFragment extends BaseFragment {
 
             if(list.get(position).isTimerenabled()){
                 switchOn.setChecked(true);
-                bgBar.setImageResource(R.drawable.clock_bg_bar_on_dc);
+                clockName.setTextColor(getResources().getColor(R.color.text_normal_color));
+                clockSetting1.setTextColor(getResources().getColor(R.color.text_normal_color));
+                clockSetting2.setTextColor(getResources().getColor(R.color.text_normal_color));
+                clockTime.setTextColor(getResources().getColor(R.color.text_normal_color));
+                if(UIManager.UITYPE == 2){
+                    bgBar.setImageResource(R.drawable.clock_bg_bar_on_dc);
+                }
             }else {
                 switchOn.setChecked(false);
-                bgBar.setImageResource(R.drawable.clock_bg_bar_off_dc);
+                clockName.setTextColor(getResources().getColor(R.color.clock_off_gray));
+                clockSetting1.setTextColor(getResources().getColor(R.color.clock_off_gray));
+                clockSetting2.setTextColor(getResources().getColor(R.color.clock_off_gray));
+                clockTime.setTextColor(getResources().getColor(R.color.clock_off_gray));
+                if(UIManager.UITYPE == 2){
+                    bgBar.setImageResource(R.drawable.clock_bg_bar_off_dc);
+                }
+
             }
             clockName.setText(list.get(position).getName());
             String hour;
@@ -243,7 +269,17 @@ public class SetClockFragment extends BaseFragment {
             init(context);
         }
         private void init(Context context) {
-            inflate(context, R.layout.custom_clock_view, this);
+            switch (UIManager.UITYPE) {
+                case 1:
+                    inflate(context, R.layout.custom_clock_view_hit, this);
+                    break;
+                case 2:
+                    inflate(context, R.layout.custom_clock_view, this);
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 }

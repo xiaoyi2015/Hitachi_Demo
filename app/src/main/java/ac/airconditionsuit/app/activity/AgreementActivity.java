@@ -43,6 +43,16 @@ public class AgreementActivity extends BaseActivity{
         }
         commonTopBar.setIconView(myOnClickListener, null);
         WebView webView = (WebView)findViewById(R.id.agreement_web_view);
-        webView.loadUrl("file:///android_asset/d-controls-agreement.html");
+        switch (UIManager.UITYPE){
+            case 1:
+                webView.loadUrl("file:///android_asset/d-controls-agreement.html");
+                break;
+            case 2:
+                webView.loadUrl("file:///android_asset/d-controls-agreement.html");
+                break;
+            default:
+                break;
+        }
+
     }
 }

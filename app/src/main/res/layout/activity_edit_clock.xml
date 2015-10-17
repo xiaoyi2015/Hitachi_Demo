@@ -99,7 +99,6 @@
                 android:layout_below="@id/air_device_list1"
                 android:layout_marginBottom="30dp"
                 android:layout_marginTop="20dp"
-                android:background="@color/switch_on_pink"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="@string/delete"

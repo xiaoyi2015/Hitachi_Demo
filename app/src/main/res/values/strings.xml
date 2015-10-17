@@ -165,5 +165,13 @@
     <string name="failure">失败</string>
     <string name="success">成功</string>
     <string name="check_push_data_failure">无法获取服务器数据</string>
+    <string name="set_temp">设定温度</string>
+    <string name="set_mode">模式</string>
+    <string name="set_fan">风速</string>
+    <string name="text_version_hit">i-EZ\n- Version V1.0.070801 - \n\n\nPQ-222</string>
+    <string name="text_part2_hit">此软件需通过日立i-EZ控制器实现相应控制\n功能。本软件中所涉及的界面及交互品牌名称\n
+        均是各自持有者的商标、注册商标或商标名称。\n
+        设计和功能如有变更，恕不另行通知！</string>
+    <string name="text_part1_hit">服务热线： 400-860-1111\n 版权所有@2015 青岛海信日立空调系统有限公司</string>
 
 </resources>

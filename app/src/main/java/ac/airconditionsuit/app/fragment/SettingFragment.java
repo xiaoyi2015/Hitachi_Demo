@@ -14,6 +14,7 @@ import java.util.Timer;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.activity.AddDeviceActivity;
 import ac.airconditionsuit.app.activity.BaseActivity;
 import ac.airconditionsuit.app.activity.HomeSettingActivity;

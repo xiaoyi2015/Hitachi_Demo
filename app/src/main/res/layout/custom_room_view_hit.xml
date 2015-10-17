@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_room_view"
+    android:background="@drawable/checkbox_room_hit"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/room_name"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="32dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/room_on_off"
+            android:layout_weight="1"
+            android:layout_marginTop="12dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/onoff_off_hit"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+
+        <ImageView
+            android:id="@+id/room_mode"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/cool_off_hit"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+
+        <ImageView
+            android:id="@+id/room_wind_speed"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/fan_off_hit"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+
+        <TextView
+            android:id="@+id/room_temp"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/default_temp"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
