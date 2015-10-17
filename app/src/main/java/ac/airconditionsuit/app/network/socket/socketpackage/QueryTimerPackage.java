@@ -8,9 +8,9 @@ import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
  * Created by ac on 10/9/15.
  */
 public class QueryTimerPackage extends SocketPackage {
-    private long id;
+    private int id;
 
-    public QueryTimerPackage(long id) {
+    public QueryTimerPackage(int id) {
         this.id = id;
     }
 

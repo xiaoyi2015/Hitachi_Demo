@@ -154,10 +154,6 @@ public class SocketManager extends Observable {
         }
     }
 
-    public void queryAirConditionStatus() {
-        MyApp.getApp().initAirconditionManager();
-    }
-
     class ReceiveThread extends Thread {
         @Override
         public void run() {

@@ -16,7 +16,7 @@ public class Timer extends RootEntity {
     boolean timerenabled;
     boolean onoff;
     boolean repeat;
-    long timerid;
+    int timerid;
     List<Integer> address;
     int fan;
     int mode;
@@ -58,11 +58,11 @@ public class Timer extends RootEntity {
         this.repeat = repeat;
     }
 
-    public long getTimerid() {
+    public int getTimerid() {
         return timerid;
     }
 
-    public void setTimerid(long timerid) {
+    public void setTimerid(int timerid) {
         this.timerid = timerid;
     }
 

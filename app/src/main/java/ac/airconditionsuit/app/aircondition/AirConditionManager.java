@@ -3,6 +3,7 @@ package ac.airconditionsuit.app.aircondition;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.*;
 import ac.airconditionsuit.app.network.socket.socketpackage.ControlPackage;
+import ac.airconditionsuit.app.network.socket.socketpackage.QueryTimerPackage;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -14,16 +15,16 @@ import java.util.List;
 public class AirConditionManager {
 
     private static final String TAG = "AirConditionManager";
+    public static final int QUERY_ALL_TIMER = 0xffff;
+    public static final int QUERY_TIMER_NO = 0xfffe;
     List<AirCondition> airConditions = new ArrayList<>();
     List<Timer> timers = new ArrayList<>();
 
-    public void init() {
+    public void queryAirConditionStatus() {
         try {
             MyApp.getApp().getSocketManager().getAllAirConditionStatusFromHostDevice(
                     MyApp.getApp().getServerConfigManager().getDevices()
             );
-            //todo test code for luzheqi
-
         } catch (Exception e) {
             Log.e(TAG, "init air condition status fail");
             e.printStackTrace();
@@ -88,7 +89,18 @@ public class AirConditionManager {
         return null;
     }
 
-    public void queryTimer() {
 
+
+    public void queryTimer(int id) {
+        MyApp.getApp().getSocketManager().sendMessage(new QueryTimerPackage(id));
+    }
+
+    public void controlAirCondition(Command command) {
+        try {
+            MyApp.getApp().getSocketManager().sendMessage(new ControlPackage(command));
+        } catch (Exception e) {
+            Log.e(TAG, "invalid command");
+            e.printStackTrace();
+        }
     }
 }

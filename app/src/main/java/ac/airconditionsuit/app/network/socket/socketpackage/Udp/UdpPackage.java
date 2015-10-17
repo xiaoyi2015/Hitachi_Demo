@@ -87,7 +87,7 @@ public class UdpPackage {
         return p;
     }
 
-    public static UdpPackage genQueryTimerPackage(long id) throws Exception {
+    public static UdpPackage genQueryTimerPackage(int id) throws Exception {
         UdpPackage p = new UdpPackage();
         p.setContent(p.new QueryTimerPackageContent(id));
         return p;
@@ -204,12 +204,12 @@ public class UdpPackage {
 
     public static final byte AFN_QUERY_TIMER = 0xa;
     public class QueryTimerPackageContent extends UdpPackageContent {
-        public QueryTimerPackageContent(long id) throws Exception {
+        public QueryTimerPackageContent(int id) throws Exception {
             function = AFN_QUERY_TIMER;
-            if (id > 32760) {
+            if (id != 0xffff && id != 0xfffe && id > 32760) {
                 throw new Exception("id is too big");
             }
-            content = ByteUtil.shortToByteArray(id);
+            content = ByteUtil.shortToByteArray(id & 0xffff);
         }
     }
 
@@ -248,7 +248,6 @@ public class UdpPackage {
                 @Override
                 public void fail(int errorNo) {
                     Log.i(TAG, "get air condition fail");
-                    MyApp.getApp().showToast(UdpErrorNoUtil.getMessage(errorNo));
                 }
             };
         }

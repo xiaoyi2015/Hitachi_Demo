@@ -5,6 +5,7 @@ import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 import ac.airconditionsuit.app.util.ByteUtil;
+import ac.airconditionsuit.app.util.UdpErrorNoUtil;
 import android.util.Log;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class UdpPackageHandler {
 
     private Map<Byte, UdpPackage> sentPackage = new HashMap<>();
 
-    public void addSentPackage(UdpPackage p){
+    public void addSentPackage(UdpPackage p) {
         sentPackage.put(p.getFramNumber(), p);
     }
 
@@ -98,18 +99,42 @@ public class UdpPackageHandler {
                 MyApp.getApp().getAirconditionManager().timerRun(ByteUtil.byteArrayToShort(UdpPackage.getContentData(receiveData)));
                 break;
 
+            case UdpPackage.AFN_QUERY_TIMER:
+                Log.i(TAG, "receive timer status");
+                break;
 
             case UdpPackage.AFN_NO:
-                String error_no = new String(Arrays.copyOfRange(receiveData, 4, 8), Charset.forName("US-ASCII"));
-                Log.i(TAG, "udp error: " + error_no);
-                sentPackage.get(pfc).getHandler().fail(Integer.parseInt(error_no));
-                sentPackage.remove(pfc);
+                String errorNo = new String(Arrays.copyOfRange(receiveData, 4, 8), Charset.forName("US-ASCII"));
 
+                int errorNoInt = Integer.parseInt(errorNo);
+
+                MyApp.getApp().showToast(UdpErrorNoUtil.getMessage(errorNoInt));
+                Log.i(TAG, "udp error: " + errorNo);
+
+                UdpPackage udpPackage = sentPackage.get(pfc);
+                if (udpPackage != null) {
+                    UdpPackage.Handler handler = udpPackage.getHandler();
+                    if (handler != null) {
+                        handler.fail(errorNoInt);
+                    }
+                    sentPackage.remove(pfc);
+                }
                 break;
 
             case UdpPackage.AFN_YES:
-                sentPackage.get(pfc).getHandler().success();
-                sentPackage.remove(pfc);
+                udpPackage = sentPackage.get(pfc);
+                if (udpPackage != null) {
+                    UdpPackage.Handler handler = udpPackage.getHandler();
+                    if (handler != null) {
+                        handler.success();
+                    }
+                    sentPackage.remove(pfc);
+                }
+                break;
+
+            case 16:
+            case 17:
+                Log.i(TAG, "new afn");
                 break;
 
             default:

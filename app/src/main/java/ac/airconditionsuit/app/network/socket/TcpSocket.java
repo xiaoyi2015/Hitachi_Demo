@@ -1,6 +1,8 @@
 package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.aircondition.AirConditionManager;
+import ac.airconditionsuit.app.entity.Command;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.ACKPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.CheckDevicePackage;
@@ -15,6 +17,7 @@ import ac.airconditionsuit.app.util.ByteUtil;
 import android.util.Log;
 
 import java.io.IOException;
+import java.lang.annotation.AnnotationFormatError;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Arrays;
@@ -192,7 +195,7 @@ class TcpSocket implements SocketWrap {
         if (contentType == 1) {
             Log.i(TAG, "handle receive data as bin");
             long chat_id = ByteUtil.byteArrayToLong(receiveData, 7);
-            if (chat_id == MyApp.getApp().getServerConfigManager().getCurrentChatId()) {
+            if (chat_id == 0 || chat_id == MyApp.getApp().getServerConfigManager().getCurrentChatId()) {
                 MyApp.getApp().getSocketManager().handUdpPackage(null, data);
             } else {
                 Log.i(TAG, "receive data not for current device, ignore");
@@ -234,10 +237,25 @@ class TcpSocket implements SocketWrap {
         short result_code = ByteUtil.byteArrayToShort(receiveData, 15);
         if (result_code == 200) {
             Log.i(TAG, "tcp login success");
-            MyApp.getApp().getSocketManager().startHeartBeat();
-            if (MyApp.getApp().getServerConfigManager().hasDevice()) {
-                MyApp.getApp().getSocketManager().queryAirConditionStatus();
-            }
+            //comment for debug todo
+//            MyApp.getApp().getSocketManager().startHeartBeat();
+//            if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+//                MyApp.getApp().getAirconditionManager().queryAirConditionStatus();
+//            }
+
+            //test code for control
+//            Command command = new Command();
+//            command.setTemperature(20);
+//            command.setFan(2);
+//            command.setMode(1);
+//            command.setOnoff(0);
+//            command.setAddress(2);
+//            MyApp.getApp().getAirconditionManager().controlAirCondition(command);
+
+            //test code for query timer
+            MyApp.getApp().getAirconditionManager().queryTimer(AirConditionManager.QUERY_ALL_TIMER);
+
+
         } else if (result_code == 401) {
             MyApp.getApp().getSocketManager().close();
             MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.OFFLINE));

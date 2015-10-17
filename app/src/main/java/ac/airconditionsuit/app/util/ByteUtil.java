@@ -3,6 +3,8 @@ package ac.airconditionsuit.app.util;
 
 import android.util.Log;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.sql.ResultSet;
 
 /**
@@ -44,7 +46,7 @@ public class ByteUtil {
 
     public static byte[] shortToByteArray(long input) {
         byte[] result = new byte[2];
-        input &= 0xff;
+        input &= 0xffff;
         result[0] = (byte) (input & 0xff);
         result[1] = (byte) (input >>> 8);
         return result;
@@ -52,6 +54,16 @@ public class ByteUtil {
 
     public static byte[] longToByteArray(Long input) {
         byte[] result = new byte[8];
+        int i = 0;
+        while (input != 0) {
+            result[i++] = (byte) (input & 0xff);
+            input >>>= 8;
+        }
+        return result;
+    }
+
+    public static byte[] intToByteArray(int input) {
+        byte[] result = new byte[4];
         int i = 0;
         while (input != 0) {
             result[i++] = (byte) (input & 0xff);
