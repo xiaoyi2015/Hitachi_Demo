@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.AirModePickerView;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
+import ac.airconditionsuit.app.view.CommonModeArrowView;
 import ac.airconditionsuit.app.view.CommonTopBar;
 import ac.airconditionsuit.app.view.CommonWheelView;
 
@@ -229,69 +231,320 @@ public class EditSceneActivity extends BaseActivity{
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            if(convertView == null){
-                convertView = new CommonButtonWithArrow(context);
-            }
-            TextView deviceName = (TextView)convertView.findViewById(R.id.label_text);
-            deviceName.setText(list.get(position).getName());
-            deviceName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
+            TextView deviceName;
+            switch (UIManager.UITYPE){
+                case 1:
+                    if(convertView == null){
+                        convertView = new CommonModeArrowView(context);
+                    }
+                    deviceName = (TextView)convertView.findViewById(R.id.label_text);
+                    deviceName.setText(list.get(position).getName());
+                    deviceName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
+                    final ImageView mode_view = (ImageView)convertView.findViewById(R.id.mode);
+                    final ImageView onoff_view = (ImageView)convertView.findViewById(R.id.onoff);
+                    final ImageView wind_view = (ImageView)convertView.findViewById(R.id.wind);
+                    final TextView temp_text = (TextView)convertView.findViewById(R.id.temp);
 
-            AirModePickerView airModePickerView1 = new AirModePickerView(context);
-            airModePickerView1.setOnOffView(R.string.cancel);
-            CommonWheelView onOffView1 = (CommonWheelView) airModePickerView1.findViewById(R.id.set_on_off);
-            CommonWheelView modeView1 = (CommonWheelView) airModePickerView1.findViewById(R.id.set_mode);
-            CommonWheelView fanView1 = (CommonWheelView) airModePickerView1.findViewById(R.id.set_fan);
-            CommonWheelView tempView1 = (CommonWheelView) airModePickerView1.findViewById(R.id.set_temp);
-
-            final TextView settingText = (TextView)convertView.findViewById(R.id.online_text);
-            settingText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
-            if (temp_on_off.get(position) != 2) {
-                settingText.setText(onOffView1.getItemText(temp_on_off.get(position)) + "|" + modeView1.getItemText(temp_mode.get(position)) + "|"
-                        + fanView1.getItemText(temp_fan.get(position)) + "|" + tempView1.getItemText(temp_temp.get(position)));
-                setModeTextColor(settingText, temp_on_off.get(position), temp_mode.get(position));
-            } else {
-                settingText.setText("");
-            }
-
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    final AirModePickerView airModePickerView = new AirModePickerView(context);
-                    airModePickerView.setOnOffView(R.string.cancel);
-                    final CommonWheelView onOffView = (CommonWheelView) airModePickerView.findViewById(R.id.set_on_off);
-                    final CommonWheelView modeView = (CommonWheelView) airModePickerView.findViewById(R.id.set_mode);
-                    final CommonWheelView fanView = (CommonWheelView) airModePickerView.findViewById(R.id.set_fan);
-                    final CommonWheelView tempView = (CommonWheelView) airModePickerView.findViewById(R.id.set_temp);
-
-                    onOffView.setDefault(temp_on_off.get(position));
-                    modeView.setDefault(temp_mode.get(position));
-                    fanView.setDefault(temp_fan.get(position));
-                    tempView.setDefault(temp_temp.get(position));
-
-                    airModePickerView.setMinimumHeight(400);
-
-                    new AlertDialog.Builder(EditSceneActivity.this).setTitle(R.string.choose_scene_air_mode).setView(airModePickerView).
-                            setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    temp_on_off.set(position, onOffView.getSelected());
-                                    temp_mode.set(position, modeView.getSelected());
-                                    temp_fan.set(position, fanView.getSelected());
-                                    temp_temp.set(position, tempView.getSelected());
-
-                                    if (temp_on_off.get(position) != 2) {
-                                        settingText.setText(onOffView.getItemText(temp_on_off.get(position)) + "|" + modeView.getItemText(temp_mode.get(position))
-                                                + "|" + fanView.getItemText(temp_fan.get(position)) + "|" + tempView.getItemText(temp_temp.get(position)));
-                                        setModeTextColor(settingText,temp_on_off.get(position),temp_mode.get(position));
-                                    }else{
-                                        settingText.setText("");
+                    if (temp_on_off.get(position) != 2) {
+                        temp_text.setText(temp_on_off.get(position) + 18 + getString(R.string.temp_symbol));
+                        if(temp_on_off.get(position) == 0){
+                            onoff_view.setImageResource(R.drawable.onoff_off_hit);
+                            temp_text.setTextColor(getResources().getColor(R.color.hit_off_gray));
+                            switch (temp_mode.get(position)){
+                                case 0:
+                                    mode_view.setImageResource(R.drawable.cool_off_hit);
+                                    break;
+                                case 1:
+                                    mode_view.setImageResource(R.drawable.heat_off_hit);
+                                    break;
+                                case 2:
+                                    mode_view.setImageResource(R.drawable.dry_off_hit);
+                                    break;
+                                case 3:
+                                    mode_view.setImageResource(R.drawable.fan_off_hit);
+                                    break;
+                            }
+                            switch (temp_fan.get(position)){
+                                case 0:
+                                    wind_view.setImageResource(R.drawable.fan1_off_hit);
+                                    break;
+                                case 1:
+                                    wind_view.setImageResource(R.drawable.fan3_off_hit);
+                                    break;
+                                case 2:
+                                    wind_view.setImageResource(R.drawable.fan5_off_hit);
+                                    break;
+                            }
+                        }else{
+                            onoff_view.setImageResource(R.drawable.onoff_on_heat_hit);
+                            switch (temp_mode.get(position)){
+                                case 0:
+                                    mode_view.setImageResource(R.drawable.cool_on_hit);
+                                    temp_text.setTextColor(getResources().getColor(R.color.hit_cool_blue));
+                                    switch (temp_fan.get(position)){
+                                        case 0:
+                                            wind_view.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
+                                            break;
+                                        case 1:
+                                            wind_view.setImageResource(R.drawable.fan3_on_cool_dry_fan_hit);
+                                            break;
+                                        case 2:
+                                            wind_view.setImageResource(R.drawable.fan5_on_cool_dry_fan_hit);
+                                            break;
                                     }
-                                }
-                            }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+                                    break;
+                                case 1:
+                                    mode_view.setImageResource(R.drawable.heat_on_hit);
+                                    temp_text.setTextColor(getResources().getColor(R.color.hit_heat_red));
+                                    switch (temp_fan.get(position)){
+                                        case 0:
+                                            wind_view.setImageResource(R.drawable.fan1_on_heat_hit);
+                                            break;
+                                        case 1:
+                                            wind_view.setImageResource(R.drawable.fan3_on_heat_hit);
+                                            break;
+                                        case 2:
+                                            wind_view.setImageResource(R.drawable.fan5_on_heat_hit);
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    mode_view.setImageResource(R.drawable.dry_on_hit);
+                                    temp_text.setTextColor(getResources().getColor(R.color.hit_cool_blue));
+                                    switch (temp_fan.get(position)){
+                                        case 0:
+                                            wind_view.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
+                                            break;
+                                        case 1:
+                                            wind_view.setImageResource(R.drawable.fan3_on_cool_dry_fan_hit);
+                                            break;
+                                        case 2:
+                                            wind_view.setImageResource(R.drawable.fan5_on_cool_dry_fan_hit);
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    mode_view.setImageResource(R.drawable.fan_on_hit);
+                                    temp_text.setTextColor(getResources().getColor(R.color.hit_cool_blue));
+                                    switch (temp_fan.get(position)){
+                                        case 0:
+                                            wind_view.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
+                                            break;
+                                        case 1:
+                                            wind_view.setImageResource(R.drawable.fan3_on_cool_dry_fan_hit);
+                                            break;
+                                        case 2:
+                                            wind_view.setImageResource(R.drawable.fan5_on_cool_dry_fan_hit);
+                                            break;
+                                    }
+                                    break;
+                            }
+                        }
 
-                }
-            });
+                    } else {
+                        // TODO set --
+                    }
+
+                    convertView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            final AirModePickerView airModePickerView = new AirModePickerView(context);
+                            airModePickerView.setOnOffView(R.string.cancel);
+                            final CommonWheelView onOffView = (CommonWheelView) airModePickerView.findViewById(R.id.set_on_off);
+                            final CommonWheelView modeView = (CommonWheelView) airModePickerView.findViewById(R.id.set_mode);
+                            final CommonWheelView fanView = (CommonWheelView) airModePickerView.findViewById(R.id.set_fan);
+                            final CommonWheelView tempView = (CommonWheelView) airModePickerView.findViewById(R.id.set_temp);
+
+                            onOffView.setDefault(temp_on_off.get(position));
+                            modeView.setDefault(temp_mode.get(position));
+                            fanView.setDefault(temp_fan.get(position));
+                            tempView.setDefault(temp_temp.get(position));
+
+                            airModePickerView.setMinimumHeight(400);
+
+                            new AlertDialog.Builder(EditSceneActivity.this).setTitle(R.string.choose_scene_air_mode).setView(airModePickerView).
+                                    setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            temp_on_off.set(position, onOffView.getSelected());
+                                            temp_mode.set(position, modeView.getSelected());
+                                            temp_fan.set(position, fanView.getSelected());
+                                            temp_temp.set(position, tempView.getSelected());
+
+                                            if (temp_on_off.get(position) != 2) {
+                                                temp_text.setText(temp_on_off.get(position) + 18 + getString(R.string.temp_symbol));
+                                                if(temp_on_off.get(position) == 0){
+                                                    onoff_view.setImageResource(R.drawable.onoff_off_hit);
+                                                    temp_text.setTextColor(getResources().getColor(R.color.hit_off_gray));
+                                                    switch (temp_mode.get(position)){
+                                                        case 0:
+                                                            mode_view.setImageResource(R.drawable.cool_off_hit);
+                                                            break;
+                                                        case 1:
+                                                            mode_view.setImageResource(R.drawable.heat_off_hit);
+                                                            break;
+                                                        case 2:
+                                                            mode_view.setImageResource(R.drawable.dry_off_hit);
+                                                            break;
+                                                        case 3:
+                                                            mode_view.setImageResource(R.drawable.fan_off_hit);
+                                                            break;
+                                                    }
+                                                    switch (temp_fan.get(position)){
+                                                        case 0:
+                                                            wind_view.setImageResource(R.drawable.fan1_off_hit);
+                                                            break;
+                                                        case 1:
+                                                            wind_view.setImageResource(R.drawable.fan3_off_hit);
+                                                            break;
+                                                        case 2:
+                                                            wind_view.setImageResource(R.drawable.fan5_off_hit);
+                                                            break;
+                                                    }
+                                                }else{
+                                                    onoff_view.setImageResource(R.drawable.onoff_on_heat_hit);
+                                                    switch (temp_mode.get(position)){
+                                                        case 0:
+                                                            mode_view.setImageResource(R.drawable.cool_on_hit);
+                                                            temp_text.setTextColor(getResources().getColor(R.color.hit_cool_blue));
+                                                            switch (temp_fan.get(position)){
+                                                                case 0:
+                                                                    wind_view.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
+                                                                    break;
+                                                                case 1:
+                                                                    wind_view.setImageResource(R.drawable.fan3_on_cool_dry_fan_hit);
+                                                                    break;
+                                                                case 2:
+                                                                    wind_view.setImageResource(R.drawable.fan5_on_cool_dry_fan_hit);
+                                                                    break;
+                                                            }
+                                                            break;
+                                                        case 1:
+                                                            mode_view.setImageResource(R.drawable.heat_on_hit);
+                                                            temp_text.setTextColor(getResources().getColor(R.color.hit_heat_red));
+                                                            switch (temp_fan.get(position)){
+                                                                case 0:
+                                                                    wind_view.setImageResource(R.drawable.fan1_on_heat_hit);
+                                                                    break;
+                                                                case 1:
+                                                                    wind_view.setImageResource(R.drawable.fan3_on_heat_hit);
+                                                                    break;
+                                                                case 2:
+                                                                    wind_view.setImageResource(R.drawable.fan5_on_heat_hit);
+                                                                    break;
+                                                            }
+                                                            break;
+                                                        case 2:
+                                                            mode_view.setImageResource(R.drawable.dry_on_hit);
+                                                            temp_text.setTextColor(getResources().getColor(R.color.hit_cool_blue));
+                                                            switch (temp_fan.get(position)){
+                                                                case 0:
+                                                                    wind_view.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
+                                                                    break;
+                                                                case 1:
+                                                                    wind_view.setImageResource(R.drawable.fan3_on_cool_dry_fan_hit);
+                                                                    break;
+                                                                case 2:
+                                                                    wind_view.setImageResource(R.drawable.fan5_on_cool_dry_fan_hit);
+                                                                    break;
+                                                            }
+                                                            break;
+                                                        case 3:
+                                                            mode_view.setImageResource(R.drawable.fan_on_hit);
+                                                            temp_text.setTextColor(getResources().getColor(R.color.hit_cool_blue));
+                                                            switch (temp_fan.get(position)){
+                                                                case 0:
+                                                                    wind_view.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
+                                                                    break;
+                                                                case 1:
+                                                                    wind_view.setImageResource(R.drawable.fan3_on_cool_dry_fan_hit);
+                                                                    break;
+                                                                case 2:
+                                                                    wind_view.setImageResource(R.drawable.fan5_on_cool_dry_fan_hit);
+                                                                    break;
+                                                            }
+                                                            break;
+                                                    }
+                                                }
+
+                                            } else {
+                                                // TODO set --
+                                            }
+
+                                        }
+                                    }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+                        }
+                    });
+                    break;
+                case 2:
+                    if(convertView == null){
+                        convertView = new CommonButtonWithArrow(context);
+                    }
+                    deviceName = (TextView)convertView.findViewById(R.id.label_text);
+                    deviceName.setText(list.get(position).getName());
+                    deviceName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
+
+                    AirModePickerView airModePickerView1 = new AirModePickerView(context);
+                    airModePickerView1.setOnOffView(R.string.cancel);
+                    CommonWheelView onOffView1 = (CommonWheelView) airModePickerView1.findViewById(R.id.set_on_off);
+                    CommonWheelView modeView1 = (CommonWheelView) airModePickerView1.findViewById(R.id.set_mode);
+                    CommonWheelView fanView1 = (CommonWheelView) airModePickerView1.findViewById(R.id.set_fan);
+                    CommonWheelView tempView1 = (CommonWheelView) airModePickerView1.findViewById(R.id.set_temp);
+
+                    final TextView settingText = (TextView)convertView.findViewById(R.id.online_text);
+                    settingText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
+                    if (temp_on_off.get(position) != 2) {
+                        settingText.setText(onOffView1.getItemText(temp_on_off.get(position)) + "|" + modeView1.getItemText(temp_mode.get(position)) + "|"
+                                + fanView1.getItemText(temp_fan.get(position)) + "|" + tempView1.getItemText(temp_temp.get(position)));
+                        setModeTextColor(settingText, temp_on_off.get(position), temp_mode.get(position));
+                    } else {
+                        settingText.setText("");
+                    }
+
+                    convertView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            final AirModePickerView airModePickerView = new AirModePickerView(context);
+                            airModePickerView.setOnOffView(R.string.cancel);
+                            final CommonWheelView onOffView = (CommonWheelView) airModePickerView.findViewById(R.id.set_on_off);
+                            final CommonWheelView modeView = (CommonWheelView) airModePickerView.findViewById(R.id.set_mode);
+                            final CommonWheelView fanView = (CommonWheelView) airModePickerView.findViewById(R.id.set_fan);
+                            final CommonWheelView tempView = (CommonWheelView) airModePickerView.findViewById(R.id.set_temp);
+
+                            onOffView.setDefault(temp_on_off.get(position));
+                            modeView.setDefault(temp_mode.get(position));
+                            fanView.setDefault(temp_fan.get(position));
+                            tempView.setDefault(temp_temp.get(position));
+
+                            airModePickerView.setMinimumHeight(400);
+
+                            new AlertDialog.Builder(EditSceneActivity.this).setTitle(R.string.choose_scene_air_mode).setView(airModePickerView).
+                                    setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            temp_on_off.set(position, onOffView.getSelected());
+                                            temp_mode.set(position, modeView.getSelected());
+                                            temp_fan.set(position, fanView.getSelected());
+                                            temp_temp.set(position, tempView.getSelected());
+
+                                            if (temp_on_off.get(position) != 2) {
+                                                settingText.setText(onOffView.getItemText(temp_on_off.get(position)) + "|" + modeView.getItemText(temp_mode.get(position))
+                                                        + "|" + fanView.getItemText(temp_fan.get(position)) + "|" + tempView.getItemText(temp_temp.get(position)));
+                                                setModeTextColor(settingText,temp_on_off.get(position),temp_mode.get(position));
+                                            }else{
+                                                settingText.setText("");
+                                            }
+                                        }
+                                    }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
 
             return convertView;
         }
