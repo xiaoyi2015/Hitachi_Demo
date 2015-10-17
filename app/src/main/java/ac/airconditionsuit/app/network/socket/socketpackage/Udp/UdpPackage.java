@@ -128,7 +128,7 @@ public class UdpPackage {
                 public void success() {
                     MyApp.getApp().getSocketManager().startHeartBeat();
                     //test code todo for luzheqi
-                    MyApp.getApp().getSocketManager().getAirConditionAddressFromHostDevice();
+//                    MyApp.getApp().getSocketManager().getAirConditionAddressFromHostDevice();
                 }
 
                 @Override

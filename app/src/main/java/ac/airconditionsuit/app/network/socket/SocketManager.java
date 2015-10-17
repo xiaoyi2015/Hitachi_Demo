@@ -4,10 +4,12 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.*;
+import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
 import android.util.Log;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
 import java.util.List;
 import java.util.Observable;
 import java.util.Timer;
@@ -135,6 +137,16 @@ public class SocketManager extends Observable {
 
     }
 
+    public void handUdpPackage(DatagramPacket datagramPacket, byte[] receiveData) throws IOException {
+        udpPackageHandler.handleUdpPackage(datagramPacket, receiveData);
+    }
+
+    public void addSentUdpPackage(UdpPackage udpPackage) {
+        if (udpPackage != null) {
+            udpPackageHandler.addSentPackage(udpPackage);
+        }
+    }
+
     class ReceiveThread extends Thread {
         @Override
         public void run() {
@@ -169,6 +181,7 @@ public class SocketManager extends Observable {
     }
 
     private SocketWrap socket;
+    private UdpPackageHandler udpPackageHandler;
     private Thread receiveThread;
 
     public void sendMessage(SocketPackage socketPackage) {
@@ -222,6 +235,8 @@ public class SocketManager extends Observable {
             Log.i(TAG, "init socket manager failed due to no network");
             return;
         }
+
+        udpPackageHandler = new UdpPackageHandler();
 
         //network task should be run on background
         new Thread(new Runnable() {
@@ -278,7 +293,7 @@ public class SocketManager extends Observable {
         if (socket != null
                 && socket.isConnect()
                 && ((socket instanceof TcpSocket && socketType == TCP)
-                    || (socket instanceof UdpSocket && socketType == UDP))) {
+                || (socket instanceof UdpSocket && socketType == UDP))) {
             return;
         }
         close();

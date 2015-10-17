@@ -54,9 +54,11 @@ public class AirConditionManager {
         }
     }
 
-    public void timerRun(byte[] contentData) {
-        //已运行的定时器id
-        int timerId = ByteUtil.byteArrayToShort(contentData);
+    /**
+     *
+     * @param timerId 定时器id
+     */
+    public void timerRun(int timerId) {
         //todo for luzheqi
     }
 
@@ -81,4 +83,7 @@ public class AirConditionManager {
         return null;
     }
 
+    public void queryTimer() {
+
+    }
 }

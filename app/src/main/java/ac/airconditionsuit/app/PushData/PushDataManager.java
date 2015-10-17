@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
@@ -28,6 +29,7 @@ public class PushDataManager {
     public static final String CHATID = "chatid";
     public static final String TYPE = "type";
     public static final String CONTENT = "content";
+    private static final String TAG = "PushDataManager";
 
     public class PushData {
 
@@ -118,10 +120,9 @@ public class PushDataManager {
         }
     }
 
-    public long add(byte[] data) {
-        String jsonString = new String(data);
+    public long add(String data) {
         try {
-            PushData pushData = new Gson().fromJson(jsonString, PushData.class);
+            PushData pushData = new Gson().fromJson(data, PushData.class);
             saveToSQLite(pushData);
             return pushData.getId();
         } catch (Exception e) {
@@ -236,7 +237,9 @@ public class PushDataManager {
                 }
                 saveToSQLite(pushDatas);
                 ack(pushDatas);
-                checkPushDataFromService();
+                if (pushDatas.size() != 0) {
+                    checkPushDataFromService();
+                }
             }
 
             @Override

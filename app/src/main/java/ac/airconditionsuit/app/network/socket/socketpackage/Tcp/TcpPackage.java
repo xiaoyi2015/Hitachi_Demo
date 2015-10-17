@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
  */
 public abstract class TcpPackage {
     public static final byte TICK_OFF_LINE_MSG_TYPE = 0x7;
+    public static final byte RECEIVE_MESSAGE_FROM_SERVER = 0x5;
 
     public static final byte START_BYTE = 0x2;
     public static final byte END_BYTE = 0x3;

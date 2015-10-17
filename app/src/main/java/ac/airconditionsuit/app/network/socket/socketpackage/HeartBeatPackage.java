@@ -16,7 +16,9 @@ public class HeartBeatPackage extends SocketPackage {
 
     @Override
     public byte[] getBytesUDP() throws Exception {
-        udpPackage = UdpPackage.genHeartBeatPackage();
+        if (udpPackage == null) {
+            udpPackage = UdpPackage.genHeartBeatPackage();
+        }
         return udpPackage.getBytes();
     }
 

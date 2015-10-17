@@ -1,7 +1,6 @@
 package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.PushData.PushDataManager;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.ACKPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.CheckDevicePackage;
@@ -10,6 +9,7 @@ import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPHeartBeatPack
 import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPLoginPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPSendMessagePackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TcpPackage;
+import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 import ac.airconditionsuit.app.util.ACByteQueue;
 import ac.airconditionsuit.app.util.ByteUtil;
 import android.util.Log;
@@ -43,6 +43,8 @@ class TcpSocket implements SocketWrap {
         if (socket != null && socket.isConnected()) {
             try {
                 byte[] dataSent = socketPackage.getBytesTCP();
+                UdpPackage udpPackage = socketPackage.getUdpPackage();
+                MyApp.getApp().getSocketManager().addSentUdpPackage(udpPackage);
                 socket.getOutputStream().write(dataSent);
                 Log.i(TAG, "tcp send data: " + ByteUtil.byteArrayToReadableHexString(dataSent));
             } catch (Exception e) {
@@ -127,7 +129,7 @@ class TcpSocket implements SocketWrap {
                 handleHeartBeat();
                 break;
 
-            case TCPSendMessagePackage.SEND_MESSAGE_MSG_TYPE:
+            case TcpPackage.RECEIVE_MESSAGE_FROM_SERVER:
                 //处理从服务器接受到的消息
                 handleReceiveDataFromServer(receiveData);
                 break;
@@ -191,14 +193,15 @@ class TcpSocket implements SocketWrap {
             Log.i(TAG, "handle receive data as bin");
             long chat_id = ByteUtil.byteArrayToLong(receiveData, 7);
             if (chat_id == MyApp.getApp().getServerConfigManager().getCurrentChatId()) {
-                //TODO for luzheqi, 对消息进行处理由udp的相应单元处理
+                MyApp.getApp().getSocketManager().handUdpPackage(null, data);
             } else {
                 Log.i(TAG, "receive data not for current device, ignore");
             }
 
-        } else if (contentLen == 0) {
-            Log.i(TAG, "handle receive data as json");
-            MyApp.getApp().getPushDataManager().add(data);
+        } else if (contentType == 0) {
+            String jsonString = new String(data);
+            Log.i(TAG, "handle receive data as json: " + jsonString);
+            MyApp.getApp().getPushDataManager().add(jsonString);
         } else {
             throw new IOException("unknow content type");
         }
@@ -225,6 +228,7 @@ class TcpSocket implements SocketWrap {
         Log.i(TAG, "tcp heart beat ok");
         //check device after heartbeat
         checkDeviceConnect();
+        MyApp.getApp().getAirconditionManager().queryTimer();
     }
 
     private void handleLoginReturn(byte[] receiveData) throws IOException {

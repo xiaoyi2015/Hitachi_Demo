@@ -13,7 +13,7 @@ public abstract class SocketPackage {
     public abstract byte[] getBytesUDP() throws Exception;
     public abstract byte[] getBytesTCP() throws Exception;
 
-    public UdpPackage getUdpPackage() {
+    public UdpPackage getUdpPackage() throws Exception {
         return udpPackage;
     }
 
