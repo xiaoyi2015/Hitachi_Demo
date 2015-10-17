@@ -253,7 +253,7 @@ public class SocketManager extends Observable {
     }
 
     public static int getSocketType(int status) {
-        status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
+//        status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
         if (status == NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT) {
             //udp
             //udp还要判断是否有设备
