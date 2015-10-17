@@ -17,5 +17,8 @@
     <color name="tab_indicator_text_select_hit">#FFFFFF</color>
     <color name="tab_indicator_text_normal_hit">#a1a1a6</color>
     <color name="delete_red_hit">#bc0d28</color>
+    <color name="hit_cool_blue">#024b96</color>
+    <color name="hit_heat_red">#a61b32</color>
+    <color name="hit_off_gray">#cccccc</color>
 
 </resources>

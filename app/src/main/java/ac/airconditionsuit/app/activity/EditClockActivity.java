@@ -369,7 +369,7 @@ public class EditClockActivity extends BaseActivity{
             if(timer.isRepeat()) {
                 repeat = getString(R.string.repeat);
                 for(int i = 0; i < timer.getWeek().size()-1; i++){
-                    week = week + weekName[timer.getWeek().get(i)] + "|";
+                    week = week + weekName[timer.getWeek().get(i)];
                 }
                 week = week + weekName[timer.getWeek().get(timer.getWeek().size()-1)];
             }
@@ -499,7 +499,6 @@ public class EditClockActivity extends BaseActivity{
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO choose device and set address
                     if(isDeviceChoose.get(position) == 1){
                         isDeviceChoose.set(position,0);
                         chooseIcon.setVisibility(View.GONE);
