@@ -342,7 +342,11 @@ public class EditSceneActivity extends BaseActivity{
                         }
 
                     } else {
-                        // TODO set --
+                        temp_text.setBackgroundResource(R.drawable.none_hit);
+                        temp_text.setText("");
+                        onoff_view.setImageResource(R.drawable.none_hit);
+                        mode_view.setImageResource(R.drawable.none_hit);
+                        wind_view.setImageResource(R.drawable.none_hit);
                     }
 
                     convertView.setOnClickListener(new View.OnClickListener() {
@@ -469,7 +473,11 @@ public class EditSceneActivity extends BaseActivity{
                                                 }
 
                                             } else {
-                                                // TODO set --
+                                                temp_text.setBackgroundResource(R.drawable.none_hit);
+                                                temp_text.setText("");
+                                                onoff_view.setImageResource(R.drawable.none_hit);
+                                                mode_view.setImageResource(R.drawable.none_hit);
+                                                wind_view.setImageResource(R.drawable.none_hit);
                                             }
 
                                         }
@@ -499,7 +507,8 @@ public class EditSceneActivity extends BaseActivity{
                                 + fanView1.getItemText(temp_fan.get(position)) + "|" + tempView1.getItemText(temp_temp.get(position)));
                         setModeTextColor(settingText, temp_on_off.get(position), temp_mode.get(position));
                     } else {
-                        settingText.setText("");
+                        settingText.setText(getString(R.string.none) + " " + getString(R.string.none) + " "  + getString(R.string.none) + " " + getString(R.string.none));
+                        settingText.setTextColor(getResources().getColor(R.color.text_color_gray));
                     }
 
                     convertView.setOnClickListener(new View.OnClickListener() {
@@ -534,7 +543,8 @@ public class EditSceneActivity extends BaseActivity{
                                                         + "|" + fanView.getItemText(temp_fan.get(position)) + "|" + tempView.getItemText(temp_temp.get(position)));
                                                 setModeTextColor(settingText,temp_on_off.get(position),temp_mode.get(position));
                                             }else{
-                                                settingText.setText("");
+                                                settingText.setText(getString(R.string.none) + " " + getString(R.string.none) + " "  + getString(R.string.none) + " " + getString(R.string.none));
+                                                settingText.setTextColor(getResources().getColor(R.color.text_color_gray));
                                             }
                                         }
                                     }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();

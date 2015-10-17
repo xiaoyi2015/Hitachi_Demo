@@ -39,12 +39,11 @@
 
     <TextView
         android:id="@+id/temp"
-        android:textSize="19sp"
-        android:layout_marginLeft="10dp"
-        android:layout_gravity="center_vertical"
+        android:textSize="16sp"
+        android:layout_marginLeft="5dp"
         android:text="@string/default_temp"
         android:layout_width="50dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="20dp" />
 
 
     <ImageView
