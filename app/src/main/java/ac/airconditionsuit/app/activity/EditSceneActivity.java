@@ -79,7 +79,8 @@ public class EditSceneActivity extends BaseActivity{
                                 command.setOnoff(temp_on_off.get(i));
                                 command.setMode(temp_mode.get(i));
                                 command.setFan(temp_fan.get(i));
-                                command.setTemperature((float) (temp_temp.get(i) + 18));
+                                command.setTemperature((float) (temp_temp.get(i) + 19));
+
                                 commands.add(command);
                             }
                         }
@@ -96,7 +97,7 @@ public class EditSceneActivity extends BaseActivity{
                                 command.setOnoff(temp_on_off.get(i));
                                 command.setMode(temp_mode.get(i));
                                 command.setFan(temp_fan.get(i));
-                                command.setTemperature((float) (temp_temp.get(i) + 18));
+                                command.setTemperature((float) (temp_temp.get(i) + 19));
                                 MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().add(command);
                             }
                         }
@@ -152,7 +153,7 @@ public class EditSceneActivity extends BaseActivity{
             temp_on_off.add(2);
             temp_mode.add(0);
             temp_fan.add(0);
-            temp_temp.add(7);
+            temp_temp.add(6);
         }
         if(!is_add){
             for (int i = 0; i < MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().size(); i++) {
@@ -162,7 +163,7 @@ public class EditSceneActivity extends BaseActivity{
                     temp_on_off.set(temp_index_device, MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().get(i).getOnoff());
                     temp_mode.set(temp_index_device, MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().get(i).getMode());
                     temp_fan.set(temp_index_device, MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().get(i).getFan());
-                    temp_temp.set(temp_index_device, (int) (MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().get(i).getTemperature() - 18));
+                    temp_temp.set(temp_index_device, (int) (MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().get(i).getTemperature() - 19));
                 }
             }
         }
@@ -249,7 +250,7 @@ public class EditSceneActivity extends BaseActivity{
                     if (temp_on_off.get(position) != 2) {
                         temp_none.setVisibility(View.GONE);
                         temp_text.setVisibility(View.VISIBLE);
-                        int flag_temp = temp_temp.get(position) + 18;
+                        int flag_temp = temp_temp.get(position) + 19;
                         temp_text.setText(flag_temp + getString(R.string.temp_symbol));
                         if(temp_on_off.get(position) == 0){
                             onoff_view.setImageResource(R.drawable.onoff_off_hit);
@@ -364,10 +365,17 @@ public class EditSceneActivity extends BaseActivity{
                             final CommonWheelView fanView = (CommonWheelView) airModePickerView.findViewById(R.id.set_fan);
                             final CommonWheelView tempView = (CommonWheelView) airModePickerView.findViewById(R.id.set_temp);
 
+                            if(temp_mode.get(position) == 1){
+                                airModePickerView.setTempHeatList();
+                                tempView.setDefault(temp_temp.get(position) + 2);
+                            }else{
+                                tempView.setDefault(temp_temp.get(position));
+                            }
+
                             onOffView.setDefault(temp_on_off.get(position));
                             modeView.setDefault(temp_mode.get(position));
                             fanView.setDefault(temp_fan.get(position));
-                            tempView.setDefault(temp_temp.get(position));
+
 
                             airModePickerView.setMinimumHeight(400);
 
@@ -375,15 +383,19 @@ public class EditSceneActivity extends BaseActivity{
                                     setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            if(modeView.getSelected() == 1){
+                                                temp_temp.set(position, tempView.getSelected() - 2);
+                                            }else{
+                                                temp_temp.set(position, tempView.getSelected());
+                                            }
                                             temp_on_off.set(position, onOffView.getSelected());
                                             temp_mode.set(position, modeView.getSelected());
                                             temp_fan.set(position, fanView.getSelected());
-                                            temp_temp.set(position, tempView.getSelected());
 
                                             if (temp_on_off.get(position) != 2) {
                                                 temp_none.setVisibility(View.GONE);
                                                 temp_text.setVisibility(View.VISIBLE);
-                                                int flag_temp1 = temp_temp.get(position) + 18;
+                                                int flag_temp1 = temp_temp.get(position) + 19;
                                                 temp_text.setText(flag_temp1 + getString(R.string.temp_symbol));
                                                 if(temp_on_off.get(position) == 0){
                                                     onoff_view.setImageResource(R.drawable.onoff_off_hit);
@@ -506,12 +518,20 @@ public class EditSceneActivity extends BaseActivity{
                     CommonWheelView modeView1 = (CommonWheelView) airModePickerView1.findViewById(R.id.set_mode);
                     CommonWheelView fanView1 = (CommonWheelView) airModePickerView1.findViewById(R.id.set_fan);
                     CommonWheelView tempView1 = (CommonWheelView) airModePickerView1.findViewById(R.id.set_temp);
+                    if(temp_mode.get(position) == 1){
+                        airModePickerView1.setTempHeatList();
+                    }
 
                     final TextView settingText = (TextView)convertView.findViewById(R.id.online_text);
                     settingText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
                     if (temp_on_off.get(position) != 2) {
-                        settingText.setText(onOffView1.getItemText(temp_on_off.get(position)) + "|" + modeView1.getItemText(temp_mode.get(position)) + "|"
-                                + fanView1.getItemText(temp_fan.get(position)) + "|" + tempView1.getItemText(temp_temp.get(position)));
+                        if(temp_mode.get(position) == 1){
+                            settingText.setText(onOffView1.getItemText(temp_on_off.get(position)) + "|" + modeView1.getItemText(temp_mode.get(position))
+                                    + "|" + fanView1.getItemText(temp_fan.get(position)) + "|" + tempView1.getItemText(temp_temp.get(position) + 2));
+                        }else{
+                            settingText.setText(onOffView1.getItemText(temp_on_off.get(position)) + "|" + modeView1.getItemText(temp_mode.get(position))
+                                    + "|" + fanView1.getItemText(temp_fan.get(position)) + "|" + tempView1.getItemText(temp_temp.get(position)));
+                        }
                         setModeTextColor(settingText, temp_on_off.get(position), temp_mode.get(position));
                     } else {
                         settingText.setText(getString(R.string.none) + " " + getString(R.string.none) + " "  +
@@ -530,10 +550,16 @@ public class EditSceneActivity extends BaseActivity{
                             final CommonWheelView fanView = (CommonWheelView) airModePickerView.findViewById(R.id.set_fan);
                             final CommonWheelView tempView = (CommonWheelView) airModePickerView.findViewById(R.id.set_temp);
 
+                            if(temp_mode.get(position) == 1){
+                                airModePickerView.setTempHeatList();
+                                tempView.setDefault(temp_temp.get(position) + 2);
+                            }else{
+                                tempView.setDefault(temp_temp.get(position));
+                            }
+
                             onOffView.setDefault(temp_on_off.get(position));
                             modeView.setDefault(temp_mode.get(position));
                             fanView.setDefault(temp_fan.get(position));
-                            tempView.setDefault(temp_temp.get(position));
 
                             airModePickerView.setMinimumHeight(400);
 
@@ -541,15 +567,24 @@ public class EditSceneActivity extends BaseActivity{
                                     setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            if(modeView.getSelected() == 1){
+                                                temp_temp.set(position, tempView.getSelected() - 2);
+                                            }else{
+                                                temp_temp.set(position, tempView.getSelected());
+                                            }
                                             temp_on_off.set(position, onOffView.getSelected());
                                             temp_mode.set(position, modeView.getSelected());
                                             temp_fan.set(position, fanView.getSelected());
-                                            temp_temp.set(position, tempView.getSelected());
 
                                             if (temp_on_off.get(position) != 2) {
-                                                settingText.setText(onOffView.getItemText(temp_on_off.get(position)) + "|" + modeView.getItemText(temp_mode.get(position))
-                                                        + "|" + fanView.getItemText(temp_fan.get(position)) + "|" + tempView.getItemText(temp_temp.get(position)));
-                                                setModeTextColor(settingText,temp_on_off.get(position),temp_mode.get(position));
+                                                if(temp_mode.get(position) == 1){
+                                                    settingText.setText(onOffView.getItemText(temp_on_off.get(position)) + "|" + modeView.getItemText(temp_mode.get(position))
+                                                            + "|" + fanView.getItemText(temp_fan.get(position)) + "|" + tempView.getItemText(temp_temp.get(position) + 2));
+                                                }else{
+                                                    settingText.setText(onOffView.getItemText(temp_on_off.get(position)) + "|" + modeView.getItemText(temp_mode.get(position))
+                                                            + "|" + fanView.getItemText(temp_fan.get(position)) + "|" + tempView.getItemText(temp_temp.get(position)));
+                                                }
+                                                setModeTextColor(settingText, temp_on_off.get(position), temp_mode.get(position));
                                             }else{
                                                 settingText.setText(getString(R.string.none) + " " + getString(R.string.none) + " "  +
                                                         getString(R.string.none) + " " + getString(R.string.none) + "  ");

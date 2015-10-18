@@ -49,7 +49,7 @@
     <TextView
         android:id="@+id/temp"
         android:textSize="16sp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="2dp"
         android:text="@string/default_temp"
         android:layout_width="50dp"

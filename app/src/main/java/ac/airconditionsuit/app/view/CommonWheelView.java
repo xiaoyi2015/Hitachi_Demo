@@ -763,11 +763,13 @@ public class CommonWheelView extends View {
             if ((y + move) >= controlHeight / 2 - unitHeight / 2 + 2
                     && (y + move) <= controlHeight / 2 + unitHeight / 2 - 2)
                 return true;
+            /*
             if ((y + move + unitHeight) >= controlHeight / 2 - unitHeight / 2
                     + 2
                     && (y + move + unitHeight) <= controlHeight / 2
                     + unitHeight / 2 - 2)
                 return true;
+                */
             if ((y + move) <= controlHeight / 2 - unitHeight / 2 + 2
                     && (y + move + unitHeight) >= controlHeight / 2
                     + unitHeight / 2 - 2)
