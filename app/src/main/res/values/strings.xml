@@ -174,5 +174,6 @@
         设计和功能如有变更，恕不另行通知！</string>
     <string name="text_part1_hit">服务热线： 400-860-1111\n 版权所有@2015 青岛海信日立空调系统有限公司</string>
     <string name="none">——</string>
+    <string name="home_name_too_long_info">家的名称长度不能超过10个字符</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,6 +13,9 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  * Created by Administrator on 2015/9/18.
  */
 public class AddDeviceActivity extends BaseActivity implements View.OnClickListener {
+
+    static final private int REQUEST_QRCODE = 10086;
+
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
         public void onClick(View v) {
@@ -19,6 +23,12 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
             switch (v.getId()) {
                 case R.id.left_icon:
                     finish();
+                    break;
+
+                case R.id.scan_qrcode:
+                    //TODO for lushixiong : import the zxing to gradle
+
+                    //startActivityForResult(new Intent(AddDeviceActivity.this, CaptureActivity.class), REQUEST_QRCODE);
                     break;
 
             }
@@ -43,6 +53,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         }
         commonTopBar.setIconView(myOnClickListener,null);
         findViewById(R.id.search_by_udp).setOnClickListener(this);
+        findViewById(R.id.scan_qrcode).setOnClickListener(myOnClickListener);
     }
 
     @Override
