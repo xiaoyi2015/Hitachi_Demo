@@ -21,6 +21,7 @@ public class AirModePickerView extends LinearLayout {
     private ArrayList<String> mode_list = new ArrayList<>();
     private ArrayList<String> fan_list = new ArrayList<>();
     private ArrayList<String> temp_list = new ArrayList<>();
+    private ArrayList<String> temp_list_heat = new ArrayList<>();
 
     public AirModePickerView(Context context) {
         super(context);
@@ -52,19 +53,46 @@ public class AirModePickerView extends LinearLayout {
         fan_list.add(getResources().getString(R.string.low_wind));
         fan_list.add(getResources().getString(R.string.medium_wind));
         fan_list.add(getResources().getString(R.string.high_wind));
-        for(int i = 18; i < 31 ; i++){
+        for(int i = 19; i < 31 ; i++){
             temp_list.add(String.valueOf(i) + getResources().getString(R.string.temp_symbol));
+        }
+        for(int i = 17; i < 31 ; i++){
+            temp_list_heat.add(String.valueOf(i) + getResources().getString(R.string.temp_symbol));
         }
         onOffView.setData(on_off_list);
         modeView.setData(mode_list);
         fanView.setData(fan_list);
         tempView.setData(temp_list);
 
+        modeView.setOnSelectListener(new CommonWheelView.OnSelectListener() {
+            @Override
+            public void endSelect(int id, String text) {
+
+            }
+
+            @Override
+            public void selecting(int id, String text) {
+                if (id == 1) {
+                    tempView.setData(temp_list_heat);
+                    tempView.setDefault(8);
+                    tempView.invalidate();
+                } else {
+                    tempView.setData(temp_list);
+                    tempView.setDefault(6);
+                    tempView.invalidate();
+                }
+            }
+        });
+
     }
 
     public void setOnOffView(int id){
         on_off_list.add(getResources().getString(id));
         onOffView.resetData(on_off_list);
+    }
+
+    public void setTempHeatList(){
+        tempView.resetData(temp_list_heat);
     }
 
 }

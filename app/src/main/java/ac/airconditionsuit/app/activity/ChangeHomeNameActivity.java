@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -8,6 +9,7 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
+import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
@@ -23,11 +25,20 @@ public class ChangeHomeNameActivity extends BaseActivity {
                     finish();
                     break;
                 case R.id.right_icon:
-                //TODO for zln
+                    String home_name = CheckUtil.checkLength(changeName,
+                            10, R.string.home_name_empty_info, R.string.home_name_too_long_info);
+                    MyApp.getApp().getServerConfigManager().getHome().setName(home_name);
+                    MyApp.getApp().getServerConfigManager().writeToFile();
+                    Intent intent = new Intent();
+                    intent.putExtra("name",home_name);
+                    setResult(RESULT_OK,intent);
+                    finish();
                     break;
             }
         }
     };
+    private EditText changeName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_setting_change_home_name);
@@ -47,7 +58,7 @@ public class ChangeHomeNameActivity extends BaseActivity {
                 break;
         }
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
-        EditText changeName = (EditText)findViewById(R.id.edit_home_name);
+        changeName = (EditText)findViewById(R.id.edit_home_name);
         changeName.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
         changeName.setSelection(MyApp.getApp().getServerConfigManager().getHome().getName().length());
 

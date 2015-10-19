@@ -31,13 +31,15 @@ import ac.airconditionsuit.app.view.RoundImageView;
 public class SettingFragment extends BaseFragment implements View.OnClickListener {
 
     private View view;
+    public final static int REQUEST_HOME_SETTING = 160;
+    private TextView home_name;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_setting, container, false);
         RoundImageView roundImageView = (RoundImageView) view.findViewById(R.id.user_icon);
         HttpClient.loadImage(MyApp.getApp().getUser().getAvatar_normal(), roundImageView);
-        TextView home_name = (TextView) view.findViewById(R.id.setting_home_name);
+        home_name = (TextView) view.findViewById(R.id.setting_home_name);
         home_name.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
         view.findViewById(R.id.software_information).setOnClickListener(this);
         view.findViewById(R.id.user_icon).setOnClickListener(this);
@@ -58,7 +60,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 startActivity(new Intent(getActivity(), SoftwareInfoActivity.class));
                 break;
             case R.id.setting_home_setting:
-                startActivity(new Intent(getActivity(), HomeSettingActivity.class));
+                startActivityForResult(new Intent(getActivity(), HomeSettingActivity.class),REQUEST_HOME_SETTING);
                 break;
             case R.id.software_page:
                 startActivity(new Intent(getActivity(), SoftwarePageActivity.class));
@@ -77,4 +79,14 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         commonTopBar.setIconView(null, null);
         commonTopBar.setRoundLeftIconView(null);
     }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == -1)
+            switch (requestCode) {
+                case REQUEST_HOME_SETTING:
+                    home_name.setText(data.getStringExtra("name"));
+                    break;
+            }
+    }
+
 }

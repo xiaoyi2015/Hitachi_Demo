@@ -235,6 +235,12 @@ public class EditClockActivity extends BaseActivity{
                 final CommonWheelView fanView = (CommonWheelView) airModePickerView.findViewById(R.id.set_fan);
                 final CommonWheelView tempView = (CommonWheelView) airModePickerView.findViewById(R.id.set_temp);
 
+                if(temp_mode == 1){
+                    airModePickerView.setTempHeatList();
+                    tempView.setDefault((int) temp_temp - 17);
+                } else{
+                    tempView.setDefault((int) temp_temp - 19);
+                }
                 if (temp_on_off) {
                     onOffView.setDefault(1);
                 } else {
@@ -242,7 +248,6 @@ public class EditClockActivity extends BaseActivity{
                 }
                 modeView.setDefault(temp_mode);
                 fanView.setDefault(temp_fan);
-                tempView.setDefault((int) temp_temp - 18);
 
                 airModePickerView.setMinimumHeight(400);
 
@@ -255,7 +260,12 @@ public class EditClockActivity extends BaseActivity{
                                 }
                                 temp_mode = modeView.getSelected();
                                 temp_fan = fanView.getSelected();
-                                temp_temp = (float) (tempView.getSelected() + 18);
+                                if(modeView.getSelected() == 1){
+                                    temp_temp = (float) (tempView.getSelected() + 17);
+                                }else{
+                                    temp_temp = (float) (tempView.getSelected() + 19);
+                                }
+
                                 if(temp_on_off){
                                     on_off = getString(R.string.on);
                                 }
@@ -393,7 +403,7 @@ public class EditClockActivity extends BaseActivity{
                 isDeviceChoose.add(0);
             }
             if(!is_add){
-                int num = timer.getAddress().size();
+                //int num = timer.getAddress().size();
                 if(timer.getAddress().size() != 0){
                     for(int i = 0 ;i < timer.getAddress().size(); i++){
                         int temp_index_device = MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(timer.getAddress().get(i));

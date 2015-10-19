@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -16,15 +17,21 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  */
 public class HomeSettingActivity extends BaseActivity {
 
+    public final static int REQUEST_CHANGE_HOME_NAME = 150;
+    private String home_name;
+
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
         public void onClick(View v) {
             super.onClick(v);
             switch (v.getId()) {
                 case R.id.home_name:
-                    shortStartActivity(ChangeHomeNameActivity.class);
+                    shortStartActivityForResult(ChangeHomeNameActivity.class, REQUEST_CHANGE_HOME_NAME);
                     break;
                 case R.id.left_icon:
+                    Intent intent = new Intent();
+                    intent.putExtra("name",home_name);
+                    setResult(RESULT_OK,intent);
                     finish();
                     break;
                 case R.id.delete_home:
@@ -33,6 +40,8 @@ public class HomeSettingActivity extends BaseActivity {
             }
         }
     };
+    private CommonButtonWithArrow homeName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_setting_home_setting);
@@ -50,12 +59,24 @@ public class HomeSettingActivity extends BaseActivity {
                 break;
         }
         commonTopBar.setIconView(myOnClickListener, null);
-        CommonButtonWithArrow homeName = (CommonButtonWithArrow) findViewById(R.id.home_name);
-        homeName.setOnlineTextView(MyApp.getApp().getServerConfigManager().getHome().getName());
+        homeName = (CommonButtonWithArrow) findViewById(R.id.home_name);
+        home_name = MyApp.getApp().getServerConfigManager().getHome().getName();
+        homeName.setOnlineTextView(home_name);
         homeName.setOnClickListener(myOnClickListener);
         TextView deleteHome = (TextView)findViewById(R.id.delete_home);
         deleteHome.setOnClickListener(myOnClickListener);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK)
+            switch (requestCode) {
+                case REQUEST_CHANGE_HOME_NAME:
+                    home_name = data.getStringExtra("name");
+                    homeName.setOnlineTextView(home_name);
+                    break;
+            }
     }
 
 }
