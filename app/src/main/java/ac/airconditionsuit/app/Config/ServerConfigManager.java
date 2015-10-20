@@ -114,9 +114,24 @@ public class ServerConfigManager {
         writeToFile();
     }
 
-    public void deleteTimer(int position) {
+    public void deleteTimerByPosition(int position) {
         List<Timer> timers = rootJavaObj.getTimers();
+        if (timers.size() <= position) {
+            Log.v(TAG, "timer is already delete");
+            return;
+        }
         timers.remove(position);
+        writeToFile();
+    }
+
+    public void deleteTimerById(int id) {
+        List<Timer> timers = rootJavaObj.getTimers();
+        for (Timer t : timers) {
+            if (t.getTimerid() == id) {
+                timers.remove(t);
+                break;
+            }
+        }
         writeToFile();
     }
 
@@ -198,7 +213,7 @@ public class ServerConfigManager {
         try {
             File serverConfigFile = MyApp.getApp().getPrivateFile(fileName, null);
             if (serverConfigFile == null) {
-                Log.i(TAG, "can not find device config file");
+                Log.e(TAG, "can not find device config file");
                 return;
             }
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -210,7 +225,7 @@ public class ServerConfigManager {
             fos.write(bytes);
             fos.flush();
             fos.close();
-            Log.i(TAG, "write server config file error");
+            Log.v(TAG, "write server config file success");
 
             //call when write success
             uploadToServer();
@@ -245,7 +260,7 @@ public class ServerConfigManager {
         if (!hasDevice()) {
             return;
         }
-        RequestParams requestParams = new RequestParams();
+        final RequestParams requestParams = new RequestParams();
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_FILE);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_UPLOAD_DEVICE_CONFIG_FILE);
         MyApp app = MyApp.getApp();
@@ -257,15 +272,21 @@ public class ServerConfigManager {
             e.printStackTrace();
             return;
         }
-        HttpClient.post(requestParams, UploadConfigResponse.class, new HttpClient.JsonResponseHandler<UploadConfigResponse>() {
-            @Override
-            public void onSuccess(UploadConfigResponse response) {
-                Log.i(TAG, "upload host device file success");
-            }
 
+        MyApp.getApp().getHandler().post(new Runnable() {
             @Override
-            public void onFailure(Throwable throwable) {
-                Log.e(TAG, "upload host device file error");
+            public void run() {
+                HttpClient.post(requestParams, UploadConfigResponse.class, new HttpClient.JsonResponseHandler<UploadConfigResponse>() {
+                    @Override
+                    public void onSuccess(UploadConfigResponse response) {
+                        Log.i(TAG, "upload host device file success");
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Log.e(TAG, "upload host device file error");
+                    }
+                });
             }
         });
     }
@@ -371,6 +392,7 @@ public class ServerConfigManager {
     }
 
     public void updateTimer(Timer timer) {
-        //todo for luzheqi
+        rootJavaObj.updateTimer(timer);
+        writeToFile();
     }
 }

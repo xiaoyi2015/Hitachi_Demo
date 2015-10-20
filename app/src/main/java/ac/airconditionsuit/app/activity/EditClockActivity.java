@@ -25,7 +25,6 @@ import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
-import ac.airconditionsuit.app.entity.ServerConfig;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.AirModePickerView;
@@ -61,7 +60,7 @@ public class EditClockActivity extends BaseActivity{
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    MyApp.getApp().getServerConfigManager().deleteTimer(index);
+                                    MyApp.getApp().getServerConfigManager().deleteTimerByPosition(index);
                                     Intent intent1 = new Intent();
                                     setResult(RESULT_OK, intent1);
                                     finish();

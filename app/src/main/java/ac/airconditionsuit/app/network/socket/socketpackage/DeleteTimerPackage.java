@@ -4,15 +4,13 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPSendMessagePackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 
-import java.io.UnsupportedEncodingException;
-
 /**
  * Created by ac on 10/9/15.
  */
 public class DeleteTimerPackage extends SocketPackage {
-    private long id;
+    private int id;
 
-    public DeleteTimerPackage(long id) {
+    public DeleteTimerPackage(int id) {
         this.id = id;
     }
 

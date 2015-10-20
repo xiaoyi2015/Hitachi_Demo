@@ -2,8 +2,8 @@ package ac.airconditionsuit.app.aircondition;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.*;
-import ac.airconditionsuit.app.network.socket.socketpackage.ControlPackage;
-import ac.airconditionsuit.app.network.socket.socketpackage.QueryTimerPackage;
+import ac.airconditionsuit.app.network.socket.socketpackage.*;
+import ac.airconditionsuit.app.util.ByteUtil;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class AirConditionManager {
         }
     }
 
-    public void updateAirconditionStatue(byte[] status) {
+    public void updateAirconditionStatueLocal(byte[] status) {
         try {
             AirConditionStatusResponse airConditionStatusResponse =
                     AirConditionStatusResponse.decodeFromByteArray(status);
@@ -49,11 +49,10 @@ public class AirConditionManager {
         }
     }
 
-    public void updateTimerStatue(byte[] contentData) {
+    public void updateTimerStatueLocal(byte[] contentData) {
         try {
             Timer timer = Timer.decodeFromByteArray(contentData);
             MyApp.getApp().getServerConfigManager().updateTimer(timer);
-            //todo for luzheqi
         } catch (Exception e) {
             Log.i(TAG, "decode timer status failed");
             e.printStackTrace();
@@ -61,7 +60,6 @@ public class AirConditionManager {
     }
 
     /**
-     *
      * @param timerId 定时器id
      */
     public void timerRun(int timerId) {
@@ -89,8 +87,6 @@ public class AirConditionManager {
         return null;
     }
 
-
-
     public void queryTimer(int id) {
         MyApp.getApp().getSocketManager().sendMessage(new QueryTimerPackage(id));
     }
@@ -102,5 +98,26 @@ public class AirConditionManager {
             Log.e(TAG, "invalid command");
             e.printStackTrace();
         }
+    }
+
+    public void addTimerServer(Timer timer) {
+        timer.setTimerid(0xffffffff);
+        SocketPackage p = new TimerPackage(timer);
+        MyApp.getApp().getSocketManager().sendMessage(p);
+    }
+
+    public void modityTimerServer(Timer timer) {
+        SocketPackage p = new TimerPackage(timer);
+        MyApp.getApp().getSocketManager().sendMessage(p);
+    }
+
+    public void deleteTimerLocal(byte[] id) {
+        int idInt = ByteUtil.byteArrayToShortAsBigEndian(id);
+        MyApp.getApp().getServerConfigManager().deleteTimerById(idInt);
+    }
+
+    public void deleteTimerServer(int id) {
+        SocketPackage p = new DeleteTimerPackage(id);
+        MyApp.getApp().getSocketManager().sendMessage(p);
     }
 }

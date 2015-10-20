@@ -17,14 +17,23 @@ public class Timer extends RootEntity {
     boolean onoff;
     boolean repeat;
     int timerid;
-    List<Integer> address;
+    List<Integer> address = new ArrayList<>();
     int fan;
     int mode;
     boolean detailenabled;
-    List<Integer> week;
+    List<Integer> week = new ArrayList<>();
     int minute;
     int hour;
     String name;
+
+    public Timer(boolean isNew) {
+        if (isNew) {
+            this.timerid = 0xffffffff;
+        }
+    }
+
+    public Timer() {
+    }
 
     public float getTemperature() {
         return temperature;
@@ -48,6 +57,14 @@ public class Timer extends RootEntity {
 
     public void setOnoff(boolean onoff) {
         this.onoff = onoff;
+    }
+
+    public void setOnoff(int onoff) {
+        if (onoff == AirConditionControl.ON) {
+            this.onoff = true;
+        } else {
+            this.onoff = false;
+        }
     }
 
     public boolean isRepeat() {
@@ -127,24 +144,30 @@ public class Timer extends RootEntity {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.trim();
     }
 
 
     public byte[] getBytesForUdp() throws Exception {
         byte[] result = new byte[25 + address.size()];
 
+        //timer id
+        if (timerid == 0xffffffff) {
+            result[0] |= 0x7f;
+            result[1] |= 0xff;
+        } else {
+            if (timerid > 0x7fff) {
+                throw new Exception("timer id is too big");
+            }
+            byte[] id = ByteUtil.shortToByteArrayAsBigEndian(timerid);
+            result[0] = id[0];
+            result[1] = id[1];
+        }
+
         //is enable
         if (timerenabled) {
             result[0] |= 0x80;
         }
-
-        //timer id
-        if (timerid > 0x7fff) {
-            throw new Exception("timer id is too big");
-        }
-        result[0] |= timerid / 256;
-        result[1] |= timerid % 256;
 
         //time
         System.arraycopy(ByteUtil.timeToBCD(hour, minute), 0, result, 2, 2);
@@ -154,7 +177,7 @@ public class Timer extends RootEntity {
             if (i < 0 || i > 7) {
                 throw new Exception("week error");
             }
-            result[4] |= (i << i);
+            result[4] |= (1 << i);
         }
         if (isRepeat()) {
             result[4] += 1;
@@ -177,8 +200,7 @@ public class Timer extends RootEntity {
         if (name.getBytes().length > 16) {
             throw new Exception("name too length");
         }
-        name += "                ";
-        System.arraycopy(Arrays.copyOf(name.getBytes(), 16), 0,
+        System.arraycopy(Arrays.copyOf((name + "                ").getBytes(), 16), 0,
                 result, result.length - 16,
                 16);
 
@@ -186,6 +208,8 @@ public class Timer extends RootEntity {
     }
 
     public static Timer decodeFromByteArray(byte[] contentData) throws Exception {
+        contentData = Arrays.copyOf(contentData, 26);
+
         Timer timer = new Timer();
 
         //is enable
@@ -197,7 +221,7 @@ public class Timer extends RootEntity {
 
         contentData[0] &= 0x7f;
 
-        timer.setTimerid(ByteUtil.byteArrayToShort(contentData));
+        timer.setTimerid(ByteUtil.byteArrayToShortAsBigEndian(contentData));
 
         timer.setHour(ByteUtil.BCDByteToInt(contentData[2]));
         timer.setMinute(ByteUtil.BCDByteToInt(contentData[3]));
@@ -219,20 +243,28 @@ public class Timer extends RootEntity {
 
         //address
         List<Integer> address = new ArrayList<>();
-        for (int i = 5; i < contentData.length - 20; ++i) {
+        int controlRangeOffset = contentData.length - 20;
+        for (int i = 5; i < controlRangeOffset; ++i) {
             address.add((int) contentData[i]);
         }
         timer.setAddress(address);
 
+        //onoff
+        if ((contentData[controlRangeOffset] & 0x80) == 0) {
+            timer.setOnoff(false);
+        } else {
+            timer.setOnoff(true);
+        }
+
         //mode
-        int mode = contentData[1] & 0b1111;
+        int mode = contentData[controlRangeOffset] & 0b1111;
         if (mode < 0 || mode > 3) {
             throw new Exception("mode error");
         }
         timer.setMode(mode);
 
         //wind velocity
-        int windVelocity = contentData[2];
+        int windVelocity = contentData[controlRangeOffset + 1];
         if (windVelocity < 1 || windVelocity > 3) {
             throw new Exception("windVelocity error");
         }
@@ -250,7 +282,7 @@ public class Timer extends RootEntity {
 //            result.setAuto(NOT_AUTO);
 //        }
 
-        int temperature = contentData[4];
+        int temperature = contentData[controlRangeOffset + 3];
 
         if (timer.getMode() == AirConditionControl.MODE_HEATING) {
             if (temperature < 17 || temperature > 30) {
@@ -264,8 +296,34 @@ public class Timer extends RootEntity {
         timer.setTemperature(temperature);
 
         //name
-        timer.setName(new String(Arrays.copyOfRange(contentData, contentData.length - 20, contentData.length)));
+        timer.setName(new String(Arrays.copyOfRange(contentData, contentData.length - 16, contentData.length)));
 
         return timer;
+    }
+
+    public void addControlAircondition(int i) {
+        address.add(i);
+    }
+
+    public void setWeek(int... weeks) {
+        for (int week : weeks) {
+            this.week.add(week);
+        }
+    }
+
+    public void update(Timer timer) {
+        this.temperature = timer.getTemperature();
+        this.timerenabled = timer.isTimerenabled();
+        this.onoff = timer.isOnoff();
+        this.repeat = timer.isRepeat();
+        this.timerid = timer.getTimerid();
+        this.address = timer.getAddress();
+        this.fan = timer.getFan();
+        this.mode = timer.getMode();
+        this.detailenabled = timer.isDetailenabled();
+        this.week = timer.getWeek();
+        this.minute = timer.getMinute();
+        this.hour = timer.getHour();
+        this.name = timer.getName();
     }
 }

@@ -35,6 +35,10 @@ public class MyApp extends Application {
     private MyUser user;
     private Handler handler;
 
+    public Handler getHandler() {
+        return handler;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
