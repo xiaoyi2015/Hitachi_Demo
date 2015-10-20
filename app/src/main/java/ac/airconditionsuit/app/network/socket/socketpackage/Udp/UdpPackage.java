@@ -81,7 +81,7 @@ public class UdpPackage {
         return p;
     }
 
-    public static UdpPackage genDeleteTimerPackage(long id) throws Exception {
+    public static UdpPackage genDeleteTimerPackage(int id) throws Exception {
         UdpPackage p = new UdpPackage();
         p.setContent(p.new DeleteTimerPackageContent(id));
         return p;
@@ -186,19 +186,19 @@ public class UdpPackage {
     public static final byte AFN_TIMER = 0x8;
     public class TimerPackageContent extends UdpPackageContent{
         public TimerPackageContent(Timer timer) throws Exception {
-            function = AFN_CONTROL;
+            function = AFN_TIMER;
             content = timer.getBytesForUdp();
         }
     }
 
     public static final byte AFN_DELETE_TIMER = 0x9;
     public class DeleteTimerPackageContent extends UdpPackageContent {
-        public DeleteTimerPackageContent(long id) throws Exception {
+        public DeleteTimerPackageContent(int id) throws Exception {
             function = AFN_DELETE_TIMER;
             if (id > 32760) {
                 throw new Exception("id is too big");
             }
-            content = ByteUtil.shortToByteArray(id);
+            content = ByteUtil.shortToByteArrayAsBigEndian(id);
         }
     }
 
@@ -209,7 +209,7 @@ public class UdpPackage {
             if (id != 0xffff && id != 0xfffe && id > 32760) {
                 throw new Exception("id is too big");
             }
-            content = ByteUtil.shortToByteArray(id & 0xffff);
+            content = ByteUtil.shortToByteArrayAsBigEndian(id & 0xffff);
         }
     }
 

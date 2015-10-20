@@ -10,6 +10,7 @@ import java.util.List;
 public class ServerConfig extends RootEntity{
 
 
+
     public class Setting extends RootEntity{
         String sound;
         String password;
@@ -179,6 +180,17 @@ public class ServerConfig extends RootEntity{
 
     public void setConnection(List<Connection> connection) {
         this.connection = connection;
+    }
+
+
+    public void updateTimer(Timer timer) {
+        for (Timer t : timers) {
+            if (t.getTimerid() == timer.getTimerid()) {
+                t.update(timer);
+                return;
+            }
+        }
+        timers.add(timer);
     }
 
     public static ServerConfig genNewConfig(String configFileName, String homeName) {

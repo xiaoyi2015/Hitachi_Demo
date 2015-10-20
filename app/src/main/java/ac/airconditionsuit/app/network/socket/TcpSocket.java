@@ -1,9 +1,10 @@
 package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.aircondition.AirConditionControl;
 import ac.airconditionsuit.app.aircondition.AirConditionManager;
-import ac.airconditionsuit.app.entity.Command;
 import ac.airconditionsuit.app.entity.ObserveData;
+import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.network.socket.socketpackage.ACKPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.CheckDevicePackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.SocketPackage;
@@ -17,7 +18,6 @@ import ac.airconditionsuit.app.util.ByteUtil;
 import android.util.Log;
 
 import java.io.IOException;
-import java.lang.annotation.AnnotationFormatError;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Arrays;
@@ -253,7 +253,44 @@ class TcpSocket implements SocketWrap {
 //            MyApp.getApp().getAirconditionManager().controlAirCondition(command);
 
             //test code for query timer
-            MyApp.getApp().getAirconditionManager().queryTimer(AirConditionManager.QUERY_ALL_TIMER);
+//            MyApp.getApp().getAirconditionManager().queryTimer(AirConditionManager.QUERY_ALL_TIMER);
+
+            //test add timer
+//            Timer timer = new Timer();
+//            timer.setTimerid(2);
+//            timer.setMode(AirConditionControl.MODE_HEATING);
+//            timer.setName("new");
+//            timer.setTemperature(21);
+//            timer.setFan(AirConditionControl.WINDVELOCITY_HIGH);
+//            timer.addControlAircondition(2);
+//            timer.setHour(10);
+//            timer.setMinute(10);
+//            timer.setOnoff(AirConditionControl.OFF);
+//            timer.setRepeat(true);
+//            timer.setTimerenabled(true);
+//            timer.setWeek(3,4);
+//            MyApp.getApp().getAirconditionManager().addTimerServer(timer);
+//            MyApp.getApp().getAirconditionManager().addTimerServer(timer);
+//            MyApp.getApp().getAirconditionManager().addTimerServer(timer);
+//            MyApp.getApp().getAirconditionManager().addTimerServer(timer);
+
+            //test modity timer
+//            MyApp.getApp().getAirconditionManager().modityTimerServer(timer);
+
+            //test delete timer
+//            MyApp.getApp().getAirconditionManager().deleteTimerServer(1);
+//            MyApp.getApp().getAirconditionManager().deleteTimerServer(2);
+//            MyApp.getApp().getAirconditionManager().deleteTimerServer(4);
+//            MyApp.getApp().getAirconditionManager().deleteTimerServer(5);
+//            MyApp.getApp().getAirconditionManager().deleteTimerServer(6);
+//            MyApp.getApp().getAirconditionManager().deleteTimerServer(7);
+//            MyApp.getApp().getAirconditionManager().deleteTimerServer(8);
+//            MyApp.getApp().getAirconditionManager().deleteTimerServer(9);
+
+            MyApp.getApp().getAirconditionManager().queryTimer(2);
+//            MyApp.getApp().getAirconditionManager().queryTimer(256);
+//            MyApp.getApp().getAirconditionManager().queryTimer(4);
+//            MyApp.getApp().getAirconditionManager().queryTimer(5);
 
 
         } else if (result_code == 401) {

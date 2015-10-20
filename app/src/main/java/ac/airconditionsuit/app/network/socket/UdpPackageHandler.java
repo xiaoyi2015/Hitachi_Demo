@@ -86,12 +86,12 @@ public class UdpPackageHandler {
 
             case UdpPackage.AFN_AIR_CONDITION_STATUS_RESPONSE:
                 Log.i(TAG, "udp get air condition status success");
-                MyApp.getApp().getAirconditionManager().updateAirconditionStatue(UdpPackage.getContentData(receiveData));
+                MyApp.getApp().getAirconditionManager().updateAirconditionStatueLocal(UdpPackage.getContentData(receiveData));
                 break;
 
             case UdpPackage.AFN_TIMER:
-                Log.i(TAG, "receive timer");
-                MyApp.getApp().getAirconditionManager().updateTimerStatue(UdpPackage.getContentData(receiveData));
+                Log.i(TAG, "receive timer by add/modify");
+                MyApp.getApp().getAirconditionManager().updateTimerStatueLocal(UdpPackage.getContentData(receiveData));
                 break;
 
             case UdpPackage.AFN_TIMER_RUN_RESPONSE:
@@ -100,7 +100,13 @@ public class UdpPackageHandler {
                 break;
 
             case UdpPackage.AFN_QUERY_TIMER:
-                Log.i(TAG, "receive timer status");
+                Log.i(TAG, "receive timer status by query");
+                MyApp.getApp().getAirconditionManager().updateTimerStatueLocal(UdpPackage.getContentData(receiveData));
+                break;
+
+            case UdpPackage.AFN_DELETE_TIMER:
+                Log.i(TAG, "receive delete timer package");
+                MyApp.getApp().getAirconditionManager().deleteTimerLocal(UdpPackage.getContentData(receiveData));
                 break;
 
             case UdpPackage.AFN_NO:

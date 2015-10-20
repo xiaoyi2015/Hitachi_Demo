@@ -24,6 +24,17 @@ public class ByteUtil {
         return result;
     }
 
+    static public short byteArrayToShortAsBigEndian(byte[] bytes) {
+        return byteArrayToShortAsBigEndian(bytes, 0);
+    }
+
+    static public short byteArrayToShortAsBigEndian(byte[] bytes, int offset) {
+        short result = 0;
+        result |= (bytes[offset + 1] & 0xff);
+        result |= ((bytes[offset] << 8) & 0xffff);
+        return result;
+    }
+
     public static long byteArrayToLong(byte[] receiveData) {
         return byteArrayToLong(receiveData, 0);
     }
@@ -41,6 +52,13 @@ public class ByteUtil {
         byte[] result = new byte[2];
         result[0] = (byte) (input & 0xff);
         result[1] = (byte) (input >>> 8);
+        return result;
+    }
+
+    static public byte[] shortToByteArrayAsBigEndian(int input) {
+        byte[] result = new byte[2];
+        result[1] = (byte) (input & 0xff);
+        result[0] = (byte) (input >>> 8);
         return result;
     }
 
@@ -135,7 +153,7 @@ public class ByteUtil {
     }
 
     public static int BCDByteToInt(byte b) {
-        return b & 0xf + (b >>> 4) * 10;
+        return (b & 0xf) + (b >>> 4) * 10;
     }
 
 }
