@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
@@ -13,8 +15,6 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  * Created by Administrator on 2015/9/18.
  */
 public class AddDeviceActivity extends BaseActivity implements View.OnClickListener {
-
-    static final private int REQUEST_QRCODE = 10086;
 
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
@@ -26,9 +26,8 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                     break;
 
                 case R.id.scan_qrcode:
-                    //TODO for lushixiong : import the zxing to gradle
-
-                    //startActivityForResult(new Intent(AddDeviceActivity.this, CaptureActivity.class), REQUEST_QRCODE);
+                    //TODO
+                    shortStartActivity(CustomCaptureActivity.class);
                     break;
 
             }

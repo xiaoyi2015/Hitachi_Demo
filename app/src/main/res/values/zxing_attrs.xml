@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="zxing_camera_preview">
+        <attr name="zxing_framing_rect_width" format="dimension" />
+        <attr name="zxing_framing_rect_height" format="dimension" />
+    </declare-styleable>
+</resources>

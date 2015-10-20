@@ -111,6 +111,10 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
+            android:name=".activity.CustomCaptureActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
                 android:name=".activity.InfoPageActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/HalfTranslucent">
