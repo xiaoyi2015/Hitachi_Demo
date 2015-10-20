@@ -108,10 +108,16 @@
             android:textColor="@color/text_color_gray" />
 
         <ac.airconditionsuit.app.view.CommonButtonWithArrow
-            android:id="@+id/add_device"
+            android:id="@+id/host_device"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="1dp"
+            android:orientation="horizontal" />
+
+        <ac.airconditionsuit.app.view.CommonButtonWithArrow
+            android:id="@+id/add_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:textLabel="@string/add_device"
             app:rightArrow="false"/>

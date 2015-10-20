@@ -10,6 +10,8 @@ import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.CompoundBarcodeView;
 
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.UIManager;
+import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
@@ -20,6 +22,21 @@ public class CustomCaptureActivity extends BaseActivity{
     private CaptureManager capture;
     private CompoundBarcodeView barcodeScannerView;
 
+    private MyOnClickListener myOnClickListener = new MyOnClickListener() {
+        @Override
+        public void onClick(View v) {
+            super.onClick(v);
+            switch (v.getId()) {
+                case R.id.left_icon:
+                    finish();
+                    break;
+                case R.id.right_icon:
+                    break;
+
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -27,6 +44,19 @@ public class CustomCaptureActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.scan_scan));
+        switch (UIManager.UITYPE){
+            case 1:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
+                commonTopBar.setRightIconView(R.drawable.top_bar_save_hit);
+                break;
+            case 2:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
+                commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                break;
+            default:
+                break;
+        }
+        commonTopBar.setIconView(myOnClickListener, myOnClickListener);
 
         barcodeScannerView = (CompoundBarcodeView)findViewById(R.id.zxing_barcode_scanner);
 
