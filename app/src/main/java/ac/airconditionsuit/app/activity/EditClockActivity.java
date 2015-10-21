@@ -52,11 +52,7 @@ public class EditClockActivity extends BaseActivity{
                     finish();
                     break;
                 case R.id.delete_clock:
-                    TextView toDoDelete = new TextView(EditClockActivity.this);
-                    toDoDelete.setGravity(Gravity.CENTER);
-                    toDoDelete.setText(getString(R.string.is_delete_clock));
-                    toDoDelete.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
-                    new AlertDialog.Builder(EditClockActivity.this).setView(toDoDelete).
+                    new AlertDialog.Builder(EditClockActivity.this).setTitle(R.string.tip).setMessage(getString(R.string.is_delete_clock)).
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

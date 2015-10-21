@@ -95,7 +95,7 @@ public class DragDeviceActivity extends BaseActivity {
             imageView1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialog.Builder(DragDeviceActivity.this).setMessage(R.string.is_delete_room).
+                    new AlertDialog.Builder(DragDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.is_delete_room).
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

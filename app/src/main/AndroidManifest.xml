@@ -119,6 +119,14 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
+            android:name=".activity.SearchIndoorDeviceActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.QRCodeActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
                 android:name=".activity.InfoPageActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/HalfTranslucent">

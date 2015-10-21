@@ -174,12 +174,10 @@ public class FamilyFragment extends Fragment{
                 @Override
                 public boolean onLongClick(View v) {
                     if(isAdmin) {
-                        TextView toDoDelete = new TextView(getActivity());
-                        toDoDelete.setGravity(Gravity.CENTER);
-                        toDoDelete.setText(getString(R.string.delete_member1) + name1.getText().toString() + getString(R.string.delete_member2));
-                        toDoDelete.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setView(toDoDelete);
+                        builder.setTitle(R.string.tip);
+                        builder.setMessage(getString(R.string.delete_member1) + name1.getText().toString() + getString(R.string.delete_member2));
                         builder.setCancelable(false);
                         builder.setPositiveButton(getString(R.string.make_sure), new DialogInterface.OnClickListener() {
                             @Override
@@ -209,6 +207,7 @@ public class FamilyFragment extends Fragment{
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setMessage(getString(R.string.delete_member1) + name2.getText().toString() + getString(R.string.delete_member2));
                         builder.setCancelable(false);
+                        builder.setTitle(R.string.tip);
                         builder.setPositiveButton(getString(R.string.make_sure), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

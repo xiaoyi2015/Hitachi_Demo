@@ -177,5 +177,16 @@
     <string name="home_name_too_long_info">家的名称长度不能超过10个字符</string>
     <string name="host_device">设备管理器：</string>
     <string name="device_manage">设备管理</string>
+    <string name="manager_text">你是此设备的管理者</string>
+    <string name="host_device_name">设备名称</string>
+    <string name="host_device_ip">IP地址</string>
+    <string name="qr_code">设备二维码</string>
+    <string name="manager_text2">只有设备的管理者才能发送邀请码，让其他用户添加设备</string>
+    <string name="scan_device">共扫描室内机</string>
+    <string name="delete_text">删除设备后，相关的配置信息将会消失（包括场景，软件界面个性化信息等）</string>
+    <string name="delete_host_device">删除本设备</string>
+    <string name="device_symbol">台</string>
+    <string name="is_delete_host_device">\n您是管理员，删除设备后，第一位成员将成为管理员，确定删除吗？\n</string>
+    <string name="tip">提示</string>
 
 </resources>

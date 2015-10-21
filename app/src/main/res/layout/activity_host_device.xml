@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,5 +9,99 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize">
     </ac.airconditionsuit.app.view.CommonTopBar>
+
+    <TextView
+        android:id="@+id/manager_label_text"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/default_top_bar"
+        android:text="@string/manager_text"
+        android:textSize="14sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/text_color_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ac.airconditionsuit.app.view.CommonButtonWithArrow
+        android:id="@+id/host_device_name"
+        android:layout_below="@id/manager_label_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:textLabel="@string/host_device_name"
+        app:rightArrow="false">
+    </ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+    <ac.airconditionsuit.app.view.CommonButtonWithArrow
+        android:id="@+id/host_device_ip"
+        android:layout_below="@id/host_device_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        app:textLabel="@string/host_device_ip"
+        app:rightArrow="false">
+    </ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+    <ac.airconditionsuit.app.view.CommonButtonWithArrow
+        android:id="@+id/host_device_qr_code"
+        android:layout_below="@id/host_device_ip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        app:textLabel="@string/qr_code">
+    </ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+    <TextView
+        android:id="@+id/manager_label_text2"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/host_device_qr_code"
+        android:text="@string/manager_text2"
+        android:textSize="14sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/text_color_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ac.airconditionsuit.app.view.CommonButtonWithArrow
+        android:id="@+id/scan_indoor_device"
+        android:layout_below="@id/manager_label_text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        app:textLabel="@string/scan_device">
+    </ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+    <LinearLayout
+        android:id="@+id/delete_host_device_view"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/scan_indoor_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ac.airconditionsuit.app.view.CommonButtonWithArrow
+            android:id="@+id/delete_host_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:textLabel="@string/delete_host_device">
+        </ac.airconditionsuit.app.view.CommonButtonWithArrow>
+
+        <TextView
+            android:id="@+id/delete_text"
+            android:layout_marginTop="20dp"
+            android:text="@string/delete_text"
+            android:textSize="14sp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/text_color_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
 
 </RelativeLayout>

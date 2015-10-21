@@ -50,11 +50,8 @@ public class EditSceneActivity extends BaseActivity{
                     finish();
                     break;
                 case R.id.delete_scene:
-                    TextView toDoDelete = new TextView(EditSceneActivity.this);
-                    toDoDelete.setGravity(Gravity.CENTER);
-                    toDoDelete.setText(getString(R.string.is_delete_scene));
-                    toDoDelete.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
-                    new AlertDialog.Builder(EditSceneActivity.this).setView(toDoDelete).
+
+                    new AlertDialog.Builder(EditSceneActivity.this).setTitle(R.string.tip).setMessage(getString(R.string.is_delete_scene)).
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
