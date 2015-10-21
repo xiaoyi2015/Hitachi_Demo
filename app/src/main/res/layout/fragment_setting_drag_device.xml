@@ -30,7 +30,6 @@
         android:layout_alignParentBottom="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="@drawable/under_bar_dc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

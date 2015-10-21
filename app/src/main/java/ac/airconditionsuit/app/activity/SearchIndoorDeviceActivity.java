@@ -48,12 +48,19 @@ public class SearchIndoorDeviceActivity extends BaseActivity {
 
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.indoor_device_manage));
+        LinearLayout bottomBar = (LinearLayout)findViewById(R.id.bottom_bar);
+        TextView searchTip = (TextView)findViewById(R.id.search_tip);
+        TextView searchIndoor = (TextView)findViewById(R.id.search_indoor);
         switch (UIManager.UITYPE){
             case 1:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
+                bottomBar.setBackgroundResource(R.drawable.under_bar_hit);
+                searchTip.setTextColor(getResources().getColor(R.color.text_color_white));
+                searchIndoor.setTextColor(getResources().getColor(R.color.text_color_white));
                 break;
             case 2:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
+                bottomBar.setBackgroundResource(R.drawable.under_bar_dc);
                 break;
             default:
                 break;

@@ -137,14 +137,17 @@ public class DragDeviceActivity extends BaseActivity {
         setContentView(R.layout.fragment_setting_drag_device);
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
+        LinearLayout bottomBar = (LinearLayout)findViewById(R.id.bottom_bar);
         switch (UIManager.UITYPE){
             case 1:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
                 commonTopBar.setRightIconView(R.drawable.top_bar_save_hit);
+                bottomBar.setBackgroundResource(R.drawable.under_bar_hit);
                 break;
             case 2:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
                 commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                bottomBar.setBackgroundResource(R.drawable.under_bar_dc);
                 break;
             default:
                 break;
@@ -155,13 +158,23 @@ public class DragDeviceActivity extends BaseActivity {
         index = Integer.parseInt(intent.getStringExtra("position"));
         final Section room_info = Section.getSectionFromJsonString(section);
         commonTopBar.setTitle(room_info.getName());
-
-        LinearLayout bottomBar = (LinearLayout)findViewById(R.id.bottom_bar);
         List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
         for (int i = 0; i<devices.size(); i++) {
             final CommonDeviceView commonDeviceView = new CommonDeviceView(DragDeviceActivity.this);
             commonDeviceView.setBackgroundResource(R.drawable.drag_device_transparent_small);
             commonDeviceView.setBgIcon(R.drawable.drag_device_icon);
+            TextView nameView = (TextView)commonDeviceView.findViewById(R.id.bottom_name);
+            TextView nameView2 = (TextView)commonDeviceView.findViewById(R.id.right_up_text);
+            switch (UIManager.UITYPE){
+                case 1:
+                    nameView.setTextColor(getResources().getColor(R.color.text_color_white));
+                    nameView2.setTextColor(getResources().getColor(R.color.text_color_white));
+                    break;
+                case 2:
+                    break;
+                default:
+                    break;
+            }
             commonDeviceView.setBottomName(devices.get(i).getName());
             commonDeviceView.setRightUpText(String .valueOf(MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(devices.get(i).getAddress()))
                     + "-" + devices.get(i).getAddress());

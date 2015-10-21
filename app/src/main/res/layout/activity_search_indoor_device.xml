@@ -28,7 +28,6 @@
         android:layout_alignParentBottom="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="@drawable/under_bar_dc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -40,6 +39,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/search_tip"
             android:text="@string/search_tip"
             android:layout_gravity="center_vertical"
             android:layout_width="150dp"
@@ -61,6 +61,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:id="@+id/search_indoor"
                 android:text="@string/search_indoor_device"
                 android:layout_marginTop="5dp"
                 android:layout_gravity="center_horizontal"
