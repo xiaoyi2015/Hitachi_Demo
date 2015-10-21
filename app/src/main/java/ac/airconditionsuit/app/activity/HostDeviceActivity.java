@@ -71,7 +71,7 @@ public class HostDeviceActivity extends BaseActivity{
             default:
                 break;
         }
-        commonTopBar.setIconView(myOnClickListener, myOnClickListener);
+        commonTopBar.setIconView(myOnClickListener, null);
 
         findViewById(R.id.host_device_qr_code).setOnClickListener(myOnClickListener);
         findViewById(R.id.delete_host_device).setOnClickListener(myOnClickListener);
