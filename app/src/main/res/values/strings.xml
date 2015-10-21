@@ -188,5 +188,6 @@
     <string name="device_symbol">台</string>
     <string name="is_delete_host_device">\n您是管理员，删除设备后，第一位成员将成为管理员，确定删除吗？\n</string>
     <string name="tip">提示</string>
+    <string name="is_delete_section">\n确定要删除该楼层吗？\n</string>
 
 </resources>

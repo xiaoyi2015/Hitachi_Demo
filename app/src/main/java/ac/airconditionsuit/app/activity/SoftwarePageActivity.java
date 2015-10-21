@@ -40,7 +40,7 @@ public class SoftwarePageActivity extends BaseActivity {
                 case R.id.add_group:
                     final EditText et = new EditText(SoftwarePageActivity.this);
                     et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-                    et.setHeight(150);
+                    et.setMinHeight(200);
                     et.setBackgroundResource(R.color.text_color_white);
                     new AlertDialog.Builder(SoftwarePageActivity.this).setTitle(R.string.pls_input_group_name).setView(et).
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
@@ -112,7 +112,7 @@ public class SoftwarePageActivity extends BaseActivity {
                     pop.setBackgroundDrawable(new BitmapDrawable());
                     pop.setOutsideTouchable(true);
                     RelativeLayout view = (RelativeLayout)findViewById(R.id.software_page_layout);
-                    pop.showAtLocation(view, Gravity.BOTTOM,0,0);
+                    pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
 
                     TextView cancel = (TextView)v.findViewById(R.id.cancel);
                     TextView delete = (TextView)v.findViewById(R.id.delete_section);
@@ -126,8 +126,15 @@ public class SoftwarePageActivity extends BaseActivity {
                     delete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            MyApp.getApp().getServerConfigManager().deleteSection(position);
-                            notifyDataSetChanged();
+                            new AlertDialog.Builder(SoftwarePageActivity.this).setTitle(R.string.tip).setMessage(getString(R.string.is_delete_section)).
+                                    setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            MyApp.getApp().getServerConfigManager().deleteSection(position);
+                                            notifyDataSetChanged();
+                                            dialog.dismiss();
+                                        }
+                                    }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
                             pop.dismiss();
                         }
                     });
@@ -135,9 +142,9 @@ public class SoftwarePageActivity extends BaseActivity {
                         @Override
                         public void onClick(View v) {
                             final EditText et = new EditText(SoftwarePageActivity.this);
-                            et.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
-                            et.setHeight(150);
+                            et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                             et.setBackgroundResource(R.color.text_color_white);
+                            et.setMinHeight(200);
                             new AlertDialog.Builder(SoftwarePageActivity.this).setTitle(R.string.pls_input_group_name).setView(et).
                                     setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                         @Override
