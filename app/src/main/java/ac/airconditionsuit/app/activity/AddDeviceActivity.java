@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -16,24 +17,8 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  */
 public class AddDeviceActivity extends BaseActivity implements View.OnClickListener {
 
-    private MyOnClickListener myOnClickListener = new MyOnClickListener(){
-        @Override
-        public void onClick(View v) {
-            super.onClick(v);
-            switch (v.getId()) {
-                case R.id.left_icon:
-                    finish();
-                    break;
+    private static final int REQUEST_FOR_SCAN_QRCODE = 1323;
 
-                case R.id.scan_qrcode:
-                    //TODO
-                    shortStartActivity(CustomCaptureActivity.class);
-                    break;
-
-            }
-
-        }
-    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_setting_add_device);
@@ -50,13 +35,40 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
             default:
                 break;
         }
-        commonTopBar.setIconView(myOnClickListener,null);
+        commonTopBar.setIconView(this,null);
         findViewById(R.id.search_by_udp).setOnClickListener(this);
-        findViewById(R.id.scan_qrcode).setOnClickListener(myOnClickListener);
+        findViewById(R.id.scan_qrcode).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        shortStartActivity(searchDeviceByUdpResultActivity.class);
+        switch (v.getId()) {
+            case R.id.left_icon:
+                finish();
+                break;
+
+            case R.id.scan_qrcode:
+                shortStartActivityForResult(CustomCaptureActivity.class, REQUEST_FOR_SCAN_QRCODE);
+                break;
+
+            case R.id.search_by_udp:
+                shortStartActivity(searchDeviceByUdpResultActivity.class);
+                break;
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_FOR_SCAN_QRCODE:
+                    //todo for zhulinan
+                    Log.v(TAG, "scan qrcode success: " + data.getStringExtra("SCAN_RESULT"));
+                    break;
+            }
+
+        }
     }
 }
