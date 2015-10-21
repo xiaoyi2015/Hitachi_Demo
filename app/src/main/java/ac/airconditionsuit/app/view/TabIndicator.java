@@ -77,6 +77,7 @@ public class TabIndicator extends TextView {
                     setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select));
                     break;
                 default:
+                    setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select_hit));
                     break;
             }
         }else{
@@ -89,6 +90,7 @@ public class TabIndicator extends TextView {
                     setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select));
                     break;
                 default:
+                    setTextColor(context.getResources().getColor(R.color.tab_indicator_text_select_hit));
                     break;
             }
         }
@@ -105,6 +107,7 @@ public class TabIndicator extends TextView {
                     setTextColor(context.getResources().getColor(R.color.tab_indicator_text_normal));
                     break;
                 default:
+                    setTextColor(context.getResources().getColor(R.color.tab_indicator_text_normal_hit));
                     break;
             }
         }else{
@@ -117,6 +120,7 @@ public class TabIndicator extends TextView {
                     setTextColor(context.getResources().getColor(R.color.tab_indicator_text_normal));
                     break;
                 default:
+                    setTextColor(context.getResources().getColor(R.color.tab_indicator_text_normal_hit));
                     break;
             }
         }

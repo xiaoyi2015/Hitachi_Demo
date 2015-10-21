@@ -188,6 +188,9 @@ public class EditClockActivity extends BaseActivity{
                 deleteClock.setBackgroundColor(getResources().getColor(R.color.switch_on_pink));
                 break;
             default:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_cancel_dc);
+                commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                deleteClock.setBackgroundColor(getResources().getColor(R.color.delete_red_hit));
                 break;
         }
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);

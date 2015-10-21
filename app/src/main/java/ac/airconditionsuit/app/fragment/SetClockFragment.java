@@ -77,6 +77,7 @@ public class SetClockFragment extends BaseFragment {
                 commonTopBar.setRightIconView(R.drawable.top_bar_add_dc);
                 break;
             default:
+                commonTopBar.setRightIconView(R.drawable.top_bar_add_dc);
                 break;
         }
 
@@ -277,6 +278,7 @@ public class SetClockFragment extends BaseFragment {
                     inflate(context, R.layout.custom_clock_view, this);
                     break;
                 default:
+                    inflate(context, R.layout.custom_clock_view_hit, this);
                     break;
             }
 

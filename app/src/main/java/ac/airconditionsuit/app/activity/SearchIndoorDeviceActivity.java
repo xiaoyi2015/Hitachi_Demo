@@ -63,6 +63,10 @@ public class SearchIndoorDeviceActivity extends BaseActivity {
                 bottomBar.setBackgroundResource(R.drawable.under_bar_dc);
                 break;
             default:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
+                bottomBar.setBackgroundResource(R.drawable.under_bar_hit);
+                searchTip.setTextColor(getResources().getColor(R.color.text_color_white));
+                searchIndoor.setTextColor(getResources().getColor(R.color.text_color_white));
                 break;
         }
         commonTopBar.setIconView(myOnClickListener, null);

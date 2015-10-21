@@ -76,6 +76,8 @@ public class MyAirFragment extends BaseFragment {
                 commonTopBar.setIconView(null, null);
                 break;
             default:
+                commonTopBar.setRightIconView(R.drawable.top_bar_logo_hx);
+                commonTopBar.setIconView(null, myOnClickListener);
                 break;
         }
         commonTopBar.setRoundLeftIconView(myOnClickListener);
@@ -136,6 +138,8 @@ public class MyAirFragment extends BaseFragment {
                                 arrowIcon.setImageResource(R.drawable.icon_arrow_down_dc);
                                 break;
                             default:
+                                arrowIcon.setImageResource(R.drawable.icon_arrow_down_hit);
+                                sectionView.setBackgroundResource(R.drawable.room_section_top_box_hit);
                                 break;
                         }
                         roomList.setVisibility(View.VISIBLE);
@@ -149,6 +153,8 @@ public class MyAirFragment extends BaseFragment {
                                 arrowIcon.setImageResource(R.drawable.icon_arrow_right_dc);
                                 break;
                             default:
+                                arrowIcon.setImageResource(R.drawable.icon_arrow_right_hit);
+                                sectionView.setBackgroundResource(R.drawable.room_section_box_hit);
                                 break;
                         }
                         roomList.setVisibility(View.GONE);

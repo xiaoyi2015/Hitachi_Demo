@@ -150,6 +150,9 @@ public class DragDeviceActivity extends BaseActivity {
                 bottomBar.setBackgroundResource(R.drawable.under_bar_dc);
                 break;
             default:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
+                commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                bottomBar.setBackgroundResource(R.drawable.under_bar_hit);
                 break;
         }
         commonTopBar.setIconView(myOnClickListener,myOnClickListener);
@@ -173,6 +176,8 @@ public class DragDeviceActivity extends BaseActivity {
                 case 2:
                     break;
                 default:
+                    nameView.setTextColor(getResources().getColor(R.color.text_color_white));
+                    nameView2.setTextColor(getResources().getColor(R.color.text_color_white));
                     break;
             }
             commonDeviceView.setBottomName(devices.get(i).getName());

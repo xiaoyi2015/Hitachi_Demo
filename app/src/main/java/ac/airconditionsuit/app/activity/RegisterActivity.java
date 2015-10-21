@@ -80,6 +80,8 @@ public class RegisterActivity extends BaseActivity {
                 commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
                 break;
             default:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_cancel_dc);
+                commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
                 break;
         }
         commonTopBar.setIconView(myOnClickListener,myOnClickListener);

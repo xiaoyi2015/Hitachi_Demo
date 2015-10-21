@@ -50,6 +50,7 @@ public class SectionAndRoomView extends RelativeLayout {
                 inflate(context, R.layout.custom_section_and_room_view, this);
                 break;
             default:
+                inflate(context, R.layout.custom_section_and_room_view_hit, this);
                 break;
         }
         ImageView arrowIconView = (ImageView) findViewById(R.id.arrow_icon);
@@ -62,6 +63,7 @@ public class SectionAndRoomView extends RelativeLayout {
                 arrowIconView.setImageResource(R.drawable.icon_arrow_right_dc);
                 break;
             default:
+                arrowIconView.setImageResource(R.drawable.icon_arrow_right_hit);
                 break;
         }
 
@@ -125,6 +127,7 @@ public class SectionAndRoomView extends RelativeLayout {
 
             switch (UIManager.UITYPE){
                 case 1:
+                case 3:
                     ImageView roomOnOff = (ImageView)convertView.findViewById(R.id.room_on_off);
                     roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
                     roomMode.setImageResource(R.drawable.cool_on_hit);
@@ -183,6 +186,7 @@ public class SectionAndRoomView extends RelativeLayout {
                     inflate(context, R.layout.custom_room_view,this);
                     break;
                 default:
+                    inflate(context, R.layout.custom_room_view_hit, this);
                     break;
             }
 

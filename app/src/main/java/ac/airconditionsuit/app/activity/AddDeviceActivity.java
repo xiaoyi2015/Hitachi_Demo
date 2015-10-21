@@ -33,6 +33,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
                 break;
             default:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
                 break;
         }
         commonTopBar.setIconView(this,null);

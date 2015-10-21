@@ -138,6 +138,9 @@ public class EditSceneActivity extends BaseActivity{
                 deleteScene.setBackgroundColor(getResources().getColor(R.color.switch_on_pink));
                 break;
             default:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
+                commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                deleteScene.setBackgroundColor(getResources().getColor(R.color.delete_red_hit));
                 break;
         }
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
@@ -232,6 +235,7 @@ public class EditSceneActivity extends BaseActivity{
             TextView deviceName;
             switch (UIManager.UITYPE){
                 case 1:
+                case 3:
                     if(convertView == null){
                         convertView = new CommonModeArrowView(context);
                     }
@@ -592,8 +596,6 @@ public class EditSceneActivity extends BaseActivity{
 
                         }
                     });
-                    break;
-                default:
                     break;
             }
 

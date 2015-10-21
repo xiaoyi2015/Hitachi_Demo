@@ -67,6 +67,7 @@ public class CommonTopBar extends RelativeLayout {
                 setBackgroundResource(R.drawable.top_banner_dc);
                 break;
             default:
+                setBackgroundResource(R.drawable.top_banner_hx);
                 break;
         }
 

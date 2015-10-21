@@ -39,6 +39,7 @@ public class AgreementActivity extends BaseActivity{
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
                 break;
             default:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
                 break;
         }
         commonTopBar.setIconView(myOnClickListener, null);
@@ -51,6 +52,7 @@ public class AgreementActivity extends BaseActivity{
                 webView.loadUrl("file:///android_asset/d-controls-agreement.html");
                 break;
             default:
+                webView.loadUrl("file:///android_asset/hitachi-agreement.html");
                 break;
         }
 

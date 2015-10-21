@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ac.airconditionsuit.app.view.CommonTopBar
+        android:id="@+id/default_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize">
+    </ac.airconditionsuit.app.view.CommonTopBar>
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="40dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/logo"
+        android:layout_below="@+id/default_top_bar"
+        android:src="@drawable/login_logo_hx"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/logo"
+        android:id="@+id/text_version"
+        android:text="@string/text_version_hit"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/text_version"
+        android:id="@+id/text_part1"
+        android:text="@string/text_part2_hit"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@+id/text_part1"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/text_part2"
+        android:text="@string/text_part1_hit"/>
+
+
+</RelativeLayout>

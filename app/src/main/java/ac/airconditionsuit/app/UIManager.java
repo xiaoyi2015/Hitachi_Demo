@@ -8,7 +8,7 @@ public class UIManager {
     public static final int DC = 2;
     public static final int HX = 3;
 
-    public static final int UITYPE = DC;
+    public static final int UITYPE = HX;
 
     public static int getLoginLayout() {
         switch (UITYPE) {
@@ -17,7 +17,7 @@ public class UIManager {
             case DC:
                 return R.layout.activity_login;
             default:
-                return 0;
+                return R.layout.activity_login_hx;
         }
     }
 
@@ -28,7 +28,7 @@ public class UIManager {
             case DC:
                 return R.layout.activity_main;
             default:
-                return 0;
+                return R.layout.activity_main_hit;
         }
     }
 
@@ -39,7 +39,7 @@ public class UIManager {
             case DC:
                 return R.layout.fragment_setting_software_info;
             default:
-                return 0;
+                return R.layout.fragment_setting_software_info_hx;
         }
     }
 
@@ -50,7 +50,7 @@ public class UIManager {
             case DC:
                 return R.layout.activity_splash;
             default:
-                return 0;
+                return R.layout.activity_splash_hx;
         }
     }
 

@@ -54,6 +54,8 @@ public class SceneFragment extends BaseFragment {
                                 commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
                                 break;
                             default:
+                                commonTopBar.setLeftIconView(R.drawable.top_bar_add_dc);
+                                commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
                                 break;
                         }
 
@@ -70,6 +72,7 @@ public class SceneFragment extends BaseFragment {
                                 commonTopBar.setRightIconView(R.drawable.top_bar_edit_dc);
                                 break;
                             default:
+                                commonTopBar.setRightIconView(R.drawable.top_bar_edit_dc);
                                 break;
                         }
 
@@ -118,6 +121,7 @@ public class SceneFragment extends BaseFragment {
                 commonTopBar.setRightIconView(R.drawable.top_bar_edit_dc);
                 break;
             default:
+                commonTopBar.setRightIconView(R.drawable.top_bar_edit_dc);
                 break;
         }
 
@@ -211,6 +215,7 @@ public class SceneFragment extends BaseFragment {
                     inflate(context, R.layout.custom_scene_view, this);
                     break;
                 default:
+                    inflate(context, R.layout.custom_scene_view_hit, this);
                     break;
             }
         }

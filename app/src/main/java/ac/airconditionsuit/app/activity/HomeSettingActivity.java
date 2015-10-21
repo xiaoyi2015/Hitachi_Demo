@@ -56,6 +56,7 @@ public class HomeSettingActivity extends BaseActivity {
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
                 break;
             default:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
                 break;
         }
         commonTopBar.setIconView(myOnClickListener, null);
