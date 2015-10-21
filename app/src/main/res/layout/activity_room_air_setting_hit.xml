@@ -77,7 +77,6 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:max="12"
                     android:progressDrawable="@drawable/seek_drawable"
                     android:thumb="@null"
                     android:layout_width="320dp"

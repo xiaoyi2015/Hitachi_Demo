@@ -25,37 +25,58 @@ public class RoomAirSettingHitActivity extends BaseActivity{
                     break;
 
                 case R.id.temp_decrease:
-                    if(temp>18 && temp<=30){
-                        temp --;
-                        changeTemp(temp);
+                    if(mode == 1){
+                        if(temp>17 && temp<=30){
+                            temp --;
+                            changeTemp(temp);
+                        }
+                    }else{
+                        if(temp>19 && temp <= 30){
+                            temp --;
+                            changeTemp(temp);
+                        }
                     }
                     break;
 
                 case R.id.temp_increase:
-                    if(temp>=18 && temp<30){
-                        temp ++;
-                        changeTemp(temp);
+                    if(mode == 1){
+                        if(temp>=17 && temp<30){
+                            temp ++;
+                            changeTemp(temp);
+                        }
+                    }else{
+                        if(temp>=19 && temp < 30){
+                            temp ++;
+                            changeTemp(temp);
+                        }
                     }
                     break;
 
                 case R.id.mode_cool:
                     mode = 0;
-                    changeIconColor(on_off,mode,fan);
+                    tempSeekBar.setMax(11);
+                    tempSeekBar.setProgress(30);
+                    changeIconColor(on_off, mode, fan);
                     break;
 
                 case R.id.mode_heat:
                     mode = 1;
+                    tempSeekBar.setMax(13);
+                    tempSeekBar.setProgress(30);
                     changeIconColor(on_off,mode,fan);
                     break;
 
                 case R.id.mode_dry:
                     mode = 2;
-                    //mode = 3;
+                    tempSeekBar.setMax(11);
+                    tempSeekBar.setProgress(30);
                     changeIconColor(on_off,mode,fan);
                     break;
 
                 case R.id.mode_fan:
                     mode = 3;
+                    tempSeekBar.setMax(11);
+                    tempSeekBar.setProgress(30);
                     changeIconColor(on_off,mode,fan);
                     break;
 
@@ -150,8 +171,13 @@ public class RoomAirSettingHitActivity extends BaseActivity{
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 tempSeekBar.setProgress(progress);
-                int temp_flag = progress + 18;
-                roomTemp.setText(temp_flag + getString(R.string.temp_symbol));
+                if(mode == 1){
+                    int temp_flag = progress + 17;
+                    roomTemp.setText(temp_flag + getString(R.string.temp_symbol));
+                }else{
+                    int temp_flag = progress + 19;
+                    roomTemp.setText(temp_flag + getString(R.string.temp_symbol));
+                }
             }
 
             @Override
@@ -174,6 +200,11 @@ public class RoomAirSettingHitActivity extends BaseActivity{
         mode = 0;
         fan = 0;
         temp = 30;
+        if(mode == 1){
+            tempSeekBar.setMax(13);
+        }else{
+            tempSeekBar.setMax(11);
+        }
         changeTemp(temp);
         changeIconColor(on_off,mode,fan);
     }
@@ -184,8 +215,13 @@ public class RoomAirSettingHitActivity extends BaseActivity{
     }
 
     private void changeTemp(int temp){
-        roomTemp.setText(temp+getString(R.string.temp_symbol));
-        tempSeekBar.setProgress(temp - 18);
+        roomTemp.setText(temp + getString(R.string.temp_symbol));
+        if(mode == 1){
+            tempSeekBar.setProgress(temp - 17);
+        }else{
+            tempSeekBar.setProgress(temp - 19);
+        }
+
     }
 
     private void changeIconColor(int temp_on_off, int temp_mode, int temp_fan){

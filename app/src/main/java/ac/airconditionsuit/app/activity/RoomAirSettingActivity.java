@@ -29,7 +29,6 @@ public class RoomAirSettingActivity extends BaseActivity{
                 case R.id.left_icon:
                     finish();
                     break;
-                //TODO change color and status, write to file
                 case R.id.on_off_view:
                     on_off ++;
                     if(on_off > 1){
@@ -39,6 +38,20 @@ public class RoomAirSettingActivity extends BaseActivity{
                     break;
                 case R.id.mode_view:
                     mode ++;
+                    switch (mode){
+                        case 0:
+                            temp = 25;
+                            break;
+                        case 1:
+                            temp = 25;
+                            break;
+                        case 2:
+                            temp = 25;
+                            break;
+                        case 3:
+                            temp = 25;
+                            break;
+                    }
                     if(mode > 3){
                         mode = mode - 4;
                     }
@@ -52,15 +65,29 @@ public class RoomAirSettingActivity extends BaseActivity{
                     changeColorAndSetting(on_off,mode,fan,temp);
                     break;
                 case R.id.decrease_temp:
-                    if(temp>18 && temp<=30){
-                        temp --;
-                        changeColorAndSetting(on_off,mode,fan,temp);
+                    if(mode == 1){
+                        if(temp>17 && temp<=30){
+                            temp --;
+                            changeColorAndSetting(on_off,mode,fan,temp);
+                        }
+                    }else{
+                        if(temp>19 && temp <= 30){
+                            temp --;
+                            changeColorAndSetting(on_off,mode,fan,temp);
+                        }
                     }
                     break;
                 case R.id.increase_temp:
-                    if(temp>=18 && temp<30){
-                        temp ++;
-                        changeColorAndSetting(on_off,mode,fan,temp);
+                    if(mode == 1){
+                        if(temp>=17 && temp<30){
+                            temp ++;
+                            changeColorAndSetting(on_off,mode,fan,temp);
+                        }
+                    }else{
+                        if(temp>=19 && temp < 30){
+                            temp ++;
+                            changeColorAndSetting(on_off,mode,fan,temp);
+                        }
                     }
                     break;
             }
