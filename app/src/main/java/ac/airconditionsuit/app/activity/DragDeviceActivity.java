@@ -160,7 +160,7 @@ public class DragDeviceActivity extends BaseActivity {
         List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
         for (int i = 0; i<devices.size(); i++) {
             final CommonDeviceView commonDeviceView = new CommonDeviceView(DragDeviceActivity.this);
-            commonDeviceView.setBackgroundResource(R.drawable.drag_device_room_bar);
+            commonDeviceView.setBackgroundResource(R.drawable.drag_device_transparent_small);
             commonDeviceView.setBgIcon(R.drawable.drag_device_icon);
             commonDeviceView.setBottomName(devices.get(i).getName());
             commonDeviceView.setRightUpText(String .valueOf(MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(devices.get(i).getAddress()))

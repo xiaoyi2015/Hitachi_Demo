@@ -39,6 +39,7 @@
         android:id="@+id/bottom_name"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        android:layout_marginTop="-5dp"
         android:layout_below="@+id/bg_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
