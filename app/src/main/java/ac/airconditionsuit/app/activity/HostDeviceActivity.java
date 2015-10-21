@@ -40,7 +40,7 @@ public class HostDeviceActivity extends BaseActivity{
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //TODO
+                                    //TODO  delete host device
                                     dialog.dismiss();
                                 }
                             }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();

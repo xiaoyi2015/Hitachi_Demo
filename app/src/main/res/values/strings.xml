@@ -190,5 +190,9 @@
     <string name="tip">提示</string>
     <string name="is_delete_section">\n确定要删除该楼层吗？\n</string>
     <string name="qr_code_time_text">二维码有效时间为5分钟</string>
+    <string name="search_tip">请操作墙面上空调的遥控按钮，软件中对应的空调小图标会闪烁！</string>
+    <string name="search_indoor_device">搜索室内机</string>
+    <string name="indoor_device_manage">空调室内机管理</string>
+    <string name="rename_indoor_device">请对空调室内机进行重命名：\n（请勿使用特殊字符）</string>
 
 </resources>
