@@ -57,8 +57,6 @@ public class QRCodeActivity extends BaseActivity{
                 break;
         }
         commonTopBar.setIconView(myOnClickListener,null);
-
-        //TODO add QR code View
         showQRCode();
 
     }
