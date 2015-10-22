@@ -194,5 +194,7 @@
     <string name="search_indoor_device">搜索室内机</string>
     <string name="indoor_device_manage">空调室内机管理</string>
     <string name="rename_indoor_device">请对空调室内机进行重命名：\n（请勿使用特殊字符）</string>
+    <string name="bind_device">绑定设备管理器</string>
+    <string name="host_list">绑定设备管理器</string>
 
 </resources>
