@@ -39,8 +39,15 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         home_name.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
 
         CommonButtonWithArrow hostDevice = (CommonButtonWithArrow)view.findViewById(R.id.host_device);
-        //TODO add host device id
-        hostDevice.getLabelTextView().setText(getString(R.string.host_device) + MyApp.getApp().getServerConfigManager().getCurrentHostMac());
+        CommonButtonWithArrow addDevice = (CommonButtonWithArrow)view.findViewById(R.id.add_device);
+        if(!MyApp.getApp().getServerConfigManager().hasDevice()){
+            hostDevice.setVisibility(View.GONE);
+            addDevice.setVisibility(View.VISIBLE);
+        }else{
+            hostDevice.setVisibility(View.VISIBLE);
+            addDevice.setVisibility(View.GONE);
+        }
+        hostDevice.getLabelTextView().setText(getString(R.string.host_device) + MyApp.getApp().getServerConfigManager().getConnections().get(0).getName());
         hostDevice.setOnClickListener(this);
         view.findViewById(R.id.software_information).setOnClickListener(this);
         view.findViewById(R.id.user_icon).setOnClickListener(this);

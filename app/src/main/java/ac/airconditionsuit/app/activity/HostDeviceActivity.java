@@ -86,7 +86,7 @@ public class HostDeviceActivity extends BaseActivity{
             deleteView.setVisibility(View.GONE);
         }
 
-        hostDeviceName.setOnlineTextView(MyApp.getApp().getServerConfigManager().getCurrentHostMac());
+        hostDeviceName.setOnlineTextView(MyApp.getApp().getServerConfigManager().getConnections().get(0).getName());
         hostDeviceIP.setOnlineTextView(MyApp.getApp().getServerConfigManager().getCurrentHostIP());
         scanIndoorDevice.setOnClickListener(myOnClickListener);
         scanIndoorDevice.setOnlineTextView(MyApp.getApp().getServerConfigManager().getDevices().size() + getString(R.string.device_symbol));

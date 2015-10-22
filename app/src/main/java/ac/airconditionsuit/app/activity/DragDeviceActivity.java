@@ -89,7 +89,42 @@ public class DragDeviceActivity extends BaseActivity {
             ImageView imageView1 = (ImageView)convertView.findViewById(R.id.right_up_icon);
 
             textView.setText(rooms.get(position).getName());
-            imageView.setImageResource(R.drawable.drag_device_room_bar);
+            if(rooms.get(position).getElements() == null){
+                imageView.setImageResource(R.drawable.drag_device_room_bar);
+            }
+            switch (rooms.get(position).getElements().size()){
+                case 0:
+                    imageView.setImageResource(R.drawable.drag_device_room_bar);
+                    break;
+                case 1:
+                    imageView.setImageResource(R.drawable.room_device1);
+                    break;
+                case 2:
+                    imageView.setImageResource(R.drawable.room_device2);
+                    break;
+                case 3:
+                    imageView.setImageResource(R.drawable.room_device3);
+                    break;
+                case 4:
+                    imageView.setImageResource(R.drawable.room_device4);
+                    break;
+                case 5:
+                    imageView.setImageResource(R.drawable.room_device5);
+                    break;
+                case 6:
+                    imageView.setImageResource(R.drawable.room_device6);
+                    break;
+                case 7:
+                    imageView.setImageResource(R.drawable.room_device7);
+                    break;
+                case 8:
+                    imageView.setImageResource(R.drawable.room_device8);
+                    break;
+                default:
+                    imageView.setImageResource(R.drawable.room_device9);
+                    break;
+
+            }
             imageView1.setImageResource(R.drawable.drag_device_delete);
 
             imageView1.setOnClickListener(new View.OnClickListener() {
