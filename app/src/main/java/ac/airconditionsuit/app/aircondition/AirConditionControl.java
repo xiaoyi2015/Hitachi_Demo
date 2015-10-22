@@ -8,6 +8,8 @@ import ac.airconditionsuit.app.entity.Timer;
  *
  */
 public class AirConditionControl extends RootEntity{
+    public static final int UNKNOW = -19989;
+
     public static final int ON = 1;
     public static final int OFF = 0;
     int onoff;
@@ -81,14 +83,6 @@ public class AirConditionControl extends RootEntity{
         this.windVelocity = windVelocity;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
-    public void setAuto(int auto) {
-        this.auto = auto;
-    }
-
     public void setTemperature(int temperature) {
         this.temperature = temperature;
     }
@@ -103,14 +97,6 @@ public class AirConditionControl extends RootEntity{
 
     public int getWindVelocity() {
         return windVelocity;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public int getAuto() {
-        return auto;
     }
 
     public int getTemperature() {

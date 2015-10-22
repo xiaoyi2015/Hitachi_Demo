@@ -154,6 +154,31 @@ public class SocketManager extends Observable {
         }
     }
 
+    public void searchIndoorAirCondition() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UdpSocket socket = new UdpSocket();
+                    socket.connect();
+                    SocketPackage socketPackage = new QueryAirConditionAddressPackage();
+                    //重发三遍，主机偶尔会没有应答
+                    socket.sendMessage(socketPackage);
+
+                    //搜索时间十秒
+                    long currentTime = System.currentTimeMillis();
+                    while (System.currentTimeMillis() < currentTime + 10 * 1000) {
+                        socket.receiveDataAndHandle();
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "search indoor air condition failed");
+                }
+            }
+        }).start();
+    }
+
     class ReceiveThread extends Thread {
         @Override
         public void run() {

@@ -238,10 +238,10 @@ class TcpSocket implements SocketWrap {
         if (result_code == 200) {
             Log.i(TAG, "tcp login success");
             //comment for debug todo
-//            MyApp.getApp().getSocketManager().startHeartBeat();
-//            if (MyApp.getApp().getServerConfigManager().hasDevice()) {
-//                MyApp.getApp().getAirconditionManager().queryAirConditionStatus();
-//            }
+            MyApp.getApp().getSocketManager().startHeartBeat();
+            if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+                MyApp.getApp().getAirconditionManager().queryAirConditionStatus();
+            }
 
             //test code for control
 //            Command command = new Command();
@@ -287,7 +287,7 @@ class TcpSocket implements SocketWrap {
 //            MyApp.getApp().getAirconditionManager().deleteTimerServer(8);
 //            MyApp.getApp().getAirconditionManager().deleteTimerServer(9);
 
-            MyApp.getApp().getAirconditionManager().queryTimer(2);
+//            MyApp.getApp().getAirconditionManager().queryTimer(2);
 //            MyApp.getApp().getAirconditionManager().queryTimer(256);
 //            MyApp.getApp().getAirconditionManager().queryTimer(4);
 //            MyApp.getApp().getAirconditionManager().queryTimer(5);

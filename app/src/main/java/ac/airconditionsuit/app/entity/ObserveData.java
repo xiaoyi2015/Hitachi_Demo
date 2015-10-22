@@ -8,6 +8,7 @@ public class ObserveData {
     public static final int FIND_DEVICE_BY_UDP_FAIL = 1;
     public static final int OFFLINE = 2;
     public static final int AIR_CONDITION_STATUS_RESPONSE = 3;
+    public static final int SEARCH_AIR_CONDITION_RESPONSE = 4;
     int msg;
     Object data;
 

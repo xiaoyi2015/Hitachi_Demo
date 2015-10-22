@@ -1,5 +1,13 @@
 package ac.airconditionsuit.app.activity;
 
+import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.UIManager;
+import ac.airconditionsuit.app.entity.AirCondition;
+import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
+import ac.airconditionsuit.app.entity.ObserveData;
+import ac.airconditionsuit.app.view.CommonDeviceView;
+import ac.airconditionsuit.app.view.CommonTopBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,39 +15,18 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 
 import java.util.List;
-
-import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.R;
-import ac.airconditionsuit.app.UIManager;
-import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
-import ac.airconditionsuit.app.listener.MyOnClickListener;
-import ac.airconditionsuit.app.view.CommonDeviceView;
-import ac.airconditionsuit.app.view.CommonTopBar;
+import java.util.Observable;
 
 /**
  * Created by Administrator on 2015/10/21.
  */
-public class SearchIndoorDeviceActivity extends BaseActivity {
+public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnClickListener {
 
-    private MyOnClickListener myOnClickListener = new MyOnClickListener() {
-        @Override
-        public void onClick(View v) {
-            super.onClick(v);
-            switch (v.getId()) {
-                case R.id.left_icon:
-                    finish();
-                    break;
-            }
-        }
-    };
+
+    private IndoorDeviceAdapter indoorDeviceAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +35,10 @@ public class SearchIndoorDeviceActivity extends BaseActivity {
 
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.indoor_device_manage));
-        LinearLayout bottomBar = (LinearLayout)findViewById(R.id.bottom_bar);
-        TextView searchTip = (TextView)findViewById(R.id.search_tip);
-        TextView searchIndoor = (TextView)findViewById(R.id.search_indoor);
-        switch (UIManager.UITYPE){
+        LinearLayout bottomBar = (LinearLayout) findViewById(R.id.bottom_bar);
+        TextView searchTip = (TextView) findViewById(R.id.search_tip);
+        TextView searchIndoor = (TextView) findViewById(R.id.search_indoor);
+        switch (UIManager.UITYPE) {
             case 1:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
                 bottomBar.setBackgroundResource(R.drawable.under_bar_hit);
@@ -69,15 +56,47 @@ public class SearchIndoorDeviceActivity extends BaseActivity {
                 searchIndoor.setTextColor(getResources().getColor(R.color.text_color_white));
                 break;
         }
-        commonTopBar.setIconView(myOnClickListener, null);
+        commonTopBar.setIconView(this, null);
 
         GridView gridView = (GridView) findViewById(R.id.indoor_device_list);
-        IndoorDeviceAdapter indoorDeviceAdapter = new IndoorDeviceAdapter(SearchIndoorDeviceActivity.this);
+        indoorDeviceAdapter = new IndoorDeviceAdapter(SearchIndoorDeviceActivity.this);
         gridView.setAdapter(indoorDeviceAdapter);
 
+        LinearLayout searchIndoorDevice = (LinearLayout) findViewById(R.id.search_indoor_device);
+        searchIndoorDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyApp.getApp().getSocketManager().searchIndoorAirCondition();
+            }
+        });
     }
 
-    private class IndoorDeviceAdapter extends BaseAdapter{
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+
+        ObserveData od = (ObserveData) data;
+        switch (od.getMsg()) {
+            case ObserveData.AIR_CONDITION_STATUS_RESPONSE:
+                AirCondition airCondition = (AirCondition) od.getData();
+                //todo for zhulinan
+                break;
+            case ObserveData.SEARCH_AIR_CONDITION_RESPONSE:
+                indoorDeviceAdapter.notifyDataSetChanged();
+                break;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.left_icon:
+                finish();
+                break;
+        }
+    }
+
+    private class IndoorDeviceAdapter extends BaseAdapter {
 
         private Context context;
 
@@ -87,7 +106,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            if(MyApp.getApp().getServerConfigManager().getDevices() == null)
+            if (MyApp.getApp().getServerConfigManager().getDevices() == null)
                 return 0;
             return MyApp.getApp().getServerConfigManager().getDevices().size();
         }
@@ -104,20 +123,13 @@ public class SearchIndoorDeviceActivity extends BaseActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            if(convertView == null) {
+            if (convertView == null) {
                 convertView = new CommonDeviceView(context);
             }
             convertView.setBackgroundResource(R.drawable.drag_device_transparent_big);
-            TextView textView = (TextView)convertView.findViewById(R.id.bottom_name);
-            ImageView imageView = (ImageView)convertView.findViewById(R.id.bg_icon);
-            TextView rightUpText = (TextView)convertView.findViewById(R.id.right_up_text);
-            LinearLayout searchIndoorDevice = (LinearLayout)findViewById(R.id.search_indoor_device);
-            searchIndoorDevice.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO search indoor device
-                }
-            });
+            TextView textView = (TextView) convertView.findViewById(R.id.bottom_name);
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.bg_icon);
+            TextView rightUpText = (TextView) convertView.findViewById(R.id.right_up_text);
 
             textView.setText(MyApp.getApp().getServerConfigManager().getDevices().get(position).getName());
             imageView.setImageResource(R.drawable.drag_device_icon);

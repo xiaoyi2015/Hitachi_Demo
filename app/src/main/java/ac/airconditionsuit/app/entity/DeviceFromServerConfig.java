@@ -5,8 +5,16 @@ package ac.airconditionsuit.app.entity;
  */
 public class DeviceFromServerConfig extends RootEntity {
     String name;
+
+    //todo for zhulinan,空调地址 = indoorindex * 16 + indooraddress
     int indooraddress;
     int indoorindex;
+
+    public DeviceFromServerConfig(byte address) {
+        indooraddress = address & 0xf;
+        indoorindex = address >>> 4;
+        name = "新空调" + indoorindex + "-" + indooraddress;
+    }
 
     public String getName() {
         return name;
@@ -16,24 +24,17 @@ public class DeviceFromServerConfig extends RootEntity {
         this.name = name;
     }
 
-    //todo for zhulinan,空调地址 = indoorindex * 16 + indooraddress
-//    public int getIndooraddress() {
-//        return indooraddress;
-//    }
-
-//    public void setIndooraddress(int indooraddress) {
-//        this.indooraddress = indooraddress;
-//    }
-
-//    public int getIndoorindex() {
-//        return indoorindex;
-//    }
-
-//    public void setIndoorindex(int indoorindex) {
-//        this.indoorindex = indoorindex;
-//    }
-
     public int getAddress() {
         return indoorindex * 16 + indooraddress;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof DeviceFromServerConfig) {
+            DeviceFromServerConfig temp = (DeviceFromServerConfig) o;
+            return temp.getAddress() == getAddress();
+        } else {
+            return false;
+        }
     }
 }

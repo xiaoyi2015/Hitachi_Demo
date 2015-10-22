@@ -239,17 +239,7 @@ public class UdpPackage {
     public class GetAirConditionAddressPackageContent extends UdpPackageContent {
         public GetAirConditionAddressPackageContent() {
             function = AFN_GET_AIR_CONDITION_ADDRESS;
-            handler = new Handler() {
-                @Override
-                public void success() {
-                    Log.i(TAG, "get air condition success");
-                }
-
-                @Override
-                public void fail(int errorNo) {
-                    Log.i(TAG, "get air condition fail");
-                }
-            };
+            handler = null;
         }
     }
 

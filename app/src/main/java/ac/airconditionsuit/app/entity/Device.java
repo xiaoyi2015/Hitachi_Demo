@@ -7,9 +7,13 @@ import com.google.gson.Gson;
  * the entity for device
  */
 public class Device extends RootEntity {
-    static public class QRCode {
+    static public class QRCode extends RootEntity{
         public QRCode(String chat_id) {
             this.chat_id = chat_id;
+        }
+
+        public QRCode(long chatId) {
+            this.chat_id = String.valueOf(chatId);
         }
 
         public String getChat_id() {
