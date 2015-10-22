@@ -113,6 +113,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onResume() {
+        super.onResume();
         refreshNetworkStatus();
     }
 
