@@ -6,7 +6,6 @@ import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.*;
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
-import android.provider.Telephony;
 import android.util.Log;
 
 import java.io.IOException;
@@ -49,47 +48,65 @@ public class SocketManager extends Observable {
     public void heartSuccess() {
         setLastHeartSuccessTime(System.currentTimeMillis());
         if (socket == null) {
-            isTcpHostConnect = false;
-            isTcpDeviceConnect = false;
-            isUdpDeviceConnect = false;
+            statusAllFalse();
             return;
         }
         if (socket instanceof TcpSocket) {
-            isTcpHostConnect = true;
-            isUdpDeviceConnect = false;
+            statusTcpServerConnect();
         } else {
-            isUdpDeviceConnect = true;
-            isTcpDeviceConnect = false;
-            isTcpHostConnect = false;
+            statusUdpConnect();
         }
+    }
+
+    private void statusTcpServerConnect() {
+        isTcpHostConnect = true;
+        isUdpDeviceConnect = false;
+        isTcpDeviceConnect = false;
+        notifyActivity(new ObserveData(ObserveData.NETWORK_STATUS_CHANGE));
+    }
+
+    private void statusUdpConnect() {
+        isTcpHostConnect = false;
+        isUdpDeviceConnect = true;
+        isTcpDeviceConnect = false;
+        notifyActivity(new ObserveData(ObserveData.NETWORK_STATUS_CHANGE));
+    }
+
+    private void statusAllFalse() {
+        isTcpHostConnect = false;
+        isTcpDeviceConnect = false;
+        isUdpDeviceConnect = false;
+        notifyActivity(new ObserveData(ObserveData.NETWORK_STATUS_CHANGE));
+    }
+
+    private void statusTcpDeviceConnect() {
+        isTcpDeviceConnect = true;
+        isTcpHostConnect = true;
+        isUdpDeviceConnect = false;
+        notifyActivity(new ObserveData(ObserveData.NETWORK_STATUS_CHANGE));
     }
 
     public void checkDevice(boolean success) {
         setLastHeartSuccessTime(System.currentTimeMillis());
         if (socket == null) {
-            isTcpHostConnect = false;
-            isTcpDeviceConnect = false;
-            isUdpDeviceConnect = false;
+            statusAllFalse();
             return;
         }
         if (success) {
             if (socket instanceof TcpSocket) {
-                isTcpDeviceConnect = true;
-                isTcpHostConnect = true;
-                isUdpDeviceConnect = false;
+                statusTcpDeviceConnect();
             } else {
                 Log.i(TAG, "fucking udp socket receive a tcp package");
             }
         } else {
             if (socket instanceof TcpSocket) {
-                isTcpDeviceConnect = false;
-                isTcpHostConnect = true;
-                isUdpDeviceConnect = false;
+                statusTcpServerConnect();
             } else {
                 Log.i(TAG, "fucking udp socket receive a tcp package");
             }
         }
     }
+
 
     public int getStatus() {
         if (isTcpDeviceConnect) {
@@ -244,6 +261,7 @@ public class SocketManager extends Observable {
             e.printStackTrace();
         }
 
+        statusAllFalse();
     }
 
     public void init(int status) {
@@ -251,9 +269,7 @@ public class SocketManager extends Observable {
             return;
         }
 
-        isTcpHostConnect = false;
-        isTcpDeviceConnect = false;
-        isUdpDeviceConnect = false;
+        statusAllFalse();
         lastHeartSuccessTime = 0;
 
         int socketType = getSocketType(status);

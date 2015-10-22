@@ -9,6 +9,8 @@ public class ObserveData {
     public static final int OFFLINE = 2;
     public static final int AIR_CONDITION_STATUS_RESPONSE = 3;
     public static final int SEARCH_AIR_CONDITION_RESPONSE = 4;
+    public static final int NETWORK_STATUS_CHANGE = 5;
+
     int msg;
     Object data;
 

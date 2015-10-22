@@ -126,6 +126,13 @@ public class MainActivity extends BaseActivity {
                 AirCondition airCondition = (AirCondition) od.getData();
                 //todo for zhulinan
                 break;
+            case ObserveData.NETWORK_STATUS_CHANGE:
+                getSettingFragment().refreshNetworkStatus();
+                break;
         }
+    }
+
+    private SettingFragment getSettingFragment() {
+        return (SettingFragment) fragments[3];
     }
 }
