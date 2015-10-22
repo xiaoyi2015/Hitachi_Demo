@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.fragment;
 
+import ac.airconditionsuit.app.network.socket.SocketManager;
+import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private View view;
     public final static int REQUEST_HOME_SETTING = 160;
     private TextView home_name;
+    private CommonButtonWithArrow connectionStatusView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,22 +41,22 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         home_name = (TextView) view.findViewById(R.id.setting_home_name);
         home_name.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
 
-        CommonButtonWithArrow hostDevice = (CommonButtonWithArrow)view.findViewById(R.id.host_device);
-        CommonButtonWithArrow addDevice = (CommonButtonWithArrow)view.findViewById(R.id.add_device);
-        if(!MyApp.getApp().getServerConfigManager().hasDevice()){
-            hostDevice.setVisibility(View.GONE);
-            addDevice.setVisibility(View.VISIBLE);
-        }else{
-            hostDevice.setVisibility(View.VISIBLE);
-            addDevice.setVisibility(View.GONE);
-        }
-        hostDevice.getLabelTextView().setText(getString(R.string.host_device) + MyApp.getApp().getServerConfigManager().getConnections().get(0).getName());
-        hostDevice.setOnClickListener(this);
         view.findViewById(R.id.software_information).setOnClickListener(this);
         view.findViewById(R.id.user_icon).setOnClickListener(this);
         view.findViewById(R.id.setting_home_setting).setOnClickListener(this);
         view.findViewById(R.id.software_page).setOnClickListener(this);
-        view.findViewById(R.id.add_device).setOnClickListener(this);
+
+        if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+            view.findViewById(R.id.add_device).setVisibility(View.GONE);
+            CommonButtonWithArrow hostDevice = (CommonButtonWithArrow) view.findViewById(R.id.host_device);
+            hostDevice.getLabelTextView().setText(getString(R.string.host_device) + MyApp.getApp().getServerConfigManager().getCurrentHostMac());
+            hostDevice.setOnClickListener(this);
+        } else {
+            view.findViewById(R.id.host_device).setVisibility(View.GONE);
+            view.findViewById(R.id.add_device).setOnClickListener(this);
+        }
+
+        connectionStatusView = (CommonButtonWithArrow) view.findViewById(R.id.connect_status);
         return view;
     }
 
@@ -68,7 +71,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 startActivity(new Intent(getActivity(), SoftwareInfoActivity.class));
                 break;
             case R.id.setting_home_setting:
-                startActivityForResult(new Intent(getActivity(), HomeSettingActivity.class),REQUEST_HOME_SETTING);
+                startActivityForResult(new Intent(getActivity(), HomeSettingActivity.class), REQUEST_HOME_SETTING);
                 break;
             case R.id.software_page:
                 startActivity(new Intent(getActivity(), SoftwarePageActivity.class));
@@ -98,6 +101,80 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                     home_name.setText(data.getStringExtra("name"));
                     break;
             }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            refreshNetworkStatus();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshNetworkStatus();
+    }
+
+    public void refreshNetworkStatus() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                int connectivityStatus = NetworkConnectionStatusUtil.getConnectivityStatus(getActivity());
+
+                if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+
+                    switch (MyApp.getApp().getSocketManager().getStatus()) {
+                        case SocketManager.TCP_DEVICE_CONNECT:
+                            if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
+                                connectionStatusView.setOnlineTextView(R.string.settingFragmentWifiConnectDevice);
+                            } else if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT) {
+                                connectionStatusView.setOnlineTextView(R.string.settingFragmentMobileConnectDevice);
+                            } else {
+                                connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
+                            }
+                            break;
+                        case SocketManager.UDP_DEVICE_CONNECT:
+                            if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
+                                connectionStatusView.setOnlineTextView(R.string.settingFragmentWifiUdpConnect);
+                            } else {
+                                connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
+                            }
+                            break;
+                        case SocketManager.TCP_HOST_CONNECT:
+                            if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT ||
+                                    connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT) {
+                                connectionStatusView.setOnlineTextView(R.string.settingFragmentConnectServer);
+                            } else {
+                                connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
+                            }
+
+                            break;
+                        case SocketManager.TCP_UDP_ALL_UNCONNECT:
+                            if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
+                                connectionStatusView.setOnlineTextView(R.string.settingFragmentWifiNoServer);
+                            } else if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT) {
+                                connectionStatusView.setOnlineTextView(R.string.settingFragmentMobileNoServer);
+                            } else {
+                                connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
+                            }
+                            break;
+                        default:
+                    }
+                } else {
+                    switch (MyApp.getApp().getSocketManager().getStatus()) {
+                        case SocketManager.TCP_HOST_CONNECT:
+                            connectionStatusView.setOnlineTextView(R.string.settingFragmentHasHostNoDevice);
+                            break;
+                        default:
+                            connectionStatusView.setOnlineTextView(R.string.settingFragmentNoHostNoDevice);
+                            break;
+                    }
+                }
+
+            }
+        });
     }
 
 }

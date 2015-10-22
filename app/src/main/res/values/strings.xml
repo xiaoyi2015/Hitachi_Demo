@@ -199,4 +199,15 @@
     <string name="search_host_device_failed">获取主机失败</string>
     <string name="device_already_exist">空调已存在</string>
 
+    <string name="settingFragmentHasHostNoDevice">成功连接服务器，未添加主机</string>
+    <string name="settingFragmentNoHostNoDevice">无法连接服务器，未添加主机</string>
+
+    <string name="settingFragmentWifiConnectDevice">WiFi远程连接主机成功</string>
+    <string name="settingFragmentMobileConnectDevice">移动数据网络远程连接主机成功</string>
+    <string name="settingFragmentWifiUdpConnect">WiFi本地连接主机成功</string>
+    <string name="settingFragmentConnectServer">成功连接服务器，连接主机失败</string>
+    <string name="settingFragmentWifiNoServer">APP正使用WiFi，但无法连接服务器</string>
+    <string name="settingFragmentMobileNoServer">APP正使用移动数据网络，但无法连接服务器</string>
+    <string name="settingFragmentUnConnect">APP未连网，请打开WiFi或移动数据网络</string>
+
 </resources>
