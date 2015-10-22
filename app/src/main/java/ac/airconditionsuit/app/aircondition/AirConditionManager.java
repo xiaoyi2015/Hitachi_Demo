@@ -39,6 +39,7 @@ public class AirConditionManager {
             AirCondition airCondition = getAirCondition(airConditionStatusResponse.getAddress());
             if (airCondition == null) {
                 airCondition = new AirCondition();
+                airConditions.add(airCondition);
             }
             airCondition.changeStatus(airConditionStatusResponse);
 
@@ -85,6 +86,30 @@ public class AirConditionManager {
             }
         }
         return null;
+    }
+
+    public AirCondition getAirConditions(Room room) {
+        List<Integer> elements = room.getElements();
+        if (elements == null || elements.size() == 0) {
+            return null;
+        }
+        AirCondition airCondition = getAirCondition(elements.get(0));
+        for (int i = 1; i < elements.size(); ++i) {
+            AirCondition temp = getAirCondition(elements.get(i));
+            if (temp.getMode() != airCondition.getMode()) {
+                airCondition.setMode(AirConditionControl.UNKNOW);
+            }
+            if (temp.getOnoff() != airCondition.getOnoff()) {
+                airCondition.setOnoff(AirConditionControl.UNKNOW);
+            }
+            if (temp.getFan() != airCondition.getFan()) {
+                airCondition.setFan(AirConditionControl.UNKNOW);
+            }
+            if (temp.getTemperature() != airCondition.getTemperature()) {
+                airCondition.setTemperature(AirConditionControl.UNKNOW);
+            }
+        }
+        return airCondition;
     }
 
     public void queryTimer(int id) {

@@ -11,6 +11,7 @@ import ac.airconditionsuit.app.R;
 import com.loopj.android.http.RequestParams;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -45,10 +46,10 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
                 //如果不为空，就表示搜索到一个设备,做相应处理
                 Device device = (Device) od.getData();
                 addDevice(device);
-
                 break;
             case ObserveData.FIND_DEVICE_BY_UDP_FAIL:
                 //如果返回会空，就表示发送广播包出现错误，做相应处理。如在界面上显示搜索失败之类的。
+                MyApp.getApp().showToast(R.string.search_host_device_failed);
                 break;
         }
     }
@@ -109,11 +110,7 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
             }
         }
         devices.add(device);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                bindDevice(device);
-            }
-        });
+        //adapter.notify
+
     }
 }
