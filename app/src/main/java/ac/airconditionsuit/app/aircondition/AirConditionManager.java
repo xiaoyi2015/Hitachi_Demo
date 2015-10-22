@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Created by ac on 10/15/15.
+ *
  */
 public class AirConditionManager {
 
@@ -31,7 +32,7 @@ public class AirConditionManager {
         }
     }
 
-    public void updateAirconditionStatueLocal(byte[] status) {
+    public void updateAirConditionStatueLocal(byte[] status) {
         try {
             AirConditionStatusResponse airConditionStatusResponse =
                     AirConditionStatusResponse.decodeFromByteArray(status);
