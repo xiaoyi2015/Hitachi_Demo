@@ -89,6 +89,7 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
                             @Override
                             public void onSuccess(File file) {
                                 Log.i(TAG, "下载主机配置文件成功，用新的配置文件上传服务器");
+                                MyApp.getApp().getServerConfigManager().readFromFile();
                             }
                         });
             }
@@ -108,7 +109,6 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
             }
         }
         devices.add(device);
-        //temp code
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
