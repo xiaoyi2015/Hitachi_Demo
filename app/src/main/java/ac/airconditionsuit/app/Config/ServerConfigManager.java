@@ -396,4 +396,18 @@ public class ServerConfigManager {
         writeToFile();
     }
 
+    public void updateAirCondition(byte[] contentData) {
+        out:
+        for (byte address : contentData) {
+            DeviceFromServerConfig tempDevice = new DeviceFromServerConfig(address);
+            for (DeviceFromServerConfig device : getDevices()) {
+                if (device.equals(tempDevice)) {
+                    continue out;
+                }
+            }
+            getDevices().add(tempDevice);
+        }
+        ObserveData od = new ObserveData(ObserveData.SEARCH_AIR_CONDITION_RESPONSE, getDevices());
+        MyApp.getApp().getSocketManager().notifyActivity(od);
+    }
 }
