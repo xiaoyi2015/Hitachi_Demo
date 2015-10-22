@@ -212,5 +212,6 @@
     <string name="host_name_empty_info">设备管理器的名称不能为空</string>
     <string name="host_name_too_long_info">设备管理器的名称长度不能超过10个字符</string>
     <string name="pls_add_air_to_room">房间里没有空调，请先添加空调到房间里！</string>
+    <string name="fail_to_fetch_aircondition">连接主机失败，获取不到房间空调状态</string>
 
 </resources>

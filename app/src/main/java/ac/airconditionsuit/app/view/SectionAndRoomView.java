@@ -256,7 +256,11 @@ public class SectionAndRoomView extends RelativeLayout {
                         @Override
                         public void onClick(View v) {
                             if(airCondition.getOnoff() == AirConditionControl.EMPTY){
-                                MyApp.getApp().showToast(getContext().getString(R.string.pls_add_air_to_room));
+                                if(rooms.get(position).getElements() == null || rooms.get(position).getElements().size() == 0) {
+                                    MyApp.getApp().showToast(getContext().getString(R.string.pls_add_air_to_room));
+                                }else{
+                                    MyApp.getApp().showToast(getContext().getString(R.string.fail_to_fetch_aircondition));
+                                }
                             }else {
                                 Intent intent = new Intent();
                                 intent.putExtra("air", airCondition.toJsonString());
@@ -400,7 +404,11 @@ public class SectionAndRoomView extends RelativeLayout {
                         @Override
                         public void onClick(View v) {
                             if(airCondition.getOnoff() == AirConditionControl.EMPTY){
-                                MyApp.getApp().showToast(getContext().getString(R.string.pls_add_air_to_room));
+                                if(rooms.get(position).getElements() == null || rooms.get(position).getElements().size() == 0) {
+                                    MyApp.getApp().showToast(getContext().getString(R.string.pls_add_air_to_room));
+                                }else{
+                                    MyApp.getApp().showToast(getContext().getString(R.string.fail_to_fetch_aircondition));
+                                }
                             }else {
                                 Intent intent = new Intent();
                                 intent.putExtra("air", airCondition.toJsonString());
