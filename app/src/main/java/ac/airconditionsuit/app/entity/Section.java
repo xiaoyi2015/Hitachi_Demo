@@ -22,8 +22,9 @@ public class Section extends RootEntity{
     }
 
     public List<Room> getPages() {
-        if(pages == null)
+        if(pages == null){
             pages = new ArrayList<>();
+        }
         return pages;
     }
 

@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ public class Room extends RootEntity {
     long roomidkey;
 
     //list里面的每一个integer代表一个在该房间内的空调
-    List<Integer> elements;
+    List<Integer> elements = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -38,5 +39,14 @@ public class Room extends RootEntity {
 
     public void setElements(List<Integer> elements) {
         this.elements = elements;
+    }
+
+    public void addAirCondition(int newAddress) {
+        for (int i = 0; i < elements.size(); ++i) {
+            if (elements.get(i) == newAddress) {
+                return;
+            }
+        }
+        elements.add(newAddress);
     }
 }

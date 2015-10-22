@@ -41,7 +41,12 @@ public class ServerConfigManager {
     private ServerConfig rootJavaObj;
 
     public List<Section> getSections() {
-        return rootJavaObj.getSections();
+        List<Section> sections = rootJavaObj.getSections();
+        if (sections == null) {
+            sections = new ArrayList<>();
+            rootJavaObj.setSections(sections);
+        }
+        return sections;
     }
 
     public List<Scene> getScene() {
@@ -409,5 +414,16 @@ public class ServerConfigManager {
         }
         ObserveData od = new ObserveData(ObserveData.SEARCH_AIR_CONDITION_RESPONSE, getDevices());
         MyApp.getApp().getSocketManager().notifyActivity(od);
+    }
+
+    public boolean addDeviceToRoom(int index, int position, int newAddress) {
+        List<Integer> elements = getSections().get(index).getPages().get(position).getElements();
+        for (int address : elements) {
+            if (address == newAddress) {
+                return false;
+            }
+        }
+        elements.add(newAddress);
+        return true;
     }
 }
