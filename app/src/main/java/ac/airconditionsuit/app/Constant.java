@@ -11,6 +11,7 @@ public class Constant {
     public static final String PREFERENCE_KEY_LOCAL_CONFIG = "localConfig";
 
     public static final String INTENT_DATA_KEY_ACTIVITY_FROM = "activity_from" ;
+    public static final String INTENT_DATA_KEY_ACTIVITY_DEVICE_JSON_STRING = "device_json_string";
     public static final String INTENT_DATA_KEY_IS_FIRST = "isFirst" ;
 
     //params key
@@ -53,6 +54,7 @@ public class Constant {
     public static final String REQUEST_PARAMS_VALUE_TYPE_GET_CHATGROUPLIST = "getChatGroupList";
     public static final String REQUEST_PARAMS_VALUE_TYPE_CUST_CLASS_10001 = "10001";
     public static final String REQUEST_PARAMS_VALUE_TYPE_UPLOAD_DEVICE_CONFIG_FILE = "uploadDeviceConfigFile";
+    public static final String REQUEST_PARAMS_VALUE_TYPE_GET_CHAT_TOKEN = "getChatToken";
 
     public static final String REQUEST_PARAMS_VALUE_TYPE_VALIDATE_CODE_FOR_FIND_PASSWORD ="sendMobileVerifyCode";
 
@@ -85,7 +87,6 @@ public class Constant {
     public static final String REQUEST_PARAMS_VALUE_TYPE_GET_PUSHDATA = "getUnreadMsgList2";
     public static final java.lang.String REQUEST_PARAMS_VALUE_TYPE_ACK_MSG_ID = "setUnreadMsgListACK";
     public static final String REQUEST_PARAMS_KEY_PN_MSG_IDS = "msg_ids";
-
 
 
 }
