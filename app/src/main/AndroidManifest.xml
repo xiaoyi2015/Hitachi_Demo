@@ -119,6 +119,10 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
+            android:name=".activity.RoomAirSettingHxActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
             android:name=".activity.SearchIndoorDeviceActivity"
             android:screenOrientation="portrait">
         </activity>

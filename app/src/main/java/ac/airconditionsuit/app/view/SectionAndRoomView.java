@@ -19,6 +19,7 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.activity.RoomAirSettingActivity;
 import ac.airconditionsuit.app.activity.RoomAirSettingHitActivity;
+import ac.airconditionsuit.app.activity.RoomAirSettingHxActivity;
 import ac.airconditionsuit.app.entity.Room;
 
 public class SectionAndRoomView extends RelativeLayout {
@@ -124,11 +125,10 @@ public class SectionAndRoomView extends RelativeLayout {
             TextView roomTemp = (TextView)convertView.findViewById(R.id.room_temp);
             TextView roomName = (TextView)convertView.findViewById(R.id.room_name);
             LinearLayout roomView = (LinearLayout)convertView.findViewById(R.id.custom_room_view);
-
+            ImageView roomOnOff;
             switch (UIManager.UITYPE){
                 case 1:
-                case 3:
-                    ImageView roomOnOff = (ImageView)convertView.findViewById(R.id.room_on_off);
+                    roomOnOff = (ImageView)convertView.findViewById(R.id.room_on_off);
                     roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
                     roomMode.setImageResource(R.drawable.cool_on_hit);
                     roomName.setText(rooms.get(position).getName());
@@ -143,7 +143,6 @@ public class SectionAndRoomView extends RelativeLayout {
                             context.startActivity(intent);
                         }
                     });
-
                     break;
                 case 2:
                     ImageView bgBar =(ImageView)convertView.findViewById(R.id.bg_bar);
@@ -163,6 +162,21 @@ public class SectionAndRoomView extends RelativeLayout {
                     });
                     break;
                 default:
+                    roomOnOff = (ImageView)convertView.findViewById(R.id.room_on_off);
+                    roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
+                    roomMode.setImageResource(R.drawable.cool_on_hit);
+                    roomName.setText(rooms.get(position).getName());
+                    roomTemp.setText(R.string.default_temp);
+                    roomWindSpeed.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
+                    roomView.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.setClass(context, RoomAirSettingHxActivity.class);
+                            intent.putExtra("title", rooms.get(position).getName());
+                            context.startActivity(intent);
+                        }
+                    });
                     break;
             }
 
@@ -186,7 +200,7 @@ public class SectionAndRoomView extends RelativeLayout {
                     inflate(context, R.layout.custom_room_view,this);
                     break;
                 default:
-                    inflate(context, R.layout.custom_room_view_hit, this);
+                    inflate(context, R.layout.custom_room_view_hx, this);
                     break;
             }
 
