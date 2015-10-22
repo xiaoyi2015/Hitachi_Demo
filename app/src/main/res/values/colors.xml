@@ -20,5 +20,6 @@
     <color name="hit_cool_blue">#024b96</color>
     <color name="hit_heat_red">#a61b32</color>
     <color name="hit_off_gray">#cccccc</color>
+    <color name="delete_red_hx">#4bc3bc</color>
 
 </resources>

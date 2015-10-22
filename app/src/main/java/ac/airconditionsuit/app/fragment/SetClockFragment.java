@@ -278,7 +278,7 @@ public class SetClockFragment extends BaseFragment {
                     inflate(context, R.layout.custom_clock_view, this);
                     break;
                 default:
-                    inflate(context, R.layout.custom_clock_view_hit, this);
+                    inflate(context, R.layout.custom_clock_view_hx, this);
                     break;
             }
 

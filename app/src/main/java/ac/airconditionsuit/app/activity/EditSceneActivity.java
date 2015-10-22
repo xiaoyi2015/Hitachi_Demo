@@ -140,7 +140,7 @@ public class EditSceneActivity extends BaseActivity{
             default:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
                 commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
-                deleteScene.setBackgroundColor(getResources().getColor(R.color.delete_red_hit));
+                deleteScene.setBackgroundColor(getResources().getColor(R.color.delete_red_hx));
                 break;
         }
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
