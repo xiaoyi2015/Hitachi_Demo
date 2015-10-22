@@ -1,12 +1,19 @@
 package ac.airconditionsuit.app.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.aircondition.AirConditionControl;
+import ac.airconditionsuit.app.entity.AirCondition;
+import ac.airconditionsuit.app.entity.Room;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
@@ -130,6 +137,10 @@ public class RoomAirSettingHitActivity extends BaseActivity{
     private ImageView setOnOff;
     private ImageView setOK;
 
+    private Room room;
+    private AirCondition airCondition;
+    private AirConditionControl airConditionControl = new AirConditionControl();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +150,9 @@ public class RoomAirSettingHitActivity extends BaseActivity{
         commonTopBar.setTitle(getIntent().getStringExtra("title"));
         commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
         commonTopBar.setIconView(myOnClickListener, null);
+
+        room = new Gson().fromJson(getIntent().getStringExtra("room"),Room.class);
+        airCondition = new Gson().fromJson(getIntent().getStringExtra("air"),AirCondition.class);
 
         ImageView tempDecrease = (ImageView)findViewById(R.id.temp_decrease);
         ImageView tempIncrease = (ImageView)findViewById(R.id.temp_increase);
@@ -196,10 +210,10 @@ public class RoomAirSettingHitActivity extends BaseActivity{
     }
 
     private void init() {
-        on_off = 0;
-        mode = 0;
-        fan = 0;
-        temp = 30;
+        on_off = airCondition.getOnoff();
+        mode = airCondition.getMode();
+        fan = airCondition.getFan();
+        temp = (int)airCondition.getTemperature();
         if(mode == 1){
             tempSeekBar.setMax(13);
         }else{
@@ -211,7 +225,17 @@ public class RoomAirSettingHitActivity extends BaseActivity{
 
 
     private void submit() {
-
+        airConditionControl.setMode(mode);
+        airConditionControl.setOnoff(on_off);
+        airConditionControl.setTemperature(temp);
+        airConditionControl.setWindVelocity(fan);
+        try {
+            MyApp.getApp().getAirconditionManager().controlRoom(room,airConditionControl);
+        } catch (Exception e) {
+            MyApp.getApp().showToast("control room fail!");
+            Log.e(TAG, "control room fail!");
+            e.printStackTrace();
+        }
     }
 
     private void changeTemp(int temp){

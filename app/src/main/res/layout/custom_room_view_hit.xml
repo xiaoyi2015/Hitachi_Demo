@@ -23,7 +23,6 @@
             android:layout_weight="1"
             android:layout_marginTop="12dp"
             android:scaleType="centerInside"
-            android:src="@drawable/onoff_off_hit"
             android:layout_width="25dp"
             android:layout_height="25dp" />
 
@@ -32,7 +31,6 @@
             android:layout_weight="1"
             android:scaleType="centerInside"
             android:layout_marginTop="12dp"
-            android:src="@drawable/cool_off_hit"
             android:layout_width="25dp"
             android:layout_height="25dp" />
 
@@ -41,7 +39,14 @@
             android:layout_weight="1"
             android:scaleType="centerInside"
             android:layout_marginTop="12dp"
-            android:src="@drawable/fan_off_hit"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+
+        <ImageView
+            android:id="@+id/room_temp_none"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:layout_marginTop="12dp"
             android:layout_width="25dp"
             android:layout_height="25dp" />
 
@@ -51,7 +56,6 @@
             android:layout_weight="1"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            android:text="@string/default_temp"
             android:layout_width="25dp"
             android:layout_height="25dp" />
 

@@ -18,6 +18,7 @@ import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
+import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
@@ -81,7 +82,8 @@ public class BindHostActivity extends BaseActivity{
         params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, device.getInfo().getChat_id().toString());
         params.put(Constant.REQUEST_PARAMS_KEY_INTRODUCE, MyApp.getApp().getServerConfigManager().getHome().getName());
         params.put(Constant.REQUEST_PARAMS_KEY_MAC, device.getAuthCode());
-        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_NAME, changeName.getText().toString());
+        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_NAME, CheckUtil.checkLength(changeName,10,
+                R.string.host_name_empty_info,R.string.host_name_too_long_info));
         //always 1
         params.put(Constant.REQUEST_PARAMS_KEY_REGISTER_FROM, "1");
         params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_IP, device.getInfo().getIp());

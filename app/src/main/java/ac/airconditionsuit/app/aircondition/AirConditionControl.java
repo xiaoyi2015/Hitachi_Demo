@@ -9,6 +9,7 @@ import ac.airconditionsuit.app.entity.Timer;
  */
 public class AirConditionControl extends RootEntity{
     public static final int UNKNOW = -19989;
+    public static final int EMPTY = 250;
 
     public static final int ON = 1;
     public static final int OFF = 0;
