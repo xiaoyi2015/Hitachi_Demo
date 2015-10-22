@@ -9,4 +9,192 @@
         android:layout_height="?android:attr/actionBarSize">
     </ac.airconditionsuit.app.view.CommonTopBar>
 
+    <RelativeLayout
+        android:id="@+id/control_panel_view"
+        android:layout_below="@id/default_top_bar"
+        android:gravity="center_vertical"
+        android:background="@drawable/room_background_hx"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/control_panel"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/room_panel_hx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/set_onoff"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/selected_onoff_hit"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/mode_cool"
+                android:layout_toRightOf="@+id/set_onoff"
+                android:layout_below="@+id/set_onoff"
+                android:src="@drawable/selected_cool_hit"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="-15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/mode_heat"
+                android:src="@drawable/selected_heat_hit"
+                android:layout_toRightOf="@+id/set_onoff"
+                android:layout_below="@+id/mode_cool"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="68dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/mode_dry"
+                android:src="@drawable/selected_dry_hit"
+                android:layout_toRightOf="@+id/set_onoff"
+                android:layout_below="@+id/mode_heat"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="68dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/mode_fan"
+                android:src="@drawable/room_off_fan_hx"
+                android:layout_toRightOf="@+id/set_onoff"
+                android:layout_below="@+id/mode_dry"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/fan_fan5"
+                android:src="@drawable/selected_fan5_hit"
+                android:layout_toLeftOf="@+id/set_onoff"
+                android:layout_below="@+id/set_onoff"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="52dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/fan_fan3"
+                android:src="@drawable/selected_fan3_hit"
+                android:layout_toLeftOf="@+id/set_onoff"
+                android:layout_below="@+id/fan_fan5"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="75dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/fan_fan1"
+                android:src="@drawable/selected_fan1_hit"
+                android:layout_toLeftOf="@+id/set_onoff"
+                android:layout_below="@+id/fan_fan3"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="45dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/panel_view"
+                android:background="@drawable/room_heat_view_hx"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="51dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/temp_num"
+                    android:text="28"
+                    android:textSize="48sp"
+                    android:layout_marginTop="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/temp_symbol"
+                    android:text="@string/temp_symbol"
+                    android:textSize="20sp"
+                    android:layout_toRightOf="@+id/temp_decrease"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="45dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:id="@+id/temp_decrease"
+                    android:src="@drawable/temp_decrease_dc"
+                    android:layout_marginTop="65dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@+id/temp_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:id="@+id/temp_increase"
+                    android:layout_marginTop="65dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/temp_num"
+                    android:src="@drawable/temp_increase_dc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:id="@+id/final_fan"
+                    android:src="@drawable/selected_fan1_hit"
+                    android:layout_toLeftOf="@+id/temp_num"
+                    android:layout_marginTop="105dp"
+                    android:layout_marginRight="-25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:id="@+id/final_mode"
+                    android:src="@drawable/selected_cool_hit"
+                    android:layout_toRightOf="@+id/temp_num"
+                    android:layout_marginTop="105dp"
+                    android:layout_marginLeft="-25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/final_mode_fan_text"
+                    android:text="高风|制冷"
+                    android:textColor="@color/text_color_white"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="150dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/off_bg"
+            android:src="@drawable/room_off_view_hx"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="9dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/ok_button"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/room_ok_button_hx"
+            android:layout_below="@+id/control_panel"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

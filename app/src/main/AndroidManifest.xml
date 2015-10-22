@@ -127,6 +127,10 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
+            android:name=".activity.BindHostActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
             android:name=".activity.QRCodeActivity"
             android:screenOrientation="portrait">
         </activity>

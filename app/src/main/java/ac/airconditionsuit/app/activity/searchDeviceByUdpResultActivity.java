@@ -2,12 +2,24 @@ package ac.airconditionsuit.app.activity;
 
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.entity.ObserveData;
+import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.view.CommonTopBar;
+
 import com.loopj.android.http.RequestParams;
 
 import java.io.File;
@@ -22,13 +34,44 @@ import java.util.Observable;
 public class searchDeviceByUdpResultActivity extends BaseActivity {
 
     private List<Device> devices = new ArrayList<>();
+    private MyOnClickListener myOnClickListener = new MyOnClickListener() {
+        @Override
+        public void onClick(View v) {
+            super.onClick(v);
+            switch (v.getId()) {
+                case R.id.left_icon:
+                    finish();
+                    break;
+            }
+        }
+    };
+    private HostListAdapter hostListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_device_by_udp_result);
+        super.onCreate(savedInstanceState);
+        CommonTopBar commonTopBar = getCommonTopBar();
+        commonTopBar.setTitle(getString(R.string.host_list));
+        switch (UIManager.UITYPE){
+            case 1:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
+                break;
+            case 2:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
+                break;
+            default:
+                commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
+                break;
+        }
+        commonTopBar.setIconView(myOnClickListener, null);
         //调用这个函数以后开始在局域网中搜索主机
         MyApp.getApp().getSocketManager().sendBroadCast();
+
+        ListView listView = (ListView)findViewById(R.id.host_list);
+        hostListAdapter = new HostListAdapter(searchDeviceByUdpResultActivity.this,devices);
+        listView.setAdapter(hostListAdapter);
+
     }
 
     /**
@@ -46,61 +89,13 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
                 //如果不为空，就表示搜索到一个设备,做相应处理
                 Device device = (Device) od.getData();
                 addDevice(device);
+                hostListAdapter.notifyDataSetChanged();
                 break;
             case ObserveData.FIND_DEVICE_BY_UDP_FAIL:
                 //如果返回会空，就表示发送广播包出现错误，做相应处理。如在界面上显示搜索失败之类的。
                 MyApp.getApp().showToast(R.string.search_host_device_failed);
                 break;
         }
-    }
-
-    /**
-     * 这个方法用来绑定主机，这个方法中，我是测试用的。可以复制到用户确定绑定的地方调用。
-     * @param device
-     */
-    private void bindDevice(final Device device) {
-        RequestParams params = new RequestParams();
-        params.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
-        params.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_REGISTER_DEVICE);
-        params.put(Constant.REQUEST_PARAMS_KEY_CUST_CLASS, Constant.REQUEST_PARAMS_VALUE_TYPE_CUST_CLASS_10001);
-        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, device.getInfo().getChat_id().toString());
-        params.put(Constant.REQUEST_PARAMS_KEY_INTRODUCE, MyApp.getApp().getServerConfigManager().getHome().getName());
-        params.put(Constant.REQUEST_PARAMS_KEY_MAC, device.getAuthCode());
-        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_NAME, "deviceName");
-        //always 1
-        params.put(Constant.REQUEST_PARAMS_KEY_REGISTER_FROM, "1");
-        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_IP, device.getInfo().getIp());
-        params.put(Constant.REQUEST_PARAMS_KEY_COMMENT, device.getInfo().getChat_id().toString());
-
-        showWaitProgress();
-        HttpClient.get(params, String.class, new HttpClient.JsonResponseHandler<String>() {
-            @Override
-            public void onSuccess(String response) {
-                dismissWaitProgress();
-
-                Long deviceId = device.getInfo().getChat_id();
-                File outputFile = MyApp.getApp().getPrivateFile(deviceId.toString(), Constant.CONFIG_FILE_SUFFIX);
-                HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(deviceId),
-                        outputFile, new HttpClient.DownloadFileHandler() {
-                            @Override
-                            public void onFailure(Throwable throwable) {
-                                Log.e(TAG, "下载主机配置文件失败，用新的配置文件上传服务器");
-                            }
-
-                            @Override
-                            public void onSuccess(File file) {
-                                Log.i(TAG, "下载主机配置文件成功，用新的配置文件上传服务器");
-                                MyApp.getApp().getServerConfigManager().readFromFile();
-                            }
-                        });
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                dismissWaitProgress();
-            }
-        });
-
     }
 
     synchronized private void addDevice(final Device device) {
@@ -110,7 +105,47 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
             }
         }
         devices.add(device);
-        //adapter.notify
+    }
 
+    private class HostListAdapter extends BaseAdapter{
+
+        private List<Device> list;
+        private Context context;
+
+        public HostListAdapter(Context context,List<Device> deviceList) {
+            this.list = deviceList;
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            if(convertView == null){
+                convertView = new TextView(context);
+            }
+            ((TextView)convertView).setText("10001" + list.get(position).getAuthCodeEncode());
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    shortStartActivity(BindHostActivity.class, "device", list.get(position).toJsonString());
+                }
+            });
+
+            return convertView;
+        }
     }
 }
