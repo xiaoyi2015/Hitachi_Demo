@@ -127,7 +127,7 @@ public class LocalConfigManager {
         saveToDisk();
     }
 
-    public List<Home> getHomeNames() {
+    public List<Home> getHomeList() {
         List<Home> res = new ArrayList<>();
         return res;
 //        for (String configFileName : getCurrentUserConfig().getHomeConfigFileNames()) {
