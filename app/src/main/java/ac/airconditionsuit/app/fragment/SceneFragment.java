@@ -97,13 +97,12 @@ public class SceneFragment extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_scene,container,false);
         ListView listView = (ListView) view.findViewById(R.id.scene_list);
 
-        //这边也要判断一下有没有设备
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             List<Scene> scene_list = MyApp.getApp().getServerConfigManager().getScene();
             sceneAdapter = new SceneAdapter(getActivity(),scene_list);
             listView.setAdapter(sceneAdapter);
         } else {
-            //TODO for zhulinan,没有设备做相应处理
+            MyApp.getApp().showToast("请先添加场景，再进行控制操作！");
         }
 
         return view;

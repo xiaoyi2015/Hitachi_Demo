@@ -109,4 +109,8 @@ public class CommonTopBar extends RelativeLayout {
 
     }
 
+    public TextView getTitleView(){
+        return titleView;
+    }
+
 }
