@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,7 @@ public class MyAirFragment extends BaseFragment {
     private ListView listView;
     private List<Section> list;
     private CommonTopBar commonTopBar;
+    private PopupWindow pop;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,6 +101,7 @@ public class MyAirFragment extends BaseFragment {
                     TextView textView = new TextView(getActivity());
                     textView.setText(MyApp.getApp().getLocalConfigManager().getHomeList().get(i).getName());
                     textView.setBackgroundResource(UIManager.getHomeBarRes());
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                     textView.setGravity(Gravity.CENTER);
                     textView.setLayoutParams(layoutParams);
                     linearLayout.addView(textView);
@@ -109,19 +112,20 @@ public class MyAirFragment extends BaseFragment {
                             MyApp.getApp().getLocalConfigManager().changeHome(finalI);
                             if (MyApp.getApp().getServerConfigManager().hasDevice()) {
                                 list = MyApp.getApp().getServerConfigManager().getSections();
-                                myAirSectionAdapter= new MyAirSectionAdapter(getActivity(),list);
+                                myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), list);
                                 listView.setAdapter(myAirSectionAdapter);
-                            }else {
+                            } else {
                                 listView.setAdapter(null);
                                 MyApp.getApp().showToast("请先添加设备管理器！");
                             }
+                            pop.dismiss();
                         }
                     });
+                    pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+                    pop.setBackgroundDrawable(new BitmapDrawable());
+                    pop.setOutsideTouchable(true);
+                    pop.showAsDropDown(commonTopBar);
                 }
-                final PopupWindow pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
-                pop.setBackgroundDrawable(new BitmapDrawable());
-                pop.setOutsideTouchable(true);
-                pop.showAsDropDown(commonTopBar);
             }
         });
 
