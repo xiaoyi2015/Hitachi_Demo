@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.fragment;
 
+import ac.airconditionsuit.app.activity.MainActivity;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -14,11 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
@@ -56,6 +55,7 @@ public class MyAirFragment extends BaseFragment {
     private ListView listView;
     private List<Section> list;
     private CommonTopBar commonTopBar;
+    private PopupWindow pop;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -111,14 +111,16 @@ public class MyAirFragment extends BaseFragment {
                                 list = MyApp.getApp().getServerConfigManager().getSections();
                                 myAirSectionAdapter= new MyAirSectionAdapter(getActivity(),list);
                                 listView.setAdapter(myAirSectionAdapter);
+                                ((MainActivity)myGetActivity()).refreshUI();
                             }else {
                                 listView.setAdapter(null);
                                 MyApp.getApp().showToast("请先添加设备管理器！");
                             }
+                            pop.dismiss();
                         }
                     });
                 }
-                final PopupWindow pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+                pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
                 pop.setBackgroundDrawable(new BitmapDrawable());
                 pop.setOutsideTouchable(true);
                 pop.showAsDropDown(commonTopBar);
@@ -242,5 +244,10 @@ public class MyAirFragment extends BaseFragment {
 
             return convertView;
         }
+    }
+
+    @Override
+    public void refreshUI() {
+        super.refreshUI();
     }
 }

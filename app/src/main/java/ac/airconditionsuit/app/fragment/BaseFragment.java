@@ -13,14 +13,11 @@ import android.view.ViewGroup;
  */
 public class BaseFragment extends Fragment {
     protected static String TAG;
-
-
-    private BaseActivity activity;
-
     {
         TAG = getClass().getName();
     }
 
+    private BaseActivity activity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.test_base_fragment, container, false);
@@ -34,5 +31,23 @@ public class BaseFragment extends Fragment {
 
     public BaseActivity myGetActivity() {
         return activity;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshUI();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            refreshUI();
+        }
+    }
+
+    public void refreshUI() {
+        setTopBar();
     }
 }
