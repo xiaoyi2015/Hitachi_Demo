@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +83,7 @@ public class MyAirFragment extends BaseFragment {
 
     @Override
     public void setTopBar() {
-        BaseActivity baseActivity = myGetActivity();
+        final BaseActivity baseActivity = myGetActivity();
         commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(MyApp.getApp().getServerConfigManager().getHome().getName());
         commonTopBar.getTitleView().setOnClickListener(new View.OnClickListener() {
@@ -91,12 +92,21 @@ public class MyAirFragment extends BaseFragment {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
                 LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.pop_up_home_list, null);
                 for (int i = 0; i < homeList.size(); i++) {
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams.setMargins(0, 1, 0, 0);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.setMargins(0,-6,0,1);
                     TextView textView = new TextView(getActivity());
                     textView.setText(homeList.get(i).getName());
                     textView.setBackgroundResource(UIManager.getHomeBarRes());
                     textView.setGravity(Gravity.CENTER);
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+                    switch (UIManager.UITYPE) {
+                        case 1:
+                            textView.setTextColor(myGetActivity().getResources().getColor(R.color.text_color_white));
+                            break;
+                        default:
+                            break;
+                    }
                     textView.setLayoutParams(layoutParams);
                     linearLayout.addView(textView);
                     final int finalI = i;
@@ -122,7 +132,7 @@ public class MyAirFragment extends BaseFragment {
                 commonTopBar.setRightIconView(R.drawable.top_bar_logo_hit);
                 commonTopBar.setIconView(null, myOnClickListener);
                 commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,
-                        getResources().getDrawable(R.drawable.top_bar_arrow_down_hit));
+                        myGetActivity().getResources().getDrawable(R.drawable.top_bar_arrow_down_hit));
                 break;
             case 2:
                 commonTopBar.setIconView(null, null);
