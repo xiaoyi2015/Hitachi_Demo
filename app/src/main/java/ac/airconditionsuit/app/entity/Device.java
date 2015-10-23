@@ -32,6 +32,10 @@ public class Device extends RootEntity {
 
         public String t;
 
+        public static QRCode decodeFromJson(String jsonString) {
+            return new Gson().fromJson(jsonString, QRCode.class);
+        }
+
     }
 
     public String toQRCodeString(String t) {

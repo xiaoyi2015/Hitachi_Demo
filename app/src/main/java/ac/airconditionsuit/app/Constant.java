@@ -55,6 +55,7 @@ public class Constant {
     public static final String REQUEST_PARAMS_VALUE_TYPE_CUST_CLASS_10001 = "10001";
     public static final String REQUEST_PARAMS_VALUE_TYPE_UPLOAD_DEVICE_CONFIG_FILE = "uploadDeviceConfigFile";
     public static final String REQUEST_PARAMS_VALUE_TYPE_GET_CHAT_TOKEN = "getChatToken";
+    public static final String REQUEST_PARAMS_VALUE_TYPE_APPLY_JOIN = "applyJoin";
 
     public static final String REQUEST_PARAMS_VALUE_TYPE_VALIDATE_CODE_FOR_FIND_PASSWORD ="sendMobileVerifyCode";
 
@@ -79,9 +80,10 @@ public class Constant {
     public static final String REQUEST_PARAMS_TYPE_MODIFY_MOBILE = "modifyMobile";
     public static final String REQUEST_PARAMS_KEY_CONFIRM_PASSWORD = "confirm_password";
     public static final String REQUEST_PARAMS_KEY_OLD_PASSWORD = "old_password";
-    public static final java.lang.String REQUEST_PARAMS_TYPE_SET_CUSTOMER_AVATAR = "setCustAvatar";
-    public static final java.lang.String REQUEST_PARAMS_TYPE_GET_CHAT_CUST_LIST = "getChatAllCustList";
+    public static final String REQUEST_PARAMS_TYPE_SET_CUSTOMER_AVATAR = "setCustAvatar";
+    public static final String REQUEST_PARAMS_TYPE_GET_CHAT_CUST_LIST = "getChatAllCustList";
     public static final String REQUEST_PARAMS_KEY_CHAT_ID = "chat_id";
+    public static final String REQUEST_PARAMS_KEY_T = "t";
     public static final String REQUEST_PARAMS_KEY_DELETE_CUST_ID = "delete_cust_id";
 
     public static final String REQUEST_PARAMS_VALUE_TYPE_GET_PUSHDATA = "getUnreadMsgList2";

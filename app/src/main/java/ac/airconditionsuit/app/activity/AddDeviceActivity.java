@@ -1,5 +1,9 @@
 package ac.airconditionsuit.app.activity;
 
+import ac.airconditionsuit.app.Constant;
+import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.entity.Device;
+import ac.airconditionsuit.app.network.HttpClient;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +15,10 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
+import com.loopj.android.http.RequestParams;
+
+import java.io.File;
+import java.security.PrivilegedAction;
 
 /**
  * Created by Administrator on 2015/9/18.
@@ -65,11 +73,64 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_FOR_SCAN_QRCODE:
-                    //todo for zhulinan
-                    Log.v(TAG, "scan qrcode success: " + data.getStringExtra("SCAN_RESULT"));
+                    String scan_result = data.getStringExtra("SCAN_RESULT");
+                    Log.v(TAG, "scan qrcode success: " + scan_result);
+                    joinDevice(Device.QRCode.decodeFromJson(scan_result));
                     break;
             }
 
         }
+    }
+
+    private void joinDevice(final Device.QRCode qrCode) {
+        RequestParams params = new RequestParams();
+        params.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
+        params.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_APPLY_JOIN);
+
+
+        String chat_id = qrCode.getChat_id();
+        String t = qrCode.getT();
+        if (chat_id == null || t == null) {
+            MyApp.getApp().showToast("二维码格式错误！");
+            return;
+        }
+        params.put(Constant.REQUEST_PARAMS_KEY_CHAT_ID, chat_id.toString());
+        params.put(Constant.REQUEST_PARAMS_KEY_T, t);
+
+        showWaitProgress();
+        HttpClient.get(params, String.class, new HttpClient.JsonResponseHandler<String>() {
+            @Override
+            public void onSuccess(String response) {
+                dismissWaitProgress();
+
+                String deviceId = qrCode.getChat_id();
+                File outputFile = MyApp.getApp().getPrivateFile(deviceId, Constant.CONFIG_FILE_SUFFIX);
+                HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(Long.parseLong(deviceId)),
+                        outputFile, new HttpClient.DownloadFileHandler() {
+                            @Override
+                            public void onFailure(Throwable throwable) {
+                                Log.e(TAG, "下载主机配置文件失败，用新的配置文件上传服务器");
+                            }
+
+                            @Override
+                            public void onSuccess(File file) {
+                                Log.i(TAG, "下载主机配置文件成功，用新的配置文件上传服务器");
+                                Intent intent = new Intent();
+                                intent.setClass(AddDeviceActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                                MyApp.getApp().getServerConfigManager().readFromFile();
+                            }
+                        });
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                dismissWaitProgress();
+                MyApp.getApp().showToast("加入设备失败！");
+            }
+        });
+
     }
 }
