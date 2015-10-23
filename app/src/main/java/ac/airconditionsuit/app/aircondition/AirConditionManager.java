@@ -109,6 +109,9 @@ public class AirConditionManager {
             if (temp.getTemperature() != airCondition.getTemperature()) {
                 airCondition.setTemperature(AirConditionControl.UNKNOW);
             }
+            if (temp.getRealTemperature() != airCondition.getRealTemperature()) {
+                airCondition.setRealTemperature(AirConditionControl.UNKNOW);
+            }
         }
         return airCondition;
     }

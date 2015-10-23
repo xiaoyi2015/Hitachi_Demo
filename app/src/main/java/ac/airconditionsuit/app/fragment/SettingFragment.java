@@ -119,7 +119,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     }
 
     public void refreshNetworkStatus() {
-        getActivity().runOnUiThread(new Runnable() {
+        MyApp.getApp().getHandler().post(new Runnable() {
             @Override
             public void run() {
                 int connectivityStatus = NetworkConnectionStatusUtil.getConnectivityStatus(getActivity());
