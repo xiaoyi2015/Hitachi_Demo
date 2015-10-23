@@ -107,10 +107,10 @@ public class SceneFragment extends BaseFragment {
             List<Scene> scene_list = MyApp.getApp().getServerConfigManager().getScene();
             sceneAdapter = new SceneAdapter(getActivity(),scene_list);
             listView.setAdapter(sceneAdapter);
-        }
-//        else {
+        } else {
 //            MyApp.getApp().showToast("请先添加场景，再进行控制操作！");
-//        }
+            listView.setAdapter(null);
+        }
         super.refreshUI();
     }
 

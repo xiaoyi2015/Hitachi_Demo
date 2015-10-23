@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by ac on 9/20/15.
@@ -46,7 +47,7 @@ public class LocalConfig extends RootEntity {
     public void updateUser(MyUser user) {
         for (int i = 0; i < users.size(); ++i) {
             UserForLocalConfig tempuser = users.get(i);
-            if (tempuser.getMyUser().getCust_id() == user.getCust_id()) {
+            if (Objects.equals(tempuser.getMyUser().getCust_id(), user.getCust_id())) {
                 tempuser.setMyUser(user);
                 currentIndex = i;
                 return;

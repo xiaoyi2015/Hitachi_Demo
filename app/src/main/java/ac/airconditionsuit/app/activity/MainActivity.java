@@ -128,6 +128,10 @@ public class MainActivity extends BaseActivity {
             case ObserveData.NETWORK_STATUS_CHANGE:
                 getSettingFragment().refreshNetworkStatus();
                 break;
+
+            case ObserveData.TIMER_STATUS_RESPONSE:
+                //todo
+                break;
         }
     }
 

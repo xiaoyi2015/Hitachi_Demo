@@ -56,6 +56,7 @@ public class UserInfoActivity extends BaseActivity {
             super.onClick(v);
             switch (v.getId()) {
                 case R.id.left_icon:
+                    setResult(RESULT_OK);
                     finish();
                     break;
                 case R.id.nick_name:
@@ -301,8 +302,8 @@ public class UserInfoActivity extends BaseActivity {
         exit.setOnClickListener(myOnClickListener);
 
         String fromActivityName = getIntent().getStringExtra(Constant.INTENT_DATA_KEY_ACTIVITY_FROM);
-        if (fromActivityName.equals(SplashActivity.class.getName())
-                || fromActivityName.equals(LoginActivity.class.getName())) {
+        if (fromActivityName != null && (fromActivityName.equals(SplashActivity.class.getName())
+                || fromActivityName.equals(LoginActivity.class.getName()))) {
             password.setVisibility(View.GONE);
             clause.setVisibility(View.GONE);
             exit.setVisibility(View.GONE);
@@ -322,7 +323,6 @@ public class UserInfoActivity extends BaseActivity {
                 }
             });
         }
-
     }
 
     @Override

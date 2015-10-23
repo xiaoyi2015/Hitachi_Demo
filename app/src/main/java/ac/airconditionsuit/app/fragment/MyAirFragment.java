@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.fragment;
 
 import ac.airconditionsuit.app.activity.MainActivity;
+import ac.airconditionsuit.app.entity.Home;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -56,6 +57,7 @@ public class MyAirFragment extends BaseFragment {
     private List<Section> list;
     private CommonTopBar commonTopBar;
     private PopupWindow pop;
+    private List<Home> homeList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,12 +69,12 @@ public class MyAirFragment extends BaseFragment {
             list = MyApp.getApp().getServerConfigManager().getSections();
             myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), list);
             listView.setAdapter(myAirSectionAdapter);
-        }
-//        else {
-//            listView.setAdapter(null);
+        } else {
+            listView.setAdapter(null);
 //            MyApp.getApp().showToast("请先添加设备管理器！");
-//        }
+        }
 
+        homeList = MyApp.getApp().getLocalConfigManager().getHomeList();
         return view;
     }
 
@@ -94,11 +96,11 @@ public class MyAirFragment extends BaseFragment {
             public void onClick(View v) {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
                 LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.pop_up_home_list, null);
-                for (int i = 0; i < MyApp.getApp().getLocalConfigManager().getHomeList().size(); i++) {
+                for (int i = 0; i < homeList.size(); i++) {
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     layoutParams.setMargins(0, 1, 0, 0);
                     TextView textView = new TextView(getActivity());
-                    textView.setText(MyApp.getApp().getLocalConfigManager().getHomeList().get(i).getName());
+                    textView.setText(homeList.get(i).getName());
                     textView.setBackgroundResource(UIManager.getHomeBarRes());
                     textView.setGravity(Gravity.CENTER);
                     textView.setLayoutParams(layoutParams);
@@ -108,16 +110,16 @@ public class MyAirFragment extends BaseFragment {
                         @Override
                         public void onClick(View v) {
                             MyApp.getApp().getLocalConfigManager().changeHome(finalI);
+                            commonTopBar.setTitle(homeList.get(finalI).getName());
                             if (MyApp.getApp().getServerConfigManager().hasDevice()) {
                                 list = MyApp.getApp().getServerConfigManager().getSections();
                                 myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), list);
                                 listView.setAdapter(myAirSectionAdapter);
-                                ((MainActivity) myGetActivity()).refreshUI();
-                            }
-//                            else {
-//                                listView.setAdapter(null);
+                            } else {
+                                listView.setAdapter(null);
 //                                MyApp.getApp().showToast("请先添加设备管理器！");
-//                            }
+                            }
+                            ((MainActivity) myGetActivity()).refreshUI();
                             pop.dismiss();
                         }
                     });
