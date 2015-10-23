@@ -29,6 +29,9 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  */
 public class MyAirFragment extends BaseFragment {
 
+    public static final int REQUEST_ROOM_DC = 2456;
+    public static final int REQUEST_ROOM_HIT = 2457;
+    public static final int REQUEST_ROOM_HX = 2758;
     private View view;
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
@@ -43,6 +46,7 @@ public class MyAirFragment extends BaseFragment {
             }
         }
     };
+    private MyAirSectionAdapter myAirSectionAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,7 +57,7 @@ public class MyAirFragment extends BaseFragment {
         //这边也要判断一下有没有设备
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             List<Section> list = MyApp.getApp().getServerConfigManager().getSections();
-            MyAirSectionAdapter myAirSectionAdapter= new MyAirSectionAdapter(getActivity(),list);
+            myAirSectionAdapter= new MyAirSectionAdapter(getActivity(),list);
             listView.setAdapter(myAirSectionAdapter);
         } else {
             //TODO for zhulinan,没有设备做相应处理
@@ -81,6 +85,21 @@ public class MyAirFragment extends BaseFragment {
                 break;
         }
         commonTopBar.setRoundLeftIconView(myOnClickListener);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == -1)
+            switch (requestCode) {
+                case REQUEST_ROOM_DC:
+                    myAirSectionAdapter.notifyDataSetChanged();
+                    break;
+                case REQUEST_ROOM_HIT:
+                    myAirSectionAdapter.notifyDataSetChanged();
+                    break;
+                case REQUEST_ROOM_HX:
+                    myAirSectionAdapter.notifyDataSetChanged();
+                    break;
+            }
     }
 
     private class MyAirSectionAdapter extends BaseAdapter{
@@ -115,7 +134,6 @@ public class MyAirFragment extends BaseFragment {
             if(convertView == null){
                 convertView = new SectionAndRoomView(context,list.get(position).getPages());
             }
-            //TODO read the room status and set to UI
 
             final LinearLayout sectionView = (LinearLayout)convertView.findViewById(R.id.section_item);
             TextView sectionName = (TextView)convertView.findViewById(R.id.label_text);

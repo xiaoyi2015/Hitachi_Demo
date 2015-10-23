@@ -7,7 +7,8 @@ import ac.airconditionsuit.app.aircondition.AirConditionStatusResponse;
  * Created by ac on 10/15/15.
  */
 public class AirCondition extends Command {
-    int realTemperature;
+    public static final int UNFETCH = -10010;
+    int realTemperature = UNFETCH;
     int warning;
 
     public int getRealTemperature() {

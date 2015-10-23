@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -210,10 +211,17 @@ public class RoomAirSettingHitActivity extends BaseActivity{
     }
 
     private void init() {
-        on_off = airCondition.getOnoff();
-        mode = airCondition.getMode();
-        fan = airCondition.getFan();
-        temp = (int)airCondition.getTemperature();
+        if(airCondition.getOnoff() == AirConditionControl.UNKNOW){
+            on_off = 0;
+            mode = 0;
+            fan = 0;
+            temp = 30;
+        }else {
+            on_off = airCondition.getOnoff();
+            mode = airCondition.getMode();
+            fan = airCondition.getFan();
+            temp = (int) airCondition.getTemperature();
+        }
         if(mode == 1){
             tempSeekBar.setMax(13);
         }else{
@@ -231,6 +239,9 @@ public class RoomAirSettingHitActivity extends BaseActivity{
         airConditionControl.setWindVelocity(fan);
         try {
             MyApp.getApp().getAirconditionManager().controlRoom(room,airConditionControl);
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
         } catch (Exception e) {
             MyApp.getApp().showToast("control room fail!");
             Log.e(TAG, "control room fail!");

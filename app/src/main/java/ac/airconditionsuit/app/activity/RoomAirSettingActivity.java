@@ -1,13 +1,21 @@
 package ac.airconditionsuit.app.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
+import ac.airconditionsuit.app.aircondition.AirConditionControl;
+import ac.airconditionsuit.app.entity.AirCondition;
+import ac.airconditionsuit.app.entity.Room;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
@@ -21,6 +29,10 @@ public class RoomAirSettingActivity extends BaseActivity{
     private int fan;
     private int temp;
 
+    private Room room;
+    private AirCondition airCondition;
+    private AirConditionControl airConditionControl = new AirConditionControl();
+
     private MyOnClickListener myOnClickListener = new MyOnClickListener(){
         @Override
         public void onClick(View v) {
@@ -28,6 +40,9 @@ public class RoomAirSettingActivity extends BaseActivity{
             switch (v.getId()){
                 case R.id.left_icon:
                     finish();
+                    break;
+                case R.id.right_icon:
+                    submit();
                     break;
                 case R.id.on_off_view:
                     on_off ++;
@@ -93,6 +108,24 @@ public class RoomAirSettingActivity extends BaseActivity{
             }
         }
     };
+
+    private void submit() {
+        airConditionControl.setMode(mode);
+        airConditionControl.setOnoff(on_off);
+        airConditionControl.setTemperature(temp);
+        airConditionControl.setWindVelocity(fan);
+        try {
+            MyApp.getApp().getAirconditionManager().controlRoom(room, airConditionControl);
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
+        } catch (Exception e) {
+            MyApp.getApp().showToast("control room fail!");
+            Log.e(TAG, "control room fail!");
+            e.printStackTrace();
+        }
+    }
+
     private ImageView bgBar1;
     private ImageView bgBar2;
     private ImageView bgBar3;
@@ -113,7 +146,11 @@ public class RoomAirSettingActivity extends BaseActivity{
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getIntent().getStringExtra("title"));
         commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
-        commonTopBar.setIconView(myOnClickListener, null);
+        commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+        commonTopBar.setIconView(myOnClickListener, myOnClickListener);
+
+        room = new Gson().fromJson(getIntent().getStringExtra("room"),Room.class);
+        airCondition = new Gson().fromJson(getIntent().getStringExtra("air"),AirCondition.class);
         TextView roomName = (TextView)findViewById(R.id.room_name);
         roomName.setText(getIntent().getStringExtra("title"));
 
@@ -147,10 +184,22 @@ public class RoomAirSettingActivity extends BaseActivity{
     }
 
     private void init() {
-        on_off = 0;
-        mode = 0;
-        fan = 0;
-        temp = 25;
+        if(airCondition.getOnoff() == AirConditionControl.UNKNOW){
+            on_off = 0;
+            mode = 0;
+            fan = 0;
+            temp = 25;
+        }else {
+            on_off = airCondition.getOnoff();
+            mode = airCondition.getMode();
+            fan = airCondition.getFan();
+            temp = (int) airCondition.getTemperature();
+        }
+        if(airCondition.getRealTemperature() != AirCondition.UNFETCH) {
+            realTemp.setText(getString(R.string.real_temp) + airCondition.getRealTemperature() + getString(R.string.temp_symbol));
+        }else{
+            realTemp.setText(getString(R.string.unfetch_real_temp));
+        }
         changeColorAndSetting(on_off,mode,fan,temp);
     }
 

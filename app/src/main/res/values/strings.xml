@@ -119,7 +119,7 @@
     <string name="delete_member1">\n确定要删除成员</string>
     <string name="delete_member2">吗？\n</string>
     <string name="default_temp">25℃</string>
-    <string name="real_temp">实际温度：30℃</string>
+    <string name="real_temp">实际温度：</string>
     <string name="temp">温度</string>
     <string name="on_off">开关</string>
     <string name="cool">制冷</string>
@@ -212,5 +212,7 @@
     <string name="host_name_empty_info">设备管理器的名称不能为空</string>
     <string name="host_name_too_long_info">设备管理器的名称长度不能超过10个字符</string>
     <string name="pls_add_air_to_room">房间里没有空调，请先添加空调到房间里！</string>
+    <string name="fail_to_fetch_aircondition">连接主机失败，获取不到房间空调状态</string>
+    <string name="unfetch_real_temp">获取实际温度失败</string>
 
 </resources>
