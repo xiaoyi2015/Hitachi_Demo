@@ -41,12 +41,12 @@ public class Room extends RootEntity {
         this.elements = elements;
     }
 
-    public void addAirCondition(int newAddress) {
-        for (int i = 0; i < elements.size(); ++i) {
-            if (elements.get(i) == newAddress) {
+    public void addAirCondition(int index) {
+        for (Integer element : elements) {
+            if (element == index) {
                 return;
             }
         }
-        elements.add(newAddress);
+        elements.add(index);
     }
 }

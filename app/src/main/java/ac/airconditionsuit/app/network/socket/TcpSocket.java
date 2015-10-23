@@ -294,7 +294,11 @@ class TcpSocket implements SocketWrap {
     }
 
     private void checkDeviceConnect() {
-        if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+        ServerConfigManager serverConfigManager = MyApp.getApp().getServerConfigManager();
+        if (serverConfigManager == null) {
+            return;
+        }
+        if (serverConfigManager.hasDevice()) {
             CheckDevicePackage checkDevicePackage = new CheckDevicePackage();
             sendMessage(checkDevicePackage);
         }

@@ -8,6 +8,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ac on 10/15/15.
@@ -37,7 +38,7 @@ public class AirConditionManager {
             AirConditionStatusResponse airConditionStatusResponse =
                     AirConditionStatusResponse.decodeFromByteArray(status);
 
-            AirCondition airCondition = getAirCondition(airConditionStatusResponse.getAddress());
+            AirCondition airCondition = getAirConditionByAddress(airConditionStatusResponse.getAddress());
             if (airCondition == null) {
                 airCondition = new AirCondition();
                 airConditions.add(airCondition);
@@ -78,10 +79,24 @@ public class AirConditionManager {
     }
 
     /**
-     * @param address 待查找的空调的地址
+     * @param index 待查找的空调的地址
      * @return 可能为空
      */
-    public AirCondition getAirCondition(int address) {
+    public AirCondition getAirConditionByIndex(int index) {
+        List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
+        if (index < 0 || index >= devices.size()) {
+            return null;
+        }
+        int address = devices.get(index).getAddress();
+        for (AirCondition airCondition : airConditions) {
+            if (airCondition.getAddress() == address) {
+                return airCondition;
+            }
+        }
+        return null;
+    }
+
+    public AirCondition getAirConditionByAddress(int address) {
         for (AirCondition airCondition : airConditions) {
             if (airCondition.getAddress() == address) {
                 return airCondition;
@@ -95,9 +110,9 @@ public class AirConditionManager {
         if (elements == null || elements.size() == 0) {
             return null;
         }
-        AirCondition airCondition = getAirCondition(elements.get(0));
+        AirCondition airCondition = getAirConditionByIndex(elements.get(0));
         for (int i = 1; i < elements.size(); ++i) {
-            AirCondition temp = getAirCondition(elements.get(i));
+            AirCondition temp = getAirConditionByIndex(elements.get(i));
             if (temp.getMode() != airCondition.getMode()) {
                 airCondition.setMode(AirConditionControl.UNKNOW);
             }

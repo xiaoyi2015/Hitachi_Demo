@@ -459,16 +459,15 @@ public class ServerConfigManager {
         MyApp.getApp().getSocketManager().notifyActivity(od);
     }
 
-    public boolean addDeviceToRoom(int index, int position, int newAddress) {
-        List<Integer> elements = getSections().get(index).getPages().get(position).getElements();
-        for (int address : elements) {
-            if (address == newAddress) {
-                return false;
-            }
-        }
-        elements.add(newAddress);
-        return true;
-    }
+//    public boolean roomHasAricondition(int index, int position, int newAddress) {
+//        List<Integer> elements = getSections().get(index).getPages().get(position).getElements();
+////        for (int address : elements) {
+////            if (address == newAddress) {
+////                return true;
+////            }
+////        }
+//        return false;
+//    }
 
     public void deleteDevice() {
         rootJavaObj.setConnection(null);

@@ -65,14 +65,8 @@ public class MyAirFragment extends BaseFragment {
 
         listView = (ListView) view.findViewById(R.id.section_view);
 
-        if (MyApp.getApp().getServerConfigManager().hasDevice()) {
-            list = MyApp.getApp().getServerConfigManager().getSections();
-            myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), list);
-            listView.setAdapter(myAirSectionAdapter);
-        } else {
-            listView.setAdapter(null);
-//            MyApp.getApp().showToast("请先添加设备管理器！");
-        }
+        refreshUI();
+
 
         homeList = MyApp.getApp().getLocalConfigManager().getHomeList();
         return view;
@@ -111,14 +105,6 @@ public class MyAirFragment extends BaseFragment {
                         public void onClick(View v) {
                             MyApp.getApp().getLocalConfigManager().changeHome(finalI);
                             commonTopBar.setTitle(homeList.get(finalI).getName());
-                            if (MyApp.getApp().getServerConfigManager().hasDevice()) {
-                                list = MyApp.getApp().getServerConfigManager().getSections();
-                                myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), list);
-                                listView.setAdapter(myAirSectionAdapter);
-                            } else {
-                                listView.setAdapter(null);
-//                                MyApp.getApp().showToast("请先添加设备管理器！");
-                            }
                             ((MainActivity) myGetActivity()).refreshUI();
                             pop.dismiss();
                         }
@@ -253,5 +239,13 @@ public class MyAirFragment extends BaseFragment {
     @Override
     public void refreshUI() {
         super.refreshUI();
+        if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+            list = MyApp.getApp().getServerConfigManager().getSections();
+            myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), list);
+            listView.setAdapter(myAirSectionAdapter);
+        } else {
+            listView.setAdapter(null);
+//                                MyApp.getApp().showToast("请先添加设备管理器！");
+        }
     }
 }

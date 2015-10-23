@@ -39,12 +39,12 @@ public class DragDeviceActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             super.onClick(v);
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.left_icon:
                     finish();
                     break;
                 case R.id.right_icon:
-                    MyApp.getApp().getServerConfigManager().submitRoomChanges(index,dragDeviceAdapter.rooms);
+                    MyApp.getApp().getServerConfigManager().submitRoomChanges(index, dragDeviceAdapter.rooms);
                     finish();
                     break;
             }
@@ -58,7 +58,7 @@ public class DragDeviceActivity extends BaseActivity {
         private Context context;
         List<Room> rooms;
 
-        public DragDeviceAdapter(Context context,List<Room> rooms){
+        public DragDeviceAdapter(Context context, List<Room> rooms) {
             this.context = context;
             this.rooms = rooms;
         }
@@ -80,19 +80,19 @@ public class DragDeviceActivity extends BaseActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            if(convertView == null) {
+            if (convertView == null) {
                 convertView = new CommonDeviceView(context);
 
             }
-            TextView textView = (TextView)convertView.findViewById(R.id.bottom_name);
-            ImageView imageView = (ImageView)convertView.findViewById(R.id.bg_icon);
-            ImageView imageView1 = (ImageView)convertView.findViewById(R.id.right_up_icon);
+            TextView textView = (TextView) convertView.findViewById(R.id.bottom_name);
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.bg_icon);
+            ImageView imageView1 = (ImageView) convertView.findViewById(R.id.right_up_icon);
 
             textView.setText(rooms.get(position).getName());
-            if(rooms.get(position).getElements() == null){
+            if (rooms.get(position).getElements() == null) {
                 imageView.setImageResource(R.drawable.drag_device_room_bar);
             }
-            switch (rooms.get(position).getElements().size()){
+            switch (rooms.get(position).getElements().size()) {
                 case 0:
                     imageView.setImageResource(R.drawable.drag_device_room_bar);
                     break;
@@ -144,7 +144,7 @@ public class DragDeviceActivity extends BaseActivity {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    shortStartActivityForResult(ChangeRoomNameActivity.class,REQUEST_CODE_CHANGE_NAME,"index",String.valueOf(position));
+                    shortStartActivityForResult(ChangeRoomNameActivity.class, REQUEST_CODE_CHANGE_NAME, "index", String.valueOf(position));
                 }
             });
 
@@ -162,13 +162,22 @@ public class DragDeviceActivity extends BaseActivity {
                             return true;
                         case DragEvent.ACTION_DROP:
                             ClipData clipData = event.getClipData();
-                            if (!MyApp.getApp().getServerConfigManager().addDeviceToRoom(index, position,
-                                    Integer.parseInt(clipData.getItemAt(0).getText().toString()))) {
+                            int index = Integer.parseInt(clipData.getItemAt(0).getText().toString());
+                            boolean isExist = false;
+                            for (int temp : rooms.get(position).getElements()) {
+                                if (temp == index) {
+                                    isExist = true;
+                                    break;
+                                }
+                            }
+                            if (isExist) {
                                 MyApp.getApp().showToast(R.string.device_already_exist);
+                            } else {
+                                rooms.get(position).addAirCondition(index);
+                                notifyDataSetChanged();
                             }
                             return true;
                         case DragEvent.ACTION_DRAG_ENDED:
-                            System.out.println(event.getResult());
                             return true;
                         default:
                             return true;
@@ -190,7 +199,7 @@ public class DragDeviceActivity extends BaseActivity {
             notifyDataSetChanged();
         }
 
-        public void changeName(String name,int room_index) {
+        public void changeName(String name, int room_index) {
             rooms.get(room_index).setName(name);
             notifyDataSetChanged();
         }
@@ -201,8 +210,8 @@ public class DragDeviceActivity extends BaseActivity {
         setContentView(R.layout.fragment_setting_drag_device);
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
-        LinearLayout bottomBar = (LinearLayout)findViewById(R.id.bottom_bar);
-        switch (UIManager.UITYPE){
+        LinearLayout bottomBar = (LinearLayout) findViewById(R.id.bottom_bar);
+        switch (UIManager.UITYPE) {
             case 1:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
                 commonTopBar.setRightIconView(R.drawable.top_bar_save_hit);
@@ -219,20 +228,20 @@ public class DragDeviceActivity extends BaseActivity {
                 bottomBar.setBackgroundResource(R.drawable.under_bar_hit);
                 break;
         }
-        commonTopBar.setIconView(myOnClickListener,myOnClickListener);
+        commonTopBar.setIconView(myOnClickListener, myOnClickListener);
         Intent intent = getIntent();
         String section = intent.getStringExtra("section");
         index = Integer.parseInt(intent.getStringExtra("position"));
         final Section room_info = Section.getSectionFromJsonString(section);
         commonTopBar.setTitle(room_info.getName());
         final List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
-        for (int i = 0; i<devices.size(); i++) {
+        for (int i = 0; i < devices.size(); i++) {
             final CommonDeviceView commonDeviceView = new CommonDeviceView(DragDeviceActivity.this);
             commonDeviceView.setBackgroundResource(R.drawable.drag_device_transparent_small);
             commonDeviceView.setBgIcon(R.drawable.drag_device_icon);
-            TextView nameView = (TextView)commonDeviceView.findViewById(R.id.bottom_name);
-            TextView nameView2 = (TextView)commonDeviceView.findViewById(R.id.right_up_text);
-            switch (UIManager.UITYPE){
+            TextView nameView = (TextView) commonDeviceView.findViewById(R.id.bottom_name);
+            TextView nameView2 = (TextView) commonDeviceView.findViewById(R.id.right_up_text);
+            switch (UIManager.UITYPE) {
                 case 1:
                     nameView.setTextColor(getResources().getColor(R.color.text_color_white));
                     nameView2.setTextColor(getResources().getColor(R.color.text_color_white));
@@ -245,29 +254,31 @@ public class DragDeviceActivity extends BaseActivity {
                     break;
             }
             commonDeviceView.setBottomName(devices.get(i).getName());
-            commonDeviceView.setRightUpText(String .valueOf(MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(devices.get(i).getAddress()))
+            commonDeviceView.setRightUpText(String.valueOf(MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(devices.get(i).getAddress()))
                     + "-" + devices.get(i).getAddress());
             bottomBar.addView(commonDeviceView);
             final int finalI = i;
-            commonDeviceView.setOnLongClickListener(new View.OnLongClickListener() {
-                                                 @Override
-                                                 public boolean onLongClick(View v) {
-                                                     VibratorUtil.vibrate(DragDeviceActivity.this, 100);
-                                                     ClipData.Item item = new ClipData.Item(String.valueOf(devices.get(finalI).getAddress()));
-                                                     ClipData dragData = new ClipData((CharSequence) v.getTag(),
-                                                             new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN}, item);
-                                                     // Instantiates the drag shadow builder.
-                                                     View.DragShadowBuilder myShadow = new View.DragShadowBuilder(commonDeviceView);
+            commonDeviceView
+                    .setOnLongClickListener(
+                            new View.OnLongClickListener() {
+                                @Override
+                                public boolean onLongClick(View v) {
+                                    VibratorUtil.vibrate(DragDeviceActivity.this, 100);
+                                    ClipData.Item item = new ClipData.Item(String.valueOf(finalI));
+                                    ClipData dragData = new ClipData((CharSequence) v.getTag(),
+                                            new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN}, item);
+                                    // Instantiates the drag shadow builder.
+                                    View.DragShadowBuilder myShadow = new View.DragShadowBuilder(commonDeviceView);
 
-                                                     v.startDrag(dragData,  // the data to be dragged
-                                                             myShadow,  // the drag shadow builder
-                                                             null,      // no need to use local data
-                                                             0          // flags (not currently used, set to 0)
-                                                     );
-                                                     return false;
-                                                 }
-                                             }
-            );
+                                    v.startDrag(dragData,  // the data to be dragged
+                                            myShadow,  // the drag shadow builder
+                                            null,      // no need to use local data
+                                            0          // flags (not currently used, set to 0)
+                                    );
+                                    return false;
+                                }
+                            }
+                    );
         }
         findViewById(R.id.receiver).setOnDragListener(new View.OnDragListener() {
             @Override
@@ -286,11 +297,9 @@ public class DragDeviceActivity extends BaseActivity {
                         Room room = new Room();
                         room.setName(getString(R.string.new_room));
                         room.addAirCondition(Integer.parseInt(clipData.getItemAt(0).getText().toString()));
-                        MyApp.getApp().getServerConfigManager().addRoom(index, room);
                         dragDeviceAdapter.addRoom(room);
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:
-                        System.out.println(event.getResult());
                         return true;
                     default:
                         return true;
@@ -299,7 +308,7 @@ public class DragDeviceActivity extends BaseActivity {
         });
 
         GridView gridView = (GridView) findViewById(R.id.receiver);
-        dragDeviceAdapter = new DragDeviceAdapter(this,room_info.getPages());
+        dragDeviceAdapter = new DragDeviceAdapter(this, room_info.getPages());
         gridView.setAdapter(dragDeviceAdapter);
 
     }

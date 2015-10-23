@@ -1,6 +1,5 @@
 package ac.airconditionsuit.app.entity;
 
-import ac.airconditionsuit.app.aircondition.AirConditionControl;
 import ac.airconditionsuit.app.aircondition.AirConditionStatusResponse;
 
 /**

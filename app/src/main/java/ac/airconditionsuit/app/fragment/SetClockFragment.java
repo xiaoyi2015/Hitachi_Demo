@@ -49,19 +49,13 @@ public class SetClockFragment extends BaseFragment {
     private static final int REQUEST_CODE_CLOCK = 200;
     private static final int RESULT_OK = -1;
     private ClockSettingAdapter clockSettingAdapter;
+    private ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_set_clock, container, false);
-        ListView listView = (ListView) view.findViewById(R.id.clock_list);
-
-        if (MyApp.getApp().getServerConfigManager().hasDevice()) {
-            clockSettingAdapter = new ClockSettingAdapter(getActivity(), MyApp.getApp().getServerConfigManager().getTimer());
-            listView.setAdapter(clockSettingAdapter);
-        }
-//        else {
-//            MyApp.getApp().showToast("请先添加定时器，再进行控制操作！");
-//        }
+        listView = (ListView) view.findViewById(R.id.clock_list);
+        refreshUI();
         return view;
     }
 
@@ -285,5 +279,17 @@ public class SetClockFragment extends BaseFragment {
             }
 
         }
+    }
+
+    @Override
+    public void refreshUI() {
+        super.refreshUI();
+        if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+            clockSettingAdapter = new ClockSettingAdapter(getActivity(), MyApp.getApp().getServerConfigManager().getTimer());
+            listView.setAdapter(clockSettingAdapter);
+        } else {
+            listView.setAdapter(null);
+        }
+
     }
 }

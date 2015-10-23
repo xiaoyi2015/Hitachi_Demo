@@ -121,17 +121,15 @@ public class MainActivity extends BaseActivity {
 
         ObserveData od = (ObserveData) data;
         switch (od.getMsg()) {
+
+            case ObserveData.TIMER_STATUS_RESPONSE:
             case ObserveData.AIR_CONDITION_STATUS_RESPONSE:
-                AirCondition airCondition = (AirCondition) od.getData();
-                //todo for zhulinan
+                refreshUI();
                 break;
             case ObserveData.NETWORK_STATUS_CHANGE:
                 getSettingFragment().refreshNetworkStatus();
                 break;
 
-            case ObserveData.TIMER_STATUS_RESPONSE:
-                //todo
-                break;
         }
     }
 
