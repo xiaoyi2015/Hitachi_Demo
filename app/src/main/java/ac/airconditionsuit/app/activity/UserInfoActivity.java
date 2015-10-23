@@ -56,6 +56,8 @@ public class UserInfoActivity extends BaseActivity {
             super.onClick(v);
             switch (v.getId()) {
                 case R.id.left_icon:
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK,intent);
                     finish();
                     break;
                 case R.id.nick_name:

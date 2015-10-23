@@ -110,6 +110,7 @@ public class MyAirFragment extends BaseFragment {
                         @Override
                         public void onClick(View v) {
                             MyApp.getApp().getLocalConfigManager().changeHome(finalI);
+                            commonTopBar.setTitle(MyApp.getApp().getLocalConfigManager().getHomeList().get(finalI).getName());
                             if (MyApp.getApp().getServerConfigManager().hasDevice()) {
                                 list = MyApp.getApp().getServerConfigManager().getSections();
                                 myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), list);
@@ -121,11 +122,12 @@ public class MyAirFragment extends BaseFragment {
                             pop.dismiss();
                         }
                     });
-                    pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
-                    pop.setBackgroundDrawable(new BitmapDrawable());
-                    pop.setOutsideTouchable(true);
-                    pop.showAsDropDown(commonTopBar);
+
                 }
+                pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+                pop.setBackgroundDrawable(new BitmapDrawable());
+                pop.setOutsideTouchable(true);
+                pop.showAsDropDown(commonTopBar);
             }
         });
 

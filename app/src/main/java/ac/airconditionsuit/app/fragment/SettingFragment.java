@@ -28,15 +28,17 @@ import ac.airconditionsuit.app.view.RoundImageView;
  */
 public class SettingFragment extends BaseFragment implements View.OnClickListener {
 
+    private static final int REQUEST_CHANGE_ICON = 240;
     private View view;
     public final static int REQUEST_HOME_SETTING = 160;
     private TextView home_name;
     private CommonButtonWithArrow connectionStatusView;
+    private RoundImageView roundImageView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_setting, container, false);
-        RoundImageView roundImageView = (RoundImageView) view.findViewById(R.id.user_icon);
+        roundImageView = (RoundImageView) view.findViewById(R.id.user_icon);
         HttpClient.loadImage(MyApp.getApp().getUser().getAvatar(), roundImageView);
         home_name = (TextView) view.findViewById(R.id.setting_home_name);
         home_name.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
@@ -66,7 +68,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
         switch (v.getId()) {
             case R.id.user_icon:
-                myGetActivity().shortStartActivity(UserInfoActivity.class);
+                myGetActivity().shortStartActivityForResult(UserInfoActivity.class,REQUEST_CHANGE_ICON);
                 break;
             case R.id.software_information:
                 startActivity(new Intent(getActivity(), SoftwareInfoActivity.class));
@@ -93,7 +95,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         commonTopBar.setTitle(baseActivity.getString(R.string.tab_label_setting));
         commonTopBar.setIconView(null, null);
         commonTopBar.setRoundLeftIconView(null);
-        commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,null);
+        commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -101,6 +103,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             switch (requestCode) {
                 case REQUEST_HOME_SETTING:
                     home_name.setText(data.getStringExtra("name"));
+                    break;
+                case REQUEST_CHANGE_ICON:
+                    HttpClient.loadImage(MyApp.getApp().getUser().getAvatar(), roundImageView);
                     break;
             }
     }
