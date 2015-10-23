@@ -221,5 +221,6 @@
     <string name="control_room_fail">控制房间失败</string>
     <string name="section_device_num1">本设备共有</string>
     <string name="section_device_num2">台空调机</string>
+    <string name="is_delete_device_from_room">\n确定从房间中删除此空调吗？\n</string>
 
 </resources>
