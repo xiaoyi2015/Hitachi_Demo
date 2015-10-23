@@ -280,18 +280,25 @@ public class SectionAndRoomView extends RelativeLayout {
                 case 2:
                     ImageView bgBar =(ImageView)convertView.findViewById(R.id.bg_bar);
                     roomTempNone = (ImageView)convertView.findViewById(R.id.room_temp_none);
+                    ImageView roomWindNone = (ImageView) convertView.findViewById(R.id.room_wind_none);
+
                     roomTemp.setText((int) airCondition.getTemperature() + getContext().getString(R.string.temp_symbol));
                     if(airCondition.getOnoff() == AirConditionControl.UNKNOW || airCondition.getOnoff() == AirConditionControl.EMPTY){
                         bgBar.setImageResource(R.drawable.room_bg_bar_off_dc);
                         roomMode.setImageResource(R.drawable.none_dc);
                         roomWindSpeed.setImageResource(R.drawable.none_dc);
                         roomTemp.setVisibility(GONE);
+                        roomWindSpeed.setVisibility(GONE);
+                        roomWindNone.setVisibility(VISIBLE);
+                        roomWindNone.setImageResource(R.drawable.none_dc);
                         roomTempNone.setVisibility(VISIBLE);
                         roomTempNone.setImageResource(R.drawable.none_dc);
                     }
                     if(airCondition.getOnoff() == 0) {
                         roomTemp.setVisibility(VISIBLE);
                         roomTempNone.setVisibility(GONE);
+                        roomWindNone.setVisibility(GONE);
+                        roomWindSpeed.setVisibility(VISIBLE);
                         roomTemp.setTextColor(getResources().getColor(R.color.mode_off_gray));
                         bgBar.setImageResource(R.drawable.room_bg_bar_off_dc);
                         switch (airCondition.getMode()){
@@ -322,6 +329,8 @@ public class SectionAndRoomView extends RelativeLayout {
                     if(airCondition.getOnoff() == 1) {
                         roomTemp.setVisibility(VISIBLE);
                         roomTempNone.setVisibility(GONE);
+                        roomWindNone.setVisibility(GONE);
+                        roomWindSpeed.setVisibility(VISIBLE);
                         switch (airCondition.getMode()) {
                             case 0:
                                 roomMode.setImageResource(R.drawable.cool_on_dc);
@@ -385,6 +394,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 break;
                         }
                     }
+
                     roomName.setText(rooms.get(position).getName());
                     roomView.setOnClickListener(new OnClickListener() {
                         @Override
@@ -403,6 +413,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 intent.putExtra("title", rooms.get(position).getName());
                                 ((MainActivity)context).startActivityForResult(intent, MyAirFragment.REQUEST_ROOM_DC);
                             }
+
                         }
                     });
                     break;

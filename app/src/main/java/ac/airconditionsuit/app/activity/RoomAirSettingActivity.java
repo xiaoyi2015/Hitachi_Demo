@@ -184,10 +184,17 @@ public class RoomAirSettingActivity extends BaseActivity{
     }
 
     private void init() {
-        on_off = airCondition.getOnoff();
-        mode = airCondition.getMode();
-        fan = airCondition.getFan();
-        temp = (int)airCondition.getTemperature();
+        if(airCondition.getOnoff() == AirConditionControl.UNKNOW){
+            on_off = 0;
+            mode = 0;
+            fan = 0;
+            temp = 25;
+        }else {
+            on_off = airCondition.getOnoff();
+            mode = airCondition.getMode();
+            fan = airCondition.getFan();
+            temp = (int) airCondition.getTemperature();
+        }
         if(airCondition.getRealTemperature() != AirCondition.UNFETCH) {
             realTemp.setText(getString(R.string.real_temp) + airCondition.getRealTemperature() + getString(R.string.temp_symbol));
         }else{
