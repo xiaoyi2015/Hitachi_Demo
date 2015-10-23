@@ -394,7 +394,7 @@ public class EditClockActivity extends BaseActivity{
             clockRepeat.getOnlineTextView().setText(week);
         }
 
-        if( MyApp.getApp().getServerConfigManager().getDevices().size() == 0){
+        if( MyApp.getApp().getServerConfigManager().getDevices() == null){
             //TODO
         }else {
             for (int i = 0; i < MyApp.getApp().getServerConfigManager().getDevices().size(); i++){

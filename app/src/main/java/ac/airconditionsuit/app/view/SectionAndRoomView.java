@@ -18,31 +18,37 @@ import java.util.List;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
+import ac.airconditionsuit.app.activity.BaseActivity;
+import ac.airconditionsuit.app.activity.MainActivity;
 import ac.airconditionsuit.app.activity.RoomAirSettingActivity;
 import ac.airconditionsuit.app.activity.RoomAirSettingHitActivity;
 import ac.airconditionsuit.app.activity.RoomAirSettingHxActivity;
 import ac.airconditionsuit.app.aircondition.AirConditionControl;
 import ac.airconditionsuit.app.entity.AirCondition;
 import ac.airconditionsuit.app.entity.Room;
+import ac.airconditionsuit.app.fragment.BaseFragment;
+import ac.airconditionsuit.app.fragment.MyAirFragment;
 
 public class SectionAndRoomView extends RelativeLayout {
 
     private List<Room> rooms;
+    private Context context;
 
     public SectionAndRoomView(Context context, List<Room> roomList) {
         super(context);
         this.rooms = roomList;
-        init(context);
+        this.context = context;
+        init(this.context);
     }
 
     public SectionAndRoomView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(this.context);
     }
 
     public SectionAndRoomView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(context);
+        init(this.context);
     }
 
     private void init(Context context) {
@@ -71,7 +77,6 @@ public class SectionAndRoomView extends RelativeLayout {
                 break;
         }
 
-        //TODO set room status
         ListView listView = (ListView)findViewById(R.id.room_list);
         MyAirRoomAdapter myAirRoomAdapter = new MyAirRoomAdapter(context);
         listView.setAdapter(myAirRoomAdapter);
@@ -267,7 +272,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 intent.putExtra("room", rooms.get(position).toJsonString());
                                 intent.setClass(context, RoomAirSettingHitActivity.class);
                                 intent.putExtra("title", rooms.get(position).getName());
-                                context.startActivity(intent);
+                                ((MainActivity)context).startActivityForResult(intent,MyAirFragment.REQUEST_ROOM_HIT);
                             }
                         }
                     });
@@ -396,7 +401,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 intent.putExtra("room", rooms.get(position).toJsonString());
                                 intent.setClass(context, RoomAirSettingActivity.class);
                                 intent.putExtra("title", rooms.get(position).getName());
-                                context.startActivity(intent);
+                                ((MainActivity)context).startActivityForResult(intent, MyAirFragment.REQUEST_ROOM_DC);
                             }
                         }
                     });
@@ -524,9 +529,9 @@ public class SectionAndRoomView extends RelativeLayout {
                                 Intent intent = new Intent();
                                 intent.putExtra("air", airCondition.toJsonString());
                                 intent.putExtra("room", rooms.get(position).toJsonString());
-                                intent.setClass(context, RoomAirSettingHitActivity.class);
+                                intent.setClass(context, RoomAirSettingHxActivity.class);
                                 intent.putExtra("title", rooms.get(position).getName());
-                                context.startActivity(intent);
+                                ((MainActivity)context).startActivityForResult(intent, MyAirFragment.REQUEST_ROOM_HX);
                             }
                         }
                     });

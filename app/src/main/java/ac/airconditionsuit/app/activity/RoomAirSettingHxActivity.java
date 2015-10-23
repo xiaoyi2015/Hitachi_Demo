@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -113,7 +114,6 @@ public class RoomAirSettingHxActivity extends BaseActivity{
 
                 case R.id.ok_button:
                     submit();
-                    finish();
                     break;
             }
 
@@ -130,6 +130,9 @@ public class RoomAirSettingHxActivity extends BaseActivity{
         airConditionControl.setWindVelocity(fan);
         try {
             MyApp.getApp().getAirconditionManager().controlRoom(room,airConditionControl);
+            Intent intent = new Intent();
+            setResult(RESULT_OK,intent);
+            finish();
         } catch (Exception e) {
             MyApp.getApp().showToast("control room fail!");
             Log.e(TAG, "control room fail!");

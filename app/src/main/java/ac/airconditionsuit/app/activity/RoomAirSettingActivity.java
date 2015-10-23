@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,7 +43,6 @@ public class RoomAirSettingActivity extends BaseActivity{
                     break;
                 case R.id.right_icon:
                     submit();
-                    finish();
                     break;
                 case R.id.on_off_view:
                     on_off ++;
@@ -115,7 +115,10 @@ public class RoomAirSettingActivity extends BaseActivity{
         airConditionControl.setTemperature(temp);
         airConditionControl.setWindVelocity(fan);
         try {
-            MyApp.getApp().getAirconditionManager().controlRoom(room,airConditionControl);
+            MyApp.getApp().getAirconditionManager().controlRoom(room, airConditionControl);
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
         } catch (Exception e) {
             MyApp.getApp().showToast("control room fail!");
             Log.e(TAG, "control room fail!");
