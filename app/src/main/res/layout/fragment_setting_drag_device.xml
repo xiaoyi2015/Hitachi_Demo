@@ -13,7 +13,7 @@
     <GridView
         android:id="@+id/receiver"
         android:layout_below="@+id/default_top_bar"
-        android:layout_above="@+id/bottom_bar"
+        android:layout_above="@+id/section_device_num"
         android:numColumns="3"
         android:verticalSpacing="5dp"
         android:horizontalSpacing="0dp"
@@ -24,6 +24,17 @@
         android:layout_height="match_parent">
 
     </GridView>
+
+    <TextView
+        android:id="@+id/section_device_num"
+        android:layout_above="@+id/bottom_bar"
+        android:gravity="center"
+        android:textColor="@color/text_color_white"
+        android:background="@color/bg_gray"
+        android:padding="2dp"
+        android:layout_marginBottom="-4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:id="@+id/bottom_bar"

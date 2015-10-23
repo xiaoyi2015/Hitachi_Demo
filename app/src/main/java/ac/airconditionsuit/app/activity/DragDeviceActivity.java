@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
@@ -82,7 +84,6 @@ public class DragDeviceActivity extends BaseActivity {
         public View getView(final int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 convertView = new CommonDeviceView(context);
-
             }
             TextView textView = (TextView) convertView.findViewById(R.id.bottom_name);
             ImageView imageView = (ImageView) convertView.findViewById(R.id.bg_icon);
@@ -144,7 +145,8 @@ public class DragDeviceActivity extends BaseActivity {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    shortStartActivityForResult(ChangeRoomNameActivity.class, REQUEST_CODE_CHANGE_NAME, "index", String.valueOf(position));
+                    shortStartActivityForResult(ChangeRoomNameActivity.class,REQUEST_CODE_CHANGE_NAME,
+                            "index",String.valueOf(position),"room",rooms.get(position).toJsonString());
                 }
             });
 
@@ -203,6 +205,11 @@ public class DragDeviceActivity extends BaseActivity {
             rooms.get(room_index).setName(name);
             notifyDataSetChanged();
         }
+
+        public void replaceRoom(int room_index, Room room_t) {
+            rooms.get(room_index).setElements(room_t.getElements());
+            notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -232,6 +239,16 @@ public class DragDeviceActivity extends BaseActivity {
         Intent intent = getIntent();
         String section = intent.getStringExtra("section");
         index = Integer.parseInt(intent.getStringExtra("position"));
+
+        TextView sectionDeviceNum = (TextView)findViewById(R.id.section_device_num);
+        int device_num;
+        if(MyApp.getApp().getServerConfigManager().getDevices() == null || MyApp.
+                getApp().getServerConfigManager().getDevices().size() == 0){
+            device_num = 0;
+        }else {
+            device_num =  MyApp.getApp().getServerConfigManager().getDevices().size();
+        }
+        sectionDeviceNum.setText(getString(R.string.section_device_num1) + device_num + getString(R.string.section_device_num2));
         final Section room_info = Section.getSectionFromJsonString(section);
         commonTopBar.setTitle(room_info.getName());
         final List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
@@ -320,7 +337,9 @@ public class DragDeviceActivity extends BaseActivity {
                 case REQUEST_CODE_CHANGE_NAME:
                     String room_name = data.getStringExtra("name");
                     int room_index = Integer.parseInt(data.getStringExtra("room_index"));
+                    Room room_temp = new Gson().fromJson(data.getStringExtra("room"),Room.class);
                     dragDeviceAdapter.changeName(room_name, room_index);
+                    dragDeviceAdapter.replaceRoom(room_index,room_temp);
                     //MyApp.getApp().getServerConfigManager().renameRoom(index,room_index,room_name);
                     break;
             }
