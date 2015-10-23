@@ -71,6 +71,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 changeIndicator(position);
+                fragments[position].setTopBar();
             }
 
             @Override
@@ -79,6 +80,7 @@ public class MainActivity extends BaseActivity {
         });
         initTabIndicator();
 //        pager.setCurrentItem(DEFAULT_FRAGMENT_POSITION);
+        fragments[0].setTopBar();
 
     }
 

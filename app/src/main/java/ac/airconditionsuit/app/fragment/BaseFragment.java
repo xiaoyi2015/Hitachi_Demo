@@ -48,6 +48,5 @@ public class BaseFragment extends Fragment {
     }
 
     public void refreshUI() {
-        setTopBar();
     }
 }

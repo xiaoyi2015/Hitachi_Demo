@@ -38,11 +38,11 @@ public class MyAirFragment extends BaseFragment {
     public static final int REQUEST_ROOM_HIT = 2457;
     public static final int REQUEST_ROOM_HX = 2758;
     private View view;
-    private MyOnClickListener myOnClickListener = new MyOnClickListener(){
+    private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
         public void onClick(View v) {
             super.onClick(v);
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.round_left_icon:
                     Intent intent = new Intent();
                     intent.setClass(getActivity(), InfoPageActivity.class);
@@ -65,12 +65,13 @@ public class MyAirFragment extends BaseFragment {
 
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             list = MyApp.getApp().getServerConfigManager().getSections();
-            myAirSectionAdapter= new MyAirSectionAdapter(getActivity(),list);
+            myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), list);
             listView.setAdapter(myAirSectionAdapter);
-        }else {
-            listView.setAdapter(null);
-            MyApp.getApp().showToast("请先添加设备管理器！");
         }
+//        else {
+//            listView.setAdapter(null);
+//            MyApp.getApp().showToast("请先添加设备管理器！");
+//        }
 
         return view;
     }
@@ -78,7 +79,7 @@ public class MyAirFragment extends BaseFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(hidden){
+        if (hidden) {
             commonTopBar.getTitleView().setOnClickListener(null);
         }
     }
@@ -92,8 +93,8 @@ public class MyAirFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
-                LinearLayout linearLayout = (LinearLayout)inflater.inflate(R.layout.pop_up_home_list,null);
-                for(int i = 0; i < MyApp.getApp().getLocalConfigManager().getHomeList().size(); i++){
+                LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.pop_up_home_list, null);
+                for (int i = 0; i < MyApp.getApp().getLocalConfigManager().getHomeList().size(); i++) {
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     layoutParams.setMargins(0, 1, 0, 0);
                     TextView textView = new TextView(getActivity());
@@ -109,13 +110,14 @@ public class MyAirFragment extends BaseFragment {
                             MyApp.getApp().getLocalConfigManager().changeHome(finalI);
                             if (MyApp.getApp().getServerConfigManager().hasDevice()) {
                                 list = MyApp.getApp().getServerConfigManager().getSections();
-                                myAirSectionAdapter= new MyAirSectionAdapter(getActivity(),list);
+                                myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), list);
                                 listView.setAdapter(myAirSectionAdapter);
-                                ((MainActivity)myGetActivity()).refreshUI();
-                            }else {
-                                listView.setAdapter(null);
-                                MyApp.getApp().showToast("请先添加设备管理器！");
+                                ((MainActivity) myGetActivity()).refreshUI();
                             }
+//                            else {
+//                                listView.setAdapter(null);
+//                                MyApp.getApp().showToast("请先添加设备管理器！");
+//                            }
                             pop.dismiss();
                         }
                     });
@@ -127,7 +129,7 @@ public class MyAirFragment extends BaseFragment {
             }
         });
 
-        switch (UIManager.UITYPE){
+        switch (UIManager.UITYPE) {
             case 1:
                 commonTopBar.setRightIconView(R.drawable.top_bar_logo_hit);
                 commonTopBar.setIconView(null, myOnClickListener);
@@ -137,13 +139,13 @@ public class MyAirFragment extends BaseFragment {
             case 2:
                 commonTopBar.setIconView(null, null);
                 commonTopBar.getTitleView().setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null,
-                        getResources().getDrawable(R.drawable.icon_arrow_down_dc));
+                        myGetActivity().getResources().getDrawable(R.drawable.icon_arrow_down_dc));
                 break;
             default:
                 commonTopBar.setRightIconView(R.drawable.top_bar_logo_hx);
                 commonTopBar.setIconView(null, myOnClickListener);
                 commonTopBar.getTitleView().setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null,
-                        getResources().getDrawable(R.drawable.icon_arrow_down_dc));
+                        myGetActivity().getResources().getDrawable(R.drawable.icon_arrow_down_dc));
                 break;
         }
         commonTopBar.setRoundLeftIconView(myOnClickListener);
@@ -164,13 +166,13 @@ public class MyAirFragment extends BaseFragment {
             }
     }
 
-    private class MyAirSectionAdapter extends BaseAdapter{
+    private class MyAirSectionAdapter extends BaseAdapter {
 
         private Context context;
         List<Section> list;
         final boolean[] isCheck = new boolean[100];
 
-        public MyAirSectionAdapter(Context context,List<Section> list){
+        public MyAirSectionAdapter(Context context, List<Section> list) {
             this.context = context;
             this.list = list;
 
@@ -193,15 +195,15 @@ public class MyAirFragment extends BaseFragment {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            if(convertView == null){
-                convertView = new SectionAndRoomView(context,list.get(position).getPages());
+            if (convertView == null) {
+                convertView = new SectionAndRoomView(context, list.get(position).getPages());
             }
 
-            final LinearLayout sectionView = (LinearLayout)convertView.findViewById(R.id.section_item);
-            TextView sectionName = (TextView)convertView.findViewById(R.id.label_text);
+            final LinearLayout sectionView = (LinearLayout) convertView.findViewById(R.id.section_item);
+            TextView sectionName = (TextView) convertView.findViewById(R.id.label_text);
             sectionName.setText(list.get(position).getName());
-            final ListView roomList = (ListView)convertView.findViewById(R.id.room_list);
-            final ImageView arrowIcon = (ImageView)convertView.findViewById(R.id.arrow_icon);
+            final ListView roomList = (ListView) convertView.findViewById(R.id.room_list);
+            final ImageView arrowIcon = (ImageView) convertView.findViewById(R.id.arrow_icon);
             isCheck[position] = false;
             sectionView.setOnClickListener(new MyOnClickListener() {
                 @Override
@@ -209,7 +211,7 @@ public class MyAirFragment extends BaseFragment {
                     super.onClick(v);
                     isCheck[position] = !isCheck[position];
                     if (isCheck[position]) {
-                        switch (UIManager.UITYPE){
+                        switch (UIManager.UITYPE) {
                             case 1:
                                 arrowIcon.setImageResource(R.drawable.icon_arrow_down_hit);
                                 sectionView.setBackgroundResource(R.drawable.room_section_top_box_hit);
@@ -224,7 +226,7 @@ public class MyAirFragment extends BaseFragment {
                         }
                         roomList.setVisibility(View.VISIBLE);
                     } else {
-                        switch (UIManager.UITYPE){
+                        switch (UIManager.UITYPE) {
                             case 1:
                                 arrowIcon.setImageResource(R.drawable.icon_arrow_right_hit);
                                 sectionView.setBackgroundResource(R.drawable.room_section_box_hit);
