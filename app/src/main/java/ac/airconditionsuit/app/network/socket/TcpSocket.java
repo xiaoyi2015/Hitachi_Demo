@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.network.socket;
 
+import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.aircondition.AirConditionControl;
 import ac.airconditionsuit.app.aircondition.AirConditionManager;
@@ -239,7 +240,9 @@ class TcpSocket implements SocketWrap {
             Log.i(TAG, "tcp login success");
             //comment for debug todo
             MyApp.getApp().getSocketManager().startHeartBeat();
-            if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+
+            ServerConfigManager serverConfigManager = MyApp.getApp().getServerConfigManager();
+            if (serverConfigManager != null && serverConfigManager.hasDevice()) {
                 MyApp.getApp().getAirconditionManager().queryAirConditionStatus();
             }
 
@@ -270,27 +273,14 @@ class TcpSocket implements SocketWrap {
 //            timer.setTimerenabled(true);
 //            timer.setWeek(3,4);
 //            MyApp.getApp().getAirconditionManager().addTimerServer(timer);
-//            MyApp.getApp().getAirconditionManager().addTimerServer(timer);
-//            MyApp.getApp().getAirconditionManager().addTimerServer(timer);
-//            MyApp.getApp().getAirconditionManager().addTimerServer(timer);
 
             //test modity timer
 //            MyApp.getApp().getAirconditionManager().modityTimerServer(timer);
 
             //test delete timer
 //            MyApp.getApp().getAirconditionManager().deleteTimerServer(1);
-//            MyApp.getApp().getAirconditionManager().deleteTimerServer(2);
-//            MyApp.getApp().getAirconditionManager().deleteTimerServer(4);
-//            MyApp.getApp().getAirconditionManager().deleteTimerServer(5);
-//            MyApp.getApp().getAirconditionManager().deleteTimerServer(6);
-//            MyApp.getApp().getAirconditionManager().deleteTimerServer(7);
-//            MyApp.getApp().getAirconditionManager().deleteTimerServer(8);
-//            MyApp.getApp().getAirconditionManager().deleteTimerServer(9);
 
 //            MyApp.getApp().getAirconditionManager().queryTimer(2);
-//            MyApp.getApp().getAirconditionManager().queryTimer(256);
-//            MyApp.getApp().getAirconditionManager().queryTimer(4);
-//            MyApp.getApp().getAirconditionManager().queryTimer(5);
 
 
         } else if (result_code == 401) {

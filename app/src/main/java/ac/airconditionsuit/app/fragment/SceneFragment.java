@@ -91,21 +91,27 @@ public class SceneFragment extends BaseFragment {
         }
     };
     private SceneAdapter sceneAdapter;
+    private ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_scene,container,false);
-        ListView listView = (ListView) view.findViewById(R.id.scene_list);
+        listView = (ListView) view.findViewById(R.id.scene_list);
+        refreshUI();
+        return view;
+    }
 
+    @Override
+    public void refreshUI() {
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             List<Scene> scene_list = MyApp.getApp().getServerConfigManager().getScene();
             sceneAdapter = new SceneAdapter(getActivity(),scene_list);
             listView.setAdapter(sceneAdapter);
         } else {
-            MyApp.getApp().showToast("请先添加场景，再进行控制操作！");
+//            MyApp.getApp().showToast("请先添加场景，再进行控制操作！");
+            listView.setAdapter(null);
         }
-
-        return view;
+        super.refreshUI();
     }
 
     @Override

@@ -58,9 +58,10 @@ public class SetClockFragment extends BaseFragment {
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             clockSettingAdapter = new ClockSettingAdapter(getActivity(), MyApp.getApp().getServerConfigManager().getTimer());
             listView.setAdapter(clockSettingAdapter);
-        } else {
-            MyApp.getApp().showToast("请先添加定时器，再进行控制操作！");
         }
+//        else {
+//            MyApp.getApp().showToast("请先添加定时器，再进行控制操作！");
+//        }
         return view;
     }
 

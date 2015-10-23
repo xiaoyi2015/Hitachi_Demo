@@ -144,4 +144,5 @@ public class BaseActivity extends FragmentActivity implements Observer {
 //            socketManager.onPause(this);
         }
     }
+
 }

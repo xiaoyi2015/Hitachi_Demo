@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.fragment;
 
 import ac.airconditionsuit.app.network.socket.SocketManager;
 import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -68,7 +69,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
         switch (v.getId()) {
             case R.id.user_icon:
-                myGetActivity().shortStartActivityForResult(UserInfoActivity.class,REQUEST_CHANGE_ICON);
+//                myGetActivity().shortStartActivityForResult(UserInfoActivity.class, REQUEST_CHANGE_ICON);
+                startActivityForResult(new Intent(getActivity(), UserInfoActivity.class), REQUEST_CHANGE_ICON);
                 break;
             case R.id.software_information:
                 startActivity(new Intent(getActivity(), SoftwareInfoActivity.class));
@@ -99,7 +101,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == -1)
+        if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_HOME_SETTING:
                     home_name.setText(data.getStringExtra("name"));
@@ -108,6 +110,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                     HttpClient.loadImage(MyApp.getApp().getUser().getAvatar(), roundImageView);
                     break;
             }
+        }
     }
 
     @Override
@@ -125,10 +128,13 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     }
 
     public void refreshNetworkStatus() {
+        if (connectionStatusView == null) {
+            return;
+        }
         MyApp.getApp().getHandler().post(new Runnable() {
             @Override
             public void run() {
-                int connectivityStatus = NetworkConnectionStatusUtil.getConnectivityStatus(getActivity());
+                int connectivityStatus = NetworkConnectionStatusUtil.getConnectivityStatus(myGetActivity());
 
                 if (MyApp.getApp().getServerConfigManager().hasDevice()) {
 

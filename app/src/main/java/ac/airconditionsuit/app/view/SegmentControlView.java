@@ -40,12 +40,11 @@ public class SegmentControlView extends LinearLayout {
         initView();
     }
 
-    private void initView()
-    {
+    private void initView() {
         textView1 = new TextView(getContext());
         textView2 = new TextView(getContext());
 
-        textView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,1));
+        textView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
         textView2.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
         setSegmentText(0, getContext().getString(R.string.info_text));
@@ -53,11 +52,13 @@ public class SegmentControlView extends LinearLayout {
         setSegmentTextSize(16);
 
         XmlPullParser xrp = getResources().getXml(R.drawable.seg_text_color_selector);
-        try{
-            ColorStateList csl = ColorStateList.createFromXml(getResources(),xrp);
+        try {
+            ColorStateList csl = ColorStateList.createFromXml(getResources(), xrp);
             textView1.setTextColor(csl);
             textView2.setTextColor(csl);
-        }catch (Exception e){}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         textView1.setGravity(Gravity.CENTER);
         textView2.setGravity(Gravity.CENTER);
@@ -88,15 +89,13 @@ public class SegmentControlView extends LinearLayout {
         textView2.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(textView2.isSelected())
-                {
+                if (textView2.isSelected()) {
                     return;
                 }
                 textView2.setSelected(true);
                 textView1.setSelected(false);
-                if(listener != null)
-                {
-                    listener.onSegmentControlViewClick(textView2,1);
+                if (listener != null) {
+                    listener.onSegmentControlViewClick(textView2, 1);
                 }
             }
         });
@@ -104,41 +103,34 @@ public class SegmentControlView extends LinearLayout {
     }
 
     //set text size
-    public void setSegmentTextSize(int dp)
-    {
+    public void setSegmentTextSize(int dp) {
         textView1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dp);
         textView2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dp);
     }
 
     //set text
-    public void setSegmentText(int position,CharSequence text)
-    {
-        if(position == 0)
-        {
+    public void setSegmentText(int position, CharSequence text) {
+        if (position == 0) {
             textView1.setText(text);
         }
-        if(position == 1)
-        {
+        if (position == 1) {
             textView2.setText(text);
         }
     }
 
     //set click listener
-    public void setOnSegmentControlViewClickListener(onSegmentControlViewClickListener listener)
-    {
+    public void setOnSegmentControlViewClickListener(onSegmentControlViewClickListener listener) {
         this.listener = listener;
     }
 
-    public static interface onSegmentControlViewClickListener
-    {
-        public void onSegmentControlViewClick(View v,int position);
+    public interface onSegmentControlViewClickListener {
+        void onSegmentControlViewClick(View v, int position);
     }
 
     //text transform
-    private static int dp2Px(Context context,float dp)
-    {
+    private static int dp2Px(Context context, float dp) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        return (int)(dp * scale + 0.5f);
+        return (int) (dp * scale + 0.5f);
     }
 
 }

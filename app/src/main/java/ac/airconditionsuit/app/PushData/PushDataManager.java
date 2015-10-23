@@ -93,7 +93,7 @@ public class PushDataManager {
 
     public class PushDataDbHelper extends SQLiteOpenHelper {
         // If you change the database schema, you must increment the database version.
-        public static final int DATABASE_VERSION = 2;
+        public static final int DATABASE_VERSION = 1;
         public static final String DATABASE_NAME = "pushData.db";
         private final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, " + TS + " INTEGER, " + ID + " INTEGER, " +

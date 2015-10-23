@@ -26,8 +26,7 @@ import java.util.Observable;
 
 public class MainActivity extends BaseActivity {
 
-    //TODO 设置默认的fragment，这边可能根据需求方要求修改要改
-    private static final int DEFAULT_FRAGMENT_POSITION = 3;
+    private static final int DEFAULT_FRAGMENT_POSITION = 0;
     private ViewPager pager;
     BaseFragment[] fragments = new BaseFragment[]{
             new MyAirFragment(),
@@ -41,6 +40,10 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         MyApp.getApp().initSocketManager();
         MyApp.getApp().initPushDataManager();
+
+        for (BaseFragment bf : fragments) {
+            bf.setActivity(this);
+        }
 
         setContentView(UIManager.getMainActivityLayout());
         super.onCreate(savedInstanceState);
@@ -67,7 +70,6 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-//                Log.i(TAG, "onPageSelected");
                 changeIndicator(position);
                 fragments[position].setTopBar();
             }
@@ -77,12 +79,8 @@ public class MainActivity extends BaseActivity {
             }
         });
         initTabIndicator();
-
-        for (BaseFragment bf : fragments) {
-            bf.setActivity(this);
-        }
-
-        pager.setCurrentItem(DEFAULT_FRAGMENT_POSITION);
+//        pager.setCurrentItem(DEFAULT_FRAGMENT_POSITION);
+        fragments[0].setTopBar();
 
     }
 
@@ -130,10 +128,20 @@ public class MainActivity extends BaseActivity {
             case ObserveData.NETWORK_STATUS_CHANGE:
                 getSettingFragment().refreshNetworkStatus();
                 break;
+
+            case ObserveData.TIMER_STATUS_RESPONSE:
+                //todo
+                break;
         }
     }
 
     private SettingFragment getSettingFragment() {
         return (SettingFragment) fragments[3];
+    }
+
+    public void refreshUI() {
+        for (BaseFragment bf : fragments) {
+            bf.refreshUI();
+        }
     }
 }

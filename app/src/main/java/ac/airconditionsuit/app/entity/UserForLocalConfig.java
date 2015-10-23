@@ -96,7 +96,9 @@ public class UserForLocalConfig {
         //以下代码只有有旧文件时才会往下执行
         //确定新的index
         //预先设置currentHomeIndex = 0; 如果新的配置文件不包含旧的，那么currentHomeIndex = 0保持不变;
-        currentHomeIndex = 0;
+        if (!oldCurrentHomeFileName.contains(Constant.NO_DEVICE_CONFIG_FILE_PREFIX)) {
+            currentHomeIndex = 0;
+        }
         for (int i = 0; i < homeConfigFileNames.size(); ++i) {
             if (homeConfigFileNames.get(i).equals(oldCurrentHomeFileName)) {
                 currentHomeIndex = i;
@@ -107,7 +109,7 @@ public class UserForLocalConfig {
         //如果旧的有配置文件，那么把不在新的配置文件中的文件删除，删除物理上的文件
         //delete unused host device config file
         for (String oldHostDeviceConfigFile : oldHomeFileNames) {
-            if (oldHostDeviceConfigFile.indexOf(Constant.NO_DEVICE_CONFIG_FILE_PREFIX) == 0) {
+            if (oldHostDeviceConfigFile.contains(Constant.NO_DEVICE_CONFIG_FILE_PREFIX)) {
                 //这里把没有设备的家的配置文件先保存下来，后面添加
                 temp.add(oldHostDeviceConfigFile);
             } else {
@@ -151,6 +153,7 @@ public class UserForLocalConfig {
             if (currentHomeIndex >= homeConfigFileNames.size()) {
                 currentHomeIndex = homeConfigFileNames.size() - 1;
             }
+            MyApp.getApp().getServerConfigManager().readFromFile();
             return true;
         }
     }

@@ -55,6 +55,7 @@ public class AirConditionManager {
         try {
             Timer timer = Timer.decodeFromByteArray(contentData);
             MyApp.getApp().getServerConfigManager().updateTimer(timer);
+            MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.TIMER_STATUS_RESPONSE, timer));
         } catch (Exception e) {
             Log.i(TAG, "decode timer status failed");
             e.printStackTrace();
@@ -140,13 +141,14 @@ public class AirConditionManager {
         MyApp.getApp().getSocketManager().sendMessage(p);
     }
 
+    public void deleteTimerServer(int id) {
+        SocketPackage p = new DeleteTimerPackage(id);
+        MyApp.getApp().getSocketManager().sendMessage(p);
+    }
+
     public void deleteTimerLocal(byte[] id) {
         int idInt = ByteUtil.byteArrayToShortAsBigEndian(id);
         MyApp.getApp().getServerConfigManager().deleteTimerById(idInt);
     }
 
-    public void deleteTimerServer(int id) {
-        SocketPackage p = new DeleteTimerPackage(id);
-        MyApp.getApp().getSocketManager().sendMessage(p);
-    }
 }

@@ -406,7 +406,7 @@ public class ServerConfigManager {
                     });
         } else {
             //当所有的设备配置文件下载下来以后，更新设备配置文件.
-            MyApp.getApp().getLocalConfigManager().updataHostDeviceConfigFile(fileNames);
+            MyApp.getApp().getLocalConfigManager().updateHostDeviceConfigFile(fileNames);
 
             commonNetworkListener.onSuccess();
         }

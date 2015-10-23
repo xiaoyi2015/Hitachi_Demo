@@ -70,7 +70,7 @@ public class LocalConfigManager {
         getSharePreference().edit().putString(Constant.PREFERENCE_KEY_LOCAL_CONFIG, localConfig.toJsonString()).apply();
     }
 
-    public void updataHostDeviceConfigFile(List<String> fileNames) {
+    public void updateHostDeviceConfigFile(List<String> fileNames) {
         getLocalConfig().updateCurrentUserHostDeviceConfigFile(fileNames);
         saveToDisk();
     }
@@ -139,6 +139,7 @@ public class LocalConfigManager {
 
     public void changeHome(int homeIndex) {
         getCurrentUserConfig().changeHome(homeIndex);
+        saveToDisk();
     }
 
     public File getHomeConfigFile(String fileName) {
