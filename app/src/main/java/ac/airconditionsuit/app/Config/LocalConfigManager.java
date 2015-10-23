@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.Config;
 
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.entity.Home;
 import ac.airconditionsuit.app.entity.LocalConfig;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.entity.UserForLocalConfig;
@@ -9,6 +10,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -123,5 +125,19 @@ public class LocalConfigManager {
         UserForLocalConfig user = getCurrentUserConfig();
         user.addNewHome(homeName);
         saveToDisk();
+    }
+
+    public List<Home> getHomeNames() {
+        List<Home> res = new ArrayList<>();
+        return res;
+//        for (String configFileName : getCurrentUserConfig().getHomeConfigFileNames()) {
+//            ServerConfigManager serverConfigManager = new ServerConfigManager();
+//            serverConfigManager.readFromFile();
+//            res.add(serverConfigManager)
+//        }
+    }
+
+    public void changeHome(int homeIndex) {
+
     }
 }
