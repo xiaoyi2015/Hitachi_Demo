@@ -129,15 +129,19 @@ public class LocalConfigManager {
 
     public List<Home> getHomeList() {
         List<Home> res = new ArrayList<>();
+        for (String configFileName : getCurrentUserConfig().getHomeConfigFileNames()) {
+            ServerConfigManager serverConfigManager = new ServerConfigManager();
+            serverConfigManager.readFromFile(configFileName);
+            res.add(serverConfigManager.getHome());
+        }
         return res;
-//        for (String configFileName : getCurrentUserConfig().getHomeConfigFileNames()) {
-//            ServerConfigManager serverConfigManager = new ServerConfigManager();
-//            serverConfigManager.readFromFile();
-//            res.add(serverConfigManager)
-//        }
     }
 
     public void changeHome(int homeIndex) {
+        getCurrentUserConfig().changeHome(homeIndex);
+    }
 
+    public File getHomeConfigFile(String fileName) {
+        return MyApp.getApp().getPrivateFile(fileName, null);
     }
 }
