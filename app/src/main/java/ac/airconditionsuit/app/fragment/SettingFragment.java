@@ -66,7 +66,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
         switch (v.getId()) {
             case R.id.user_icon:
-                startActivity(new Intent(getActivity(), UserInfoActivity.class));
+                myGetActivity().shortStartActivity(UserInfoActivity.class);
                 break;
             case R.id.software_information:
                 startActivity(new Intent(getActivity(), SoftwareInfoActivity.class));

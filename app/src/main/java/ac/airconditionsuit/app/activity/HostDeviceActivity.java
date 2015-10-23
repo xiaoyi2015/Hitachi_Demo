@@ -1,6 +1,8 @@
 package ac.airconditionsuit.app.activity;
 
 import ac.airconditionsuit.app.Constant;
+import ac.airconditionsuit.app.network.HttpClient;
+import ac.airconditionsuit.app.network.response.DeleteDeviceResponse;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import ac.airconditionsuit.app.MyApp;
@@ -17,6 +20,8 @@ import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
 import ac.airconditionsuit.app.view.CommonTopBar;
+import com.android.volley.Response;
+import com.loopj.android.http.RequestParams;
 
 /**
  * Created by Administrator on 2015/10/20.
@@ -42,6 +47,28 @@ public class HostDeviceActivity extends BaseActivity{
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     //TODO  delete host device
+                                    RequestParams params = new RequestParams();
+                                    params.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
+                                    params.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_CANCEL);
+                                    params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID,
+                                            MyApp.getApp().getServerConfigManager().getConnections().get(0).getChat_id());
+
+                                    showWaitProgress();
+                                    HttpClient.get(params, DeleteDeviceResponse.class, new HttpClient.JsonResponseHandler<DeleteDeviceResponse>() {
+                                        @Override
+                                        public void onSuccess(DeleteDeviceResponse response) {
+                                            dismissWaitProgress();
+                                            MyApp.getApp().getServerConfigManager().deleteDevice();
+                                            MyApp.getApp().getSocketManager().reconnect();
+                                            finish();
+                                        }
+
+                                        @Override
+                                        public void onFailure(Throwable throwable) {
+                                            dismissWaitProgress();
+                                            MyApp.getApp().showToast(R.string.toast_inf_delete_device_failed);
+                                        }
+                                    });
                                     dialog.dismiss();
                                 }
                             }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();

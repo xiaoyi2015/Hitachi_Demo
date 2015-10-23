@@ -426,4 +426,13 @@ public class ServerConfigManager {
         elements.add(newAddress);
         return true;
     }
+
+    public void deleteDevice() {
+        rootJavaObj.setConnection(null);
+        rootJavaObj.setSections(null);
+        rootJavaObj.setDevices(null);
+        rootJavaObj.setScenes(null);
+        rootJavaObj.setTimers(null);
+        writeToFile();
+    }
 }

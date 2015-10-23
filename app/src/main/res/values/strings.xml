@@ -216,5 +216,6 @@
     <string name="unfetch_real_temp">获取实际温度失败</string>
     <string name="toast_inf_complete_user_inf">请完善用户信息</string>
     <string name="unknow">未填写</string>
+    <string name="toast_inf_delete_device_failed">删除设备失败</string>
 
 </resources>

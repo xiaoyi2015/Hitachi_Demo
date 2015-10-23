@@ -45,6 +45,7 @@ public class Constant {
     public static final String REQUEST_PARAMS_VALUE_METHOD_CHAT = "eliteall.chat";
     public static final String REQUEST_PARAMS_VALUE_METHOD_FILE = "eliteall.file";
 
+    public static final String REQUEST_PARAMS_VALUE_TYPE_CANCEL = "cancel";
     public static final String REQUEST_PARAMS_VALUE_TYPE_VALIDATE_CODE = "sendRegMobileValidateCode";
     public static final String REQUEST_PARAMS_VALUE_TYPE_REGISTER = "register";
     public static final String REQUEST_PARAMS_VALUE_TYPE_REGISTER_DEVICE = "registerDevice";
