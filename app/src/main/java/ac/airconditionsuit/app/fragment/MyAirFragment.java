@@ -54,6 +54,8 @@ public class MyAirFragment extends BaseFragment {
     };
     private MyAirSectionAdapter myAirSectionAdapter;
     private ListView listView;
+    private List<Section> list;
+    private CommonTopBar commonTopBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class MyAirFragment extends BaseFragment {
         listView = (ListView) view.findViewById(R.id.section_view);
 
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
-            List<Section> list = MyApp.getApp().getServerConfigManager().getSections();
+            list = MyApp.getApp().getServerConfigManager().getSections();
             myAirSectionAdapter= new MyAirSectionAdapter(getActivity(),list);
             listView.setAdapter(myAirSectionAdapter);
         }else {
@@ -74,15 +76,23 @@ public class MyAirFragment extends BaseFragment {
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden){
+            commonTopBar.getTitleView().setOnClickListener(null);
+        }
+    }
+
+    @Override
     public void setTopBar() {
         BaseActivity baseActivity = myGetActivity();
-        final CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
+        commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(MyApp.getApp().getServerConfigManager().getHome().getName());
         commonTopBar.getTitleView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
-                LinearLayout linearLayout = (LinearLayout)inflater.inflate(R.layout.pop_up_window_section,null);
+                LinearLayout linearLayout = (LinearLayout)inflater.inflate(R.layout.pop_up_home_list,null);
                 for(int i = 0; i < MyApp.getApp().getLocalConfigManager().getHomeList().size(); i++){
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     layoutParams.setMargins(0, 1, 0, 0);
@@ -98,7 +108,9 @@ public class MyAirFragment extends BaseFragment {
                         public void onClick(View v) {
                             MyApp.getApp().getLocalConfigManager().changeHome(finalI);
                             if (MyApp.getApp().getServerConfigManager().hasDevice()) {
-                                myAirSectionAdapter.notifyDataSetChanged();
+                                list = MyApp.getApp().getServerConfigManager().getSections();
+                                myAirSectionAdapter= new MyAirSectionAdapter(getActivity(),list);
+                                listView.setAdapter(myAirSectionAdapter);
                             }else {
                                 listView.setAdapter(null);
                                 MyApp.getApp().showToast("请先添加设备管理器！");
