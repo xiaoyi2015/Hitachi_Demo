@@ -7,7 +7,7 @@ import com.google.gson.Gson;
  * Created by ac on 9/19/15.
  * entity class for user,will store information for current login user
  */
-public class MyUser extends RootEntity{
+public class MyUser extends RootEntity {
     public static final int MAIL = 1;
     public static final int FEMAIL = 2;
 
@@ -29,18 +29,25 @@ public class MyUser extends RootEntity{
 
     /**
      * 获取用户头像的url
+     *
      * @return
      */
     public String getAvatar() {
-        if (avatar == null || avatar.length() == 0) {
-            return null;
-        } else {
+        if (avatar != null && avatar.length() != 0) {
             return avatar + "?random=" + System.currentTimeMillis();
+        } else if (avatar_normal != null && avatar_normal.length() != 0) {
+            return avatar_normal + "?random=" + System.currentTimeMillis();
+        } else if (avatar_big != null && avatar_big.length() != 0) {
+            return avatar_big + "?random=" + System.currentTimeMillis();
+        } else {
+            return null;
         }
     }
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+        this.avatar_big = avatar;
+        this.avatar_normal = avatar;
     }
 
     public String getPhone() {
@@ -83,28 +90,12 @@ public class MyUser extends RootEntity{
         this.email = email;
     }
 
-    public String getAvatar_big() {
-        return avatar_big;
-    }
-
-    public void setAvatar_big(String avatar_big) {
-        this.avatar_big = avatar_big;
-    }
-
     public int getCust_status() {
         return cust_status;
     }
 
     public void setCust_status(int cust_status) {
         this.cust_status = cust_status;
-    }
-
-    public String getAvatar_normal() {
-        return avatar_normal;
-    }
-
-    public void setAvatar_normal(String avatar_normal) {
-        this.avatar_normal = avatar_normal;
     }
 
     public int getSex() {
@@ -124,7 +115,7 @@ public class MyUser extends RootEntity{
     }
 
     public String getCust_name() {
-        return cust_name ;
+        return cust_name;
     }
 
     public void setCust_name(String cust_name) {

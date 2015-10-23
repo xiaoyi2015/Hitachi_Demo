@@ -36,6 +36,7 @@ public class HomeSettingActivity extends BaseActivity {
                     break;
                 case R.id.delete_home:
                     //TODO for luzheqi delete
+                    
                     break;
             }
         }

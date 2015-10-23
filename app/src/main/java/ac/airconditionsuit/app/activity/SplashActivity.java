@@ -59,11 +59,6 @@ public class SplashActivity extends BaseActivity {
                     }
 
                     MyUser user = MyApp.getApp().getUser();
-                    user.setAvatar_big(null);
-                    user.setCust_name(null);
-                    user.setSex(-1);
-                    user.setBirthday(null);
-                    user.setEmail(null);
                     if (user.infComplete()) {
                         shortStartActivity(MainActivity.class);
                     } else {

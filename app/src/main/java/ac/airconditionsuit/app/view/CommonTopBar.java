@@ -102,7 +102,7 @@ public class CommonTopBar extends RelativeLayout {
         if(listener == null){
             roundLeftIconView.setVisibility(GONE);
         }else {
-            HttpClient.loadImage(MyApp.getApp().getUser().getAvatar_normal(),roundLeftIconView);
+            HttpClient.loadImage(MyApp.getApp().getUser().getAvatar(),roundLeftIconView);
             roundLeftIconView.setOnClickListener(listener);
             roundLeftIconView.setVisibility(VISIBLE);
         }

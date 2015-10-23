@@ -57,7 +57,7 @@ public class FamilyFragment extends Fragment{
             admin = true;
             IsAdmin.setText(getString(R.string.admin));
         }
-        HttpClient.loadImage(MyApp.getApp().getUser().getAvatar_normal(), userPicture);
+        HttpClient.loadImage(MyApp.getApp().getUser().getAvatar(), userPicture);
         initDataFromInternet();
 
         return view;
