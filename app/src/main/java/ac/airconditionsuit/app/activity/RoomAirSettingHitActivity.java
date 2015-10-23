@@ -243,7 +243,7 @@ public class RoomAirSettingHitActivity extends BaseActivity{
             setResult(RESULT_OK, intent);
             finish();
         } catch (Exception e) {
-            MyApp.getApp().showToast("control room fail!");
+            MyApp.getApp().showToast(getString(R.string.control_room_fail));
             Log.e(TAG, "control room fail!");
             e.printStackTrace();
         }
