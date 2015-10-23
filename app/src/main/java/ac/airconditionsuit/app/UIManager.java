@@ -54,4 +54,15 @@ public class UIManager {
         }
     }
 
+    public static int getTopBarRightIconRes() {
+        switch (UIManager.UITYPE){
+            case HIT:
+                return R.drawable.top_bar_save_hit;
+            case DC:
+                return R.drawable.top_bar_save_dc;
+            default:
+                return R.drawable.top_bar_save_dc;
+        }
+    }
+
 }

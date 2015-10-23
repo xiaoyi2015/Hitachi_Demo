@@ -15,6 +15,8 @@ import com.google.gson.JsonSyntaxException;
 import com.loopj.android.http.*;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
+import cz.msebera.android.httpclient.params.HttpConnectionParams;
+import cz.msebera.android.httpclient.params.HttpParams;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -26,6 +28,7 @@ public class HttpClient {
     public static final String TAG = "HttpClient";
     public static final String BASE_URL = "http://114.215.83.189/eliteall/3187/hosts/openapi/api.php"; //日立
     public static final String FILE_BASE_URL = "http://114.215.83.189/deviceconfig/";
+    private static AsyncHttpClient asyncHttpClient;
 
     public interface JsonResponseHandler<T> {
         void onSuccess(T response);
@@ -53,8 +56,8 @@ public class HttpClient {
 
     @SuppressWarnings("unchecked")
     public static <T> void post(RequestParams params, final Type type, final JsonResponseHandler<T> handler) {
-        AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-        asyncHttpClient.post(BASE_URL, wrapParams(params) , new BaseJsonHttpResponseHandler<CommonResponse>() {
+        AsyncHttpClient asyncHttpClient = getAsyncHttpClient();
+        asyncHttpClient.post(BASE_URL, wrapParams(params), new BaseJsonHttpResponseHandler<CommonResponse>() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, CommonResponse response) {
                 //handle result
@@ -121,7 +124,8 @@ public class HttpClient {
 
     @SuppressWarnings("unchecked")
     public static <T> void get(RequestParams params, final Type type, final JsonResponseHandler<T> handler) {
-        AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+        AsyncHttpClient asyncHttpClient = getAsyncHttpClient();
+
         asyncHttpClient.get(BASE_URL, wrapParams(params), new BaseJsonHttpResponseHandler<CommonResponse>() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, CommonResponse response) {
@@ -186,17 +190,25 @@ public class HttpClient {
         });
     }
 
+    private static AsyncHttpClient getAsyncHttpClient() {
+        if (asyncHttpClient == null) {
+            asyncHttpClient = new AsyncHttpClient();
+        }
+        return asyncHttpClient;
+    }
+
     public interface DownloadFileHandler {
         void onFailure(Throwable throwable);
+
         void onSuccess(File file);
     }
 
-    public static void loadImage(final String url, final ImageView imageView){
-        if(url == null || imageView == null){
-            Log.e(TAG,"load image fail");
+    public static void loadImage(final String url, final ImageView imageView) {
+        if (url == null || imageView == null) {
+            Log.e(TAG, "load image fail");
             return;
         }
-        new AsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(MyApp.getApp()) {
+        getAsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(MyApp.getApp()) {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                 Log.e(TAG, "download from " + url + " failed");
@@ -212,7 +224,7 @@ public class HttpClient {
     }
 
     public static void downloadFile(final String url, File file, final DownloadFileHandler handler) {
-        new AsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(file) {
+        getAsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(file) {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                 throwable.printStackTrace();

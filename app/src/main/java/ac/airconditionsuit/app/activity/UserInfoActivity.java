@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.activity;
 
+import ac.airconditionsuit.app.entity.MyUser;
+import ac.airconditionsuit.app.network.response.UploadAvatar;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -10,7 +12,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -34,13 +35,11 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
-import ac.airconditionsuit.app.network.response.UploadConfigResponse;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
  * Created by Administrator on 2015/9/18.
- *
  */
 public class UserInfoActivity extends BaseActivity {
     public static final int MALE = 1;
@@ -51,7 +50,7 @@ public class UserInfoActivity extends BaseActivity {
     private static final int PICK_FROM_GALLERY_CODE = 104;
     private static final int CAMERA_REQUEST_CODE = 105;
     private static final int CROP_REQUEST_CODE = 106;
-    private MyOnClickListener myOnClickListener = new MyOnClickListener(){
+    private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
         public void onClick(View v) {
             super.onClick(v);
@@ -60,7 +59,7 @@ public class UserInfoActivity extends BaseActivity {
                     finish();
                     break;
                 case R.id.nick_name:
-                    shortStartActivityForResult(ChangeUserNameActivity.class,REQUEST_CODE_USER_NAME,"title",getString(R.string.nick_name));
+                    shortStartActivityForResult(ChangeUserNameActivity.class, REQUEST_CODE_USER_NAME, "title", getString(R.string.nick_name));
                     break;
                 case R.id.gender:
                     LayoutInflater inflater = LayoutInflater.from(UserInfoActivity.this);
@@ -69,12 +68,12 @@ public class UserInfoActivity extends BaseActivity {
                     final PopupWindow pop = new PopupWindow(v1, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
                     pop.setBackgroundDrawable(new BitmapDrawable());
                     pop.setOutsideTouchable(true);
-                    RelativeLayout view = (RelativeLayout)findViewById(R.id.user_info_page);
-                    pop.showAtLocation(view,Gravity.BOTTOM,0,0);
+                    RelativeLayout view = (RelativeLayout) findViewById(R.id.user_info_page);
+                    pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
 
-                    TextView male = (TextView)v1.findViewById(R.id.male);
-                    TextView female = (TextView)v1.findViewById(R.id.female);
-                    TextView cancel = (TextView)v1.findViewById(R.id.cancel);
+                    TextView male = (TextView) v1.findViewById(R.id.male);
+                    TextView female = (TextView) v1.findViewById(R.id.female);
+                    TextView cancel = (TextView) v1.findViewById(R.id.cancel);
                     male.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -136,9 +135,15 @@ public class UserInfoActivity extends BaseActivity {
                     break;
                 case R.id.change_birth:
 
-                    String[] birthday = MyApp.getApp().getUser().getBirthday().split("-");
+                    String birthdayString = MyApp.getApp().getUser().getBirthday();
+                    String[] birthday;
+                    if (birthdayString == null) {
+                        birthday = null;
+                    } else {
+                        birthday = birthdayString.split("-");
+                    }
                     int year, month, day;
-                    if (birthday.length != 3) {
+                    if (birthday == null || birthday.length != 3) {
                         year = 1991;
                         month = 0;
                         day = 1;
@@ -157,7 +162,7 @@ public class UserInfoActivity extends BaseActivity {
                     DatePickerDialog datePickerDialog = new DatePickerDialog(UserInfoActivity.this, new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                            final String changedBirth = year + "-" + (monthOfYear+1) + "-" + dayOfMonth;
+                            final String changedBirth = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                             final RequestParams requestParams = new RequestParams();
                             requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
                             requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF);
@@ -179,14 +184,14 @@ public class UserInfoActivity extends BaseActivity {
                             });
 
                         }
-                    },year,month,day );
+                    }, year, month, day);
                     datePickerDialog.show();
                     break;
                 case R.id.change_phone:
-                    shortStartActivityForResult(ChangePhoneActivity.class,REQUEST_CODE_PHONE);
+                    shortStartActivityForResult(ChangePhoneActivity.class, REQUEST_CODE_PHONE);
                     break;
                 case R.id.change_email:
-                    shortStartActivityForResult(ChangeUserNameActivity.class,REQUEST_CODE_EMAIL,"title",getString(R.string.change_email));
+                    shortStartActivityForResult(ChangeUserNameActivity.class, REQUEST_CODE_EMAIL, "title", getString(R.string.change_email));
                     break;
                 case R.id.home_list:
                     shortStartActivity(AddHomeActivity.class);
@@ -238,6 +243,7 @@ public class UserInfoActivity extends BaseActivity {
     private CommonButtonWithArrow phone;
     private CommonButtonWithArrow email;
     private CommonButtonWithArrow addHome;
+    private ImageView userIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -245,7 +251,7 @@ public class UserInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.fill_user_info));
-        switch (UIManager.UITYPE){
+        switch (UIManager.UITYPE) {
             case 1:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
                 break;
@@ -258,24 +264,27 @@ public class UserInfoActivity extends BaseActivity {
         }
         commonTopBar.setIconView(myOnClickListener, null);
 
-        ImageView userIcon = (ImageView)findViewById(R.id.network_icon);
+        userIcon = (ImageView) findViewById(R.id.network_icon);
 
-        nickName = (CommonButtonWithArrow)findViewById(R.id.nick_name);
-        gender = (CommonButtonWithArrow)findViewById(R.id.gender);
-        birth = (CommonButtonWithArrow)findViewById(R.id.change_birth);
-        phone = (CommonButtonWithArrow)findViewById(R.id.change_phone);
-        email = (CommonButtonWithArrow)findViewById(R.id.change_email);
-        addHome = (CommonButtonWithArrow)findViewById(R.id.home_list);
+        nickName = (CommonButtonWithArrow) findViewById(R.id.nick_name);
+        gender = (CommonButtonWithArrow) findViewById(R.id.gender);
+        birth = (CommonButtonWithArrow) findViewById(R.id.change_birth);
+        phone = (CommonButtonWithArrow) findViewById(R.id.change_phone);
+        email = (CommonButtonWithArrow) findViewById(R.id.change_email);
+        addHome = (CommonButtonWithArrow) findViewById(R.id.home_list);
         CommonButtonWithArrow password = (CommonButtonWithArrow) findViewById(R.id.change_password);
-        CommonButtonWithArrow clause = (CommonButtonWithArrow)findViewById(R.id.common_agree_clause);
-        CommonButtonWithArrow exit = (CommonButtonWithArrow)findViewById(R.id.quit_account);
+        CommonButtonWithArrow clause = (CommonButtonWithArrow) findViewById(R.id.common_agree_clause);
+        CommonButtonWithArrow exit = (CommonButtonWithArrow) findViewById(R.id.quit_account);
 
         HttpClient.loadImage(MyApp.getApp().getUser().getAvatar_big(), userIcon);
         nickName.setOnlineTextView(MyApp.getApp().getUser().getCust_name());
-        if(MyApp.getApp().getUser().getSex() == 1)
+        if (MyApp.getApp().getUser().getSex() == MyUser.MAIL) {
             gender.setOnlineTextView(getString(R.string.male));
-        else
+        } else if (MyApp.getApp().getUser().getSex() == MyUser.FEMAIL) {
             gender.setOnlineTextView(getString(R.string.female));
+        } else {
+            gender.setOnlineTextView(getString(R.string.unknow));
+        }
         birth.setOnlineTextView(MyApp.getApp().getUser().getBirthday());
         phone.setOnlineTextView(MyApp.getApp().getUser().getPhone());
         email.setOnlineTextView(MyApp.getApp().getUser().getEmail());
@@ -290,6 +299,28 @@ public class UserInfoActivity extends BaseActivity {
         password.setOnClickListener(myOnClickListener);
         clause.setOnClickListener(myOnClickListener);
         exit.setOnClickListener(myOnClickListener);
+
+        String fromActivityName = getIntent().getStringExtra(Constant.INTENT_DATA_KEY_ACTIVITY_FROM);
+        if (fromActivityName.equals(SplashActivity.class.getName())
+                || fromActivityName.equals(LoginActivity.class.getName())) {
+            password.setVisibility(View.GONE);
+            clause.setVisibility(View.GONE);
+            exit.setVisibility(View.GONE);
+            phone.setVisibility(View.GONE);
+            addHome.setVisibility(View.GONE);
+            commonTopBar.setRightIconView(UIManager.getTopBarRightIconRes());
+            commonTopBar.setIconView(null, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (MyApp.getApp().getUser().infComplete()) {
+                        shortStartActivity(MainActivity.class);
+                        finish();
+                    } else {
+                        MyApp.getApp().showToast(R.string.toast_inf_complete_user_inf);
+                    }
+                }
+            });
+        }
 
     }
 
@@ -335,15 +366,17 @@ public class UserInfoActivity extends BaseActivity {
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CUSTOMER);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_TYPE_SET_CUSTOMER_AVATAR);
         try {
-            requestParams.put(Constant.REQUEST_PARAMS_KEY_UPLOAD_FILE,avatar);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_UPLOAD_FILE, avatar);
         } catch (FileNotFoundException e) {
             Log.e(TAG, "uploaded file can not found");
             e.printStackTrace();
             return;
         }
-        HttpClient.post(requestParams, UploadConfigResponse.class, new HttpClient.JsonResponseHandler<UploadConfigResponse>() {
+        HttpClient.post(requestParams, UploadAvatar.class, new HttpClient.JsonResponseHandler<UploadAvatar>() {
             @Override
-            public void onSuccess(UploadConfigResponse response) {
+            public void onSuccess(UploadAvatar response) {
+                MyApp.getApp().getUser().setAvatar_big(response.getAvatar_url());
+                HttpClient.loadImage(response.getAvatar_url(), userIcon);
                 MyApp.getApp().showToast(R.string.upload_success);
             }
 
@@ -361,7 +394,7 @@ public class UserInfoActivity extends BaseActivity {
             return File.createTempFile(
                     "temp",  /* prefix */
                     ".jpg",         /* suffix */
-                    getCacheDir()      /* directory */
+                    getExternalCacheDir()      /* directory */
             );
         } catch (IOException e) {
             e.printStackTrace();
@@ -373,7 +406,8 @@ public class UserInfoActivity extends BaseActivity {
 
     private Uri getAuxUri() {
         if (auxUri == null) {
-            auxUri = Uri.fromFile(createImageFile());
+            File imageFile = createImageFile();
+            auxUri = Uri.fromFile(imageFile);
         }
 
         return auxUri;

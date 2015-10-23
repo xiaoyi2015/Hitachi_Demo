@@ -126,7 +126,6 @@ public class LoginActivity extends BaseActivity {
                         if (user.infComplete()) {
                             shortStartActivity(MainActivity.class);
                         } else {
-                            //TODO
                             shortStartActivity(UserInfoActivity.class);
                         }
                         finish();

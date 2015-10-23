@@ -39,7 +39,7 @@ public class ChangeUserNameActivity extends BaseActivity{
                         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_SAVE_CUSTOMER_INF);
                         requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_CUST_NAME);
                         requestParams.put(Constant.REQUEST_PARAMS_VALUE, user_name);
-
+                        showWaitProgress();
                         HttpClient.post(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
                             @Override
                             public void onSuccess(String response) {
@@ -47,11 +47,13 @@ public class ChangeUserNameActivity extends BaseActivity{
                                 intent.putExtra("userName", user_name);
                                 setResult(RESULT_OK, intent);
                                 finish();
+                                dismissWaitProgress();
                             }
 
                             @Override
                             public void onFailure(Throwable throwable) {
                                 MyApp.getApp().showToast(R.string.change_user_name_failure);
+                                dismissWaitProgress();
                             }
                         });
                     }else{
@@ -64,6 +66,7 @@ public class ChangeUserNameActivity extends BaseActivity{
                         requestParams.put(Constant.REQUEST_PARAMS_FIELD, Constant.REQUEST_PARAMS_KEY_EMAIL);
                         requestParams.put(Constant.REQUEST_PARAMS_VALUE, email);
 
+                        showWaitProgress();
                         HttpClient.post(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
                             @Override
                             public void onSuccess(String response) {
@@ -71,11 +74,13 @@ public class ChangeUserNameActivity extends BaseActivity{
                                 intent.putExtra("email", email);
                                 setResult(RESULT_OK, intent);
                                 finish();
+                                dismissWaitProgress();
                             }
 
                             @Override
                             public void onFailure(Throwable throwable) {
                                 MyApp.getApp().showToast(R.string.change_email_failure);
+                                dismissWaitProgress();
                             }
                         });
                     }
@@ -118,6 +123,10 @@ public class ChangeUserNameActivity extends BaseActivity{
             textLabel = MyApp.getApp().getUser().getEmail();
         }
         changeUserName.setText(textLabel);
-        changeUserName.setSelection(textLabel.length());
+        if (textLabel == null) {
+            changeUserName.setSelection(0);
+        } else {
+            changeUserName.setSelection(textLabel.length());
+        }
     }
 }

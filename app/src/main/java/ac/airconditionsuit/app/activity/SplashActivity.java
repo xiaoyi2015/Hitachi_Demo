@@ -7,6 +7,9 @@ import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import android.os.Bundle;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import cz.msebera.android.httpclient.Header;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -23,6 +26,19 @@ public class SplashActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(UIManager.getSplashLayout());
+
+//        new AsyncHttpClient().get(this, "http://www.baidu.com", new AsyncHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+//                System.out.println(statusCode);
+//                System.out.println(new String(responseBody));
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+//
+//            }
+//        });
 
         beginTime = System.currentTimeMillis();
 
@@ -43,10 +59,14 @@ public class SplashActivity extends BaseActivity {
                     }
 
                     MyUser user = MyApp.getApp().getUser();
+                    user.setAvatar_big(null);
+                    user.setCust_name(null);
+                    user.setSex(-1);
+                    user.setBirthday(null);
+                    user.setEmail(null);
                     if (user.infComplete()) {
                         shortStartActivity(MainActivity.class);
                     } else {
-                        //TODO
                         shortStartActivity(UserInfoActivity.class);
                     }
                     finish();

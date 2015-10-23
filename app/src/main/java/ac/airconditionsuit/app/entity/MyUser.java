@@ -1,7 +1,6 @@
 package ac.airconditionsuit.app.entity;
 
 import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.fragment.MyAirFragment;
 import com.google.gson.Gson;
 
 /**
@@ -9,7 +8,7 @@ import com.google.gson.Gson;
  * entity class for user,will store information for current login user
  */
 public class MyUser extends RootEntity{
-    public static final int MAN = 1;
+    public static final int MAIL = 1;
     public static final int FEMAIL = 2;
 
     String token;
@@ -151,7 +150,7 @@ public class MyUser extends RootEntity{
     public static int getIntSex(String sex) {
         switch (sex) {
             case "男":
-                return MAN;
+                return MAIL;
             case "女":
                 return FEMAIL;
             default:

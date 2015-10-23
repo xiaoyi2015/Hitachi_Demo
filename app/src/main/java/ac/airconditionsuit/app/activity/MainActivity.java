@@ -39,6 +39,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyApp.getApp().initSocketManager();
+        MyApp.getApp().initPushDataManager();
+
         setContentView(UIManager.getMainActivityLayout());
         super.onCreate(savedInstanceState);
 
@@ -81,8 +84,6 @@ public class MainActivity extends BaseActivity {
 
         pager.setCurrentItem(DEFAULT_FRAGMENT_POSITION);
 
-        MyApp.getApp().initSocketManager();
-        MyApp.getApp().initPushDataManager();
     }
 
     private TabIndicator[] tabIndicators = null;
