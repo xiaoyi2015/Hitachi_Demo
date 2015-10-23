@@ -137,4 +137,9 @@ public class UserForLocalConfig {
         homeConfigFileNames.add(configFileName);
         ServerConfigManager.genNewHomeConfigFile(configFileName, homeName);
     }
+
+    public void changeHome(int index) {
+        currentHomeIndex = index;
+        MyApp.getApp().getServerConfigManager().readFromFile();
+    }
 }

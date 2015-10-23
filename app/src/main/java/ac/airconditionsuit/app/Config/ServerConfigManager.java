@@ -171,6 +171,49 @@ public class ServerConfigManager {
         writeToFile();
     }
 
+    public void readFromFile(String fileName){
+        if (!MyApp.getApp().isUserLogin()) {
+            Log.i(TAG, "readFromFile should be call after user login");
+            return;
+        }
+
+        FileInputStream fis = null;
+        try {
+            File serverConfigFile = MyApp.getApp().getLocalConfigManager().getHomeConfigFile(fileName);
+            //配置文件名字不存在
+            if (serverConfigFile == null) {
+                rootJavaObj = ServerConfig.genNewConfig(Constant.NO_DEVICE_CONFIG_FILE_PREFIX + System.currentTimeMillis() + Constant.CONFIG_FILE_SUFFIX,
+                        "new home");
+                return;
+            }
+            //配置文件名字存在，文件不存在
+            if (!serverConfigFile.exists()) {
+                throw new IOException();
+            }
+            fis = new FileInputStream(serverConfigFile);
+            byte[] bytes = new byte[fis.available()];
+            if (fis.read(bytes) != bytes.length) {
+                throw new IOException();
+            }
+            NSDictionary root = (NSDictionary) PropertyListParser.parse(MyBase64Util.decodeToByte(bytes));
+            String json = PlistUtil.NSDictionaryToJsonString(root);
+            rootJavaObj = new Gson().fromJson(json, ServerConfig.class);
+            Log.v(TAG, "read server config file success");
+        } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
+            Log.e(TAG, "read server config file error");
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
     public void readFromFile() {
         if (!MyApp.getApp().isUserLogin()) {
             Log.i(TAG, "readFromFile should be call after user login");
@@ -435,4 +478,5 @@ public class ServerConfigManager {
         rootJavaObj.setTimers(null);
         writeToFile();
     }
+
 }
