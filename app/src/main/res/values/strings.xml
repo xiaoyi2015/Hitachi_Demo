@@ -219,5 +219,7 @@
     <string name="unknow">未填写</string>
     <string name="toast_inf_delete_device_failed">删除设备失败</string>
     <string name="control_room_fail">控制房间失败</string>
+    <string name="section_device_num1">本设备共有</string>
+    <string name="section_device_num2">台空调机</string>
 
 </resources>

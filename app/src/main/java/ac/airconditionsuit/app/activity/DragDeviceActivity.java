@@ -223,6 +223,16 @@ public class DragDeviceActivity extends BaseActivity {
         Intent intent = getIntent();
         String section = intent.getStringExtra("section");
         index = Integer.parseInt(intent.getStringExtra("position"));
+
+        TextView sectionDeviceNum = (TextView)findViewById(R.id.section_device_num);
+        int device_num;
+        if(MyApp.getApp().getServerConfigManager().getDevices() == null || MyApp.
+                getApp().getServerConfigManager().getDevices().size() == 0){
+            device_num = 0;
+        }else {
+            device_num =  MyApp.getApp().getServerConfigManager().getDevices().size();
+        }
+        sectionDeviceNum.setText(getString(R.string.section_device_num1) + device_num + getString(R.string.section_device_num2));
         final Section room_info = Section.getSectionFromJsonString(section);
         commonTopBar.setTitle(room_info.getName());
         final List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
