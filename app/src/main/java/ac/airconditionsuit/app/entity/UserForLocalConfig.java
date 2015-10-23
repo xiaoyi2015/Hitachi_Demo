@@ -142,4 +142,16 @@ public class UserForLocalConfig {
         currentHomeIndex = index;
         MyApp.getApp().getServerConfigManager().readFromFile();
     }
+
+    public boolean deleteCurrentHome() {
+        if (homeConfigFileNames.size() <= 1) {
+            return false;
+        } else {
+            deleteHostDeviceConfigFile(homeConfigFileNames.remove(currentHomeIndex));
+            if (currentHomeIndex >= homeConfigFileNames.size()) {
+                currentHomeIndex = homeConfigFileNames.size() - 1;
+            }
+            return true;
+        }
+    }
 }

@@ -144,4 +144,8 @@ public class LocalConfigManager {
     public File getHomeConfigFile(String fileName) {
         return MyApp.getApp().getPrivateFile(fileName, null);
     }
+
+    public boolean deleteCurrentHome() {
+        return getCurrentUserConfig().deleteCurrentHome();
+    }
 }

@@ -35,8 +35,11 @@ public class HomeSettingActivity extends BaseActivity {
                     finish();
                     break;
                 case R.id.delete_home:
-                    //TODO for luzheqi delete
-                    
+                    if (MyApp.getApp().getLocalConfigManager().deleteCurrentHome()) {
+                        finish();
+                    } else {
+                        MyApp.getApp().showToast(R.string.toast_inf_cannot_delete_last_home);
+                    }
                     break;
             }
         }
