@@ -54,12 +54,12 @@ public class SetClockFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_set_clock, container, false);
         ListView listView = (ListView) view.findViewById(R.id.clock_list);
-        //这边也要判断一下有没有设备
+
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             clockSettingAdapter = new ClockSettingAdapter(getActivity(), MyApp.getApp().getServerConfigManager().getTimer());
             listView.setAdapter(clockSettingAdapter);
         } else {
-            //TODO for zhulinan,没有设备做相应处理
+            MyApp.getApp().showToast("请先添加定时器，再进行控制操作！");
         }
         return view;
     }
@@ -69,6 +69,7 @@ public class SetClockFragment extends BaseFragment {
         BaseActivity baseActivity = myGetActivity();
         CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_set_time));
+        commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,null);
         switch (UIManager.UITYPE){
             case 1:
                 commonTopBar.setRightIconView(R.drawable.top_bar_add_hit);

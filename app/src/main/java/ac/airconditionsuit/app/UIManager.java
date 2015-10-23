@@ -65,4 +65,15 @@ public class UIManager {
         }
     }
 
+    public static int getHomeBarRes() {
+        switch (UIManager.UITYPE){
+            case HIT:
+                return R.drawable.top_banner_hit;
+            case DC:
+                return R.drawable.top_banner_dc;
+            default:
+                return R.drawable.top_banner_hx;
+        }
+    }
+
 }

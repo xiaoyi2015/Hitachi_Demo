@@ -1,8 +1,11 @@
 package ac.airconditionsuit.app.fragment;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +13,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.zip.Inflater;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
@@ -47,41 +53,95 @@ public class MyAirFragment extends BaseFragment {
         }
     };
     private MyAirSectionAdapter myAirSectionAdapter;
+    private ListView listView;
+    private List<Section> list;
+    private CommonTopBar commonTopBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_my_air, container, false);
 
-        ListView listView = (ListView) view.findViewById(R.id.section_view);
+        listView = (ListView) view.findViewById(R.id.section_view);
 
-        //这边也要判断一下有没有设备
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
-            List<Section> list = MyApp.getApp().getServerConfigManager().getSections();
+            list = MyApp.getApp().getServerConfigManager().getSections();
             myAirSectionAdapter= new MyAirSectionAdapter(getActivity(),list);
             listView.setAdapter(myAirSectionAdapter);
-        } else {
-            //TODO for zhulinan,没有设备做相应处理
+        }else {
+            listView.setAdapter(null);
+            MyApp.getApp().showToast("请先添加设备管理器！");
         }
 
         return view;
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden){
+            commonTopBar.getTitleView().setOnClickListener(null);
+        }
+    }
+
+    @Override
     public void setTopBar() {
         BaseActivity baseActivity = myGetActivity();
-        CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
+        commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(MyApp.getApp().getServerConfigManager().getHome().getName());
+        commonTopBar.getTitleView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = LayoutInflater.from(getActivity());
+                LinearLayout linearLayout = (LinearLayout)inflater.inflate(R.layout.pop_up_home_list,null);
+                for(int i = 0; i < MyApp.getApp().getLocalConfigManager().getHomeList().size(); i++){
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.setMargins(0, 1, 0, 0);
+                    TextView textView = new TextView(getActivity());
+                    textView.setText(MyApp.getApp().getLocalConfigManager().getHomeList().get(i).getName());
+                    textView.setBackgroundResource(UIManager.getHomeBarRes());
+                    textView.setGravity(Gravity.CENTER);
+                    textView.setLayoutParams(layoutParams);
+                    linearLayout.addView(textView);
+                    final int finalI = i;
+                    textView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MyApp.getApp().getLocalConfigManager().changeHome(finalI);
+                            if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+                                list = MyApp.getApp().getServerConfigManager().getSections();
+                                myAirSectionAdapter= new MyAirSectionAdapter(getActivity(),list);
+                                listView.setAdapter(myAirSectionAdapter);
+                            }else {
+                                listView.setAdapter(null);
+                                MyApp.getApp().showToast("请先添加设备管理器！");
+                            }
+                        }
+                    });
+                }
+                final PopupWindow pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+                pop.setBackgroundDrawable(new BitmapDrawable());
+                pop.setOutsideTouchable(true);
+                pop.showAsDropDown(commonTopBar);
+            }
+        });
+
         switch (UIManager.UITYPE){
             case 1:
                 commonTopBar.setRightIconView(R.drawable.top_bar_logo_hit);
                 commonTopBar.setIconView(null, myOnClickListener);
+                commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,
+                        getResources().getDrawable(R.drawable.top_bar_arrow_down_hit));
                 break;
             case 2:
                 commonTopBar.setIconView(null, null);
+                commonTopBar.getTitleView().setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null,
+                        getResources().getDrawable(R.drawable.icon_arrow_down_dc));
                 break;
             default:
                 commonTopBar.setRightIconView(R.drawable.top_bar_logo_hx);
                 commonTopBar.setIconView(null, myOnClickListener);
+                commonTopBar.getTitleView().setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null,
+                        getResources().getDrawable(R.drawable.icon_arrow_down_dc));
                 break;
         }
         commonTopBar.setRoundLeftIconView(myOnClickListener);
