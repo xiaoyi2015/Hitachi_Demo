@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -174,12 +175,19 @@ public class SceneFragment extends BaseFragment {
                         TextView toDoControl = new TextView(getActivity());
                         toDoControl.setGravity(Gravity.CENTER);
                         toDoControl.setText(R.string.is_to_do_control);
-                        toDoControl.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+                        toDoControl.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                        toDoControl.setMinHeight(150);
                         new AlertDialog.Builder(getActivity()).setTitle(R.string.to_do_control_together).setView(toDoControl).
                                 setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        //TODO submit the data to server
+                                        try {
+                                            MyApp.getApp().getAirconditionManager().controlScene(list.get(position));
+                                        } catch (Exception e) {
+                                            MyApp.getApp().showToast("控制场景失败");
+                                            Log.e(TAG, "control scene fail!");
+                                            e.printStackTrace();
+                                        }
                                     }
                                 }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
                     }
