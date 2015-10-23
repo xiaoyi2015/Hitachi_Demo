@@ -115,7 +115,6 @@ public class MyAirFragment extends BaseFragment {
             if(convertView == null){
                 convertView = new SectionAndRoomView(context,list.get(position).getPages());
             }
-            //TODO read the room status and set to UI
 
             final LinearLayout sectionView = (LinearLayout)convertView.findViewById(R.id.section_item);
             TextView sectionName = (TextView)convertView.findViewById(R.id.label_text);

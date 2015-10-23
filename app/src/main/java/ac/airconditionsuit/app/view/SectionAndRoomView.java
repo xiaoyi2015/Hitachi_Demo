@@ -273,20 +273,131 @@ public class SectionAndRoomView extends RelativeLayout {
                     });
                     break;
                 case 2:
-                    //TODO
                     ImageView bgBar =(ImageView)convertView.findViewById(R.id.bg_bar);
-                    bgBar.setImageResource(R.drawable.room_bg_bar_off_dc);
-                    roomMode.setImageResource(R.drawable.cool_off_dc);
+                    roomTempNone = (ImageView)convertView.findViewById(R.id.room_temp_none);
+                    roomTemp.setText((int) airCondition.getTemperature() + getContext().getString(R.string.temp_symbol));
+                    if(airCondition.getOnoff() == AirConditionControl.UNKNOW || airCondition.getOnoff() == AirConditionControl.EMPTY){
+                        bgBar.setImageResource(R.drawable.room_bg_bar_off_dc);
+                        roomMode.setImageResource(R.drawable.none_dc);
+                        roomWindSpeed.setImageResource(R.drawable.none_dc);
+                        roomTemp.setVisibility(GONE);
+                        roomTempNone.setVisibility(VISIBLE);
+                        roomTempNone.setImageResource(R.drawable.none_dc);
+                    }
+                    if(airCondition.getOnoff() == 0) {
+                        roomTemp.setVisibility(VISIBLE);
+                        roomTempNone.setVisibility(GONE);
+                        roomTemp.setTextColor(getResources().getColor(R.color.mode_off_gray));
+                        bgBar.setImageResource(R.drawable.room_bg_bar_off_dc);
+                        switch (airCondition.getMode()){
+                            case 0:
+                                roomMode.setImageResource(R.drawable.cool_off_dc);
+                                break;
+                            case 1:
+                                roomMode.setImageResource(R.drawable.heat_off_dc);
+                                break;
+                            case 2:
+                                roomMode.setImageResource(R.drawable.dry_off_dc);
+                                break;
+                            case 3:
+                                roomMode.setImageResource(R.drawable.fan_off_dc);
+                                break;
+                        }
+                        switch (airCondition.getFan()){
+                            case 0:
+                                roomWindSpeed.setImageResource(R.drawable.fan_off1_dc);
+                                break;
+                            case 1:
+                                roomWindSpeed.setImageResource(R.drawable.fan_off3_dc);
+                                break;
+                            case 2:
+                                roomWindSpeed.setImageResource(R.drawable.fan_off5_dc);
+                        }
+                    }
+                    if(airCondition.getOnoff() == 1) {
+                        roomTemp.setVisibility(VISIBLE);
+                        roomTempNone.setVisibility(GONE);
+                        switch (airCondition.getMode()) {
+                            case 0:
+                                roomMode.setImageResource(R.drawable.cool_on_dc);
+                                bgBar.setImageResource(R.drawable.room_bg_bar_cool_dc);
+                                roomTemp.setTextColor(getResources().getColor(R.color.mode_cool_blue));
+                                switch (airCondition.getFan()){
+                                    case 0:
+                                        roomWindSpeed.setImageResource(R.drawable.fan_cool1_dc);
+                                        break;
+                                    case 1:
+                                        roomWindSpeed.setImageResource(R.drawable.fan_cool3_dc);
+                                        break;
+                                    case 2:
+                                        roomWindSpeed.setImageResource(R.drawable.fan_cool5_dc);
+                                }
+                                break;
+                            case 1:
+                                roomMode.setImageResource(R.drawable.heat_on_dc);
+                                bgBar.setImageResource(R.drawable.room_bg_bar_heat_dc);
+                                roomTemp.setTextColor(getResources().getColor(R.color.mode_heat_pink));
+                                switch (airCondition.getFan()){
+                                    case 0:
+                                        roomWindSpeed.setImageResource(R.drawable.fan_heat1_dc);
+                                        break;
+                                    case 1:
+                                        roomWindSpeed.setImageResource(R.drawable.fan_heat3_dc);
+                                        break;
+                                    case 2:
+                                        roomWindSpeed.setImageResource(R.drawable.fan_heat5_dc);
+                                }
+                                break;
+                            case 2:
+                                roomMode.setImageResource(R.drawable.dry_on_dc);
+                                bgBar.setImageResource(R.drawable.room_bg_bar_dry_dc);
+                                roomTemp.setTextColor(getResources().getColor(R.color.mode_dry_purple));
+                                switch (airCondition.getFan()){
+                                    case 0:
+                                        roomWindSpeed.setImageResource(R.drawable.fan_dry1_dc);
+                                        break;
+                                    case 1:
+                                        roomWindSpeed.setImageResource(R.drawable.fan_dry3_dc);
+                                        break;
+                                    case 2:
+                                        roomWindSpeed.setImageResource(R.drawable.fan_dry5_dc);
+                                }
+                                break;
+                            case 3:
+                                roomMode.setImageResource(R.drawable.fan_on_dc);
+                                bgBar.setImageResource(R.drawable.room_bg_bar_fan_dc);
+                                roomTemp.setTextColor(getResources().getColor(R.color.mode_fan_green));
+                                switch (airCondition.getFan()){
+                                    case 0:
+                                        roomWindSpeed.setImageResource(R.drawable.fan_fan1_dc);
+                                        break;
+                                    case 1:
+                                        roomWindSpeed.setImageResource(R.drawable.fan_fan3_dc);
+                                        break;
+                                    case 2:
+                                        roomWindSpeed.setImageResource(R.drawable.fan_fan5_dc);
+                                }
+                                break;
+                        }
+                    }
                     roomName.setText(rooms.get(position).getName());
-                    roomTemp.setText(R.string.default_temp);
-                    roomWindSpeed.setImageResource(R.drawable.fan_off1_dc);
                     roomView.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent();
-                            intent.setClass(context, RoomAirSettingActivity.class);
-                            intent.putExtra("title", rooms.get(position).getName());
-                            context.startActivity(intent);
+                            if(airCondition.getOnoff() == AirConditionControl.EMPTY){
+                                if(rooms.get(position).getElements() == null || rooms.get(position).getElements().size() == 0) {
+                                    MyApp.getApp().showToast(getContext().getString(R.string.pls_add_air_to_room));
+                                }else{
+                                    MyApp.getApp().showToast(getContext().getString(R.string.fail_to_fetch_aircondition));
+                                }
+                            }else {
+                                Intent intent = new Intent();
+                                intent.putExtra("air", airCondition.toJsonString());
+                                intent.putExtra("room", rooms.get(position).toJsonString());
+                                intent.setClass(context, RoomAirSettingActivity.class);
+                                intent.putExtra("title", rooms.get(position).getName());
+                                context.startActivity(intent);
+                            }
                         }
                     });
                     break;
