@@ -41,7 +41,7 @@ public class SetClockFragment extends BaseFragment {
                     Intent intent = new Intent();
                     intent.putExtra("title", "");
                     intent.setClass(getActivity(), EditClockActivity.class);
-                    startActivityForResult(intent,REQUEST_CODE_CLOCK);
+                    startActivityForResult(intent, REQUEST_CODE_CLOCK);
                     break;
             }
         }
@@ -67,8 +67,8 @@ public class SetClockFragment extends BaseFragment {
         BaseActivity baseActivity = myGetActivity();
         CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_set_time));
-        commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,null);
-        switch (UIManager.UITYPE){
+        commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        switch (UIManager.UITYPE) {
             case 1:
                 commonTopBar.setRightIconView(R.drawable.top_bar_add_hit);
                 break;
@@ -107,7 +107,7 @@ public class SetClockFragment extends BaseFragment {
 
         @Override
         public int getCount() {
-            if (list == null){
+            if (list == null) {
                 return 0;
             } else {
                 return list.size();
@@ -143,7 +143,7 @@ public class SetClockFragment extends BaseFragment {
                 public void onClick(View v) {
                     if (!switchOn.isChecked()) {
                         switchOn.setChecked(true);
-                        if(UIManager.UITYPE == 2){
+                        if (UIManager.UITYPE == 2) {
                             bgBar.setImageResource(R.drawable.clock_bg_bar_on_dc);
                         }
                         clockName.setTextColor(getResources().getColor(R.color.text_normal_color));
@@ -154,7 +154,7 @@ public class SetClockFragment extends BaseFragment {
                         MyApp.getApp().getServerConfigManager().writeToFile();
                     } else {
                         switchOn.setChecked(false);
-                        if(UIManager.UITYPE == 2){
+                        if (UIManager.UITYPE == 2) {
                             bgBar.setImageResource(R.drawable.clock_bg_bar_off_dc);
                         }
                         clockName.setTextColor(getResources().getColor(R.color.clock_off_gray));
@@ -167,43 +167,43 @@ public class SetClockFragment extends BaseFragment {
                 }
             });
 
-            if(list.get(position).isTimerenabled()){
+            if (list.get(position).isTimerenabled()) {
                 switchOn.setChecked(true);
                 clockName.setTextColor(getResources().getColor(R.color.text_normal_color));
                 clockSetting1.setTextColor(getResources().getColor(R.color.text_normal_color));
                 clockSetting2.setTextColor(getResources().getColor(R.color.text_normal_color));
                 clockTime.setTextColor(getResources().getColor(R.color.text_normal_color));
-                if(UIManager.UITYPE == 2){
+                if (UIManager.UITYPE == 2) {
                     bgBar.setImageResource(R.drawable.clock_bg_bar_on_dc);
                 }
-            }else {
+            } else {
                 switchOn.setChecked(false);
                 clockName.setTextColor(getResources().getColor(R.color.clock_off_gray));
                 clockSetting1.setTextColor(getResources().getColor(R.color.clock_off_gray));
                 clockSetting2.setTextColor(getResources().getColor(R.color.clock_off_gray));
                 clockTime.setTextColor(getResources().getColor(R.color.clock_off_gray));
-                if(UIManager.UITYPE == 2){
+                if (UIManager.UITYPE == 2) {
                     bgBar.setImageResource(R.drawable.clock_bg_bar_off_dc);
                 }
 
             }
             clockName.setText(list.get(position).getName());
             String hour;
-            if(list.get(position).getHour() >= 10){
+            if (list.get(position).getHour() >= 10) {
                 hour = list.get(position).getHour() + ":";
-            }else{
+            } else {
                 hour = "0" + list.get(position).getHour() + ":";
             }
-            if(list.get(position).getMinute() >= 10){
+            if (list.get(position).getMinute() >= 10) {
                 clockTime.setText(hour + list.get(position).getMinute());
-            }else{
+            } else {
                 clockTime.setText(hour + "0" + list.get(position).getMinute());
             }
 
             String on_off = "";
             String mode = "";
             String fan = "";
-            String temp = (int)list.get(position).getTemperature() + getString(R.string.temp_symbol);
+            String temp = (int) list.get(position).getTemperature() + getString(R.string.temp_symbol);
             String repeat;
             String week;
 
@@ -235,10 +235,12 @@ public class SetClockFragment extends BaseFragment {
             if (list.get(position).isRepeat()) {
                 repeat = getString(R.string.repeat);
                 week = getString(R.string.week_name);
-                for (int i = 0; i < list.get(position).getWeek().size() - 1; i++) {
-                    week = week + weekName[list.get(position).getWeek().get(i)] + "|";
+                List<Integer> week1 = list.get(position).getWeek();
+                for (int i = 0; i < week1.size() - 1; i++) {
+                    week = week + weekName[week1.get(i)] + "|";
                 }
-                week = week + weekName[list.get(position).getWeek().get(list.get(position).getWeek().size() - 1)];
+                Integer integer = week1.get(week1.size() - 1);
+                week = week + weekName[integer];
                 clockSetting2.setText(repeat + "|" + week);
             } else {
                 repeat = getString(R.string.not_repeat);
@@ -256,8 +258,8 @@ public class SetClockFragment extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.putExtra("index",position);
-                    intent.putExtra("title",list.get(position).getName());
+                    intent.putExtra("index", position);
+                    intent.putExtra("title", list.get(position).getName());
                     intent.setClass(getActivity(), EditClockActivity.class);
                     startActivityForResult(intent, REQUEST_CODE_CLOCK);
                 }
@@ -277,6 +279,7 @@ public class SetClockFragment extends BaseFragment {
             super(context);
             init(context);
         }
+
         private void init(Context context) {
             switch (UIManager.UITYPE) {
                 case 1:

@@ -2,7 +2,9 @@ package ac.airconditionsuit.app.network.socket.socketpackage.Udp;
 
 
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.aircondition.AirConditionControl;
 import ac.airconditionsuit.app.aircondition.AirConditionControlBatch;
+import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.util.ByteUtil;
 import ac.airconditionsuit.app.util.UdpErrorNoUtil;
@@ -126,9 +128,47 @@ public class UdpPackage {
             handler = new Handler() {
                 @Override
                 public void success() {
-                    MyApp.getApp().getSocketManager().startHeartBeat();
+//                    MyApp.getApp().getSocketManager().startHeartBeat();
                     //test code todo for luzheqi
 //                    MyApp.getApp().getSocketManager().getAirConditionAddressFromHostDevice();
+
+                    //test code for control
+//            Command command = new Command();
+//            command.setTemperature(20);
+//            command.setFan(2);
+//            command.setMode(1);
+//            command.setOnoff(0);
+//            command.setAddress(2);
+//            MyApp.getApp().getAirconditionManager().controlAirCondition(command);
+
+                    //test code for query timer
+            MyApp.getApp().getAirconditionManager().queryTimer(AirConditionManager.QUERY_ALL_TIMER);
+
+                    //test add timer
+//            Timer timer = new Timer();
+//            timer.setTimerid(7);
+//            timer.setMode(AirConditionControl.MODE_HEATING);
+//            timer.setName("newnew");
+//            timer.setTemperature(21);
+//            timer.setFan(AirConditionControl.WINDVELOCITY_HIGH);
+//            timer.addControlAircondition(2);
+//            timer.setHour(10);
+//            timer.setMinute(10);
+//            timer.setOnoff(AirConditionControl.OFF);
+//            timer.setRepeat(true);
+//            timer.setTimerenabled(true);
+//            timer.setWeek(3,4);
+//            MyApp.getApp().getAirconditionManager().addTimerServer(timer);
+
+                    //test modity timer
+//            MyApp.getApp().getAirconditionManager().modityTimerServer(timer);
+
+                    //test delete timer
+//            MyApp.getApp().getAirconditionManager().deleteTimerServer(1);
+
+//            MyApp.getApp().getAirconditionManager().queryTimer(2);
+
+
                 }
 
                 @Override

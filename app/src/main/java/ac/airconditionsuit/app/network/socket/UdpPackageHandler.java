@@ -99,11 +99,6 @@ public class UdpPackageHandler {
                 MyApp.getApp().getAirconditionManager().timerRun(ByteUtil.byteArrayToShort(UdpPackage.getContentData(receiveData)));
                 break;
 
-            case UdpPackage.AFN_QUERY_TIMER:
-                Log.i(TAG, "receive timer status by query");
-                MyApp.getApp().getAirconditionManager().updateTimerStatueLocal(UdpPackage.getContentData(receiveData));
-                break;
-
             case UdpPackage.AFN_DELETE_TIMER:
                 Log.i(TAG, "receive delete timer package");
                 MyApp.getApp().getAirconditionManager().deleteTimerLocal(UdpPackage.getContentData(receiveData));

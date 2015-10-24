@@ -177,7 +177,7 @@ public class Timer extends RootEntity {
             if (i < 0 || i > 7) {
                 throw new Exception("week error");
             }
-            result[4] |= (1 << i);
+            result[4] |= (1 << (i + 1));
         }
         if (isRepeat()) {
             result[4] += 1;
@@ -197,7 +197,7 @@ public class Timer extends RootEntity {
         System.arraycopy(airConditionControl.getBytes(), 0, result, result.length - 20, 4);
 
         //name
-        if (name.getBytes().length > 16) {
+        if (name.getBytes().length > 15) {
             throw new Exception("name too length");
         }
         System.arraycopy(Arrays.copyOf((name + "                ").getBytes(), 16), 0,
@@ -208,7 +208,7 @@ public class Timer extends RootEntity {
     }
 
     public static Timer decodeFromByteArray(byte[] contentData) throws Exception {
-        contentData = Arrays.copyOf(contentData, 26);
+//        contentData = Arrays.copyOf(contentData, 26);
 
         Timer timer = new Timer();
 
@@ -236,14 +236,14 @@ public class Timer extends RootEntity {
         List<Integer> weeks = new ArrayList<>();
         for (int i = 1; i <= 7; ++i) {
             if ((contentData[4] & (1 << i)) != 0) {
-                weeks.add(i);
+                weeks.add(i - 1);
             }
         }
         timer.setWeek(weeks);
 
         //address
         List<Integer> address = new ArrayList<>();
-        int controlRangeOffset = contentData.length - 20;
+        int controlRangeOffset = contentData.length - 19;
         for (int i = 5; i < controlRangeOffset; ++i) {
             address.add((int) contentData[i]);
         }

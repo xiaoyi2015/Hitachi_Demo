@@ -246,43 +246,6 @@ class TcpSocket implements SocketWrap {
                 MyApp.getApp().getAirconditionManager().queryAirConditionStatus();
             }
 
-            //test code for control
-//            Command command = new Command();
-//            command.setTemperature(20);
-//            command.setFan(2);
-//            command.setMode(1);
-//            command.setOnoff(0);
-//            command.setAddress(2);
-//            MyApp.getApp().getAirconditionManager().controlAirCondition(command);
-
-            //test code for query timer
-//            MyApp.getApp().getAirconditionManager().queryTimer(AirConditionManager.QUERY_ALL_TIMER);
-
-            //test add timer
-//            Timer timer = new Timer();
-//            timer.setTimerid(2);
-//            timer.setMode(AirConditionControl.MODE_HEATING);
-//            timer.setName("new");
-//            timer.setTemperature(21);
-//            timer.setFan(AirConditionControl.WINDVELOCITY_HIGH);
-//            timer.addControlAircondition(2);
-//            timer.setHour(10);
-//            timer.setMinute(10);
-//            timer.setOnoff(AirConditionControl.OFF);
-//            timer.setRepeat(true);
-//            timer.setTimerenabled(true);
-//            timer.setWeek(3,4);
-//            MyApp.getApp().getAirconditionManager().addTimerServer(timer);
-
-            //test modity timer
-//            MyApp.getApp().getAirconditionManager().modityTimerServer(timer);
-
-            //test delete timer
-//            MyApp.getApp().getAirconditionManager().deleteTimerServer(1);
-
-//            MyApp.getApp().getAirconditionManager().queryTimer(2);
-
-
         } else if (result_code == 401) {
             MyApp.getApp().getSocketManager().close();
             MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.OFFLINE));
