@@ -225,7 +225,8 @@ public class RoomAirSettingHitActivity extends BaseActivity {
             public boolean handleMessage(Message msg) {
                 switch (msg.what) {
                     case ENABLE_OK_BUTTON:
-                        enableButton(setOK);
+                        setOK.setImageResource(R.drawable.room_icon_ok_hit);
+                        setOK.setOnClickListener(myOnClickListener);
                         break;
                     default:
                         Log.e(TAG, "unhandle case in #hangler");
@@ -234,6 +235,7 @@ public class RoomAirSettingHitActivity extends BaseActivity {
             }
         });
 
+        setOK.setImageResource(R.drawable.room_icon_ok_hit);
         roomWarning = (ImageView) findViewById(R.id.room_warning);
         final ArrayList<Integer> air_index_list = new ArrayList<>();
         final ArrayList<Integer> warning_list = new ArrayList<>();
@@ -298,15 +300,14 @@ public class RoomAirSettingHitActivity extends BaseActivity {
 
     }
 
-    private void enableButton(ImageView imageView) {
-        imageView.setOnClickListener(myOnClickListener);
-        imageView.setImageResource(R.drawable.room_icon_ok_hit);
+    private void enableButton() {
         handler.sendEmptyMessageDelayed(ENABLE_OK_BUTTON, 3000);
     }
 
     private void disableButton(ImageView imageView) {
-        imageView.setOnClickListener(null);
         imageView.setImageResource(R.drawable.room_icon_ok_selected_hit);
+        imageView.setOnClickListener(null);
+
     }
 
     private void init() {
@@ -338,10 +339,10 @@ public class RoomAirSettingHitActivity extends BaseActivity {
         airConditionControl.setWindVelocity(fan);
         try {
             MyApp.getApp().getAirConditionManager().controlRoom(room, airConditionControl);
-            enableButton(setOK);
+            enableButton();
         } catch (Exception e) {
             MyApp.getApp().showToast(getString(R.string.control_room_fail));
-            enableButton(setOK);
+            enableButton();
             Log.e(TAG, "control room fail!");
             e.printStackTrace();
         }
