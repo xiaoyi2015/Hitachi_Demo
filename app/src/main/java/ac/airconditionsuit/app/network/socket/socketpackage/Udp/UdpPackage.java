@@ -131,8 +131,8 @@ public class UdpPackage {
             handler = new Handler() {
                 @Override
                 public void success() {
-//                    MyApp.getApp().getSocketManager().startHeartBeat();
-//                    MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+                    MyApp.getApp().getSocketManager().startHeartBeat();
+                    MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
                     //test code todo for luzheqi
 //                    MyApp.getApp().getSocketManager().getAirConditionAddressFromHostDevice();
 
@@ -146,8 +146,8 @@ public class UdpPackage {
 //            MyApp.getApp().getAirconditionManager().controlAirCondition(command);
 
                     //test code for query timer
-                    MyApp.getApp().getServerConfigManager().deleteAllTimer();
-                    MyApp.getApp().getAirConditionManager().queryTimer(AirConditionManager.QUERY_ALL_TIMER);
+                   // MyApp.getApp().getServerConfigManager().deleteAllTimer();
+                   // MyApp.getApp().getAirConditionManager().queryTimer(AirConditionManager.QUERY_ALL_TIMER);
 
                     //test add timer
 //            Timer timer = new Timer();

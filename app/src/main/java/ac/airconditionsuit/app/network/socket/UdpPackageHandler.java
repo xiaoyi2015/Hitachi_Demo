@@ -90,6 +90,7 @@ public class UdpPackageHandler {
 
             case UdpPackage.AFN_AIR_CONDITION_STATUS_RESPONSE:
                 Log.i(TAG, "udp get air condition status success");
+                //MyApp.getApp().showToast("udp get air condition status success");
                 MyApp.getApp().getAirConditionManager().updateAirConditionStatueLocal(UdpPackage.getContentData(receiveData));
                 break;
 

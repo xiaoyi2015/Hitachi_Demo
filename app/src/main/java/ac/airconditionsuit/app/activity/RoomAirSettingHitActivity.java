@@ -262,23 +262,23 @@ public class RoomAirSettingHitActivity extends BaseActivity {
                         TextView et = new TextView(RoomAirSettingHitActivity.this);
                         et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                         et.setGravity(Gravity.CENTER);
-                        String warning = "\n";
+                        String warning = " \n";
                         for (int i = 0; i < air_index_list.size(); i++) {
-                            if (warning_list.get(i) == 254) {
+                            if (warning_list.get(i) == -2) {
                                 if (address_list.get(i) < 10) {
-                                    warning = warning + "空调" + air_index_list.get(i) + "-0" +
+                                    warning = warning + "空调 " + air_index_list.get(i) + "-0" +
                                             address_list.get(i) + "离线" + "\n";
                                 } else {
-                                    warning = warning + "空调" + air_index_list.get(i) + "-" +
+                                    warning = warning + "空调 " + air_index_list.get(i) + "-" +
                                             address_list.get(i) + "离线" + "\n";
                                 }
                             } else {
                                 if (address_list.get(i) < 10) {
-                                    warning = warning + "空调" + air_index_list.get(i) + "-0" +
-                                            address_list.get(i) + ",报警代码：" + warning_list.get(i) + "\n";
+                                    warning = warning + "空调 " + air_index_list.get(i) + "-0" +
+                                            address_list.get(i) + "，报警代码：" + Integer.toHexString(warning_list.get(i)) + "\n";
                                 } else {
-                                    warning = warning + "空调" + air_index_list.get(i) + "-" +
-                                            address_list.get(i) + ",报警代码：" + warning_list.get(i) + "\n";
+                                    warning = warning + "空调 " + air_index_list.get(i) + "-" +
+                                            address_list.get(i) + "，报警代码：" +  Integer.toHexString(warning_list.get(i)) + "\n";
                                 }
                             }
                         }
@@ -301,7 +301,7 @@ public class RoomAirSettingHitActivity extends BaseActivity {
     }
 
     private void enableButton() {
-        handler.sendEmptyMessageDelayed(ENABLE_OK_BUTTON, 3000);
+        handler.sendEmptyMessageDelayed(ENABLE_OK_BUTTON, 1200);
     }
 
     private void disableButton(ImageView imageView) {
