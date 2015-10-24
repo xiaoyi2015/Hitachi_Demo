@@ -89,7 +89,7 @@ public class SetClockFragment extends BaseFragment {
         if (resultCode == RESULT_OK)
             switch (requestCode) {
                 case REQUEST_CODE_CLOCK:
-                    clockSettingAdapter.notifyDataSetChanged();
+                    refreshUI();
                     break;
             }
         super.onActivityResult(requestCode, resultCode, data);
