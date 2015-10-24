@@ -339,13 +339,12 @@ public class RoomAirSettingHitActivity extends BaseActivity {
         airConditionControl.setWindVelocity(fan);
         try {
             MyApp.getApp().getAirConditionManager().controlRoom(room, airConditionControl);
-            enableButton();
         } catch (Exception e) {
             MyApp.getApp().showToast(getString(R.string.control_room_fail));
-            enableButton();
             Log.e(TAG, "control room fail!");
             e.printStackTrace();
         }
+        enableButton();
     }
 
     private void changeTemp(int temp) {
