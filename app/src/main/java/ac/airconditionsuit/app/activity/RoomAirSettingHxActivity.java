@@ -136,7 +136,7 @@ public class RoomAirSettingHxActivity extends BaseActivity{
         airConditionControl.setTemperature(temp);
         airConditionControl.setWindVelocity(fan);
         try {
-            MyApp.getApp().getAirconditionManager().controlRoom(room, airConditionControl);
+            MyApp.getApp().getAirConditionManager().controlRoom(room, airConditionControl);
             enableButton(setOK);
         } catch (Exception e) {
             MyApp.getApp().showToast(getString(R.string.control_room_fail));

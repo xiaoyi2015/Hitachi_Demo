@@ -54,9 +54,13 @@ public class UdpPackageHandler {
         //control byte
         byte control = receiveData[1];
         //1表示启动站，0表示从动站。
-        byte prm = (byte) (control / 128);
+        byte prm = (byte) ((control & 0xff) / 128);
         //帧序列号
-        byte pfc = (byte) (control - 128 * prm);
+        byte pfc = (byte) (control & 0x7f);
+
+        if (prm == 1) {
+            MyApp.getApp().getSocketManager().sendUdpACK(new byte[]{pfc});
+        }
 
         //数据域的功能码
         byte afn = receiveData[3];
@@ -80,28 +84,28 @@ public class UdpPackageHandler {
                 break;
 
             case UdpPackage.AFN_GET_AIR_CONDITION_ADDRESS:
-                Log.i(TAG, "udp get air condition success");
+                Log.i(TAG, "udp get air condition address success");
                 MyApp.getApp().getServerConfigManager().updateAirCondition(UdpPackage.getContentData(receiveData));
                 break;
 
             case UdpPackage.AFN_AIR_CONDITION_STATUS_RESPONSE:
                 Log.i(TAG, "udp get air condition status success");
-                MyApp.getApp().getAirconditionManager().updateAirConditionStatueLocal(UdpPackage.getContentData(receiveData));
+                MyApp.getApp().getAirConditionManager().updateAirConditionStatueLocal(UdpPackage.getContentData(receiveData));
                 break;
 
             case UdpPackage.AFN_TIMER:
                 Log.i(TAG, "receive timer by add/modify");
-                MyApp.getApp().getAirconditionManager().updateTimerStatueLocal(UdpPackage.getContentData(receiveData));
+                MyApp.getApp().getAirConditionManager().updateTimerStatueLocal(UdpPackage.getContentData(receiveData));
                 break;
 
             case UdpPackage.AFN_TIMER_RUN_RESPONSE:
                 Log.i(TAG, "receive timer run");
-                MyApp.getApp().getAirconditionManager().timerRun(ByteUtil.byteArrayToShort(UdpPackage.getContentData(receiveData)));
+                MyApp.getApp().getAirConditionManager().timerRun(ByteUtil.byteArrayToShort(UdpPackage.getContentData(receiveData)));
                 break;
 
             case UdpPackage.AFN_DELETE_TIMER:
                 Log.i(TAG, "receive delete timer package");
-                MyApp.getApp().getAirconditionManager().deleteTimerLocal(UdpPackage.getContentData(receiveData));
+                MyApp.getApp().getAirConditionManager().deleteTimerLocal(UdpPackage.getContentData(receiveData));
                 break;
 
             case UdpPackage.AFN_NO:

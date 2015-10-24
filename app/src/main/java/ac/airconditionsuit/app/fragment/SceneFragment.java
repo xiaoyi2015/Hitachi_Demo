@@ -199,7 +199,7 @@ public class SceneFragment extends BaseFragment {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         try {
-                                            MyApp.getApp().getAirconditionManager().controlScene(list.get(position));
+                                            MyApp.getApp().getAirConditionManager().controlScene(list.get(position));
                                         } catch (Exception e) {
                                             MyApp.getApp().showToast("控制场景失败");
                                             Log.e(TAG, "control scene fail!");

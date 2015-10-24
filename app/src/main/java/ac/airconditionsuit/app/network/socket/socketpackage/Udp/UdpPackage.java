@@ -2,12 +2,9 @@ package ac.airconditionsuit.app.network.socket.socketpackage.Udp;
 
 
 import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.aircondition.AirConditionControl;
 import ac.airconditionsuit.app.aircondition.AirConditionControlBatch;
-import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.util.ByteUtil;
-import ac.airconditionsuit.app.util.UdpErrorNoUtil;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -26,6 +23,7 @@ public class UdpPackage {
     public static final byte AFN_TIMER_RUN_RESPONSE = 0xb;
     private byte framNumber;
     private Handler handler;
+    private byte[] msg_no;
 
     public static UdpPackage genBroadcastPackage() {
         UdpPackage p = new UdpPackage();
@@ -95,6 +93,10 @@ public class UdpPackage {
         return p;
     }
 
+    public void setNo(byte[] msg_no) {
+        this.msg_no = msg_no;
+    }
+
     public interface Handler {
         void success();
 
@@ -128,7 +130,8 @@ public class UdpPackage {
             handler = new Handler() {
                 @Override
                 public void success() {
-//                    MyApp.getApp().getSocketManager().startHeartBeat();
+                    MyApp.getApp().getSocketManager().startHeartBeat();
+                    MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
                     //test code todo for luzheqi
 //                    MyApp.getApp().getSocketManager().getAirConditionAddressFromHostDevice();
 
@@ -142,7 +145,7 @@ public class UdpPackage {
 //            MyApp.getApp().getAirconditionManager().controlAirCondition(command);
 
                     //test code for query timer
-            MyApp.getApp().getAirconditionManager().queryTimer(AirConditionManager.QUERY_ALL_TIMER);
+//            MyApp.getApp().getAirconditionManager().queryTimer(AirConditionManager.QUERY_ALL_TIMER);
 
                     //test add timer
 //            Timer timer = new Timer();
@@ -168,6 +171,7 @@ public class UdpPackage {
 
 //            MyApp.getApp().getAirconditionManager().queryTimer(2);
 
+//                    MyApp.getApp().getSocketManager().getAirConditionAddressFromHostDevice();
 
                 }
 
@@ -306,7 +310,8 @@ public class UdpPackage {
         if (content != null) {
             contentBytes = content.getBytes();
         } else {
-            contentBytes = new byte[0];
+            contentBytes = new byte[1];
+            contentBytes[0] = 0;
         }
 
         int length = 5 + contentBytes.length;
@@ -315,8 +320,12 @@ public class UdpPackage {
         result[0] = START_BYTE;
 
         //控制域
-        result[1] = genControlByte();
-        this.framNumber = (byte) (result[1] - 128);
+        if (msg_no == null) {
+            result[1] = genControlByte();
+            this.framNumber = (byte) (result[1] - 128);
+        } else {
+            result[1] = msg_no[0];
+        }
 
         //数据长度
         result[2] = (byte) (contentBytes.length - 1);

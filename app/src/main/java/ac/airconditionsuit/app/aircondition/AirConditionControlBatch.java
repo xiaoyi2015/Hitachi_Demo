@@ -52,7 +52,7 @@ public class AirConditionControlBatch extends RootEntity {
                 throw new Exception("air condition index is to large");
             }
             DeviceFromServerConfig deviceFromServerConfig = devices.get(index);
-            int address = (int) deviceFromServerConfig.getAddress();
+            int address = deviceFromServerConfig.getAddress();
             if (address > 255 || address < 0) {
                 throw new Exception("air condition address error");
             }

@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.network.socket.socketpackage;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPACKPackage;
+import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 
 import java.io.UnsupportedEncodingException;
 
@@ -20,8 +21,9 @@ public class ACKPackage extends SocketPackage {
 
     @Override
     public byte[] getBytesUDP() throws Exception {
-        //TODO for luzheqi
-        return null;
+        UdpPackage udpPackage = new UdpPackage();
+        udpPackage.setNo(msg_no);
+        return udpPackage.getBytes();
     }
 
     /**

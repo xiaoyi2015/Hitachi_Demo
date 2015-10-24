@@ -2,10 +2,7 @@ package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.aircondition.AirConditionControl;
-import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.ObserveData;
-import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.network.socket.socketpackage.ACKPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.CheckDevicePackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.SocketPackage;
@@ -243,7 +240,7 @@ class TcpSocket implements SocketWrap {
 
             ServerConfigManager serverConfigManager = MyApp.getApp().getServerConfigManager();
             if (serverConfigManager != null && serverConfigManager.hasDevice()) {
-                MyApp.getApp().getAirconditionManager().queryAirConditionStatus();
+                MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
             }
 
         } else if (result_code == 401) {

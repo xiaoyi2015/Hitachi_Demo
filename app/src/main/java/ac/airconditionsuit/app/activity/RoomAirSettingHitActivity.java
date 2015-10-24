@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -29,7 +30,7 @@ import ac.airconditionsuit.app.view.CommonTopBar;
 /**
  * Created by Administrator on 2015/10/16.
  */
-public class RoomAirSettingHitActivity extends BaseActivity{
+public class RoomAirSettingHitActivity extends BaseActivity {
 
     private static final int ENABLE_OK_BUTTON = 10098;
     private MyOnClickListener myOnClickListener = new MyOnClickListener() {
@@ -44,28 +45,28 @@ public class RoomAirSettingHitActivity extends BaseActivity{
                     break;
 
                 case R.id.temp_decrease:
-                    if(mode == 1){
-                        if(temp>17 && temp<=30){
-                            temp --;
+                    if (mode == 1) {
+                        if (temp > 17 && temp <= 30) {
+                            temp--;
                             changeTemp(temp);
                         }
-                    }else{
-                        if(temp>19 && temp <= 30){
-                            temp --;
+                    } else {
+                        if (temp > 19 && temp <= 30) {
+                            temp--;
                             changeTemp(temp);
                         }
                     }
                     break;
 
                 case R.id.temp_increase:
-                    if(mode == 1){
-                        if(temp>=17 && temp<30){
-                            temp ++;
+                    if (mode == 1) {
+                        if (temp >= 17 && temp < 30) {
+                            temp++;
                             changeTemp(temp);
                         }
-                    }else{
-                        if(temp>=19 && temp < 30){
-                            temp ++;
+                    } else {
+                        if (temp >= 19 && temp < 30) {
+                            temp++;
                             changeTemp(temp);
                         }
                     }
@@ -82,45 +83,45 @@ public class RoomAirSettingHitActivity extends BaseActivity{
                     mode = 1;
                     tempSeekBar.setMax(13);
                     tempSeekBar.setProgress(30);
-                    changeIconColor(on_off,mode,fan);
+                    changeIconColor(on_off, mode, fan);
                     break;
 
                 case R.id.mode_dry:
                     mode = 2;
                     tempSeekBar.setMax(11);
                     tempSeekBar.setProgress(30);
-                    changeIconColor(on_off,mode,fan);
+                    changeIconColor(on_off, mode, fan);
                     break;
 
                 case R.id.mode_fan:
                     mode = 3;
                     tempSeekBar.setMax(11);
                     tempSeekBar.setProgress(30);
-                    changeIconColor(on_off,mode,fan);
+                    changeIconColor(on_off, mode, fan);
                     break;
 
                 case R.id.fan_fan1:
                     fan = 0;
-                    changeIconColor(on_off,mode,fan);
+                    changeIconColor(on_off, mode, fan);
                     break;
 
                 case R.id.fan_fan3:
                     fan = 1;
-                    changeIconColor(on_off,mode,fan);
+                    changeIconColor(on_off, mode, fan);
                     break;
 
                 case R.id.fan_fan5:
                     fan = 2;
-                    changeIconColor(on_off,mode,fan);
+                    changeIconColor(on_off, mode, fan);
                     break;
 
                 case R.id.set_onoff:
-                    if(on_off == 0){
+                    if (on_off == 0) {
                         on_off = 1;
-                    }else {
+                    } else {
                         on_off = 0;
                     }
-                    changeIconColor(on_off,mode,fan);
+                    changeIconColor(on_off, mode, fan);
                     break;
 
                 case R.id.ok_button:
@@ -165,25 +166,25 @@ public class RoomAirSettingHitActivity extends BaseActivity{
         commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
         commonTopBar.setIconView(myOnClickListener, null);
 
-        room = new Gson().fromJson(getIntent().getStringExtra("room"),Room.class);
-        airCondition = new Gson().fromJson(getIntent().getStringExtra("air"),AirCondition.class);
+        room = new Gson().fromJson(getIntent().getStringExtra("room"), Room.class);
+        airCondition = new Gson().fromJson(getIntent().getStringExtra("air"), AirCondition.class);
 
-        ImageView tempDecrease = (ImageView)findViewById(R.id.temp_decrease);
-        ImageView tempIncrease = (ImageView)findViewById(R.id.temp_increase);
+        ImageView tempDecrease = (ImageView) findViewById(R.id.temp_decrease);
+        ImageView tempIncrease = (ImageView) findViewById(R.id.temp_increase);
         tempDecrease.setOnClickListener(myOnClickListener);
         tempIncrease.setOnClickListener(myOnClickListener);
 
-        tempSeekBar = (SeekBar)findViewById(R.id.temp_seek_bar);
-        roomTemp = (TextView)findViewById(R.id.temp_num);
-        setCool = (ImageView)findViewById(R.id.mode_cool);
-        setHeat = (ImageView)findViewById(R.id.mode_heat);
-        setDry = (ImageView)findViewById(R.id.mode_dry);
-        setFan = (ImageView)findViewById(R.id.mode_fan);
-        fan1 = (ImageView)findViewById(R.id.fan_fan1);
-        fan3 = (ImageView)findViewById(R.id.fan_fan3);
-        fan5 = (ImageView)findViewById(R.id.fan_fan5);
-        setOnOff = (ImageView)findViewById(R.id.set_onoff);
-        setOK = (ImageView)findViewById(R.id.ok_button);
+        tempSeekBar = (SeekBar) findViewById(R.id.temp_seek_bar);
+        roomTemp = (TextView) findViewById(R.id.temp_num);
+        setCool = (ImageView) findViewById(R.id.mode_cool);
+        setHeat = (ImageView) findViewById(R.id.mode_heat);
+        setDry = (ImageView) findViewById(R.id.mode_dry);
+        setFan = (ImageView) findViewById(R.id.mode_fan);
+        fan1 = (ImageView) findViewById(R.id.fan_fan1);
+        fan3 = (ImageView) findViewById(R.id.fan_fan3);
+        fan5 = (ImageView) findViewById(R.id.fan_fan5);
+        setOnOff = (ImageView) findViewById(R.id.set_onoff);
+        setOK = (ImageView) findViewById(R.id.ok_button);
 
         setCool.setOnClickListener(myOnClickListener);
         setHeat.setOnClickListener(myOnClickListener);
@@ -200,11 +201,11 @@ public class RoomAirSettingHitActivity extends BaseActivity{
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 tempSeekBar.setProgress(progress);
                 if (mode == 1) {
-                    int temp_flag = progress + 17;
-                    roomTemp.setText(temp_flag + getString(R.string.temp_symbol));
+                    temp = progress + 17;
+                    roomTemp.setText(temp + getString(R.string.temp_symbol));
                 } else {
-                    int temp_flag = progress + 19;
-                    roomTemp.setText(temp_flag + getString(R.string.temp_symbol));
+                    temp = progress + 19;
+                    roomTemp.setText(temp + getString(R.string.temp_symbol));
                 }
             }
 
@@ -219,7 +220,7 @@ public class RoomAirSettingHitActivity extends BaseActivity{
             }
         });
 
-        handler = new Handler(new Handler.Callback(){
+        handler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 switch (msg.what) {
@@ -233,24 +234,24 @@ public class RoomAirSettingHitActivity extends BaseActivity{
             }
         });
 
-        roomWarning  = (ImageView)findViewById(R.id.room_warning);
+        roomWarning = (ImageView) findViewById(R.id.room_warning);
         final ArrayList<Integer> air_index_list = new ArrayList<>();
         final ArrayList<Integer> warning_list = new ArrayList<>();
         final ArrayList<Integer> address_list = new ArrayList<>();
-        if(room.getElements() == null){
+        if (room.getElements() == null) {
             roomWarning.setVisibility(View.GONE);
-        }else {
+        } else {
             for (int i = 0; i < room.getElements().size(); i++) {
-                if (MyApp.getApp().getAirconditionManager().getAirConditionByIndex(room.getElements().
+                if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(room.getElements().
                         get(i)).getWarning() != 0) {
                     air_index_list.add(room.getElements().get(i));
-                    warning_list.add(MyApp.getApp().getAirconditionManager().getAirConditionByIndex
+                    warning_list.add(MyApp.getApp().getAirConditionManager().getAirConditionByIndex
                             (room.getElements().get(i)).getWarning());
                     address_list.add(MyApp.getApp().getServerConfigManager().getDevices().
                             get(room.getElements().get(i)).getIndooraddress());
                 }
             }
-            if(air_index_list.size()>0){
+            if (air_index_list.size() > 0) {
                 roomWarning.setVisibility(View.VISIBLE);
                 roomWarning.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -260,20 +261,20 @@ public class RoomAirSettingHitActivity extends BaseActivity{
                         et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                         et.setGravity(Gravity.CENTER);
                         String warning = "\n";
-                        for(int i = 0; i < air_index_list.size(); i++){
-                            if(warning_list.get(i) == 254){
-                                if(address_list.get(i) < 10) {
+                        for (int i = 0; i < air_index_list.size(); i++) {
+                            if (warning_list.get(i) == 254) {
+                                if (address_list.get(i) < 10) {
                                     warning = warning + "空调" + air_index_list.get(i) + "-0" +
                                             address_list.get(i) + "离线" + "\n";
-                                }else{
+                                } else {
                                     warning = warning + "空调" + air_index_list.get(i) + "-" +
                                             address_list.get(i) + "离线" + "\n";
                                 }
-                            }else{
-                                if(address_list.get(i) < 10) {
+                            } else {
+                                if (address_list.get(i) < 10) {
                                     warning = warning + "空调" + air_index_list.get(i) + "-0" +
                                             address_list.get(i) + ",报警代码：" + warning_list.get(i) + "\n";
-                                }else{
+                                } else {
                                     warning = warning + "空调" + air_index_list.get(i) + "-" +
                                             address_list.get(i) + ",报警代码：" + warning_list.get(i) + "\n";
                                 }
@@ -289,7 +290,7 @@ public class RoomAirSettingHitActivity extends BaseActivity{
                                 }).setCancelable(false).show();
                     }
                 });
-            }else{
+            } else {
                 roomWarning.setVisibility(View.GONE);
             }
         }
@@ -309,24 +310,24 @@ public class RoomAirSettingHitActivity extends BaseActivity{
     }
 
     private void init() {
-        if(airCondition.getOnoff() == AirConditionControl.UNKNOW){
+        if (airCondition.getOnoff() == AirConditionControl.UNKNOW) {
             on_off = 0;
             mode = 0;
             fan = 0;
             temp = 30;
-        }else {
+        } else {
             on_off = airCondition.getOnoff();
             mode = airCondition.getMode();
             fan = airCondition.getFan();
             temp = (int) airCondition.getTemperature();
         }
-        if(mode == 1){
+        changeTemp(temp);
+        if (mode == 1) {
             tempSeekBar.setMax(13);
-        }else{
+        } else {
             tempSeekBar.setMax(11);
         }
-        changeTemp(temp);
-        changeIconColor(on_off,mode,fan);
+        changeIconColor(on_off, mode, fan);
     }
 
 
@@ -336,7 +337,7 @@ public class RoomAirSettingHitActivity extends BaseActivity{
         airConditionControl.setTemperature(temp);
         airConditionControl.setWindVelocity(fan);
         try {
-            MyApp.getApp().getAirconditionManager().controlRoom(room, airConditionControl);
+            MyApp.getApp().getAirConditionManager().controlRoom(room, airConditionControl);
             enableButton(setOK);
         } catch (Exception e) {
             MyApp.getApp().showToast(getString(R.string.control_room_fail));
@@ -346,20 +347,20 @@ public class RoomAirSettingHitActivity extends BaseActivity{
         }
     }
 
-    private void changeTemp(int temp){
+    private void changeTemp(int temp) {
         roomTemp.setText(temp + getString(R.string.temp_symbol));
-        if(mode == 1){
+        if (mode == 1) {
             tempSeekBar.setProgress(temp - 17);
-        }else{
+        } else {
             tempSeekBar.setProgress(temp - 19);
         }
 
     }
 
-    private void changeIconColor(int temp_on_off, int temp_mode, int temp_fan){
-        if(temp_on_off == 0){
+    private void changeIconColor(int temp_on_off, int temp_mode, int temp_fan) {
+        if (temp_on_off == 0) {
             setOnOff.setImageResource(R.drawable.room_icon_onoff_off_selected_hit);
-            switch (temp_mode){
+            switch (temp_mode) {
                 case 0:
                     setCool.setImageResource(R.drawable.room_icon_cool_off_selected_hit);
                     setHeat.setImageResource(R.drawable.room_icon_heat_hit);
@@ -385,7 +386,7 @@ public class RoomAirSettingHitActivity extends BaseActivity{
                     setFan.setImageResource(R.drawable.room_icon_fan_off_selected_hit);
                     break;
             }
-            switch (temp_fan){
+            switch (temp_fan) {
                 case 0:
                     fan1.setImageResource(R.drawable.room_icon_fan1_off_selected_hit);
                     fan3.setImageResource(R.drawable.room_icon_fan3_hit);
@@ -402,15 +403,15 @@ public class RoomAirSettingHitActivity extends BaseActivity{
                     fan5.setImageResource(R.drawable.room_icon_fan5_off_selected_hit);
                     break;
             }
-        }else{
+        } else {
             setOnOff.setImageResource(R.drawable.room_icon_onoff_on_selected_hit);
-            switch (temp_mode){
+            switch (temp_mode) {
                 case 0:
                     setCool.setImageResource(R.drawable.room_icon_cool_on_selected_hit);
                     setHeat.setImageResource(R.drawable.room_icon_heat_hit);
                     setDry.setImageResource(R.drawable.room_icon_dry_hit);
                     setFan.setImageResource(R.drawable.room_icon_fan_hit);
-                    switch (temp_fan){
+                    switch (temp_fan) {
                         case 0:
                             fan1.setImageResource(R.drawable.room_icon_fan1_on_blue_selected_hit);
                             fan3.setImageResource(R.drawable.room_icon_fan3_hit);
@@ -433,7 +434,7 @@ public class RoomAirSettingHitActivity extends BaseActivity{
                     setHeat.setImageResource(R.drawable.room_icon_heat_on_selected_hit);
                     setDry.setImageResource(R.drawable.room_icon_dry_hit);
                     setFan.setImageResource(R.drawable.room_icon_fan_hit);
-                    switch (temp_fan){
+                    switch (temp_fan) {
                         case 0:
                             fan1.setImageResource(R.drawable.room_icon_fan1_on_red_selected_hit);
                             fan3.setImageResource(R.drawable.room_icon_fan3_hit);
@@ -456,7 +457,7 @@ public class RoomAirSettingHitActivity extends BaseActivity{
                     setHeat.setImageResource(R.drawable.room_icon_heat_hit);
                     setDry.setImageResource(R.drawable.room_icon_dry_on_selected_hit);
                     setFan.setImageResource(R.drawable.room_icon_fan_hit);
-                    switch (temp_fan){
+                    switch (temp_fan) {
                         case 0:
                             fan1.setImageResource(R.drawable.room_icon_fan1_on_blue_selected_hit);
                             fan3.setImageResource(R.drawable.room_icon_fan3_hit);
@@ -479,7 +480,7 @@ public class RoomAirSettingHitActivity extends BaseActivity{
                     setHeat.setImageResource(R.drawable.room_icon_heat_hit);
                     setDry.setImageResource(R.drawable.room_icon_dry_hit);
                     setFan.setImageResource(R.drawable.room_icon_fan_on_selected_hit);
-                    switch (temp_fan){
+                    switch (temp_fan) {
                         case 0:
                             fan1.setImageResource(R.drawable.room_icon_fan1_on_blue_selected_hit);
                             fan3.setImageResource(R.drawable.room_icon_fan3_hit);

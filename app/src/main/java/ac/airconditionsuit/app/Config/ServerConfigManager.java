@@ -455,16 +455,23 @@ public class ServerConfigManager {
     }
 
     public void updateAirCondition(byte[] contentData) {
-        out:
-        for (byte address : contentData) {
-            DeviceFromServerConfig tempDevice = new DeviceFromServerConfig(address);
-            for (DeviceFromServerConfig device : getDevices()) {
-                if (device.equals(tempDevice)) {
-                    continue out;
-                }
-            }
-            getDevices().add(tempDevice);
+        int count = contentData[0] & 0xff;
+        if (contentData.length != count + 1) {
+            Log.e(TAG, "decode air condition address fail");
         }
+//        out:
+        List<DeviceFromServerConfig> newDevice = new ArrayList<>();
+        for (int i = 1; i < contentData.length; ++i) {
+            DeviceFromServerConfig tempDevice = new DeviceFromServerConfig(contentData[i]);
+//            for (DeviceFromServerConfig device : getDevices()) {
+//                if (device.equals(tempDevice)) {
+//                    continue out;
+//                }
+//            }
+//            getDevices().add(tempDevice);
+            newDevice.add(tempDevice);
+        }
+        getRootJavaObj().setDevices(newDevice);
         ObserveData od = new ObserveData(ObserveData.SEARCH_AIR_CONDITION_RESPONSE, getDevices());
         MyApp.getApp().getSocketManager().notifyActivity(od);
     }

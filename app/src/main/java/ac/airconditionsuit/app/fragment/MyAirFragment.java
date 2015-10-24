@@ -79,6 +79,7 @@ public class MyAirFragment extends BaseFragment {
         }
     }
 
+
     @Override
     public void setTopBar() {
         final BaseActivity baseActivity = myGetActivity();
@@ -157,17 +158,18 @@ public class MyAirFragment extends BaseFragment {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == -1)
-            switch (requestCode) {
-                case REQUEST_ROOM_DC:
-                    myAirSectionAdapter.notifyDataSetChanged();
-                    break;
-                case REQUEST_ROOM_HIT:
-                    myAirSectionAdapter.notifyDataSetChanged();
-                    break;
-                case REQUEST_ROOM_HX:
-                    myAirSectionAdapter.notifyDataSetChanged();
-                    break;
-            }
+//            switch (requestCode) {
+//                case REQUEST_ROOM_DC:
+//                    myAirSectionAdapter.notifyDataSetChanged();
+//                    break;
+//                case REQUEST_ROOM_HIT:
+//                    myAirSectionAdapter.notifyDataSetChanged();
+//                    break;
+//                case REQUEST_ROOM_HX:
+//                    myAirSectionAdapter.notifyDataSetChanged();
+//                    break;
+//            }
+        refreshUI();
     }
 
     private class MyAirSectionAdapter extends BaseAdapter {
@@ -206,6 +208,8 @@ public class MyAirFragment extends BaseFragment {
             if (convertView == null) {
                 convertView = new SectionAndRoomView(context, list.get(position).getPages());
             }
+
+            ((SectionAndRoomView ) convertView).getMyAirRoomAdapter().notifyDataSetChanged();
 
             final LinearLayout sectionView = (LinearLayout) convertView.findViewById(R.id.section_item);
             TextView sectionName = (TextView) convertView.findViewById(R.id.label_text);

@@ -82,7 +82,12 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                 //todo for zhulinan
                 break;
             case ObserveData.SEARCH_AIR_CONDITION_RESPONSE:
-                indoorDeviceAdapter.notifyDataSetChanged();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        indoorDeviceAdapter.notifyDataSetChanged();
+                    }
+                });
                 break;
         }
     }

@@ -23,7 +23,6 @@ import java.util.List;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
-import ac.airconditionsuit.app.activity.BaseActivity;
 import ac.airconditionsuit.app.activity.MainActivity;
 import ac.airconditionsuit.app.activity.RoomAirSettingActivity;
 import ac.airconditionsuit.app.activity.RoomAirSettingHitActivity;
@@ -31,19 +30,27 @@ import ac.airconditionsuit.app.activity.RoomAirSettingHxActivity;
 import ac.airconditionsuit.app.aircondition.AirConditionControl;
 import ac.airconditionsuit.app.entity.AirCondition;
 import ac.airconditionsuit.app.entity.Room;
-import ac.airconditionsuit.app.fragment.BaseFragment;
 import ac.airconditionsuit.app.fragment.MyAirFragment;
 
 public class SectionAndRoomView extends RelativeLayout {
 
     private List<Room> rooms;
     private Context context;
+    private MyAirRoomAdapter myAirRoomAdapter;
+
+    public MyAirRoomAdapter getMyAirRoomAdapter() {
+        return myAirRoomAdapter;
+    }
 
     public SectionAndRoomView(Context context, List<Room> roomList) {
         super(context);
         this.rooms = roomList;
         this.context = context;
         init(this.context);
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
     }
 
     public SectionAndRoomView(Context context, AttributeSet attrs) {
@@ -83,7 +90,7 @@ public class SectionAndRoomView extends RelativeLayout {
         }
 
         ListView listView = (ListView)findViewById(R.id.room_list);
-        MyAirRoomAdapter myAirRoomAdapter = new MyAirRoomAdapter(context);
+        myAirRoomAdapter = new MyAirRoomAdapter(context);
         listView.setAdapter(myAirRoomAdapter);
         setListViewHeightBasedOnChildren(listView);
 
@@ -106,7 +113,7 @@ public class SectionAndRoomView extends RelativeLayout {
         listView.setLayoutParams(params);
     }
 
-    private class MyAirRoomAdapter extends BaseAdapter{
+    public class MyAirRoomAdapter extends BaseAdapter{
 
         private Context context;
         public MyAirRoomAdapter(Context context){
@@ -142,14 +149,14 @@ public class SectionAndRoomView extends RelativeLayout {
             ImageView roomOnOff;
             ImageView roomTempNone;
             final AirCondition airCondition = new AirCondition();
-            if(MyApp.getApp().getAirconditionManager().getAirConditions(rooms.get(position)) == null){
+            if(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)) == null){
                 airCondition.setOnoff(AirConditionControl.EMPTY);
             }else {
-                airCondition.setOnoff(MyApp.getApp().getAirconditionManager().getAirConditions(rooms.get(position)).getOnoff());
-                airCondition.setMode(MyApp.getApp().getAirconditionManager().getAirConditions(rooms.get(position)).getMode());
-                airCondition.setAddress(MyApp.getApp().getAirconditionManager().getAirConditions(rooms.get(position)).getAddress());
-                airCondition.setFan(MyApp.getApp().getAirconditionManager().getAirConditions(rooms.get(position)).getFan());
-                airCondition.setTemperature(MyApp.getApp().getAirconditionManager().getAirConditions(rooms.get(position)).getTemperature());
+                airCondition.setOnoff(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getOnoff());
+                airCondition.setMode(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getMode());
+                airCondition.setAddress(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getAddress());
+                airCondition.setFan(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getFan());
+                airCondition.setTemperature(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getTemperature());
             }
             switch (UIManager.UITYPE){
                 case 1:
@@ -161,14 +168,14 @@ public class SectionAndRoomView extends RelativeLayout {
                         roomWarning.setVisibility(GONE);
                     }else {
                         for (int i = 0; i < rooms.get(position).getElements().size(); i++) {
-                            if(MyApp.getApp().getAirconditionManager().getAirConditionByIndex(rooms.get(position).getElements().
+                            if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.get(position).getElements().
                                     get(i)) == null){
                                 break;
                             }else {
-                                if (MyApp.getApp().getAirconditionManager().getAirConditionByIndex(rooms.get(position).getElements().
+                                if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.get(position).getElements().
                                         get(i)).getWarning() != 0) {
                                     air_index_list.add(rooms.get(position).getElements().get(i));
-                                    warning_list.add(MyApp.getApp().getAirconditionManager().getAirConditionByIndex
+                                    warning_list.add(MyApp.getApp().getAirConditionManager().getAirConditionByIndex
                                             (rooms.get(position).getElements().get(i)).getWarning());
                                     address_list.add(MyApp.getApp().getServerConfigManager().getDevices().
                                             get(rooms.get(position).getElements().get(i)).getIndooraddress());

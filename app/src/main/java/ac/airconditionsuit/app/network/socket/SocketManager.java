@@ -199,6 +199,10 @@ public class SocketManager extends Observable {
         }).start();
     }
 
+    public void sendUdpACK(byte[] no) {
+        sendMessage(new ACKPackage(no, null));
+    }
+
     class ReceiveThread extends Thread {
         @Override
         public void run() {
@@ -236,11 +240,16 @@ public class SocketManager extends Observable {
     private UdpPackageHandler udpPackageHandler;
     private Thread receiveThread;
 
-    public void sendMessage(SocketPackage socketPackage) {
+    public void sendMessage(final SocketPackage socketPackage) {
         if (socket == null) {
             return;
         }
-        socket.sendMessage(socketPackage);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                socket.sendMessage(socketPackage);
+            }
+        }).start();
     }
 
     /**
@@ -363,9 +372,9 @@ public class SocketManager extends Observable {
     }
 
 
-    public void getAirConditionAddressFromHostDevice() {
-        sendMessage(new QueryAirConditionAddressPackage());
-    }
+//    public void getAirConditionAddressFromHostDevice() {
+//        sendMessage(new QueryAirConditionAddressPackage());
+//    }
 
     public void sendBroadCast() {
         new Thread(new Runnable() {

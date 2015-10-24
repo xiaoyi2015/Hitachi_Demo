@@ -2,7 +2,6 @@ package ac.airconditionsuit.app.activity;
 
 import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,7 +21,6 @@ import java.util.TimerTask;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
-import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.aircondition.AirConditionControl;
 import ac.airconditionsuit.app.entity.AirCondition;
 import ac.airconditionsuit.app.entity.Room;
@@ -146,7 +144,7 @@ public class RoomAirSettingActivity extends BaseActivity{
         airConditionControl.setTemperature(temp);
         airConditionControl.setWindVelocity(fan);
         try {
-            MyApp.getApp().getAirconditionManager().controlRoom(room, airConditionControl);
+            MyApp.getApp().getAirConditionManager().controlRoom(room, airConditionControl);
             changeColorAndSetting(on_off, mode, fan, temp);
         } catch (Exception e) {
             MyApp.getApp().showToast(getString(R.string.control_room_fail));

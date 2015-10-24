@@ -50,7 +50,7 @@ public class MyApp extends Application {
 
         handler = new Handler();
 
-        MyApp.getApp().initAirconditionManager();
+        MyApp.getApp().initAirConditionManager();
     }
 
     public boolean isUserLogin() {
@@ -106,7 +106,7 @@ public class MyApp extends Application {
         socketManager.init();
     }
 
-    public void initAirconditionManager() {
+    public void initAirConditionManager() {
         airconditionManager = new AirConditionManager();
     }
 
@@ -137,7 +137,7 @@ public class MyApp extends Application {
         return socketManager;
     }
 
-    public AirConditionManager getAirconditionManager() {
+    public AirConditionManager getAirConditionManager() {
         return airconditionManager;
     }
 

@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -56,7 +55,7 @@ public class EditClockActivity extends BaseActivity{
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    MyApp.getApp().getAirconditionManager().deleteTimerServer(index);
+                                    MyApp.getApp().getAirConditionManager().deleteTimerServer(index);
                                     Intent intent1 = new Intent();
                                     setResult(RESULT_OK, intent1);
                                     finish();
@@ -103,7 +102,7 @@ public class EditClockActivity extends BaseActivity{
                             }
                         }
                         timer_temp.setAddress(device_list_temp);
-                        MyApp.getApp().getAirconditionManager().addTimerServer(timer_temp);
+                        MyApp.getApp().getAirConditionManager().addTimerServer(timer_temp);
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         finish();
@@ -140,7 +139,7 @@ public class EditClockActivity extends BaseActivity{
                                         add(MyApp.getApp().getServerConfigManager().getDevices().get(i).getAddress());
                             }
                         }
-                        MyApp.getApp().getAirconditionManager().modityTimerServer(MyApp.getApp().getServerConfigManager().getTimer().get(index));
+                        MyApp.getApp().getAirConditionManager().modityTimerServer(MyApp.getApp().getServerConfigManager().getTimer().get(index));
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         finish();

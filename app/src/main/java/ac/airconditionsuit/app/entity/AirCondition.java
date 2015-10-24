@@ -10,6 +10,21 @@ public class AirCondition extends Command {
     int realTemperature = UNFETCH;
     int warning;
 
+    public AirCondition(AirConditionStatusResponse airConditionStatusResponse) {
+        super();
+        this.warning = airConditionStatusResponse.getWarning();
+        this.address = airConditionStatusResponse.getAddress();
+        this.realTemperature = airConditionStatusResponse.getHuifengTemperature();
+        this.mode = airConditionStatusResponse.getMode();
+        this.onoff = airConditionStatusResponse.getOnoff();
+        this.temperature = airConditionStatusResponse.getTemperature();
+        this.fan = airConditionStatusResponse.getWindVelocity();
+    }
+
+    public AirCondition() {
+
+    }
+
     public int getRealTemperature() {
         return realTemperature;
     }

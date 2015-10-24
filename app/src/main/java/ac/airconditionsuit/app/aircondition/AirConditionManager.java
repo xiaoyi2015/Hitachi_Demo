@@ -12,7 +12,6 @@ import java.util.Map;
 
 /**
  * Created by ac on 10/15/15.
- *
  */
 public class AirConditionManager {
 
@@ -37,14 +36,12 @@ public class AirConditionManager {
         try {
             AirConditionStatusResponse airConditionStatusResponse =
                     AirConditionStatusResponse.decodeFromByteArray(status);
-
             AirCondition airCondition = getAirConditionByAddress(airConditionStatusResponse.getAddress());
             if (airCondition == null) {
-                airCondition = new AirCondition();
+                airCondition = new AirCondition(airConditionStatusResponse);
                 airConditions.add(airCondition);
             }
             airCondition.changeStatus(airConditionStatusResponse);
-
             MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.AIR_CONDITION_STATUS_RESPONSE, airCondition));
         } catch (Exception e) {
             Log.i(TAG, "decode air condition status failed");
@@ -72,10 +69,35 @@ public class AirConditionManager {
 
     public void controlScene(Scene scene) throws Exception {
         MyApp.getApp().getSocketManager().sendMessage(scene.toSocketControlPackage());
+        MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
     }
 
     public void controlRoom(Room room, AirConditionControl airConditionControl) throws Exception {
         MyApp.getApp().getSocketManager().sendMessage(new ControlPackage(room, airConditionControl));
+        updateAirconditions(room, airConditionControl);
+    }
+
+    private void updateAirconditions(Room room, AirConditionControl airConditionControl) throws Exception {
+
+        for (int index : room.getElements()) {
+            List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
+            if (devices.size() <= index) {
+                throw new Exception("air condition index is to large");
+            }
+            DeviceFromServerConfig deviceFromServerConfig = devices.get(index);
+            int address = deviceFromServerConfig.getAddress();
+            if (address > 255 || address < 0) {
+                throw new Exception("air condition address error");
+            }
+            for (AirCondition airCondition : airConditions) {
+                if (airCondition.getAddress() == address) {
+                    airCondition.setMode(airConditionControl.getMode());
+                    airCondition.setFan(airConditionControl.getWindVelocity());
+                    airCondition.setTemperature(airConditionControl.getTemperature());
+                    airCondition.setOnoff(airConditionControl.getOnoff());
+                }
+            }
+        }
     }
 
     /**
