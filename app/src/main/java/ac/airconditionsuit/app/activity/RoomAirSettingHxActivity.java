@@ -2,6 +2,8 @@ package ac.airconditionsuit.app.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +25,7 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  */
 public class RoomAirSettingHxActivity extends BaseActivity{
 
+    private static final int ENABLE_OK_BUTTON = 10078;
     private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
         public void onClick(View v) {
@@ -115,8 +118,8 @@ public class RoomAirSettingHxActivity extends BaseActivity{
                     break;
 
                 case R.id.ok_button:
+                    disableButton(setOK);
                     submit();
-                    //todo latency
                     break;
             }
 
@@ -125,6 +128,7 @@ public class RoomAirSettingHxActivity extends BaseActivity{
     private Room room;
     private AirCondition airCondition;
     private AirConditionControl airConditionControl = new AirConditionControl();
+    private Handler handler;
 
     private void submit() {
         airConditionControl.setMode(mode);
@@ -133,8 +137,10 @@ public class RoomAirSettingHxActivity extends BaseActivity{
         airConditionControl.setWindVelocity(fan);
         try {
             MyApp.getApp().getAirconditionManager().controlRoom(room, airConditionControl);
+            enableButton(setOK);
         } catch (Exception e) {
             MyApp.getApp().showToast(getString(R.string.control_room_fail));
+            enableButton(setOK);
             Log.e(TAG, "control room fail!");
             e.printStackTrace();
         }
@@ -204,8 +210,33 @@ public class RoomAirSettingHxActivity extends BaseActivity{
         setOnOff.setOnClickListener(myOnClickListener);
         setOK.setOnClickListener(myOnClickListener);
 
+        handler = new Handler(new Handler.Callback(){
+            @Override
+            public boolean handleMessage(Message msg) {
+                switch (msg.what) {
+                    case ENABLE_OK_BUTTON:
+                        enableButton(setOK);
+                        break;
+                    default:
+                        Log.e(TAG, "unhandle case in #hangler");
+                }
+                return true;
+            }
+        });
+
         init();
 
+    }
+
+    private void enableButton(ImageView imageView) {
+        imageView.setOnClickListener(myOnClickListener);
+        imageView.setImageResource(R.drawable.room_icon_ok_hit);
+        handler.sendEmptyMessageDelayed(ENABLE_OK_BUTTON, 3000);
+    }
+
+    private void disableButton(ImageView imageView) {
+        imageView.setOnClickListener(null);
+        imageView.setImageResource(R.drawable.room_icon_ok_hit);
     }
 
     private void init() {
