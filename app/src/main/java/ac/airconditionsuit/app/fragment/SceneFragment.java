@@ -38,14 +38,14 @@ public class SceneFragment extends BaseFragment {
     private static final int RESULT_OK = -1;
     private static final int REQUEST_CODE_EDIT_SCENE = 110;
 
-    private MyOnClickListener myOnClickListener = new MyOnClickListener(){
+    private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
         public void onClick(View v) {
             super.onClick(v);
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.right_icon:
-                    if(click_num == 0) {
-                        switch (UIManager.UITYPE){
+                    if (click_num == 0) {
+                        switch (UIManager.UITYPE) {
                             case 1:
                                 commonTopBar.setLeftIconView(R.drawable.top_bar_add_hit);
                                 commonTopBar.setRightIconView(R.drawable.top_bar_save_hit);
@@ -63,9 +63,9 @@ public class SceneFragment extends BaseFragment {
                         commonTopBar.setTitle(getString(R.string.edit_scene));
                         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
                         click_num = 1;
-                    }else{
+                    } else {
                         commonTopBar.setTitle(getString(R.string.tab_label_scene_mode));
-                        switch (UIManager.UITYPE){
+                        switch (UIManager.UITYPE) {
                             case 1:
                                 commonTopBar.setRightIconView(R.drawable.top_bar_edit_hit);
                                 break;
@@ -95,21 +95,25 @@ public class SceneFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_scene,container,false);
+        view = inflater.inflate(R.layout.fragment_scene, container, false);
         listView = (ListView) view.findViewById(R.id.scene_list);
+        sceneAdapter = new SceneAdapter(getActivity(), null);
+        listView.setAdapter(sceneAdapter);
         refreshUI();
         return view;
     }
 
     @Override
     public void refreshUI() {
+        if (sceneAdapter == null) {
+            return;
+        }
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             List<Scene> scene_list = MyApp.getApp().getServerConfigManager().getScene();
-            sceneAdapter = new SceneAdapter(getActivity(),scene_list);
-            listView.setAdapter(sceneAdapter);
+            sceneAdapter.changeData(scene_list);
         } else {
 //            MyApp.getApp().showToast("请先添加场景，再进行控制操作！");
-            listView.setAdapter(null);
+            sceneAdapter.changeData(null);
         }
         super.refreshUI();
     }
@@ -119,8 +123,8 @@ public class SceneFragment extends BaseFragment {
         BaseActivity baseActivity = myGetActivity();
         commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_scene_mode));
-        commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,null);
-        switch (UIManager.UITYPE){
+        commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        switch (UIManager.UITYPE) {
             case 1:
                 commonTopBar.setRightIconView(R.drawable.top_bar_edit_hit);
                 break;
@@ -132,22 +136,27 @@ public class SceneFragment extends BaseFragment {
                 break;
         }
 
-        commonTopBar.setIconView(null,myOnClickListener);
+        commonTopBar.setIconView(null, myOnClickListener);
         commonTopBar.setRoundLeftIconView(null);
     }
 
-    private class SceneAdapter extends BaseAdapter{
+    private class SceneAdapter extends BaseAdapter {
 
         private Context context;
         private List<Scene> list;
-        public SceneAdapter(Context context,List<Scene> list){
+
+        public SceneAdapter(Context context, List<Scene> list) {
             this.context = context;
             this.list = list;
         }
 
         @Override
         public int getCount() {
-            return list.size();
+            if (list == null) {
+                return 0;
+            } else {
+                return list.size();
+            }
         }
 
         @Override
@@ -162,21 +171,21 @@ public class SceneFragment extends BaseFragment {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            if(convertView == null){
+            if (convertView == null) {
                 convertView = new SceneCustomView(context);
             }
-            TextView sceneName = (TextView)convertView.findViewById(R.id.scene_name);
-            LinearLayout sceneView = (LinearLayout)convertView.findViewById(R.id.scene_view);
+            TextView sceneName = (TextView) convertView.findViewById(R.id.scene_name);
+            LinearLayout sceneView = (LinearLayout) convertView.findViewById(R.id.scene_view);
             sceneName.setText(list.get(position).getName());
             sceneView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (click_num == 1) {
                         Intent intent = new Intent();
-                        intent.putExtra("index",position);
+                        intent.putExtra("index", position);
                         intent.putExtra("title", list.get(position).getName());
                         intent.setClass(getActivity(), EditSceneActivity.class);
-                        startActivityForResult(intent,REQUEST_CODE_EDIT_SCENE);
+                        startActivityForResult(intent, REQUEST_CODE_EDIT_SCENE);
                     } else {
                         TextView toDoControl = new TextView(getActivity());
                         toDoControl.setGravity(Gravity.CENTER);
@@ -201,12 +210,17 @@ public class SceneFragment extends BaseFragment {
             });
             return convertView;
         }
+
+        public void changeData(List<Scene> scene_list) {
+            this.list = scene_list;
+            notifyDataSetChanged();
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK){
-            switch (requestCode){
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
                 case REQUEST_CODE_EDIT_SCENE:
                     sceneAdapter.notifyDataSetChanged();
                     break;

@@ -60,6 +60,8 @@ public class SplashActivity extends BaseActivity {
 
                     MyUser user = MyApp.getApp().getUser();
                     if (user.infComplete()) {
+                        MyApp.getApp().initSocketManager();
+                        MyApp.getApp().initPushDataManager();
                         shortStartActivity(MainActivity.class);
                     } else {
                         shortStartActivity(UserInfoActivity.class);

@@ -55,6 +55,8 @@ public class SetClockFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_set_clock, container, false);
         listView = (ListView) view.findViewById(R.id.clock_list);
+        clockSettingAdapter = new ClockSettingAdapter(getActivity(), null);
+        listView.setAdapter(clockSettingAdapter);
         refreshUI();
         return view;
     }
@@ -104,7 +106,11 @@ public class SetClockFragment extends BaseFragment {
 
         @Override
         public int getCount() {
-            return list.size();
+            if (list == null){
+                return 0;
+            } else {
+                return list.size();
+            }
         }
 
         @Override
@@ -258,6 +264,11 @@ public class SetClockFragment extends BaseFragment {
 
             return convertView;
         }
+
+        public void changeData(List<Timer> timer) {
+            this.list = timer;
+            notifyDataSetChanged();
+        }
     }
 
     private class ClockCustomView extends LinearLayout {
@@ -284,11 +295,14 @@ public class SetClockFragment extends BaseFragment {
     @Override
     public void refreshUI() {
         super.refreshUI();
+        if (clockSettingAdapter == null) {
+            return;
+        }
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
-            clockSettingAdapter = new ClockSettingAdapter(getActivity(), MyApp.getApp().getServerConfigManager().getTimer());
-            listView.setAdapter(clockSettingAdapter);
+            List<Timer> timer = MyApp.getApp().getServerConfigManager().getTimer();
+            clockSettingAdapter.changeData(timer);
         } else {
-            listView.setAdapter(null);
+            clockSettingAdapter.changeData(null);
         }
 
     }

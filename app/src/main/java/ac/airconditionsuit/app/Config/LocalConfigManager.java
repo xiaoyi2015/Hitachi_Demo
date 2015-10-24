@@ -149,4 +149,8 @@ public class LocalConfigManager {
     public boolean deleteCurrentHome() {
         return getCurrentUserConfig().deleteCurrentHome();
     }
+
+    public void updateCurrentServerConfigFile(String name) {
+        getCurrentUserConfig().updateCurrentHostDeviceConfigFile(name);
+    }
 }

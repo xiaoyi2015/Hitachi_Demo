@@ -234,6 +234,9 @@ public class SocketManager extends Observable {
     private Thread receiveThread;
 
     public void sendMessage(SocketPackage socketPackage) {
+        if (socket == null) {
+            return;
+        }
         socket.sendMessage(socketPackage);
     }
 

@@ -255,6 +255,9 @@ public class MyAirFragment extends BaseFragment {
 
     @Override
     public void refreshUI() {
+        if (myAirSectionAdapter == null) {
+            return;
+        }
         super.refreshUI();
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             list = MyApp.getApp().getServerConfigManager().getSections();
