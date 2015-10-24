@@ -9,14 +9,13 @@
         android:layout_height="?android:attr/actionBarSize">
     </ac.airconditionsuit.app.view.CommonTopBar>
 
-    <EditText
-        android:id="@+id/edit_host_name"
+    <TextView
+        android:id="@+id/host_name"
         style="@style/white_text_view_layout"
         android:layout_below="@id/default_top_bar"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="fill_horizontal"
+        android:layout_height="wrap_content"
         />
 
 </RelativeLayout>

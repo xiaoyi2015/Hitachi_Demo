@@ -140,7 +140,13 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
             imageView.setImageResource(R.drawable.drag_device_icon);
             rightUpText.setBackgroundResource(R.drawable.drag_device_name_bar);
             int address = MyApp.getApp().getServerConfigManager().getDevices().get(position).getAddress();
-            rightUpText.setText(String.valueOf(MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(address)) + "-" + address);
+            if(MyApp.getApp().getServerConfigManager().getDevices().get(position).getIndooraddress() < 10) {
+                rightUpText.setText(String.valueOf(MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(address)) + "-0" +
+                        MyApp.getApp().getServerConfigManager().getDevices().get(position).getIndooraddress());
+            }else{
+                rightUpText.setText(String.valueOf(MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(address)) + "-" +
+                        MyApp.getApp().getServerConfigManager().getDevices().get(position).getIndooraddress());
+            }
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override

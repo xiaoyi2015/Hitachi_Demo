@@ -110,11 +110,18 @@ public class ChangeRoomNameActivity extends BaseActivity{
                     nameView2.setTextColor(getResources().getColor(R.color.text_color_white));
                     break;
             }
+            if(UIManager.UITYPE == UIManager.HIT){
+                ((CommonDeviceView)convertView).setBottomNameColor();
+            }
             ((CommonDeviceView)convertView).setBottomName(MyApp.getApp().getServerConfigManager().getDevices().
                     get(room.getElements().get(position)).getName());
-            ((CommonDeviceView)convertView).setRightUpText(String.valueOf(room.getElements().get(position))
-                    + "-" + MyApp.getApp().getServerConfigManager().getDevices().get(room.getElements().get(position)).getAddress());
-
+            if(MyApp.getApp().getServerConfigManager().getDevices().get(room.getElements().get(position)).getIndooraddress()<10) {
+                ((CommonDeviceView) convertView).setRightUpText(String.valueOf(room.getElements().get(position))
+                        + "-0" + MyApp.getApp().getServerConfigManager().getDevices().get(room.getElements().get(position)).getIndooraddress());
+            }else{
+                ((CommonDeviceView) convertView).setRightUpText(String.valueOf(room.getElements().get(position))
+                        + "-" + MyApp.getApp().getServerConfigManager().getDevices().get(room.getElements().get(position)).getIndooraddress());
+            }
             convertView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {

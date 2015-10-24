@@ -1,36 +1,26 @@
 package ac.airconditionsuit.app.activity;
 
-import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
-import ac.airconditionsuit.app.network.HttpClient;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.view.CommonButtonWithArrow;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
-import com.loopj.android.http.RequestParams;
-
-import java.io.File;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-/**TODO for zhulinan
- * 点击自动搜索主机后跳转到该activity
- */
 public class searchDeviceByUdpResultActivity extends BaseActivity {
 
     private List<Device> devices = new ArrayList<>();
@@ -140,9 +130,10 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             if(convertView == null){
-                convertView = new TextView(context);
+                convertView = new CommonButtonWithArrow(context);
             }
-            ((TextView)convertView).setText("10001" + list.get(position).getAuthCodeEncode());
+            ((CommonButtonWithArrow)convertView).getLabelTextView().setText("10001" + list.get(position).getAuthCodeEncode());
+            ((CommonButtonWithArrow)convertView).setOnlineTextView("添加设备");
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

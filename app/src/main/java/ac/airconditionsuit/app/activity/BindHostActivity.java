@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
@@ -40,7 +41,7 @@ public class BindHostActivity extends BaseActivity {
             }
         }
     };
-    private EditText changeName;
+    private TextView changeName;
     private Device device;
 
     @Override
@@ -66,7 +67,8 @@ public class BindHostActivity extends BaseActivity {
                 break;
         }
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
-        changeName = (EditText) findViewById(R.id.edit_host_name);
+        changeName = (TextView) findViewById(R.id.host_name);
+        changeName.setText("10001" + device.getAuthCodeEncode());
 
     }
 
@@ -83,8 +85,7 @@ public class BindHostActivity extends BaseActivity {
         params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, device.getInfo().getChat_id().toString());
         params.put(Constant.REQUEST_PARAMS_KEY_INTRODUCE, MyApp.getApp().getServerConfigManager().getHome().getName());
         params.put(Constant.REQUEST_PARAMS_KEY_MAC, device.getAuthCode());
-        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_NAME, CheckUtil.checkLength(changeName, 10,
-                R.string.host_name_empty_info, R.string.host_name_too_long_info));
+        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_NAME, changeName);
         //always 1
         params.put(Constant.REQUEST_PARAMS_KEY_REGISTER_FROM, "1");
         params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_IP, device.getInfo().getIp());

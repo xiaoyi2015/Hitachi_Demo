@@ -7,9 +7,29 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"/>
 
+    <TextView
+        android:id="@+id/text1"
+        android:textSize="16sp"
+        android:layout_margin="15dp"
+        android:layout_below="@+id/default_top_bar"
+        android:text="@string/add_host_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/text2"
+        android:textSize="16sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/add_host_text2"
+        android:layout_below="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <ListView
         android:id="@+id/host_list"
-        android:layout_below="@id/default_top_bar"
+        android:layout_below="@id/text2"
         android:listSelector="@null"
         android:dividerHeight="1dp"
         android:layout_width="match_parent"
