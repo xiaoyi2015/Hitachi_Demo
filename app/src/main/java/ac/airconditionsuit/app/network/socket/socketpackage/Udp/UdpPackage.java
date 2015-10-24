@@ -3,6 +3,7 @@ package ac.airconditionsuit.app.network.socket.socketpackage.Udp;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.aircondition.AirConditionControlBatch;
+import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.util.ByteUtil;
 import android.util.Log;
@@ -130,8 +131,8 @@ public class UdpPackage {
             handler = new Handler() {
                 @Override
                 public void success() {
-                    MyApp.getApp().getSocketManager().startHeartBeat();
-                    MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+//                    MyApp.getApp().getSocketManager().startHeartBeat();
+//                    MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
                     //test code todo for luzheqi
 //                    MyApp.getApp().getSocketManager().getAirConditionAddressFromHostDevice();
 
@@ -145,7 +146,8 @@ public class UdpPackage {
 //            MyApp.getApp().getAirconditionManager().controlAirCondition(command);
 
                     //test code for query timer
-//            MyApp.getApp().getAirconditionManager().queryTimer(AirConditionManager.QUERY_ALL_TIMER);
+                    MyApp.getApp().getServerConfigManager().deleteAllTimer();
+                    MyApp.getApp().getAirConditionManager().queryTimer(AirConditionManager.QUERY_ALL_TIMER);
 
                     //test add timer
 //            Timer timer = new Timer();
@@ -167,7 +169,7 @@ public class UdpPackage {
 //            MyApp.getApp().getAirconditionManager().modityTimerServer(timer);
 
                     //test delete timer
-//            MyApp.getApp().getAirconditionManager().deleteTimerServer(1);
+//            MyApp.getApp().getAirConditionManager().deleteTimerServer(45);
 
 //            MyApp.getApp().getAirconditionManager().queryTimer(2);
 
@@ -185,6 +187,7 @@ public class UdpPackage {
     }
 
     public static final byte AFN_HEARTBEAT = 0x3;
+
     public class HeartBeatPackageContent extends UdpPackageContent {
         public HeartBeatPackageContent() {
             function = AFN_HEARTBEAT;
@@ -204,7 +207,8 @@ public class UdpPackage {
 
 
     public static final byte AFN_CONTROL = 0x4;
-    public class ControlPackageContent extends UdpPackageContent{
+
+    public class ControlPackageContent extends UdpPackageContent {
         public ControlPackageContent(AirConditionControlBatch airConditionControlBatch) throws Exception {
             function = AFN_CONTROL;
             content = airConditionControlBatch.getBytes();
@@ -226,9 +230,9 @@ public class UdpPackage {
     }
 
 
-
     public static final byte AFN_TIMER = 0x8;
-    public class TimerPackageContent extends UdpPackageContent{
+
+    public class TimerPackageContent extends UdpPackageContent {
         public TimerPackageContent(Timer timer) throws Exception {
             function = AFN_TIMER;
             content = timer.getBytesForUdp();
@@ -236,6 +240,7 @@ public class UdpPackage {
     }
 
     public static final byte AFN_DELETE_TIMER = 0x9;
+
     public class DeleteTimerPackageContent extends UdpPackageContent {
         public DeleteTimerPackageContent(int id) throws Exception {
             function = AFN_DELETE_TIMER;
@@ -247,6 +252,7 @@ public class UdpPackage {
     }
 
     public static final byte AFN_QUERY_TIMER = 0xa;
+
     public class QueryTimerPackageContent extends UdpPackageContent {
         public QueryTimerPackageContent(int id) throws Exception {
             function = AFN_QUERY_TIMER;
@@ -256,7 +262,6 @@ public class UdpPackage {
             content = ByteUtil.shortToByteArrayAsBigEndian(id & 0xffff);
         }
     }
-
 
 
 //    public static final byte AFN_GET_AIR_CONDITION_STATUS = 0x5;

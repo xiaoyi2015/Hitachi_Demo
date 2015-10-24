@@ -98,10 +98,10 @@ public class EditClockActivity extends BaseActivity{
                         device_list_temp.clear();
                         for(int i = 0; i < isDeviceChoose.size(); i++){
                             if(isDeviceChoose.get(i) == 1){
-                                device_list_temp.add(MyApp.getApp().getServerConfigManager().getDevices().get(i).getAddress());
+                                device_list_temp.add(i);
                             }
                         }
-                        timer_temp.setAddress(device_list_temp);
+                        timer_temp.setIndexes(device_list_temp);
                         MyApp.getApp().getAirConditionManager().addTimerServer(timer_temp);
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
@@ -132,14 +132,14 @@ public class EditClockActivity extends BaseActivity{
                         MyApp.getApp().getServerConfigManager().getTimer().get(index).setHour(timePicker.getCurrentHour());
                         MyApp.getApp().getServerConfigManager().getTimer().get(index).setMinute(timePicker.getCurrentMinute());
 
-                        MyApp.getApp().getServerConfigManager().getTimer().get(index).getAddress().clear();
+                        MyApp.getApp().getServerConfigManager().getTimer().get(index).getIndexes().clear();
                         for(int i = 0; i < isDeviceChoose.size(); i++){
                             if(isDeviceChoose.get(i) == 1){
-                                MyApp.getApp().getServerConfigManager().getTimer().get(index).getAddress().
-                                        add(MyApp.getApp().getServerConfigManager().getDevices().get(i).getAddress());
+                                MyApp.getApp().getServerConfigManager().getTimer().get(index).getIndexes().
+                                        add(i);
                             }
                         }
-                        MyApp.getApp().getAirConditionManager().modityTimerServer(MyApp.getApp().getServerConfigManager().getTimer().get(index));
+                        MyApp.getApp().getAirConditionManager().modifyTimerServer(MyApp.getApp().getServerConfigManager().getTimer().get(index));
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         finish();
@@ -400,9 +400,9 @@ public class EditClockActivity extends BaseActivity{
             }
             if(!is_add){
                 //int num = timer.getAddress().size();
-                if(timer.getAddress().size() != 0){
-                    for(int i = 0 ;i < timer.getAddress().size(); i++){
-                        int temp_index_device = MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(timer.getAddress().get(i));
+                if(timer.getIndexes().size() != 0){
+                    for(int i = 0 ;i < timer.getIndexes().size(); i++){
+                        int temp_index_device = MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(timer.getIndexes().get(i));
                         if(temp_index_device != -1){
                             isDeviceChoose.set(temp_index_device,1);
                         }

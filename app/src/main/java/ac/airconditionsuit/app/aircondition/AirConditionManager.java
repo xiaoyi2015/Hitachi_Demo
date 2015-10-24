@@ -173,7 +173,7 @@ public class AirConditionManager {
         MyApp.getApp().getSocketManager().sendMessage(p);
     }
 
-    public void modityTimerServer(Timer timer) {
+    public void modifyTimerServer(Timer timer) {
         SocketPackage p = new TimerPackage(timer);
         MyApp.getApp().getSocketManager().sendMessage(p);
     }

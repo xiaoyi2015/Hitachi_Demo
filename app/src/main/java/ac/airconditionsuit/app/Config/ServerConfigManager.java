@@ -496,4 +496,9 @@ public class ServerConfigManager {
         connections.add(connection);
         writeToFile();
     }
+
+    public void deleteAllTimer() {
+        rootJavaObj.setTimers(new ArrayList<Timer>());
+        writeToFile();
+    }
 }

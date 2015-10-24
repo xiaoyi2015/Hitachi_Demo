@@ -1,6 +1,5 @@
 package ac.airconditionsuit.app.entity;
 
-import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.aircondition.AirConditionControl;
 import ac.airconditionsuit.app.util.ByteUtil;
 
@@ -17,7 +16,7 @@ public class Timer extends RootEntity {
     boolean onoff;
     boolean repeat;
     int timerid;
-    List<Integer> address = new ArrayList<>();
+    List<Integer> indexes = new ArrayList<>();
     int fan;
     int mode;
     boolean detailenabled;
@@ -83,12 +82,12 @@ public class Timer extends RootEntity {
         this.timerid = timerid;
     }
 
-    public List<Integer> getAddress() {
-        return address;
+    public List<Integer> getIndexes() {
+        return indexes;
     }
 
-    public void setAddress(List<Integer> address) {
-        this.address = address;
+    public void setIndexes(List<Integer> index) {
+        this.indexes = index;
     }
 
     public int getFan() {
@@ -149,7 +148,7 @@ public class Timer extends RootEntity {
 
 
     public byte[] getBytesForUdp() throws Exception {
-        byte[] result = new byte[25 + address.size()];
+        byte[] result = new byte[32];
 
         //timer id
         if (timerid == 0xffffffff) {
@@ -184,25 +183,24 @@ public class Timer extends RootEntity {
         }
 
         //address
-        for (int i = 0; i < address.size(); ++i) {
-            int integer = address.get(i);
-            if (integer < 0 || integer > 255) {
+        for (int index : this.indexes) {
+            if (index < 0 || index > 255) {
                 throw new Exception("address error");
             }
-            result[5 + i] = (byte) integer;
+            result[5 + index / 8] |= (1 << (index % 8));
         }
 
         //control
         AirConditionControl airConditionControl = new AirConditionControl(this);
-        System.arraycopy(airConditionControl.getBytes(), 0, result, result.length - 20, 4);
+        System.arraycopy(airConditionControl.getBytes(), 0, result, 13, 4);
 
         //name
         if (name.getBytes().length > 15) {
             throw new Exception("name too length");
         }
-        System.arraycopy(Arrays.copyOf((name + "                ").getBytes(), 16), 0,
-                result, result.length - 16,
-                16);
+        System.arraycopy(Arrays.copyOf((name + "                ").getBytes(), 15), 0,
+                result, 17,
+                15);
 
         return result;
     }
@@ -243,46 +241,53 @@ public class Timer extends RootEntity {
 
         //address
         List<Integer> address = new ArrayList<>();
-        int controlRangeOffset = contentData.length - 19;
-        for (int i = 5; i < controlRangeOffset; ++i) {
-            address.add((int) contentData[i]);
+        for (int i = 0; i < 8; ++i) {
+            for (int j = 0; j < 8; ++j) {
+                if ((contentData[i + 5] & (1 << j)) != 0) {
+                    address.add(i * 8 + j + 1);
+                }
+            }
         }
-        timer.setAddress(address);
+        timer.setIndexes(address);
 
         //onoff
-        if ((contentData[controlRangeOffset] & 0x80) == 0) {
+        if ((contentData[13] & 0x80) == 0) {
             timer.setOnoff(false);
         } else {
             timer.setOnoff(true);
         }
 
         //mode
-        int mode = contentData[controlRangeOffset] & 0b1111;
+        int mode = contentData[13] & 0b1111;
         if (mode < 0 || mode > 3) {
             throw new Exception("mode error");
         }
-        timer.setMode(mode);
+        switch (mode) {
+            case 0:
+                timer.setMode(AirConditionControl.MODE_REFRIGERATION);
+                break;
+
+            case 1:
+                timer.setMode(AirConditionControl.MODE_BLAST);
+                break;
+
+            case 2:
+                timer.setMode(AirConditionControl.MODE_DEHUMIDIFICATION);
+                break;
+
+            case 3:
+                timer.setMode(AirConditionControl.MODE_HEATING);
+                break;
+        }
 
         //wind velocity
-        int windVelocity = contentData[controlRangeOffset + 1];
+        int windVelocity = contentData[14];
         if (windVelocity < 1 || windVelocity > 3) {
             throw new Exception("windVelocity error");
         }
-        timer.setFan(windVelocity);
+        timer.setFan(windVelocity - 1);
 
-//        int position = contentData[3] >>> 5;
-//        if (position < 0 || position > 6) {
-//            throw new Exception("position error");
-//        }
-//        result.setPosition(position);
-//
-//        if ((contentData[3] & 0b10000) > 0) {
-//            result.setAuto(AUTO);
-//        } else {
-//            result.setAuto(NOT_AUTO);
-//        }
-
-        int temperature = contentData[controlRangeOffset + 3];
+        int temperature = contentData[16];
 
         if (timer.getMode() == AirConditionControl.MODE_HEATING) {
             if (temperature < 17 || temperature > 30) {
@@ -296,13 +301,13 @@ public class Timer extends RootEntity {
         timer.setTemperature(temperature);
 
         //name
-        timer.setName(new String(Arrays.copyOfRange(contentData, contentData.length - 16, contentData.length)));
+        timer.setName(new String(Arrays.copyOfRange(contentData, 17, 32)));
 
         return timer;
     }
 
     public void addControlAircondition(int i) {
-        address.add(i);
+        indexes.add(i);
     }
 
     public void setWeek(int... weeks) {
@@ -317,7 +322,7 @@ public class Timer extends RootEntity {
         this.onoff = timer.isOnoff();
         this.repeat = timer.isRepeat();
         this.timerid = timer.getTimerid();
-        this.address = timer.getAddress();
+        this.indexes = timer.getIndexes();
         this.fan = timer.getFan();
         this.mode = timer.getMode();
         this.detailenabled = timer.isDetailenabled();
