@@ -1,8 +1,12 @@
 package ac.airconditionsuit.app.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,6 +17,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
@@ -132,6 +137,7 @@ public class SectionAndRoomView extends RelativeLayout {
             ImageView roomWindSpeed = (ImageView)convertView.findViewById(R.id.room_wind_speed);
             TextView roomTemp = (TextView)convertView.findViewById(R.id.room_temp);
             TextView roomName = (TextView)convertView.findViewById(R.id.room_name);
+            ImageView roomWarning;
             LinearLayout roomView = (LinearLayout)convertView.findViewById(R.id.custom_room_view);
             ImageView roomOnOff;
             ImageView roomTempNone;
@@ -147,6 +153,67 @@ public class SectionAndRoomView extends RelativeLayout {
             }
             switch (UIManager.UITYPE){
                 case 1:
+                    roomWarning  = (ImageView)convertView.findViewById(R.id.room_warning);
+                    final ArrayList<Integer> air_index_list = new ArrayList<>();
+                    final ArrayList<Integer> warning_list = new ArrayList<>();
+                    final ArrayList<Integer> address_list = new ArrayList<>();
+                    if(rooms.get(position).getElements() == null){
+                        roomWarning.setVisibility(GONE);
+                    }else {
+                        for (int i = 0; i < rooms.get(position).getElements().size(); i++) {
+                            if (MyApp.getApp().getAirconditionManager().getAirConditionByIndex(rooms.get(position).getElements().
+                                    get(i)).getWarning() != 0) {
+                                air_index_list.add(rooms.get(position).getElements().get(i));
+                                warning_list.add(MyApp.getApp().getAirconditionManager().getAirConditionByIndex
+                                        (rooms.get(position).getElements().get(i)).getWarning());
+                                address_list.add(MyApp.getApp().getServerConfigManager().getDevices().
+                                        get(rooms.get(position).getElements().get(i)).getIndooraddress());
+                            }
+                        }
+                        if(air_index_list.size()>0){
+                            roomWarning.setVisibility(VISIBLE);
+                            roomWarning.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    TextView et = new TextView(context);
+                                    et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                                    et.setGravity(Gravity.CENTER);
+                                    String warning = "\n";
+                                    for(int i = 0; i < air_index_list.size(); i++){
+                                        if(warning_list.get(i) == 254){
+                                            if(address_list.get(i) < 10) {
+                                                warning = warning + "空调" + air_index_list.get(i) + "-0" +
+                                                        address_list.get(i) + "离线" + "\n";
+                                            }else{
+                                                warning = warning + "空调" + air_index_list.get(i) + "-" +
+                                                        address_list.get(i) + "离线" + "\n";
+                                            }
+                                        }else{
+                                            if(address_list.get(i) < 10) {
+                                                warning = warning + "空调" + air_index_list.get(i) + "-0" +
+                                                        address_list.get(i) + ",报警代码：" + warning_list.get(i) + "\n";
+                                            }else{
+                                                warning = warning + "空调" + air_index_list.get(i) + "-" +
+                                                        address_list.get(i) + ",报警代码：" + warning_list.get(i) + "\n";
+                                            }
+                                        }
+                                    }
+                                    et.setText(warning);
+                                    new AlertDialog.Builder(context).setTitle(R.string.tip).setView(et).
+                                            setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).setCancelable(false).show();
+                                }
+                            });
+                        }else{
+                            roomWarning.setVisibility(GONE);
+                        }
+                    }
+
                     roomOnOff = (ImageView)convertView.findViewById(R.id.room_on_off);
                     roomTempNone = (ImageView)convertView.findViewById(R.id.room_temp_none);
                     roomTemp.setText((int) airCondition.getTemperature() + getContext().getString(R.string.temp_symbol));

@@ -1,16 +1,22 @@
 package ac.airconditionsuit.app.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
@@ -147,6 +153,7 @@ public class RoomAirSettingHitActivity extends BaseActivity{
     private AirCondition airCondition;
     private AirConditionControl airConditionControl = new AirConditionControl();
     private Handler handler;
+    private ImageView roomWarning;
 
 
     @Override
@@ -226,6 +233,66 @@ public class RoomAirSettingHitActivity extends BaseActivity{
             }
         });
 
+        roomWarning  = (ImageView)findViewById(R.id.room_warning);
+        final ArrayList<Integer> air_index_list = new ArrayList<>();
+        final ArrayList<Integer> warning_list = new ArrayList<>();
+        final ArrayList<Integer> address_list = new ArrayList<>();
+        if(room.getElements() == null){
+            roomWarning.setVisibility(View.GONE);
+        }else {
+            for (int i = 0; i < room.getElements().size(); i++) {
+                if (MyApp.getApp().getAirconditionManager().getAirConditionByIndex(room.getElements().
+                        get(i)).getWarning() != 0) {
+                    air_index_list.add(room.getElements().get(i));
+                    warning_list.add(MyApp.getApp().getAirconditionManager().getAirConditionByIndex
+                            (room.getElements().get(i)).getWarning());
+                    address_list.add(MyApp.getApp().getServerConfigManager().getDevices().
+                            get(room.getElements().get(i)).getIndooraddress());
+                }
+            }
+            if(air_index_list.size()>0){
+                roomWarning.setVisibility(View.VISIBLE);
+                roomWarning.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        TextView et = new TextView(RoomAirSettingHitActivity.this);
+                        et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                        et.setGravity(Gravity.CENTER);
+                        String warning = "\n";
+                        for(int i = 0; i < air_index_list.size(); i++){
+                            if(warning_list.get(i) == 254){
+                                if(address_list.get(i) < 10) {
+                                    warning = warning + "空调" + air_index_list.get(i) + "-0" +
+                                            address_list.get(i) + "离线" + "\n";
+                                }else{
+                                    warning = warning + "空调" + air_index_list.get(i) + "-" +
+                                            address_list.get(i) + "离线" + "\n";
+                                }
+                            }else{
+                                if(address_list.get(i) < 10) {
+                                    warning = warning + "空调" + air_index_list.get(i) + "-0" +
+                                            address_list.get(i) + ",报警代码：" + warning_list.get(i) + "\n";
+                                }else{
+                                    warning = warning + "空调" + air_index_list.get(i) + "-" +
+                                            address_list.get(i) + ",报警代码：" + warning_list.get(i) + "\n";
+                                }
+                            }
+                        }
+                        et.setText(warning);
+                        new AlertDialog.Builder(RoomAirSettingHitActivity.this).setTitle(R.string.tip).setView(et).
+                                setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).setCancelable(false).show();
+                    }
+                });
+            }else{
+                roomWarning.setVisibility(View.GONE);
+            }
+        }
         init();
 
     }
