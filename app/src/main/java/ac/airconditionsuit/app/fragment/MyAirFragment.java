@@ -114,6 +114,7 @@ public class MyAirFragment extends BaseFragment {
                             MyApp.getApp().getLocalConfigManager().changeHome(finalI);
                             commonTopBar.setTitle(homeList.get(finalI).getName());
                             ((MainActivity) myGetActivity()).refreshUI();
+                            MyApp.getApp().getSocketManager().reconnect();
                             pop.dismiss();
                         }
                     });

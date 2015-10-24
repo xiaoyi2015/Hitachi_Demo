@@ -1,7 +1,6 @@
 package ac.airconditionsuit.app.util;
 
 import ac.airconditionsuit.app.Constant;
-import android.util.Log;
 
 import java.util.Arrays;
 
@@ -102,7 +101,6 @@ public class MyBase64Util {
         for (int i = 0; i < dArr.length; i++) {
             dArr[i] = (byte) (~(dArr[i] - Constant.FILE_DECODE_ENCODE_KEY));
         }
-        Log.v(TAG, new String(dArr));
         return dArr;
     }
 
