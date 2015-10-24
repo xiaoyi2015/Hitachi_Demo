@@ -62,7 +62,7 @@ public class RoomAirSettingActivity extends BaseActivity{
                     timer = new Timer();
                     LayoutInflater inflater = LayoutInflater.from(RoomAirSettingActivity.this);
                     v = inflater.inflate(R.layout.pop_up_set_onoff, null);
-                    ProgressBar progressBar = (ProgressBar)v.findViewById(R.id.progress_bar);
+                    final ProgressBar progressBar = (ProgressBar)v.findViewById(R.id.progress_bar);
                     progressBar.setMax(100);
                     progressBar.setProgress(0);
                     final PopupWindow pop = new PopupWindow(v, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
