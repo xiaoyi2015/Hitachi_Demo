@@ -10,7 +10,7 @@ import java.util.Arrays;
  * the entity for device
  */
 public class Device extends RootEntity {
-    static public class QRCode extends RootEntity{
+    static public class QRCode extends RootEntity {
         public QRCode(String chat_id) {
             this.chat_id = chat_id;
         }
@@ -181,7 +181,13 @@ public class Device extends RootEntity {
 
     public void setAuthCode(byte[] authCodeBytes) {
         this.authCode = ByteUtil.byteArrayToHexString(authCodeBytes);
-        this.info.setMac(ByteUtil.byteArrayToHexString(Arrays.copyOf(authCodeBytes, 6)));
+        byte[] bytes = Arrays.copyOf(authCodeBytes, 6);
+//        byte[] bytesR = new byte[6];
+//        for (int i = 0; i < 6; ++i) {
+//            bytesR[i] = bytes[5 - i];
+//        }
+        String mac = ByteUtil.byteArrayToHexString(bytes);
+        this.info.setMac(mac);
         this.info.setChat_id(getIdByAuthCode(authCodeBytes));
     }
 
