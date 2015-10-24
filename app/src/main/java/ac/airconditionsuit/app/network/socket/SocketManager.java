@@ -41,6 +41,10 @@ public class SocketManager extends Observable {
     private long lastHeartSuccessTime = 0;
     private Timer heartBeatTimer;
 
+    public SocketManager() {
+        udpPackageHandler = new UdpPackageHandler();
+    }
+
     public void setLastHeartSuccessTime(long lastHeartSuccessTime) {
         this.lastHeartSuccessTime = lastHeartSuccessTime;
     }
@@ -179,7 +183,6 @@ public class SocketManager extends Observable {
                     UdpSocket socket = new UdpSocket();
                     socket.connect();
                     SocketPackage socketPackage = new QueryAirConditionAddressPackage();
-                    //重发三遍，主机偶尔会没有应答
                     socket.sendMessage(socketPackage);
 
                     //搜索时间十秒
@@ -268,7 +271,6 @@ public class SocketManager extends Observable {
     }
 
     public void init(int status) {
-        udpPackageHandler = new UdpPackageHandler();
         if (!MyApp.getApp().isUserLogin()) {
             return;
         }
@@ -372,7 +374,6 @@ public class SocketManager extends Observable {
                 try {
                     UdpSocket socket = new UdpSocket();
                     socket.connect(BROADCAST_ADDRESS);
-//                    socket.connect("192.168.1.123");
                     SocketPackage socketPackage = new BroadcastPackage();
                     //重发三遍，主机偶尔会没有应答
                     socket.sendMessage(socketPackage);
@@ -384,7 +385,6 @@ public class SocketManager extends Observable {
                     while (System.currentTimeMillis() < currentTime + 10 * 1000) {
                         socket.receiveDataAndHandle();
                     }
-
                 } catch (IOException e) {
                     ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP_FAIL);
                     notifyActivity(od);
@@ -394,22 +394,5 @@ public class SocketManager extends Observable {
             }
         }).start();
     }
-
-//    public void onResume(Context context) {
-//        if (MyApp.getApp().isUserLogin()) {
-//            IntentFilter intentFilter = new IntentFilter();
-//            intentFilter.addAction("android.net.wifi.STATE_CHANGE");
-//            intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-//            receiver = new NetworkChangeReceiver();
-//            context.registerReceiver(receiver, intentFilter);
-//        }
-//    }
-//
-//    public void onPause(Context context) {
-//        if (MyApp.getApp().isUserLogin() && receiver != null) {
-//            context.unregisterReceiver(receiver);
-//            receiver = null;
-//        }
-//    }
 
 }

@@ -112,6 +112,7 @@ public class BindHostActivity extends BaseActivity {
                                 MyApp.getApp().getServerConfigManager().readFromFile();
                                 device.getInfo().setName(changeName.getText().toString());
                                 MyApp.getApp().getServerConfigManager().setCurrentdevice(device);
+                                MyApp.getApp().getSocketManager().reconnect();
                                 Intent intent = new Intent();
                                 intent.setClass(BindHostActivity.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

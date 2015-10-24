@@ -59,7 +59,7 @@ public class HostDeviceActivity extends BaseActivity{
                                         public void onSuccess(DeleteDeviceResponse response) {
                                             dismissWaitProgress();
                                             MyApp.getApp().getServerConfigManager().deleteDevice();
-                                            MyApp.getApp().getSocketManager().reconnect();
+                                            MyApp.getApp().getSocketManager().close();
                                             finish();
                                         }
 
