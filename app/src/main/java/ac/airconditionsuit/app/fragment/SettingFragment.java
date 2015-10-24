@@ -49,19 +49,30 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         view.findViewById(R.id.setting_home_setting).setOnClickListener(this);
         view.findViewById(R.id.software_page).setOnClickListener(this);
 
+        connectionStatusView = (CommonButtonWithArrow) view.findViewById(R.id.connect_status);
+        refreshUI();
+        return view;
+    }
+
+    @Override
+    public void refreshUI() {
+        super.refreshUI();
+        if (view == null) {
+            return;
+        }
+        refreshNetworkStatus();
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             view.findViewById(R.id.add_device).setVisibility(View.GONE);
+            view.findViewById(R.id.host_device).setVisibility(View.VISIBLE);
             CommonButtonWithArrow hostDevice = (CommonButtonWithArrow) view.findViewById(R.id.host_device);
             hostDevice.getLabelTextView().setText(getString(R.string.host_device));
             hostDevice.setOnlineTextView(MyApp.getApp().getServerConfigManager().getConnections().get(0).getName());
             hostDevice.setOnClickListener(this);
         } else {
             view.findViewById(R.id.host_device).setVisibility(View.GONE);
+            view.findViewById(R.id.add_device).setVisibility(View.VISIBLE);
             view.findViewById(R.id.add_device).setOnClickListener(this);
         }
-
-        connectionStatusView = (CommonButtonWithArrow) view.findViewById(R.id.connect_status);
-        return view;
     }
 
     @Override
@@ -92,6 +103,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void setTopBar() {
+        refreshUI();
         BaseActivity baseActivity = myGetActivity();
         CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(baseActivity.getString(R.string.tab_label_setting));
@@ -99,6 +111,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         commonTopBar.setRoundLeftIconView(null);
         commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
     }
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {

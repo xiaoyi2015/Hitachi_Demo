@@ -65,10 +65,9 @@ public class MyAirFragment extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_my_air, container, false);
 
         listView = (ListView) view.findViewById(R.id.section_view);
-
+        myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), null);
+        listView.setAdapter(myAirSectionAdapter);
         refreshUI();
-
-
         homeList = MyApp.getApp().getLocalConfigManager().getHomeList();
         return view;
     }
@@ -147,6 +146,13 @@ public class MyAirFragment extends BaseFragment {
                 break;
         }
         commonTopBar.setRoundLeftIconView(myOnClickListener);
+        refreshUI();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshUI();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -178,7 +184,11 @@ public class MyAirFragment extends BaseFragment {
 
         @Override
         public int getCount() {
-            return list.size();
+            if (list == null) {
+                return 0;
+            } else {
+                return list.size();
+            }
         }
 
         @Override
@@ -244,18 +254,24 @@ public class MyAirFragment extends BaseFragment {
 
             return convertView;
         }
+
+        public void changeData(List<Section> list) {
+            this.list = list;
+            notifyDataSetChanged();
+        }
     }
 
     @Override
     public void refreshUI() {
         super.refreshUI();
+        if (myAirSectionAdapter == null) {
+            return;
+        }
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             list = MyApp.getApp().getServerConfigManager().getSections();
-            myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), list);
-            listView.setAdapter(myAirSectionAdapter);
+            myAirSectionAdapter.changeData(list);
         } else {
-            listView.setAdapter(null);
-//                                MyApp.getApp().showToast("请先添加设备管理器！");
+            myAirSectionAdapter.changeData(null);
         }
     }
 }

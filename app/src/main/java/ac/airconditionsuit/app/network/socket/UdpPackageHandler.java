@@ -68,10 +68,9 @@ public class UdpPackageHandler {
                 Device device = new Device();
                 //add ip to device
                 device.getInfo().setIp(datagramPacket.getAddress().getHostAddress());
-
+                device.getInfo().setCreator_cust_id(MyApp.getApp().getUser().getCust_id());
                 byte[] authCodeBytes = Arrays.copyOfRange(receiveData, 6, receiveDataLength - 2);
-                String authCode = ByteUtil.byteArrayToHexString(authCodeBytes);
-                device.setAuthCode(authCode);
+                device.setAuthCode(authCodeBytes);
                 byte[] authCodeEncodeBytes = ByteUtil.encodeAuthCode(authCodeBytes);
                 device.setAuthCodeEncode(ByteUtil.byteArrayToHexString(authCodeEncodeBytes));
 

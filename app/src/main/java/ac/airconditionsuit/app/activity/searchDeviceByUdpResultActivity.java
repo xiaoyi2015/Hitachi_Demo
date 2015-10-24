@@ -89,7 +89,6 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
                 //如果不为空，就表示搜索到一个设备,做相应处理
                 Device device = (Device) od.getData();
                 addDevice(device);
-                hostListAdapter.notifyDataSetChanged();
                 break;
             case ObserveData.FIND_DEVICE_BY_UDP_FAIL:
                 //如果返回会空，就表示发送广播包出现错误，做相应处理。如在界面上显示搜索失败之类的。
@@ -105,6 +104,12 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
             }
         }
         devices.add(device);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                hostListAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private class HostListAdapter extends BaseAdapter{

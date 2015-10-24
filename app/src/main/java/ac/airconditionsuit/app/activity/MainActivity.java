@@ -35,11 +35,14 @@ public class MainActivity extends BaseActivity {
             new SettingFragment()
     };
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshUI();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        MyApp.getApp().initSocketManager();
-        MyApp.getApp().initPushDataManager();
 
         for (BaseFragment bf : fragments) {
             bf.setActivity(this);
@@ -138,8 +141,13 @@ public class MainActivity extends BaseActivity {
     }
 
     public void refreshUI() {
-        for (BaseFragment bf : fragments) {
-            bf.refreshUI();
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (BaseFragment bf : fragments) {
+                    bf.refreshUI();
+                }
+            }
+        });
     }
 }

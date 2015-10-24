@@ -157,4 +157,8 @@ public class UserForLocalConfig {
             return true;
         }
     }
+
+    public void updateCurrentHostDeviceConfigFile(String name) {
+        homeConfigFileNames.set(currentHomeIndex, name);
+    }
 }
