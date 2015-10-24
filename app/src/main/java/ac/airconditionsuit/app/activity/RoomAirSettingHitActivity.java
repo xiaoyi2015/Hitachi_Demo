@@ -29,6 +29,8 @@ public class RoomAirSettingHitActivity extends BaseActivity{
             super.onClick(v);
             switch (v.getId()) {
                 case R.id.left_icon:
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
                     finish();
                     break;
 
@@ -114,7 +116,7 @@ public class RoomAirSettingHitActivity extends BaseActivity{
 
                 case R.id.ok_button:
                     submit();
-                    finish();
+                    //todo LANTENCY
                     break;
 
             }
@@ -238,10 +240,7 @@ public class RoomAirSettingHitActivity extends BaseActivity{
         airConditionControl.setTemperature(temp);
         airConditionControl.setWindVelocity(fan);
         try {
-            MyApp.getApp().getAirconditionManager().controlRoom(room,airConditionControl);
-            Intent intent = new Intent();
-            setResult(RESULT_OK, intent);
-            finish();
+            MyApp.getApp().getAirconditionManager().controlRoom(room, airConditionControl);
         } catch (Exception e) {
             MyApp.getApp().showToast(getString(R.string.control_room_fail));
             Log.e(TAG, "control room fail!");

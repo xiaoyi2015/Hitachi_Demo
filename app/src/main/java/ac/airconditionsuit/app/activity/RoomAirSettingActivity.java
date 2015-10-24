@@ -39,16 +39,17 @@ public class RoomAirSettingActivity extends BaseActivity{
             super.onClick(v);
             switch (v.getId()){
                 case R.id.left_icon:
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
                     finish();
-                    break;
-                case R.id.right_icon:
-                    submit();
                     break;
                 case R.id.on_off_view:
                     on_off ++;
                     if(on_off > 1){
                         on_off = on_off - 2;
                     }
+                    submit();
+                    //TODO LATENCY
                     changeColorAndSetting(on_off,mode,fan,temp);
                     break;
                 case R.id.mode_view:
@@ -70,6 +71,7 @@ public class RoomAirSettingActivity extends BaseActivity{
                     if(mode > 3){
                         mode = mode - 4;
                     }
+                    submit();
                     changeColorAndSetting(on_off,mode,fan,temp);
                     break;
                 case R.id.wind_speed_view:
@@ -77,17 +79,20 @@ public class RoomAirSettingActivity extends BaseActivity{
                     if(fan > 2){
                         fan = fan - 3;
                     }
+                    submit();
                     changeColorAndSetting(on_off,mode,fan,temp);
                     break;
                 case R.id.decrease_temp:
                     if(mode == 1){
                         if(temp>17 && temp<=30){
                             temp --;
+                            submit();
                             changeColorAndSetting(on_off,mode,fan,temp);
                         }
                     }else{
                         if(temp>19 && temp <= 30){
                             temp --;
+                            submit();
                             changeColorAndSetting(on_off,mode,fan,temp);
                         }
                     }
@@ -96,11 +101,13 @@ public class RoomAirSettingActivity extends BaseActivity{
                     if(mode == 1){
                         if(temp>=17 && temp<30){
                             temp ++;
+                            submit();
                             changeColorAndSetting(on_off,mode,fan,temp);
                         }
                     }else{
                         if(temp>=19 && temp < 30){
                             temp ++;
+                            submit();
                             changeColorAndSetting(on_off,mode,fan,temp);
                         }
                     }
@@ -116,9 +123,6 @@ public class RoomAirSettingActivity extends BaseActivity{
         airConditionControl.setWindVelocity(fan);
         try {
             MyApp.getApp().getAirconditionManager().controlRoom(room, airConditionControl);
-            Intent intent = new Intent();
-            setResult(RESULT_OK, intent);
-            finish();
         } catch (Exception e) {
             MyApp.getApp().showToast(getString(R.string.control_room_fail));
             Log.e(TAG, "control room fail!");
@@ -146,8 +150,7 @@ public class RoomAirSettingActivity extends BaseActivity{
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getIntent().getStringExtra("title"));
         commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
-        commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
-        commonTopBar.setIconView(myOnClickListener, myOnClickListener);
+        commonTopBar.setIconView(myOnClickListener, null);
 
         room = new Gson().fromJson(getIntent().getStringExtra("room"),Room.class);
         airCondition = new Gson().fromJson(getIntent().getStringExtra("air"),AirCondition.class);
