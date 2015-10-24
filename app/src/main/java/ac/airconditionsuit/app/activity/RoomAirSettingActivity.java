@@ -1,14 +1,24 @@
 package ac.airconditionsuit.app.activity;
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
@@ -49,8 +59,27 @@ public class RoomAirSettingActivity extends BaseActivity{
                         on_off = on_off - 2;
                     }
                     submit();
-                    //TODO LATENCY
-                    changeColorAndSetting(on_off,mode,fan,temp);
+                    timer = new Timer();
+                    LayoutInflater inflater = LayoutInflater.from(RoomAirSettingActivity.this);
+                    v = inflater.inflate(R.layout.pop_up_set_onoff, null);
+                    final ProgressBar progressBar = (ProgressBar)v.findViewById(R.id.progress_bar);
+                    progressBar.setMax(100);
+                    progressBar.setProgress(0);
+                    final PopupWindow pop = new PopupWindow(v, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+                    pop.setOutsideTouchable(false);
+                    RelativeLayout view = (RelativeLayout)findViewById(R.id.room_air_view);
+                    pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+
+                    for(int i = 0; i < 100; i++) {
+                        final int finalI = i;
+                        timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            progressBar.setProgress(finalI);
+                            }
+                        }, 0 ,100);
+                    }
+                    pop.dismiss();
                     break;
                 case R.id.mode_view:
                     mode ++;
@@ -72,7 +101,6 @@ public class RoomAirSettingActivity extends BaseActivity{
                         mode = mode - 4;
                     }
                     submit();
-                    changeColorAndSetting(on_off,mode,fan,temp);
                     break;
                 case R.id.wind_speed_view:
                     fan ++;
@@ -80,20 +108,17 @@ public class RoomAirSettingActivity extends BaseActivity{
                         fan = fan - 3;
                     }
                     submit();
-                    changeColorAndSetting(on_off,mode,fan,temp);
                     break;
                 case R.id.decrease_temp:
                     if(mode == 1){
                         if(temp>17 && temp<=30){
                             temp --;
                             submit();
-                            changeColorAndSetting(on_off,mode,fan,temp);
                         }
                     }else{
                         if(temp>19 && temp <= 30){
                             temp --;
                             submit();
-                            changeColorAndSetting(on_off,mode,fan,temp);
                         }
                     }
                     break;
@@ -102,19 +127,18 @@ public class RoomAirSettingActivity extends BaseActivity{
                         if(temp>=17 && temp<30){
                             temp ++;
                             submit();
-                            changeColorAndSetting(on_off,mode,fan,temp);
                         }
                     }else{
                         if(temp>=19 && temp < 30){
                             temp ++;
                             submit();
-                            changeColorAndSetting(on_off,mode,fan,temp);
                         }
                     }
                     break;
             }
         }
     };
+    private Timer timer;
 
     private void submit() {
         airConditionControl.setMode(mode);
@@ -123,6 +147,7 @@ public class RoomAirSettingActivity extends BaseActivity{
         airConditionControl.setWindVelocity(fan);
         try {
             MyApp.getApp().getAirconditionManager().controlRoom(room, airConditionControl);
+            changeColorAndSetting(on_off, mode, fan, temp);
         } catch (Exception e) {
             MyApp.getApp().showToast(getString(R.string.control_room_fail));
             Log.e(TAG, "control room fail!");

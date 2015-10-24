@@ -2,6 +2,8 @@ package ac.airconditionsuit.app.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +25,7 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  */
 public class RoomAirSettingHitActivity extends BaseActivity{
 
+    private static final int ENABLE_OK_BUTTON = 10098;
     private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
         public void onClick(View v) {
@@ -115,8 +118,8 @@ public class RoomAirSettingHitActivity extends BaseActivity{
                     break;
 
                 case R.id.ok_button:
+                    disableButton(setOK);
                     submit();
-                    //todo LANTENCY
                     break;
 
             }
@@ -143,6 +146,7 @@ public class RoomAirSettingHitActivity extends BaseActivity{
     private Room room;
     private AirCondition airCondition;
     private AirConditionControl airConditionControl = new AirConditionControl();
+    private Handler handler;
 
 
     @Override
@@ -188,10 +192,10 @@ public class RoomAirSettingHitActivity extends BaseActivity{
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 tempSeekBar.setProgress(progress);
-                if(mode == 1){
+                if (mode == 1) {
                     int temp_flag = progress + 17;
                     roomTemp.setText(temp_flag + getString(R.string.temp_symbol));
-                }else{
+                } else {
                     int temp_flag = progress + 19;
                     roomTemp.setText(temp_flag + getString(R.string.temp_symbol));
                 }
@@ -208,8 +212,33 @@ public class RoomAirSettingHitActivity extends BaseActivity{
             }
         });
 
+        handler = new Handler(new Handler.Callback(){
+            @Override
+            public boolean handleMessage(Message msg) {
+                switch (msg.what) {
+                    case ENABLE_OK_BUTTON:
+                        enableButton(setOK);
+                        break;
+                    default:
+                        Log.e(TAG, "unhandle case in #hangler");
+                }
+                return true;
+            }
+        });
+
         init();
 
+    }
+
+    private void enableButton(ImageView imageView) {
+        imageView.setOnClickListener(myOnClickListener);
+        imageView.setImageResource(R.drawable.room_icon_ok_hit);
+        handler.sendEmptyMessageDelayed(ENABLE_OK_BUTTON, 3000);
+    }
+
+    private void disableButton(ImageView imageView) {
+        imageView.setOnClickListener(null);
+        imageView.setImageResource(R.drawable.room_icon_ok_hit);
     }
 
     private void init() {
@@ -241,8 +270,10 @@ public class RoomAirSettingHitActivity extends BaseActivity{
         airConditionControl.setWindVelocity(fan);
         try {
             MyApp.getApp().getAirconditionManager().controlRoom(room, airConditionControl);
+            enableButton(setOK);
         } catch (Exception e) {
             MyApp.getApp().showToast(getString(R.string.control_room_fail));
+            enableButton(setOK);
             Log.e(TAG, "control room fail!");
             e.printStackTrace();
         }
