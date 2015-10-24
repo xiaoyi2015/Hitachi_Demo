@@ -132,6 +132,9 @@ public class LocalConfigManager {
         for (String configFileName : getCurrentUserConfig().getHomeConfigFileNames()) {
             ServerConfigManager serverConfigManager = new ServerConfigManager();
             serverConfigManager.readFromFile(configFileName);
+            if (serverConfigManager.getRootJavaObj() == null) {
+                continue;
+            }
             res.add(serverConfigManager.getHome());
         }
         return res;
@@ -152,5 +155,9 @@ public class LocalConfigManager {
 
     public void updateCurrentServerConfigFile(String name) {
         getCurrentUserConfig().updateCurrentHostDeviceConfigFile(name);
+    }
+
+    public void changeCurrentServerConfigFileName(String name) {
+        getCurrentUserConfig().changeCurrentServerConfigFileName(name);
     }
 }

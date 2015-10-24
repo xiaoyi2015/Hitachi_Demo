@@ -4,6 +4,7 @@ import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,5 +161,13 @@ public class UserForLocalConfig {
 
     public void updateCurrentHostDeviceConfigFile(String name) {
         homeConfigFileNames.set(currentHomeIndex, name);
+    }
+
+    public void changeCurrentServerConfigFileName(String newFileName) {
+        String oldName = getCurrentHomeConfigFileName();
+        File oldFile = MyApp.getApp().getPrivateFile(oldName, null);
+        File newFile = MyApp.getApp().getPrivateFile(newFileName, null);
+        oldFile.renameTo(newFile);
+        homeConfigFileNames.set(currentHomeIndex, newFileName);
     }
 }

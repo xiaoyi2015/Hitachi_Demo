@@ -103,6 +103,15 @@ public class BindHostActivity extends BaseActivity {
                             @Override
                             public void onFailure(Throwable throwable) {
                                 Log.e(TAG, "下载主机配置文件失败，用新的配置文件上传服务器");
+                                MyApp.getApp().getLocalConfigManager().changeCurrentServerConfigFileName(outputFile.getName());
+                                device.getInfo().setName(changeName.getText().toString());
+                                MyApp.getApp().getServerConfigManager().setCurrentdevice(device);
+                                MyApp.getApp().getSocketManager().reconnect();
+                                Intent intent = new Intent();
+                                intent.setClass(BindHostActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
                             }
 
                             @Override

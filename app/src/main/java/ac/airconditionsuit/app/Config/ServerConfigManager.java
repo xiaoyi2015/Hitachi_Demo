@@ -9,6 +9,7 @@ import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.UploadConfigResponse;
 import ac.airconditionsuit.app.util.MyBase64Util;
 import ac.airconditionsuit.app.util.PlistUtil;
+import android.graphics.Bitmap;
 import android.util.Log;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
@@ -64,6 +65,10 @@ public class ServerConfigManager {
             }
         }
         return -1;
+    }
+
+    public ServerConfig getRootJavaObj() {
+        return rootJavaObj;
     }
 
     public boolean hasDevice() {
@@ -200,6 +205,8 @@ public class ServerConfigManager {
             rootJavaObj = new Gson().fromJson(json, ServerConfig.class);
             Log.v(TAG, "read server config file success");
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
+            rootJavaObj = ServerConfig.genNewConfig(fileName, "新的家");
+            writeToFile(fileName);
             Log.e(TAG, "read server config file error");
             e.printStackTrace();
         } finally {
@@ -221,8 +228,8 @@ public class ServerConfigManager {
         }
 
         FileInputStream fis = null;
+        File serverConfigFile = MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFile();
         try {
-            File serverConfigFile = MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFile();
             //配置文件名字不存在
             if (serverConfigFile == null) {
                 rootJavaObj = ServerConfig.genNewConfig(Constant.NO_DEVICE_CONFIG_FILE_PREFIX + System.currentTimeMillis() + Constant.CONFIG_FILE_SUFFIX,
@@ -244,6 +251,8 @@ public class ServerConfigManager {
             Log.v(TAG, "read server config file success");
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
             Log.e(TAG, "read server config file error");
+            rootJavaObj = ServerConfig.genNewConfig(serverConfigFile.getName(), "新的家");
+            writeToFile(serverConfigFile.getName());
             e.printStackTrace();
         } finally {
             if (fis != null) {
@@ -395,6 +404,7 @@ public class ServerConfigManager {
                         public void onFailure(Throwable throwable) {
                             Log.e(TAG, MyApp.getApp().getString(R.string.toast_inf_download_file_error));
                             fileNames.add(outputFile.getName());
+                            outputFile.delete();
                             downloadDeviceConfigFilesFromServerIter(response, fileNames, commonNetworkListener);
                         }
 

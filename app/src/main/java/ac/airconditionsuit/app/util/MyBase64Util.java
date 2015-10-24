@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.util;
 
 import ac.airconditionsuit.app.Constant;
+import android.util.Log;
 
 import java.util.Arrays;
 
@@ -13,6 +14,7 @@ public class MyBase64Util {
     private static final char[] CA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
             .toCharArray();
     private static final int[] IA = new int[256];
+    private static String TAG = "MyBase64Util";
 
     static {
         Arrays.fill(IA, -1);
@@ -100,6 +102,7 @@ public class MyBase64Util {
         for (int i = 0; i < dArr.length; i++) {
             dArr[i] = (byte) (~(dArr[i] - Constant.FILE_DECODE_ENCODE_KEY));
         }
+        Log.v(TAG, new String(dArr));
         return dArr;
     }
 

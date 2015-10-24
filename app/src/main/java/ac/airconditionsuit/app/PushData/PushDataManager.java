@@ -93,11 +93,11 @@ public class PushDataManager {
 
     public class PushDataDbHelper extends SQLiteOpenHelper {
         // If you change the database schema, you must increment the database version.
-        public static final int DATABASE_VERSION = 1;
+        public static final int DATABASE_VERSION = 2;
         public static final String DATABASE_NAME = "pushData.db";
         private final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, " + TS + " INTEGER, " + ID + " INTEGER, " +
-                        CHATID + " INTEGER, " + TYPE + " INTEGER, " + CONTENT + " Text)";
+                        CHATID + " Text, " + TYPE + " INTEGER, " + CONTENT + " Text)";
         private final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
         public PushDataDbHelper(Context context) {
@@ -164,7 +164,7 @@ public class PushDataManager {
     public List<PushData> readPushDataFromDatabase() {
         // Select All Query
         // String selectQuery = "SELECT  * FROM " + TABLE_NAME;
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME +" where " + CHATID + " = " + MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId();
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME +" where " + CHATID + " = \"" + MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId() + "\"";
 
         SQLiteDatabase db = new PushDataDbHelper(MyApp.getApp()).getReadableDatabase();
         List<PushData> result = new ArrayList<>();
@@ -220,7 +220,7 @@ public class PushDataManager {
         ContentValues cv = new ContentValues();
         cv.put(TS, pushData.getTs());
         cv.put(ID, pushData.getId());
-        cv.put(CHATID, pushData.getChatid());
+        cv.put(CHATID, String.valueOf(pushData.getChatid()));
         cv.put(TYPE, pushData.getType());
         cv.put(CONTENT, pushData.getContent());
         return cv;

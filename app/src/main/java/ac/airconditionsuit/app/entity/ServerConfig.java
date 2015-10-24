@@ -42,13 +42,13 @@ public class ServerConfig extends RootEntity{
     }
 
 
-    List<Scene> scenes;
-    List<Timer> timers;
-    List<Section> sections;
+    List<Scene> scenes = new ArrayList<>();
+    List<Timer> timers = new ArrayList<>();
+    List<Section> sections = new ArrayList<>();
     Home home;
-    List<DeviceFromServerConfig> devices;
+    List<DeviceFromServerConfig> devices = new ArrayList<>();
     Setting settings;
-    List<Connection> connection;
+    List<Connection> connection = new ArrayList<>();
 
     public List<Scene> getScenes() {
         return scenes;
