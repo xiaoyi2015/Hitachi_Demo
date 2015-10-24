@@ -65,10 +65,8 @@ public class MyAirFragment extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_my_air, container, false);
 
         listView = (ListView) view.findViewById(R.id.section_view);
-
+        myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), null);
         refreshUI();
-
-
         homeList = MyApp.getApp().getLocalConfigManager().getHomeList();
         return view;
     }
@@ -178,7 +176,11 @@ public class MyAirFragment extends BaseFragment {
 
         @Override
         public int getCount() {
-            return list.size();
+            if (list == null) {
+                return 0;
+            } else {
+                return list.size();
+            }
         }
 
         @Override
@@ -244,6 +246,11 @@ public class MyAirFragment extends BaseFragment {
 
             return convertView;
         }
+
+        public void changeData(List<Section> list) {
+            this.list = list;
+            notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -251,11 +258,9 @@ public class MyAirFragment extends BaseFragment {
         super.refreshUI();
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             list = MyApp.getApp().getServerConfigManager().getSections();
-            myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), list);
-            listView.setAdapter(myAirSectionAdapter);
+            myAirSectionAdapter.changeData(list);
         } else {
-            listView.setAdapter(null);
-//                                MyApp.getApp().showToast("请先添加设备管理器！");
+            myAirSectionAdapter.changeData(null);
         }
     }
 }

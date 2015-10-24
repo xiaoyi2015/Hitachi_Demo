@@ -70,8 +70,7 @@ public class UdpPackageHandler {
                 device.getInfo().setIp(datagramPacket.getAddress().getHostAddress());
 
                 byte[] authCodeBytes = Arrays.copyOfRange(receiveData, 6, receiveDataLength - 2);
-                String authCode = ByteUtil.byteArrayToHexString(authCodeBytes);
-                device.setAuthCode(authCode);
+                device.setAuthCode(authCodeBytes);
                 byte[] authCodeEncodeBytes = ByteUtil.encodeAuthCode(authCodeBytes);
                 device.setAuthCodeEncode(ByteUtil.byteArrayToHexString(authCodeEncodeBytes));
 

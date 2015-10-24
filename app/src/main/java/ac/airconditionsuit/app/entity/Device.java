@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.entity;
 
+import ac.airconditionsuit.app.util.ByteUtil;
 import com.google.gson.Gson;
 
 /**
@@ -176,9 +177,9 @@ public class Device extends RootEntity {
         return authCode;
     }
 
-    public void setAuthCode(String authCode) {
-        this.authCode = authCode;
-        this.info.setChat_id(getIdByAuthCode());
+    public void setAuthCode(byte[] authCodeBytes) {
+        this.authCode = ByteUtil.byteArrayToHexString(authCodeBytes);
+        this.info.setChat_id(getIdByAuthCode(authCodeBytes));
     }
 
     public String getCust_class() {
@@ -221,8 +222,8 @@ public class Device extends RootEntity {
         this.filePath = filePath;
     }
 
-    private Long getIdByAuthCode() {
-        return Long.parseLong(authCode, 16);
+    private Long getIdByAuthCode(byte[] authCodeBytes) {
+        return ByteUtil.byteArrayToLong(authCodeBytes);
     }
 
     static public Device fromJsonString(String json) {
