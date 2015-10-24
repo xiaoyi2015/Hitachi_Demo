@@ -224,5 +224,7 @@
     <string name="is_delete_device_from_room">\n确定从房间中删除此空调吗？\n</string>
     <string name="toast_inf_no_device_to_add_clock">未连接主机，无法添加定时器</string>
     <string name="toast_inf_no_device_to_modify_clock">未连接主机，无法修改定时器</string>
+    <string name="add_host_text1">局域网内搜索到下列设备</string>
+    <string name="add_host_text2">点击添加设备，成为设备管理员</string>
 
 </resources>
