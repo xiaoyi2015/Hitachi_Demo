@@ -306,7 +306,7 @@ public class RoomAirSettingHitActivity extends BaseActivity {
 
     private void disableButton(ImageView imageView) {
         imageView.setOnClickListener(null);
-        imageView.setImageResource(R.drawable.room_icon_ok_hit);
+        imageView.setImageResource(R.drawable.room_icon_ok_selected_hit);
     }
 
     private void init() {

@@ -271,8 +271,13 @@ public class DragDeviceActivity extends BaseActivity {
                     break;
             }
             commonDeviceView.setBottomName(devices.get(i).getName());
-            commonDeviceView.setRightUpText(String.valueOf(MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(devices.get(i).getAddress()))
-                    + "-" + devices.get(i).getAddress());
+            if(devices.get(i).getIndooraddress() >= 10) {
+                commonDeviceView.setRightUpText(String.valueOf(MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(devices.get(i).getAddress()))
+                        + "-" + devices.get(i).getIndooraddress());
+            }else{
+                commonDeviceView.setRightUpText(String.valueOf(MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(devices.get(i).getAddress()))
+                        + "-0" + devices.get(i).getIndooraddress());
+            }
             bottomBar.addView(commonDeviceView);
             final int finalI = i;
             commonDeviceView

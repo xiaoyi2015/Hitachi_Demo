@@ -74,4 +74,8 @@ public class CommonDeviceView extends RelativeLayout {
         rightUpText.setBackgroundResource(R.drawable.drag_device_name_bar);
     }
 
+    public void setBottomNameColor(){
+        bottomName.setTextColor(getResources().getColor(R.color.text_color_black));
+    }
+
 }
