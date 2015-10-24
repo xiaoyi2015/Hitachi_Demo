@@ -16,6 +16,10 @@ public class DeviceFromServerConfig extends RootEntity {
         name = "新空调" + indoorindex + "-" + indooraddress;
     }
 
+    public int getIndooraddress() {
+        return indooraddress;
+    }
+
     public String getName() {
         return name;
     }

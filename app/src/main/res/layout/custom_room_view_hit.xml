@@ -6,12 +6,30 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/room_name"
-        android:gravity="center"
-        android:textSize="16sp"
+    <RelativeLayout
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="32dp" />
+        android:layout_height="32dp">
+
+        <TextView
+            android:id="@+id/room_name"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="250dp"
+            android:layout_height="32dp" />
+
+        <ImageView
+            android:id="@+id/room_warning"
+            android:src="@drawable/info_dc"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:scaleType="centerInside"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:orientation="horizontal"
