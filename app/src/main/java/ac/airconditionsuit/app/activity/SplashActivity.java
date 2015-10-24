@@ -1,17 +1,11 @@
 package ac.airconditionsuit.app.activity;
 
-import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import android.os.Bundle;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import cz.msebera.android.httpclient.Header;
 
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -51,11 +45,11 @@ public class SplashActivity extends BaseActivity {
                 public void onSuccess() {
                     long currentTime = System.currentTimeMillis();
                     if (currentTime - beginTime < 2000) {
-                        try {
-                            Thread.sleep(2000 - (currentTime - beginTime));
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+//                        try {
+//                            Thread.sleep(2000 - (currentTime - beginTime));
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
                     }
 
                     MyUser user = MyApp.getApp().getUser();

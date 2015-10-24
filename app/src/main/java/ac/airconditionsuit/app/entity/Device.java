@@ -3,6 +3,8 @@ package ac.airconditionsuit.app.entity;
 import ac.airconditionsuit.app.util.ByteUtil;
 import com.google.gson.Gson;
 
+import java.util.Arrays;
+
 /**
  * Created by ac on 5/26/15.
  * the entity for device
@@ -179,6 +181,7 @@ public class Device extends RootEntity {
 
     public void setAuthCode(byte[] authCodeBytes) {
         this.authCode = ByteUtil.byteArrayToHexString(authCodeBytes);
+        this.info.setMac(ByteUtil.byteArrayToHexString(Arrays.copyOf(authCodeBytes, 6)));
         this.info.setChat_id(getIdByAuthCode(authCodeBytes));
     }
 

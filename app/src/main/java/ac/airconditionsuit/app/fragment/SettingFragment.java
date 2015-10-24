@@ -56,10 +56,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void refreshUI() {
+        super.refreshUI();
         if (view == null) {
             return;
         }
-        super.refreshUI();
         refreshNetworkStatus();
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             view.findViewById(R.id.add_device).setVisibility(View.GONE);
@@ -103,6 +103,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void setTopBar() {
+        refreshUI();
         BaseActivity baseActivity = myGetActivity();
         CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(baseActivity.getString(R.string.tab_label_setting));
@@ -110,6 +111,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         commonTopBar.setRoundLeftIconView(null);
         commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
     }
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {

@@ -101,7 +101,7 @@ public class ServerConfigManager {
         writeToFile();
     }
 
-    public List<ServerConfig.Connection> getConnections() {
+    public List<Connection> getConnections() {
         return rootJavaObj.getConnection();
     }
 
@@ -459,16 +459,6 @@ public class ServerConfigManager {
         MyApp.getApp().getSocketManager().notifyActivity(od);
     }
 
-//    public boolean roomHasAricondition(int index, int position, int newAddress) {
-//        List<Integer> elements = getSections().get(index).getPages().get(position).getElements();
-////        for (int address : elements) {
-////            if (address == newAddress) {
-////                return true;
-////            }
-////        }
-//        return false;
-//    }
-
     public void deleteDevice() {
         rootJavaObj.setConnection(null);
         rootJavaObj.setSections(null);
@@ -478,4 +468,15 @@ public class ServerConfigManager {
         writeToFile();
     }
 
+    public void setCurrentdevice(Device device) {
+        List<Connection> connections = rootJavaObj.getConnection();
+        if (connections == null) {
+            connections = new ArrayList<>();
+            rootJavaObj.setConnection(connections);
+        }
+        Connection connection = new Connection(device);
+        connections.clear();
+        connections.add(connection);
+        writeToFile();
+    }
 }

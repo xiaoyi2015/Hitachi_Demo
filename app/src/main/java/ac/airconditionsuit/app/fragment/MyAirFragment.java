@@ -66,6 +66,7 @@ public class MyAirFragment extends BaseFragment {
 
         listView = (ListView) view.findViewById(R.id.section_view);
         myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), null);
+        listView.setAdapter(myAirSectionAdapter);
         refreshUI();
         homeList = MyApp.getApp().getLocalConfigManager().getHomeList();
         return view;
@@ -145,6 +146,13 @@ public class MyAirFragment extends BaseFragment {
                 break;
         }
         commonTopBar.setRoundLeftIconView(myOnClickListener);
+        refreshUI();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshUI();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -255,10 +263,10 @@ public class MyAirFragment extends BaseFragment {
 
     @Override
     public void refreshUI() {
+        super.refreshUI();
         if (myAirSectionAdapter == null) {
             return;
         }
-        super.refreshUI();
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             list = MyApp.getApp().getServerConfigManager().getSections();
             myAirSectionAdapter.changeData(list);

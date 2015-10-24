@@ -63,6 +63,7 @@ public class SetClockFragment extends BaseFragment {
 
     @Override
     public void setTopBar() {
+        refreshUI();
         BaseActivity baseActivity = myGetActivity();
         CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_set_time));

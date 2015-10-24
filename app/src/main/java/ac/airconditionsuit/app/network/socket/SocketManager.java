@@ -268,6 +268,7 @@ public class SocketManager extends Observable {
     }
 
     public void init(int status) {
+        udpPackageHandler = new UdpPackageHandler();
         if (!MyApp.getApp().isUserLogin()) {
             return;
         }
@@ -286,8 +287,6 @@ public class SocketManager extends Observable {
             Log.i(TAG, "init socket manager failed due to no network");
             return;
         }
-
-        udpPackageHandler = new UdpPackageHandler();
 
         //network task should be run on background
         new Thread(new Runnable() {
@@ -319,7 +318,7 @@ public class SocketManager extends Observable {
     }
 
     public static int getSocketType(int status) {
-//        status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
+        status = NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT;
         if (status == NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT) {
             //udp
             //udp还要判断是否有设备

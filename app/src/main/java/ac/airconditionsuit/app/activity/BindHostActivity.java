@@ -110,6 +110,8 @@ public class BindHostActivity extends BaseActivity {
                                 Log.i(TAG, "下载主机配置文件成功，用新的配置文件上传服务器");
                                 MyApp.getApp().getLocalConfigManager().updateCurrentServerConfigFile(outputFile.getName());
                                 MyApp.getApp().getServerConfigManager().readFromFile();
+                                device.getInfo().setName(changeName.getText().toString());
+                                MyApp.getApp().getServerConfigManager().setCurrentdevice(device);
                                 Intent intent = new Intent();
                                 intent.setClass(BindHostActivity.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

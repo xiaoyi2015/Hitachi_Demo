@@ -105,6 +105,7 @@ public class SceneFragment extends BaseFragment {
 
     @Override
     public void refreshUI() {
+        super.refreshUI();
         if (sceneAdapter == null) {
             return;
         }
@@ -120,6 +121,7 @@ public class SceneFragment extends BaseFragment {
 
     @Override
     public void setTopBar() {
+        refreshUI();
         BaseActivity baseActivity = myGetActivity();
         commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_scene_mode));
