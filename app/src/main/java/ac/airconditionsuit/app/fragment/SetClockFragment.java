@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.fragment;
 
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.Timer;
+import ac.airconditionsuit.app.network.socket.SocketManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,10 +39,16 @@ public class SetClockFragment extends BaseFragment {
             super.onClick(v);
             switch (v.getId()) {
                 case R.id.right_icon:
-                    Intent intent = new Intent();
-                    intent.putExtra("title", "");
-                    intent.setClass(getActivity(), EditClockActivity.class);
-                    startActivityForResult(intent, REQUEST_CODE_CLOCK);
+                    int status = MyApp.getApp().getSocketManager().getStatus();
+                    if (status == SocketManager.UDP_DEVICE_CONNECT
+                            || status == SocketManager.TCP_DEVICE_CONNECT) {
+                        Intent intent = new Intent();
+                        intent.putExtra("title", "");
+                        intent.setClass(getActivity(), EditClockActivity.class);
+                        startActivityForResult(intent, REQUEST_CODE_CLOCK);
+                    } else {
+                        MyApp.getApp().showToast(R.string.toast_inf_no_device_to_add_clock);
+                    }
                     break;
             }
         }
@@ -257,11 +264,18 @@ public class SetClockFragment extends BaseFragment {
             clockView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.putExtra("index", position);
-                    intent.putExtra("title", list.get(position).getName());
-                    intent.setClass(getActivity(), EditClockActivity.class);
-                    startActivityForResult(intent, REQUEST_CODE_CLOCK);
+
+                    int status = MyApp.getApp().getSocketManager().getStatus();
+                    if (status == SocketManager.UDP_DEVICE_CONNECT
+                            || status == SocketManager.TCP_DEVICE_CONNECT) {
+                        Intent intent = new Intent();
+                        intent.putExtra("index", position);
+                        intent.putExtra("title", list.get(position).getName());
+                        intent.setClass(getActivity(), EditClockActivity.class);
+                        startActivityForResult(intent, REQUEST_CODE_CLOCK);
+                    } else {
+                        MyApp.getApp().showToast(R.string.toast_inf_no_device_to_modify_clock);
+                    }
                 }
             });
 

@@ -21,25 +21,25 @@ public class AirConditionControl extends RootEntity{
     public static final int MODE_REFRIGERATION = 0;
 
     /**
-     * 送风
-     */
-    public static final int MODE_BLAST = 1;
-
-    /**
      * 除湿
      */
     public static final int MODE_DEHUMIDIFICATION = 2;
 
     /**
+     * 送风
+     */
+    public static final int MODE_BLAST = 3;
+
+    /**
      * 制热
      */
-    public static final int MODE_HEATING = 3;
+    public static final int MODE_HEATING = 1;
     int mode;
 
 
-    public static final int WINDVELOCITY_HIGH = 3;
-    public static final int WINDVELOCITY_MIDDLE = 2;
-    public static final int WINDVELOCITY_LOW = 1;
+    public static final int WINDVELOCITY_HIGH = 2;
+    public static final int WINDVELOCITY_MIDDLE = 1;
+    public static final int WINDVELOCITY_LOW = 0;
     int windVelocity;
 
 

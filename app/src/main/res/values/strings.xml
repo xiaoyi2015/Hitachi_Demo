@@ -222,5 +222,7 @@
     <string name="section_device_num1">本设备共有</string>
     <string name="section_device_num2">台空调机</string>
     <string name="is_delete_device_from_room">\n确定从房间中删除此空调吗？\n</string>
+    <string name="toast_inf_no_device_to_add_clock">未连接主机，无法添加定时器</string>
+    <string name="toast_inf_no_device_to_modify_clock">未连接主机，无法修改定时器</string>
 
 </resources>
