@@ -269,24 +269,24 @@ public class EditClockActivity extends BaseActivity{
                                     case 0:
                                         mode = getString(R.string.cool);
                                         break;
-                                    case 1:
+                                    case 3:
                                         mode = getString(R.string.heat);
                                         break;
                                     case 2:
                                         mode = getString(R.string.dry);
                                         break;
-                                    case 3:
+                                    case 1:
                                         mode = getString(R.string.wind);
                                         break;
                                 }
                                 switch (temp_fan){
-                                    case 0:
+                                    case 1:
                                         fan = getString(R.string.low_wind);
                                         break;
-                                    case 1:
+                                    case 2:
                                         fan = getString(R.string.medium_wind);
                                         break;
-                                    case 2:
+                                    case 3:
                                         fan = getString(R.string.high_wind);
                                         break;
                                 }
@@ -350,24 +350,24 @@ public class EditClockActivity extends BaseActivity{
                 case 0:
                     mode = getString(R.string.cool);
                     break;
-                case 1:
+                case 3:
                     mode = getString(R.string.heat);
                     break;
                 case 2:
                     mode = getString(R.string.dry);
                     break;
-                case 3:
+                case 1:
                     mode = getString(R.string.wind);
                     break;
             }
             switch (timer.getFan()){
-                case 0:
+                case 3:
                     fan = getString(R.string.low_wind);
                     break;
-                case 1:
+                case 2:
                     fan = getString(R.string.medium_wind);
                     break;
-                case 2:
+                case 1:
                     fan = getString(R.string.high_wind);
                     break;
             }
