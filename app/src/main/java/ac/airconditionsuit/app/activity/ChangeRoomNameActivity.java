@@ -20,6 +20,7 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.Room;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
+import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.CommonDeviceView;
 
 /**
@@ -33,7 +34,11 @@ public class ChangeRoomNameActivity extends BaseActivity{
             Intent intent = new Intent();
             switch (v.getId()){
                 case R.id.add_room_page:
-                    intent.putExtra("name",roomName.getText().toString());
+                    String check_name = CheckUtil.checkLength(roomName,20,R.string.room_name_empty_info,R.string.room_name_too_long_info);
+                    if(check_name == null){
+                        return;
+                    }
+                    intent.putExtra("name",check_name);
                     intent.putExtra("room_index",index);
                     intent.putExtra("room",room.toJsonString());
                     setResult(RESULT_OK, intent);
@@ -55,8 +60,8 @@ public class ChangeRoomNameActivity extends BaseActivity{
         room = new Gson().fromJson(getIntent().getStringExtra("room"),Room.class);
         RelativeLayout ChangeRoomNamePage = (RelativeLayout) findViewById(R.id.add_room_page);
         roomName = (EditText) findViewById(R.id.room_name);
-        roomName.setText(getString(R.string.new_room));
-        roomName.setSelection(getString(R.string.new_room).length());
+        roomName.setText(room.getName());
+        roomName.setSelection(room.getName().length());
         ChangeRoomNamePage.setOnClickListener(myOnClickListener);
         roomName.setOnClickListener(myOnClickListener);
 

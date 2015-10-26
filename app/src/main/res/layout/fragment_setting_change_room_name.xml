@@ -7,17 +7,17 @@
 
     <EditText
         android:layout_centerHorizontal="true"
-        android:background="@drawable/login_edit_text_dc"
+        android:background="@color/text_color_white"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:id="@+id/room_name"
         android:gravity="center"
         android:layout_marginTop="60dp"
-        android:layout_marginRight="80dp"
+        android:layout_marginRight="40dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginLeft="80dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_marginLeft="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
 
     <GridView
         android:id="@+id/air_list"
