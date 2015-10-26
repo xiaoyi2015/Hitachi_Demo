@@ -226,5 +226,7 @@
     <string name="toast_inf_no_device_to_modify_clock">未连接主机，无法修改定时器</string>
     <string name="add_host_text1">局域网内搜索到下列设备</string>
     <string name="add_host_text2">点击添加设备，成为设备管理员</string>
+    <string name="is_to_delete_home">\n确定要删除当前家吗？\n</string>
+    <string name="change_room_tip">长按设备选择是否从房间内删除</string>
 
 </resources>

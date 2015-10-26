@@ -96,10 +96,12 @@
         </activity>
         <activity
                 android:name=".activity.EditSceneActivity"
+                android:windowSoftInputMode="adjustPan|stateHidden"
                 android:screenOrientation="portrait">
         </activity>
         <activity
                 android:name=".activity.EditClockActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
                 android:screenOrientation="portrait">
         </activity>
         <activity

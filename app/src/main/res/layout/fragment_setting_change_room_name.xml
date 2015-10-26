@@ -23,18 +23,30 @@
         android:id="@+id/air_list"
         android:background="@color/text_color_white"
         android:layout_below="@+id/room_name"
+        android:layout_above="@+id/delete_text_tip"
         android:numColumns="3"
         android:verticalSpacing="5dp"
         android:horizontalSpacing="0dp"
         android:stretchMode="columnWidth"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="10dp"
         android:padding="10dp"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </GridView>
+
+    <TextView
+        android:id="@+id/delete_text_tip"
+        android:layout_marginBottom="40dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="@color/text_color_gray"
+        android:text="@string/change_room_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

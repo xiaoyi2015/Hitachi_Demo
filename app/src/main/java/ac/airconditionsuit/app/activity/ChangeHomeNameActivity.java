@@ -27,6 +27,9 @@ public class ChangeHomeNameActivity extends BaseActivity {
                 case R.id.right_icon:
                     String home_name = CheckUtil.checkLength(changeName,
                             10, R.string.home_name_empty_info, R.string.home_name_too_long_info);
+                    if(home_name == null){
+                        return;
+                    }
                     MyApp.getApp().getServerConfigManager().getHome().setName(home_name);
                     MyApp.getApp().getServerConfigManager().writeToFile();
                     Intent intent = new Intent();
@@ -61,8 +64,12 @@ public class ChangeHomeNameActivity extends BaseActivity {
         }
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
         changeName = (EditText)findViewById(R.id.edit_home_name);
-        changeName.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
-        changeName.setSelection(MyApp.getApp().getServerConfigManager().getHome().getName().length());
+        if(MyApp.getApp().getServerConfigManager().getHome().getName() == null){
+            changeName.setText("");
+        }else {
+            changeName.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
+            changeName.setSelection(MyApp.getApp().getServerConfigManager().getHome().getName().length());
+        }
 
     }
 

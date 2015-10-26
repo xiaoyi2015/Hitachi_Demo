@@ -43,6 +43,9 @@ public class LoginActivity extends BaseActivity {
                 case R.id.forget_psd:
                     shortStartActivity(RegisterActivity.class, Constant.IS_REGISTER, Constant.NO);
                     break;
+                case R.id.login_info:
+                    shortStartActivity(SoftwareInfoActivity.class);
+                    break;
             }
         }
     };
@@ -59,6 +62,7 @@ public class LoginActivity extends BaseActivity {
         findViewById(R.id.login_button).setOnClickListener(myOnClickListener);
         findViewById(R.id.forget_psd).setOnClickListener(myOnClickListener);
         findViewById(R.id.login_add_user).setOnClickListener(myOnClickListener);
+        findViewById(R.id.login_info).setOnClickListener(myOnClickListener);
 
         setOnclickListenerOnTextViewDrawable(new View.OnClickListener() {
             @Override
@@ -72,6 +76,7 @@ public class LoginActivity extends BaseActivity {
         if (MyApp.getApp().getLocalConfigManager().getCurrentUserConfig() != null) {
             userNameEditText.setText(MyApp.getApp().getLocalConfigManager().getCurrentUserPhoneNumber());
         }
+        userNameEditText.setSelection(userNameEditText.getText().length());
         if(rememberCheckBox.isChecked()){
             passwordEditText.setText(MyApp.getApp().getLocalConfigManager().getCurrentUserRememberedPassword());
         }

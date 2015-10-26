@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -35,11 +37,19 @@ public class HomeSettingActivity extends BaseActivity {
                     finish();
                     break;
                 case R.id.delete_home:
-                    if (MyApp.getApp().getLocalConfigManager().deleteCurrentHome()) {
-                        finish();
-                    } else {
-                        MyApp.getApp().showToast(R.string.toast_inf_cannot_delete_last_home);
-                    }
+                    new AlertDialog.Builder(HomeSettingActivity.this).setTitle(R.string.tip).setMessage(R.string.is_to_delete_home).
+                            setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (MyApp.getApp().getLocalConfigManager().deleteCurrentHome()) {
+                                        finish();
+                                    } else {
+                                        MyApp.getApp().showToast(R.string.toast_inf_cannot_delete_last_home);
+                                    }
+                                    dialog.dismiss();
+                                }
+                            }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+
                     break;
             }
         }
