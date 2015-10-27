@@ -150,43 +150,46 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 int connectivityStatus = NetworkConnectionStatusUtil.getConnectivityStatus(myGetActivity());
 
                 if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+                    if (connectivityStatus != NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT
+                            && connectivityStatus != NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
+                        connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
+                    } else {
+                        switch (MyApp.getApp().getSocketManager().getStatus()) {
+                            case SocketManager.TCP_DEVICE_CONNECT:
+                                if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
+                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentWifiConnectDevice);
+                                } else if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT) {
+                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentMobileConnectDevice);
+                                } else {
+                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
+                                }
+                                break;
+                            case SocketManager.UDP_DEVICE_CONNECT:
+                                if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
+                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentWifiUdpConnect);
+                                } else {
+                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
+                                }
+                                break;
+                            case SocketManager.TCP_HOST_CONNECT:
+                                if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT ||
+                                        connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT) {
+                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentConnectServer);
+                                } else {
+                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
+                                }
 
-                    switch (MyApp.getApp().getSocketManager().getStatus()) {
-                        case SocketManager.TCP_DEVICE_CONNECT:
-                            if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
-                                connectionStatusView.setOnlineTextView(R.string.settingFragmentWifiConnectDevice);
-                            } else if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT) {
-                                connectionStatusView.setOnlineTextView(R.string.settingFragmentMobileConnectDevice);
-                            } else {
-                                connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
-                            }
-                            break;
-                        case SocketManager.UDP_DEVICE_CONNECT:
-                            if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
-                                connectionStatusView.setOnlineTextView(R.string.settingFragmentWifiUdpConnect);
-                            } else {
-                                connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
-                            }
-                            break;
-                        case SocketManager.TCP_HOST_CONNECT:
-                            if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT ||
-                                    connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT) {
-                                connectionStatusView.setOnlineTextView(R.string.settingFragmentConnectServer);
-                            } else {
-                                connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
-                            }
-
-                            break;
-                        case SocketManager.TCP_UDP_ALL_UNCONNECT:
-                            if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
-                                connectionStatusView.setOnlineTextView(R.string.settingFragmentWifiNoServer);
-                            } else if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT) {
-                                connectionStatusView.setOnlineTextView(R.string.settingFragmentMobileNoServer);
-                            } else {
-                                connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
-                            }
-                            break;
-                        default:
+                                break;
+                            case SocketManager.TCP_UDP_ALL_UNCONNECT:
+                                if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT
+                                        || connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT) {
+                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentCannotControl);
+                                } else {
+                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
+                                }
+                                break;
+                            default:
+                        }
                     }
                 } else {
                     switch (MyApp.getApp().getSocketManager().getStatus()) {

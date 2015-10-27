@@ -203,13 +203,13 @@
     <string name="settingFragmentHasHostNoDevice">成功连接服务器，未添加主机</string>
     <string name="settingFragmentNoHostNoDevice">无法连接服务器，未添加主机</string>
 
-    <string name="settingFragmentWifiConnectDevice">WiFi远程连接主机成功</string>
-    <string name="settingFragmentMobileConnectDevice">移动数据网络远程连接主机成功</string>
-    <string name="settingFragmentWifiUdpConnect">WiFi本地连接主机成功</string>
-    <string name="settingFragmentConnectServer">成功连接服务器，连接主机失败</string>
+    <string name="settingFragmentWifiConnectDevice">通过wifi连接服务器成功</string>
+    <string name="settingFragmentMobileConnectDevice">通过4G/3G/2G连接服务器成功</string>
+    <string name="settingFragmentWifiUdpConnect">通过局域网控制</string>
+    <string name="settingFragmentConnectServer">i-EZ控制器未联网</string>
     <string name="settingFragmentWifiNoServer">APP正使用WiFi，但无法连接服务器</string>
-    <string name="settingFragmentMobileNoServer">APP正使用移动数据网络，但无法连接服务器</string>
-    <string name="settingFragmentUnConnect">APP未连网，请打开WiFi或移动数据网络</string>
+    <string name="settingFragmentCannotControl">无法连接服务器，且局域网无法控制</string>
+    <string name="settingFragmentUnConnect">手机未联网</string>
     <string name="host_name_empty_info">设备管理器的名称不能为空</string>
     <string name="host_name_too_long_info">设备管理器的名称长度不能超过10个字符</string>
     <string name="pls_add_air_to_room">房间里没有空调，请先添加空调到房间里！</string>
