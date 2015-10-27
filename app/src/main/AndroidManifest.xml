@@ -148,7 +148,7 @@
         </activity>
 
         <activity
-                android:name=".activity.searchDeviceByUdpResultActivity"
+                android:name=".activity.SearchDeviceByUdpResultActivity"
                 android:screenOrientation="portrait">
         </activity>
 

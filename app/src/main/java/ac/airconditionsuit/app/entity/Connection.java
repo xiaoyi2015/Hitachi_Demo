@@ -12,12 +12,12 @@ public class Connection extends RootEntity {
     int state;
     String name;
 
-    public Connection(Device device) {
-        this.creator_cust_id = device.getInfo().getCreator_cust_id();
-        this.address = device.getInfo().getIp();
-        this.name = device.getInfo().getName();
-        this.chat_id = device.getInfo().getChat_id();
-        this.mac = device.getInfo().getMac();
+    public Connection(Device.Info info) {
+        this.creator_cust_id = info.getCreator_cust_id();
+        this.address = info.getIp();
+        this.name = info.getName();
+        this.chat_id = info.getChat_id();
+        this.mac = info.getMac();
     }
 
     public long getCreator_cust_id() {

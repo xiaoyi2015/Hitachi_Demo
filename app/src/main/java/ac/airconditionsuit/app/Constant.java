@@ -62,6 +62,7 @@ public class Constant {
 
     //other
     public static final String CONFIG_FILE_SUFFIX = ".dc";
+    public static final String TEMP_CONFIG_FILE_SUFFIX = ".dc.tmp";
     public static final String NO_DEVICE_CONFIG_FILE_PREFIX = "nd";
     public static final int FILE_DECODE_ENCODE_KEY = 0x33;
     public static final String SERVER_CONFIG_FILE_NAME = "serversetting.dc";
@@ -92,4 +93,5 @@ public class Constant {
     public static final String REQUEST_PARAMS_KEY_PN_MSG_IDS = "msg_ids";
 
 
+    public static final String NEW_HOME_NAME = "新的家";
 }

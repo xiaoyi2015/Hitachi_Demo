@@ -10,20 +10,34 @@ import java.util.Arrays;
  * the entity for device
  */
 public class Device extends RootEntity {
+    public Device() {
+    }
+
+    public Device(QRCode qrCode) {
+        this.getInfo().setIp(qrCode.getAddress());
+        this.getInfo().setMac(qrCode.getMac());
+        this.getInfo().setName(qrCode.getName());
+        this.getInfo().setCreator_cust_id(qrCode.getCreator_cust_id());
+        this.getInfo().setChat_id(qrCode.getChat_id());
+    }
+
     static public class QRCode extends RootEntity {
-        public QRCode(String chat_id) {
+        private long chat_id = -1;
+        private String t;
+        private long creator_cust_id;
+        private String address;
+        private String mac;
+        private int cust_id = 10001;
+        private int status = 1;
+        private String name;
+
+        public QRCode(long chat_id) {
             this.chat_id = chat_id;
         }
 
-        public QRCode(long chatId) {
-            this.chat_id = String.valueOf(chatId);
-        }
-
-        public String getChat_id() {
+        public long getChat_id() {
             return chat_id;
         }
-
-        public String chat_id;
 
         public String getT() {
             return t;
@@ -33,16 +47,65 @@ public class Device extends RootEntity {
             this.t = t;
         }
 
-        public String t;
-
         public static QRCode decodeFromJson(String jsonString) {
             return new Gson().fromJson(jsonString, QRCode.class);
         }
 
+        public void setChat_id(long chat_id) {
+            this.chat_id = chat_id;
+        }
+
+        public long getCreator_cust_id() {
+            return creator_cust_id;
+        }
+
+        public void setCreator_cust_id(long creator_cust_id) {
+            this.creator_cust_id = creator_cust_id;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getMac() {
+            return mac;
+        }
+
+        public void setMac(String mac) {
+            this.mac = mac;
+        }
+
+        public int getCust_id() {
+            return cust_id;
+        }
+
+        public void setCust_id(int cust_id) {
+            this.cust_id = cust_id;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 
     public String toQRCodeString(String t) {
-        QRCode qrCode = new QRCode(info.getChat_id().toString());
+        QRCode qrCode = new QRCode(info.getChat_id());
         qrCode.setT(t);
         return new Gson().toJson(qrCode);
     }
@@ -182,13 +245,10 @@ public class Device extends RootEntity {
     public void setAuthCode(byte[] authCodeBytes) {
         this.authCode = ByteUtil.byteArrayToHexString(authCodeBytes);
         byte[] bytes = Arrays.copyOf(authCodeBytes, 6);
-//        byte[] bytesR = new byte[6];
-//        for (int i = 0; i < 6; ++i) {
-//            bytesR[i] = bytes[5 - i];
-//        }
         String mac = ByteUtil.byteArrayToHexString(bytes);
         this.info.setMac(mac);
         this.info.setChat_id(getIdByAuthCode(authCodeBytes));
+        this.info.setName("10001-" + info.getChat_id());
     }
 
     public String getCust_class() {

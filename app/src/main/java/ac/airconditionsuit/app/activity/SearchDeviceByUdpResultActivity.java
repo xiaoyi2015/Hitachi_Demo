@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class searchDeviceByUdpResultActivity extends BaseActivity {
+public class SearchDeviceByUdpResultActivity extends BaseActivity {
 
     private List<Device> devices = new ArrayList<>();
     private MyOnClickListener myOnClickListener = new MyOnClickListener() {
@@ -59,7 +59,7 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
         MyApp.getApp().getSocketManager().sendBroadCast();
 
         ListView listView = (ListView)findViewById(R.id.host_list);
-        hostListAdapter = new HostListAdapter(searchDeviceByUdpResultActivity.this,devices);
+        hostListAdapter = new HostListAdapter(SearchDeviceByUdpResultActivity.this,devices);
         listView.setAdapter(hostListAdapter);
 
     }
@@ -132,7 +132,7 @@ public class searchDeviceByUdpResultActivity extends BaseActivity {
             if(convertView == null){
                 convertView = new CommonButtonWithArrow(context);
             }
-            ((CommonButtonWithArrow)convertView).getLabelTextView().setText("10001" + list.get(position).getAuthCodeEncode());
+            ((CommonButtonWithArrow)convertView).getLabelTextView().setText(list.get(position).getInfo().getName());
             ((CommonButtonWithArrow)convertView).setOnlineTextView("添加设备");
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override

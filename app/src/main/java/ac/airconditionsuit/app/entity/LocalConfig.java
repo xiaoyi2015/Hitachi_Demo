@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.entity;
 
+import ac.airconditionsuit.app.Constant;
+import ac.airconditionsuit.app.MyApp;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -54,9 +56,12 @@ public class LocalConfig extends RootEntity {
             }
 
         }
-        users.add(new UserForLocalConfig(user));
+
+        UserForLocalConfig newUser = new UserForLocalConfig(user);
+        users.add(newUser);
         //set currentIndex = latest user
         currentIndex = users.size() - 1;
+        newUser.addNewHome(Constant.NEW_HOME_NAME);
     }
 
     public void updateCurrentUserHostDeviceConfigFile(List<String> fileNames) {

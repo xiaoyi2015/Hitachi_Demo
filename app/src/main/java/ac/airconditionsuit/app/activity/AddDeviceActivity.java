@@ -9,16 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
-import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonTopBar;
 import com.loopj.android.http.RequestParams;
 
 import java.io.File;
-import java.security.PrivilegedAction;
 
 /**
  * Created by Administrator on 2015/9/18.
@@ -33,7 +29,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.add_device));
-        switch (UIManager.UITYPE){
+        switch (UIManager.UITYPE) {
             case 1:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
                 break;
@@ -44,7 +40,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
                 break;
         }
-        commonTopBar.setIconView(this,null);
+        commonTopBar.setIconView(this, null);
         findViewById(R.id.search_by_udp).setOnClickListener(this);
         findViewById(R.id.scan_qrcode).setOnClickListener(this);
     }
@@ -61,7 +57,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.search_by_udp:
-                shortStartActivity(searchDeviceByUdpResultActivity.class);
+                shortStartActivity(SearchDeviceByUdpResultActivity.class);
                 break;
 
         }
@@ -75,7 +71,13 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 case REQUEST_FOR_SCAN_QRCODE:
                     String scan_result = data.getStringExtra("SCAN_RESULT");
                     Log.v(TAG, "scan qrcode success: " + scan_result);
-                    joinDevice(Device.QRCode.decodeFromJson(scan_result));
+                    try {
+                        joinDevice(Device.QRCode.decodeFromJson(scan_result));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.e(TAG, "qrcode format is not json");
+                        MyApp.getApp().showToast("二维码格式错误！");
+                    }
                     break;
             }
 
@@ -88,13 +90,13 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         params.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_APPLY_JOIN);
 
 
-        String chat_id = qrCode.getChat_id();
+        long chat_id = qrCode.getChat_id();
         String t = qrCode.getT();
-        if (chat_id == null || t == null) {
+        if (chat_id == -1 || t == null) {
             MyApp.getApp().showToast("二维码格式错误！");
             return;
         }
-        params.put(Constant.REQUEST_PARAMS_KEY_CHAT_ID, chat_id.toString());
+        params.put(Constant.REQUEST_PARAMS_KEY_CHAT_ID, chat_id);
         params.put(Constant.REQUEST_PARAMS_KEY_T, t);
 
         showWaitProgress();
@@ -103,24 +105,37 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
             public void onSuccess(String response) {
                 dismissWaitProgress();
 
-                String deviceId = qrCode.getChat_id();
-                File outputFile = MyApp.getApp().getPrivateFile(deviceId, Constant.CONFIG_FILE_SUFFIX);
-                HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(Long.parseLong(deviceId)),
+                final Long deviceId = qrCode.getChat_id();
+                final File outputFile = MyApp.getApp().getPrivateFile(deviceId.toString(), Constant.CONFIG_FILE_SUFFIX);
+                HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(deviceId),
                         outputFile, new HttpClient.DownloadFileHandler() {
                             @Override
                             public void onFailure(Throwable throwable) {
                                 Log.e(TAG, "下载主机配置文件失败，用新的配置文件上传服务器");
+                                MyApp.getApp().getLocalConfigManager().changeCurrentServerConfigFileName(deviceId + Constant.CONFIG_FILE_SUFFIX);
+                                Device device = new Device(qrCode);
+                                MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
+                                MyApp.getApp().getSocketManager().reconnect();
+                                Intent intent = new Intent();
+                                intent.setClass(AddDeviceActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
                             }
 
                             @Override
                             public void onSuccess(File file) {
-                                Log.i(TAG, "下载主机配置文件成功，用新的配置文件上传服务器");
+                                Log.i(TAG, "下载主机配置文件成功");
+                                MyApp.getApp().getLocalConfigManager().updateCurrentServerConfigFile(outputFile.getName());
+                                MyApp.getApp().getServerConfigManager().readFromFile();
+                                Device device = new Device(qrCode);
+                                MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
+                                MyApp.getApp().getSocketManager().reconnect();
                                 Intent intent = new Intent();
                                 intent.setClass(AddDeviceActivity.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 finish();
-                                MyApp.getApp().getServerConfigManager().readFromFile();
                             }
                         });
             }
@@ -128,7 +143,6 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onFailure(Throwable throwable) {
                 dismissWaitProgress();
-                MyApp.getApp().showToast("加入设备失败！");
             }
         });
 

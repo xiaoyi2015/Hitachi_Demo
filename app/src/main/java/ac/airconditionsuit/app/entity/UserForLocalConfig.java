@@ -138,6 +138,9 @@ public class UserForLocalConfig {
     public void addNewHome(String homeName) {
         String configFileName = Constant.NO_DEVICE_CONFIG_FILE_PREFIX + System.currentTimeMillis() + Constant.CONFIG_FILE_SUFFIX;
         homeConfigFileNames.add(configFileName);
+        if (currentHomeIndex == -1) {
+            currentHomeIndex = homeConfigFileNames.size() - 1;
+        }
         ServerConfigManager.genNewHomeConfigFile(configFileName, homeName);
     }
 
@@ -150,6 +153,7 @@ public class UserForLocalConfig {
         if (homeConfigFileNames.size() <= 1) {
             return false;
         } else {
+            MyApp.getApp().getServerConfigManager().deleteDevice();
             deleteHostDeviceConfigFile(homeConfigFileNames.remove(currentHomeIndex));
             if (currentHomeIndex >= homeConfigFileNames.size()) {
                 currentHomeIndex = homeConfigFileNames.size() - 1;
@@ -160,6 +164,10 @@ public class UserForLocalConfig {
     }
 
     public void updateCurrentHostDeviceConfigFile(String name) {
+        if (currentHomeIndex == -1) {
+            currentHomeIndex = 0;
+            homeConfigFileNames.add(name);
+        }
         homeConfigFileNames.set(currentHomeIndex, name);
     }
 

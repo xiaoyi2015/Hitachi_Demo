@@ -46,27 +46,19 @@ public class HostDeviceActivity extends BaseActivity{
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //TODO  delete host device
-                                    RequestParams params = new RequestParams();
-                                    params.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
-                                    params.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_CANCEL);
-                                    params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID,
-                                            MyApp.getApp().getServerConfigManager().getConnections().get(0).getChat_id());
-
+                                    long chat_id = MyApp.getApp().getServerConfigManager().getConnections().get(0).getChat_id();
                                     showWaitProgress();
-                                    HttpClient.get(params, DeleteDeviceResponse.class, new HttpClient.JsonResponseHandler<DeleteDeviceResponse>() {
+                                    MyApp.getApp().getServerConfigManager().deleteDevice(chat_id, new HttpClient.JsonResponseHandler<Object>(){
+
                                         @Override
-                                        public void onSuccess(DeleteDeviceResponse response) {
+                                        public void onSuccess(Object response) {
                                             dismissWaitProgress();
-                                            MyApp.getApp().getServerConfigManager().deleteDevice();
-                                            MyApp.getApp().getSocketManager().close();
                                             finish();
                                         }
 
                                         @Override
                                         public void onFailure(Throwable throwable) {
                                             dismissWaitProgress();
-                                            MyApp.getApp().showToast(R.string.toast_inf_delete_device_failed);
                                         }
                                     });
                                     dialog.dismiss();
@@ -81,6 +73,7 @@ public class HostDeviceActivity extends BaseActivity{
             }
         }
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

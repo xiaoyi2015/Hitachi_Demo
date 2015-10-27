@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -19,7 +18,6 @@ import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
-import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
@@ -68,7 +66,7 @@ public class BindHostActivity extends BaseActivity {
         }
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
         changeName = (TextView) findViewById(R.id.host_name);
-        changeName.setText("10001" + device.getAuthCodeEncode());
+        changeName.setText(device.getInfo().getName());
 
     }
 
@@ -97,16 +95,16 @@ public class BindHostActivity extends BaseActivity {
             public void onSuccess(String response) {
                 dismissWaitProgress();
 
-                Long deviceId = device.getInfo().getChat_id();
+                final Long deviceId = device.getInfo().getChat_id();
                 final File outputFile = MyApp.getApp().getPrivateFile(deviceId.toString(), Constant.CONFIG_FILE_SUFFIX);
                 HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(deviceId),
                         outputFile, new HttpClient.DownloadFileHandler() {
                             @Override
                             public void onFailure(Throwable throwable) {
                                 Log.e(TAG, "下载主机配置文件失败，用新的配置文件上传服务器");
-                                MyApp.getApp().getLocalConfigManager().changeCurrentServerConfigFileName(outputFile.getName());
+                                MyApp.getApp().getLocalConfigManager().changeCurrentServerConfigFileName(deviceId + Constant.CONFIG_FILE_SUFFIX);
                                 device.getInfo().setName(changeName.getText().toString());
-                                MyApp.getApp().getServerConfigManager().setCurrentdevice(device);
+                                MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
                                 MyApp.getApp().getSocketManager().reconnect();
                                 Intent intent = new Intent();
                                 intent.setClass(BindHostActivity.this, MainActivity.class);
@@ -121,7 +119,7 @@ public class BindHostActivity extends BaseActivity {
                                 MyApp.getApp().getLocalConfigManager().updateCurrentServerConfigFile(outputFile.getName());
                                 MyApp.getApp().getServerConfigManager().readFromFile();
                                 device.getInfo().setName(changeName.getText().toString());
-                                MyApp.getApp().getServerConfigManager().setCurrentdevice(device);
+                                MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
                                 MyApp.getApp().getSocketManager().reconnect();
                                 Intent intent = new Intent();
                                 intent.setClass(BindHostActivity.this, MainActivity.class);

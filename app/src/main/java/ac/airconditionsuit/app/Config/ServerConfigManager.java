@@ -6,10 +6,10 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.*;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.HttpClient;
+import ac.airconditionsuit.app.network.response.DeleteDeviceResponse;
 import ac.airconditionsuit.app.network.response.UploadConfigResponse;
 import ac.airconditionsuit.app.util.MyBase64Util;
 import ac.airconditionsuit.app.util.PlistUtil;
-import android.graphics.Bitmap;
 import android.util.Log;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
@@ -58,9 +58,9 @@ public class ServerConfigManager {
         return rootJavaObj.getTimers();
     }
 
-    public int getDeviceIndexFromAddress(int address){
-        for(int i = 0; i < rootJavaObj.getDevices().size(); i++){
-            if(address == rootJavaObj.getDevices().get(i).getAddress()){
+    public int getDeviceIndexFromAddress(int address) {
+        for (int i = 0; i < rootJavaObj.getDevices().size(); i++) {
+            if (address == rootJavaObj.getDevices().get(i).getAddress()) {
                 return i;
             }
         }
@@ -112,6 +112,10 @@ public class ServerConfigManager {
 
     public String getCurrentHostMac() {
         return rootJavaObj.getConnection().get(0).getMac();
+    }
+
+    public Connection getCurrentHostDeviceInfo() {
+        return rootJavaObj.getConnection().get(0);
     }
 
     public String getCurrentHostIP() {
@@ -176,7 +180,7 @@ public class ServerConfigManager {
         writeToFile();
     }
 
-    public void readFromFile(String fileName){
+    private void readFromFile(File serverConfigFile) {
         if (!MyApp.getApp().isUserLogin()) {
             Log.i(TAG, "readFromFile should be call after user login");
             return;
@@ -184,11 +188,11 @@ public class ServerConfigManager {
 
         FileInputStream fis = null;
         try {
-            File serverConfigFile = MyApp.getApp().getLocalConfigManager().getHomeConfigFile(fileName);
             //配置文件名字不存在
             if (serverConfigFile == null) {
                 rootJavaObj = ServerConfig.genNewConfig(Constant.NO_DEVICE_CONFIG_FILE_PREFIX + System.currentTimeMillis() + Constant.CONFIG_FILE_SUFFIX,
-                        "new home");
+                        "新的家");
+                writeToFile();
                 return;
             }
             //配置文件名字存在，文件不存在
@@ -205,8 +209,8 @@ public class ServerConfigManager {
             rootJavaObj = new Gson().fromJson(json, ServerConfig.class);
             Log.v(TAG, "read server config file success");
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
-            rootJavaObj = ServerConfig.genNewConfig(fileName, "新的家");
-            writeToFile(fileName);
+            rootJavaObj = ServerConfig.genNewConfig(serverConfigFile.getName(), "新的家");
+            writeToFile(serverConfigFile.getName());
             Log.e(TAG, "read server config file error");
             e.printStackTrace();
         } finally {
@@ -221,48 +225,14 @@ public class ServerConfigManager {
 
     }
 
-    public void readFromFile() {
-        if (!MyApp.getApp().isUserLogin()) {
-            Log.i(TAG, "readFromFile should be call after user login");
-            return;
-        }
+    public void readFromFile(String fileName) {
+        File serverConfigFile = MyApp.getApp().getLocalConfigManager().getHomeConfigFile(fileName);
+        readFromFile(serverConfigFile);
+    }
 
-        FileInputStream fis = null;
+    public void readFromFile() {
         File serverConfigFile = MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFile();
-        try {
-            //配置文件名字不存在
-            if (serverConfigFile == null) {
-                rootJavaObj = ServerConfig.genNewConfig(Constant.NO_DEVICE_CONFIG_FILE_PREFIX + System.currentTimeMillis() + Constant.CONFIG_FILE_SUFFIX,
-                        "new home");
-                return;
-            }
-            //配置文件名字存在，文件不存在
-            if (!serverConfigFile.exists()) {
-                throw new IOException();
-            }
-            fis = new FileInputStream(serverConfigFile);
-            byte[] bytes = new byte[fis.available()];
-            if (fis.read(bytes) != bytes.length) {
-                throw new IOException();
-            }
-            NSDictionary root = (NSDictionary) PropertyListParser.parse(MyBase64Util.decodeToByte(bytes));
-            String json = PlistUtil.NSDictionaryToJsonString(root);
-            rootJavaObj = new Gson().fromJson(json, ServerConfig.class);
-            Log.v(TAG, "read server config file success");
-        } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
-            Log.e(TAG, "read server config file error");
-            rootJavaObj = ServerConfig.genNewConfig(serverConfigFile.getName(), "新的家");
-            writeToFile(serverConfigFile.getName());
-            e.printStackTrace();
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        readFromFile(serverConfigFile);
     }
 
     private void writeToFile(String fileName) {
@@ -396,7 +366,8 @@ public class ServerConfigManager {
      */
     private static void downloadDeviceConfigFilesFromServerIter(final List<Device.Info> response, final List<String> fileNames, final CommonNetworkListener commonNetworkListener) {
         if (response.size() != 0) {
-            Long deviceId = response.remove(0).getChat_id();
+            final Device.Info deviceInfo = response.remove(0);
+            Long deviceId = deviceInfo.getChat_id();
             final File outputFile = MyApp.getApp().getPrivateFile(deviceId.toString(), Constant.CONFIG_FILE_SUFFIX);
             HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(deviceId),
                     outputFile, new HttpClient.DownloadFileHandler() {
@@ -404,7 +375,14 @@ public class ServerConfigManager {
                         public void onFailure(Throwable throwable) {
                             Log.e(TAG, MyApp.getApp().getString(R.string.toast_inf_download_file_error));
                             fileNames.add(outputFile.getName());
-                            outputFile.delete();
+                            if (outputFile.exists()) {
+                                ServerConfigManager scm = new ServerConfigManager();
+                                scm.readFromFile(outputFile);
+                                scm.setCurrentDevice(deviceInfo);
+                            } else {
+                                ServerConfigManager scm = ServerConfigManager.genNewHomeConfigFile(outputFile.getName(), "新的家");
+                                scm.setCurrentDevice(deviceInfo);
+                            }
                             downloadDeviceConfigFilesFromServerIter(response, fileNames, commonNetworkListener);
                         }
 
@@ -420,6 +398,41 @@ public class ServerConfigManager {
 
             commonNetworkListener.onSuccess();
         }
+    }
+
+    public void deleteDevice() {
+        deleteDevice(getCurrentChatId(), null);
+    }
+
+    public void deleteDevice(long chat_id, final HttpClient.JsonResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
+        params.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_CANCEL);
+        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, chat_id);
+
+        HttpClient.get(params, DeleteDeviceResponse.class, new HttpClient.JsonResponseHandler<DeleteDeviceResponse>() {
+            @Override
+            public void onSuccess(DeleteDeviceResponse response) {
+                rootJavaObj.setConnection(null);
+                rootJavaObj.setSections(null);
+                rootJavaObj.setDevices(null);
+                rootJavaObj.setScenes(null);
+                rootJavaObj.setTimers(null);
+                writeToFile();
+                MyApp.getApp().getSocketManager().close();
+                if (handler != null) {
+                    handler.onSuccess(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                MyApp.getApp().showToast(R.string.toast_inf_delete_device_failed);
+                if (handler != null) {
+                    handler.onFailure(throwable);
+                }
+            }
+        });
     }
 
 
@@ -443,10 +456,11 @@ public class ServerConfigManager {
         this.rootJavaObj = rootJavaObj;
     }
 
-    public static void genNewHomeConfigFile(String configFileName, String homeName) {
+    public static ServerConfigManager genNewHomeConfigFile(String configFileName, String homeName) {
         ServerConfigManager scm = new ServerConfigManager();
         scm.setRootJavaObj(ServerConfig.genNewConfig(configFileName, homeName));
         scm.writeToFile(configFileName);
+        return scm;
     }
 
     public void updateTimer(Timer timer) {
@@ -459,16 +473,9 @@ public class ServerConfigManager {
         if (contentData.length != count + 1) {
             Log.e(TAG, "decode air condition address fail");
         }
-//        out:
         List<DeviceFromServerConfig> newDevice = new ArrayList<>();
         for (int i = 1; i < contentData.length; ++i) {
             DeviceFromServerConfig tempDevice = new DeviceFromServerConfig(contentData[i]);
-//            for (DeviceFromServerConfig device : getDevices()) {
-//                if (device.equals(tempDevice)) {
-//                    continue out;
-//                }
-//            }
-//            getDevices().add(tempDevice);
             newDevice.add(tempDevice);
         }
         getRootJavaObj().setDevices(newDevice);
@@ -476,25 +483,21 @@ public class ServerConfigManager {
         MyApp.getApp().getSocketManager().notifyActivity(od);
     }
 
-    public void deleteDevice() {
-        rootJavaObj.setConnection(null);
-        rootJavaObj.setSections(null);
-        rootJavaObj.setDevices(null);
-        rootJavaObj.setScenes(null);
-        rootJavaObj.setTimers(null);
-        writeToFile();
-    }
 
-    public void setCurrentdevice(Device device) {
+    private void setCurrentDevice(Device.Info deviceInfo) {
         List<Connection> connections = rootJavaObj.getConnection();
         if (connections == null) {
             connections = new ArrayList<>();
             rootJavaObj.setConnection(connections);
         }
-        Connection connection = new Connection(device);
+        Connection connection = new Connection(deviceInfo);
         connections.clear();
         connections.add(connection);
         writeToFile();
+    }
+
+    public void setCurrentDevice(Device device) {
+        setCurrentDevice(device.getInfo());
     }
 
     public void deleteAllTimer() {

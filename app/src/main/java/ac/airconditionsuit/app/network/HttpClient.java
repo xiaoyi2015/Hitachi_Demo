@@ -137,6 +137,7 @@ public class HttpClient {
                         try {
                             handler.onSuccess((T) new Gson().fromJson(response.getData(), type));
                         } catch (Exception e) {
+                            e.printStackTrace();
                             //可能 response.getData() 是空字符而type 是数组进行如下处理：
                             if (response.getData().getAsString().equals("")) {
                                 try {
@@ -223,12 +224,16 @@ public class HttpClient {
         });
     }
 
-    public static void downloadFile(final String url, File file, final DownloadFileHandler handler) {
-        getAsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(file) {
+    public static void downloadFile(final String url, final File outputFile, final DownloadFileHandler handler) {
+        File tempOutputFile = MyApp.getApp().getPrivateFile(outputFile.getName(), "temp");
+        getAsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(tempOutputFile) {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                 throwable.printStackTrace();
                 Log.e(TAG, "download file from " + url + "failed");
+                if (file.exists()) {
+                    file.delete();
+                }
                 if (handler != null) {
                     handler.onFailure(throwable);
                 }
@@ -238,7 +243,11 @@ public class HttpClient {
             public void onSuccess(int statusCode, Header[] headers, File file) {
                 Log.v(TAG, "download file " + file.getPath() + " success");
                 if (handler != null) {
-                    handler.onSuccess(file);
+                    if (outputFile.exists()) {
+                        outputFile.delete();
+                    }
+                    file.renameTo(outputFile);
+                    handler.onSuccess(outputFile);
                 }
             }
         });

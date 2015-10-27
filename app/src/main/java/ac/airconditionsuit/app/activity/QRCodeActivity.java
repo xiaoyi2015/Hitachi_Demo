@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.activity;
 
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.entity.Connection;
 import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.GetChatTokenResponse;
@@ -69,8 +70,13 @@ public class QRCodeActivity extends BaseActivity{
         HttpClient.get(params, GetChatTokenResponse.class, new HttpClient.JsonResponseHandler<GetChatTokenResponse>() {
             @Override
             public void onSuccess(GetChatTokenResponse response) {
-                Device.QRCode qrCode = new Device.QRCode(MyApp.getApp().getServerConfigManager().getCurrentChatId());
+                Connection hostDeviceInfo = MyApp.getApp().getServerConfigManager().getCurrentHostDeviceInfo();
+                Device.QRCode qrCode = new Device.QRCode(hostDeviceInfo.getChat_id());
                 qrCode.setT(response.getT());
+                qrCode.setMac(hostDeviceInfo.getMac());
+                qrCode.setName(hostDeviceInfo.getName());
+                qrCode.setAddress(hostDeviceInfo.getAddress());
+                qrCode.setCreator_cust_id(hostDeviceInfo.getCreator_cust_id());
 
                 QRCodeWriter writer = new QRCodeWriter();
                 try {
