@@ -252,7 +252,14 @@ public class SetClockFragment extends BaseFragment {
                 clockSetting2.setText(repeat + "|" + week);
             } else {
                 repeat = getString(R.string.not_repeat);
-                clockSetting2.setText(repeat);
+                week = getString(R.string.week_name);
+                List<Integer> week1 = list.get(position).getWeek();
+                for (int i = 0; i < week1.size() - 1; i++) {
+                    week = week + weekName[week1.get(i)] + "|";
+                }
+                Integer integer = week1.get(week1.size() - 1);
+                week = week + weekName[integer];
+                clockSetting2.setText(repeat + "|" + week);
             }
 
             if (list.get(position).isOnoff()) {
