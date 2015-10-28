@@ -87,9 +87,13 @@ public class EditSceneActivity extends BaseActivity{
                         setResult(RESULT_OK);
                         finish();
                     }else{
-                        MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().clear();
-                        for(int i = 0; i < temp_on_off.size(); i++){
-                            if(temp_on_off.get(i) != 2){
+                        if(MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds() != null) {
+                            MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().clear();
+                        }else{
+                            MyApp.getApp().getServerConfigManager().getScene().get(index).setCommonds(new ArrayList<Command>());
+                        }
+                        for (int i = 0; i < temp_on_off.size(); i++) {
+                            if (temp_on_off.get(i) != 2) {
                                 Command command = new Command();
                                 command.setAddress(MyApp.getApp().getServerConfigManager().getDevices().get(i).getAddress());
                                 command.setOnoff(temp_on_off.get(i));
