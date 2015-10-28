@@ -163,6 +163,7 @@ public class HttpClient {
                         break;
                     case HttpStatus.SC_OK:
                         if (throwable != null) {
+                            throwable.printStackTrace();
                             if (throwable instanceof JsonSyntaxException) {
                                 MyApp.getApp().showToast(R.string.toast_inf_net_data_error);
                             } else if (throwable instanceof CommonError) {

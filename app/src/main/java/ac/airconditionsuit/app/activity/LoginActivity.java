@@ -144,6 +144,7 @@ public class LoginActivity extends BaseActivity {
                         MyApp.getApp().showToast(R.string.init_file_error);
                     }
                 });
+                registerDevice();
             }
 
             @Override
@@ -152,6 +153,14 @@ public class LoginActivity extends BaseActivity {
                 dismissWaitProgress();
             }
         });
+    }
+
+    private void registerDevice() {
+        RequestParams requestParams = new RequestParams();
+        requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, "regDeviceNo");
+        requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
+        requestParams.put("device_no", "");
+        HttpClient.get(requestParams, String.class, null);
     }
 
     @Override
