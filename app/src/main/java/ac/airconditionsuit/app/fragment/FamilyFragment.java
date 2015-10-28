@@ -18,6 +18,7 @@ import com.loopj.android.http.RequestParams;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
@@ -31,7 +32,7 @@ import ac.airconditionsuit.app.view.RoundImageView;
 /**
  * Created by Administrator on 2015/10/3.
  */
-public class FamilyFragment extends Fragment{
+public class FamilyFragment extends Fragment {
 
     BaseActivity baseActivity;
     private View view;
@@ -42,18 +43,17 @@ public class FamilyFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         baseActivity = (BaseActivity) getActivity();
-        view = inflater.inflate(R.layout.fragment_family,container,false);
+        view = inflater.inflate(R.layout.fragment_family, container, false);
         TextView adminText = (TextView) view.findViewById(R.id.text_view);
-        TextView IsAdmin = (TextView)view.findViewById(R.id.admin_text);
+        TextView IsAdmin = (TextView) view.findViewById(R.id.admin_text);
         TextView userName = (TextView) view.findViewById(R.id.user_name);
         userName.setText(MyApp.getApp().getUser().getCust_name());
         userPicture = (RoundImageView) view.findViewById(R.id.current_user);
-        if(!MyApp.getApp().getUser().isAdmin())
-        {
+        if (!MyApp.getApp().getUser().isAdmin()) {
             admin = false;
             adminText.setVisibility(View.GONE);
             IsAdmin.setText(getString(R.string.member));
-        }else{
+        } else {
             admin = true;
             IsAdmin.setText(getString(R.string.admin));
         }
@@ -84,29 +84,25 @@ public class FamilyFragment extends Fragment{
     }
 
     private void inflaterUI(List<MyUser> cust_list) {
-        if(cust_list == null)
-        {
+        if (cust_list == null) {
             cust_list = new ArrayList<>();
         }
         List<MyUser> customers1 = new ArrayList<>();
 
-        for ( int i = 0; i < cust_list.size();i++ )
-        {
-            if((cust_list.get(i).getCust_id() != MyApp.getApp().getUser().getCust_id()) && (cust_list.get(i).getCust_name() != ""))
-            {
-
-                if(cust_list.get(i).getCust_id() <= 0x01000000000000l && cust_list.get(i).getCust_id() >= 0)
+        for (int i = 0; i < cust_list.size(); i++) {
+            if ((!Objects.equals(cust_list.get(i).getCust_id(), MyApp.getApp().getUser().getCust_id())) && (!Objects.equals(cust_list.get(i).getCust_name(), ""))) {
+                if (cust_list.get(i).getCust_id() <= 0x01000000000000l && cust_list.get(i).getCust_id() >= 0)
                     customers1.add(cust_list.get(i));
             }
         }
 
         int n = customers1.size();
         ListView listView = (ListView) view.findViewById(R.id.family_list);
-        customAdapter = new CustomAdapter(baseActivity,customers1,admin);
+        customAdapter = new CustomAdapter(baseActivity, customers1, admin);
         listView.setAdapter(customAdapter);
     }
 
-    private class CustomAdapter extends BaseAdapter{
+    private class CustomAdapter extends BaseAdapter {
 
         private Context context;
         private List<MyUser> customers;
@@ -114,7 +110,7 @@ public class FamilyFragment extends Fragment{
         private LayoutInflater listContainer;
         private boolean findAdmin;
 
-        public final class ListItemView{
+        public final class ListItemView {
             public TextView adminText1;
             public RoundImageView image1;
             public TextView name1;
@@ -123,7 +119,7 @@ public class FamilyFragment extends Fragment{
             public TextView name2;
         }
 
-        public CustomAdapter(Context context,List<MyUser> list,boolean isAdmin){
+        public CustomAdapter(Context context, List<MyUser> list, boolean isAdmin) {
             this.context = context;
             this.customers = list;
             this.isAdmin = isAdmin;
@@ -134,10 +130,10 @@ public class FamilyFragment extends Fragment{
         @Override
         public int getCount() {
             int count;
-            if((customers.size() % 2) == 0){
-                count = customers.size()/2;
-            }else {
-                count = customers.size()/2 + 1;
+            if ((customers.size() % 2) == 0) {
+                count = customers.size() / 2;
+            } else {
+                count = customers.size() / 2 + 1;
             }
             return count;
         }
@@ -155,17 +151,17 @@ public class FamilyFragment extends Fragment{
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             ListItemView listItemView;
-            if(convertView == null) {
+            if (convertView == null) {
                 listItemView = new ListItemView();
-                convertView = listContainer.inflate(R.layout.family_items,null);
-                listItemView.adminText1 = (TextView)convertView.findViewById(R.id.admin_text1);
-                listItemView.image1 = (RoundImageView)convertView.findViewById(R.id.cust1_picture);
-                listItemView.name1 = (TextView)convertView.findViewById(R.id.cust1_name);
-                listItemView.adminText2 = (TextView)convertView.findViewById(R.id.admin_text2);
-                listItemView.image2 = (RoundImageView)convertView.findViewById(R.id.cust2_picture);
-                listItemView.name2 = (TextView)convertView.findViewById(R.id.cust2_name);
+                convertView = listContainer.inflate(R.layout.family_items, null);
+                listItemView.adminText1 = (TextView) convertView.findViewById(R.id.admin_text1);
+                listItemView.image1 = (RoundImageView) convertView.findViewById(R.id.cust1_picture);
+                listItemView.name1 = (TextView) convertView.findViewById(R.id.cust1_name);
+                listItemView.adminText2 = (TextView) convertView.findViewById(R.id.admin_text2);
+                listItemView.image2 = (RoundImageView) convertView.findViewById(R.id.cust2_picture);
+                listItemView.name2 = (TextView) convertView.findViewById(R.id.cust2_name);
                 convertView.setTag(listItemView);
-            }else {
+            } else {
                 listItemView = (ListItemView) convertView.getTag();
             }
 
@@ -173,7 +169,7 @@ public class FamilyFragment extends Fragment{
             listItemView.image1.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if(isAdmin) {
+                    if (isAdmin) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle(R.string.tip);
@@ -182,7 +178,7 @@ public class FamilyFragment extends Fragment{
                         builder.setPositiveButton(getString(R.string.make_sure), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                deleteCust(customers.get(2*position));
+                                deleteCust(customers.get(2 * position));
                                 notifyDataSetChanged();
                                 dialog.dismiss();
                             }
@@ -229,7 +225,7 @@ public class FamilyFragment extends Fragment{
 
             });
             //System.out.println("getView--" + position);
-            if(isAdmin || findAdmin) {
+            if (isAdmin || findAdmin) {
                 if (position * 2 + 2 <= customers.size()) {
                     listItemView.image1.setVisibility(View.VISIBLE);
                     setImage(context, customers.get(2 * position), listItemView.image1);
@@ -254,19 +250,19 @@ public class FamilyFragment extends Fragment{
                     listItemView.adminText1.setVisibility(View.VISIBLE);
                     listItemView.adminText1.setText(getString(R.string.member));
                     listItemView.adminText2.setVisibility(View.INVISIBLE);
-                    
+
                 }
-            }else {
+            } else {
                 if (position * 2 + 2 <= customers.size()) {
                     listItemView.image1.setVisibility(View.VISIBLE);
                     setImage(context, customers.get(2 * position), listItemView.image1);
                     listItemView.name1.setVisibility(View.VISIBLE);
                     listItemView.name1.setText(customers.get(2 * position).getCust_name());
                     listItemView.adminText1.setVisibility(View.VISIBLE);
-                    if(customers.get(2 * position).isAdmin()){
+                    if (customers.get(2 * position).isAdmin()) {
                         findAdmin = true;
                         listItemView.adminText1.setText(getString(R.string.admin));
-                    }else {
+                    } else {
                         listItemView.adminText1.setText(getString(R.string.member));
                     }
                     listItemView.image2.setVisibility(View.VISIBLE);
@@ -274,10 +270,10 @@ public class FamilyFragment extends Fragment{
                     listItemView.name2.setVisibility(View.VISIBLE);
                     listItemView.name2.setText(customers.get(2 * position + 1).getCust_name());
                     listItemView.adminText2.setVisibility(View.VISIBLE);
-                    if(customers.get(2 * position + 1).isAdmin()){
+                    if (customers.get(2 * position + 1).isAdmin()) {
                         findAdmin = true;
                         listItemView.adminText2.setText(getString(R.string.admin));
-                    }else {
+                    } else {
                         listItemView.adminText2.setText(getString(R.string.member));
                     }
                 } else {
@@ -286,10 +282,10 @@ public class FamilyFragment extends Fragment{
                     listItemView.name1.setVisibility(View.VISIBLE);
                     listItemView.name1.setText(customers.get(2 * position).getCust_name());
                     listItemView.adminText1.setVisibility(View.VISIBLE);
-                    if(customers.get(2 * position).isAdmin()){
+                    if (customers.get(2 * position).isAdmin()) {
                         findAdmin = true;
                         listItemView.adminText1.setText(getString(R.string.admin));
-                    }else {
+                    } else {
                         listItemView.adminText1.setText(getString(R.string.member));
                     }
                     listItemView.image2.setVisibility(View.INVISIBLE);
@@ -303,7 +299,7 @@ public class FamilyFragment extends Fragment{
         private void setImage(Context context, MyUser myUser, RoundImageView image) {
             String userAvatar = myUser.getAvatar();
             if (userAvatar != null && userAvatar.length() != 0) {
-                HttpClient.loadImage(userAvatar,image);
+                HttpClient.loadImage(userAvatar, image);
             }
         }
 

@@ -107,6 +107,10 @@ public class ServerConfigManager {
     }
 
     public List<Connection> getConnections() {
+        List<Connection> connection = rootJavaObj.getConnection();
+        if (connection == null) {
+            rootJavaObj.setConnection(new ArrayList<Connection>());
+        }
         return rootJavaObj.getConnection();
     }
 
@@ -389,6 +393,9 @@ public class ServerConfigManager {
                         @Override
                         public void onSuccess(File file) {
                             fileNames.add(file.getName());
+                            ServerConfigManager scm = new ServerConfigManager();
+                            scm.readFromFile(file);
+                            scm.updateCurrentConnection(deviceInfo);
                             downloadDeviceConfigFilesFromServerIter(response, fileNames, commonNetworkListener);
                         }
                     });
@@ -398,6 +405,16 @@ public class ServerConfigManager {
 
             commonNetworkListener.onSuccess();
         }
+    }
+
+    private void updateCurrentConnection(Device.Info deviceInfo) {
+        List<Connection> connections = getConnections();
+        if (connections.size() == 0) {
+            connections.add(new Connection(deviceInfo));
+        } else {
+            connections.set(0, new Connection(deviceInfo));
+        }
+        writeToFile();
     }
 
     public void deleteDevice() {

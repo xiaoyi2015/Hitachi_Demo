@@ -268,8 +268,11 @@ public class HttpClient {
         return params;
     }
 
-    public static String getDownloadConfigUrl(Long deviceId) {
-        return FILE_BASE_URL + deviceId + "/" + MyApp.getApp().getUser().getCust_id() + ".xml";
+    public static String getDownloadConfigUrl(Long deviceId, Long userId) {
+        return FILE_BASE_URL + deviceId + "/" + userId.toString() + ".xml";
     }
 
+    public static String getDownloadConfigUrl(Long deviceId) {
+        return getDownloadConfigUrl(deviceId, MyApp.getApp().getUser().getCust_id());
+    }
 }

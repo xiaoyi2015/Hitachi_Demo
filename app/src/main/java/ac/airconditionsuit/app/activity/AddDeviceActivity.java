@@ -109,7 +109,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
 
                 final Long deviceId = qrCode.getChat_id();
                 final File outputFile = MyApp.getApp().getPrivateFile(deviceId.toString(), Constant.CONFIG_FILE_SUFFIX);
-                HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(deviceId),
+                HttpClient.downloadFile(HttpClient.getDownloadConfigUrl(deviceId, qrCode.getCreator_cust_id()),
                         outputFile, new HttpClient.DownloadFileHandler() {
                             @Override
                             public void onFailure(Throwable throwable) {
@@ -119,24 +119,10 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
                                 MyApp.getApp().getSocketManager().reconnect();
 
-                                new AlertDialog.Builder(AddDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.is_search_air_condition).
-                                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                shortStartActivity(SearchIndoorDeviceActivity.class);
-                                                dialog.dismiss();
-                                                finish();
-                                            }
-                                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent();
-                                        intent.setClass(AddDeviceActivity.this, MainActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        shortStartActivity(intent);
-                                        finish();
-                                    }
-                                }).setCancelable(false).show();
+                                Intent intent = new Intent();
+                                intent.setClass(AddDeviceActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                shortStartActivity(intent);
                             }
 
                             @Override
@@ -148,24 +134,10 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
                                 MyApp.getApp().getSocketManager().reconnect();
 
-                                new AlertDialog.Builder(AddDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.is_search_air_condition).
-                                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                shortStartActivity(SearchIndoorDeviceActivity.class);
-                                                dialog.dismiss();
-                                                finish();
-                                            }
-                                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent();
-                                        intent.setClass(AddDeviceActivity.this, MainActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        shortStartActivity(intent);
-                                        finish();
-                                    }
-                                }).setCancelable(false).show();
+                                Intent intent = new Intent();
+                                intent.setClass(AddDeviceActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                shortStartActivity(intent);
                             }
                         });
             }
