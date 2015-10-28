@@ -36,18 +36,66 @@ public class Command extends RootEntity {
     }
 
     public int getFan() {
-        return fan;
+        int temp_fan;
+        switch (fan){
+            case 1:
+                temp_fan = 0;
+                break;
+            case 2:
+                temp_fan = 1;
+                break;
+            default:
+                temp_fan = 2;
+                break;
+        }
+        return temp_fan;
     }
 
     public void setFan(int fan) {
-        this.fan = fan;
+        int temp_fan;
+        switch (fan){
+            case 0:
+                temp_fan = 1;
+                break;
+            case 1:
+                temp_fan = 2;
+                break;
+            default:
+                temp_fan = 3;
+                break;
+        }
+        this.fan = temp_fan;
     }
 
     public int getMode() {
-        return mode;
+        int temp_mode;
+        switch (mode){
+            case 1:
+                temp_mode = 3;
+                break;
+            case 3:
+                temp_mode = 1;
+                break;
+            default:
+                temp_mode = mode;
+                break;
+        }
+        return temp_mode;
     }
 
     public void setMode(int mode) {
-        this.mode = mode;
+        int temp_mode;
+        switch (mode){
+            case 1:
+                temp_mode = 3;
+                break;
+            case 3:
+                temp_mode = 1;
+                break;
+            default:
+                temp_mode = mode;
+                break;
+        }
+        this.mode = temp_mode;
     }
 }

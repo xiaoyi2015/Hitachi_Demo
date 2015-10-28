@@ -393,23 +393,22 @@ public class EditClockActivity extends BaseActivity{
             temp = (int)timer.getTemperature() + getString(R.string.temp_symbol);
             if(timer.isRepeat()) {
                 repeat = getString(R.string.repeat);
-                for(int i = 0; i < timer.getWeek().size()-1; i++){
-                    week = week + weekName[timer.getWeek().get(i)];
-                }
-                week = week + weekName[timer.getWeek().get(timer.getWeek().size()-1)];
+            }else{
+                repeat = getString(R.string.not_repeat);
             }
+            for(int i = 0; i < timer.getWeek().size()-1; i++){
+                week = week + weekName[timer.getWeek().get(i)];
+            }
+            week = week + weekName[timer.getWeek().get(timer.getWeek().size()-1)];
+
         }else{
             timePicker.setCurrentHour(0);
             timePicker.setCurrentMinute(0);
         }
 
         clockMode.getOnlineTextView().setText(on_off + "|" + mode + "|" + fan + "|" + temp);
-        if(week.equals("")){
-            clockRepeat.getLabelTextView().setText(repeat);
-        }else{
-            clockRepeat.getLabelTextView().setText(repeat);
-            clockRepeat.getOnlineTextView().setText(week);
-        }
+        clockRepeat.getLabelTextView().setText(repeat);
+        clockRepeat.getOnlineTextView().setText(week);
 
         if( MyApp.getApp().getServerConfigManager().getDevices() == null){
             //TODO

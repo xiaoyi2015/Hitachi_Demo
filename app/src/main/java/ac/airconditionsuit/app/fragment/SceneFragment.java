@@ -85,7 +85,7 @@ public class SceneFragment extends BaseFragment {
                     Intent intent = new Intent();
                     intent.putExtra("title", "");
                     intent.setClass(getActivity(), EditSceneActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, REQUEST_CODE_EDIT_SCENE);
                     break;
             }
         }
@@ -106,7 +106,6 @@ public class SceneFragment extends BaseFragment {
     @Override
     public void refreshUI() {
         super.refreshUI();
-        click_num = 0;
         if (sceneAdapter == null) {
             return;
         }
@@ -117,11 +116,17 @@ public class SceneFragment extends BaseFragment {
 //            MyApp.getApp().showToast("请先添加场景，再进行控制操作！");
             sceneAdapter.changeData(null);
         }
-        super.refreshUI();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        click_num = 0;
     }
 
     @Override
     public void setTopBar() {
+        click_num = 0;
         refreshUI();
         BaseActivity baseActivity = myGetActivity();
         commonTopBar = baseActivity.getCommonTopBar();
@@ -183,31 +188,40 @@ public class SceneFragment extends BaseFragment {
             sceneView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (click_num == 1) {
-                        Intent intent = new Intent();
-                        intent.putExtra("index", position);
-                        intent.putExtra("title", list.get(position).getName());
-                        intent.setClass(getActivity(), EditSceneActivity.class);
-                        startActivityForResult(intent, REQUEST_CODE_EDIT_SCENE);
+                    if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+                        if (MyApp.getApp().getServerConfigManager().getDevices() != null && MyApp.getApp().
+                                getServerConfigManager().getDevices().size() > 0) {
+                            if (click_num == 1) {
+                                Intent intent = new Intent();
+                                intent.putExtra("index", position);
+                                intent.putExtra("title", list.get(position).getName());
+                                intent.setClass(getActivity(), EditSceneActivity.class);
+                                startActivityForResult(intent, REQUEST_CODE_EDIT_SCENE);
+                            } else {
+                                TextView toDoControl = new TextView(getActivity());
+                                toDoControl.setGravity(Gravity.CENTER);
+                                toDoControl.setText(R.string.is_to_do_control);
+                                toDoControl.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                                toDoControl.setMinHeight(140);
+                                new AlertDialog.Builder(getActivity()).setTitle(R.string.to_do_control_together).setView(toDoControl).
+                                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                try {
+                                                    MyApp.getApp().getAirConditionManager().controlScene(list.get(position));
+                                                } catch (Exception e) {
+                                                    MyApp.getApp().showToast("控制场景失败");
+                                                    Log.e(TAG, "control scene fail!");
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+                            }
+                        } else {
+                            MyApp.getApp().showToast("请先搜索室内机");
+                        }
                     } else {
-                        TextView toDoControl = new TextView(getActivity());
-                        toDoControl.setGravity(Gravity.CENTER);
-                        toDoControl.setText(R.string.is_to_do_control);
-                        toDoControl.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-                        toDoControl.setMinHeight(140);
-                        new AlertDialog.Builder(getActivity()).setTitle(R.string.to_do_control_together).setView(toDoControl).
-                                setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        try {
-                                            MyApp.getApp().getAirConditionManager().controlScene(list.get(position));
-                                        } catch (Exception e) {
-                                            MyApp.getApp().showToast("控制场景失败");
-                                            Log.e(TAG, "control scene fail!");
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+                        MyApp.getApp().showToast("请先添加主机");
                     }
                 }
             });
