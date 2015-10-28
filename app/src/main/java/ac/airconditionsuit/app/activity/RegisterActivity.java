@@ -13,6 +13,9 @@ import android.widget.LinearLayout;
 
 import com.loopj.android.http.RequestParams;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
@@ -99,7 +102,9 @@ public class RegisterActivity extends BaseActivity {
             public boolean handleMessage(Message msg) {
                 switch (msg.what) {
                     case ENABLE_BUTTON:
-                        enableButton(getVerifyCodeButton);
+                        getVerifyCodeButton.setTag(true);
+                        getVerifyCodeButton.setOnClickListener(myOnClickListener);
+                        getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_black));
                         break;
                     default:
                         Log.e(TAG, "unhandle case in #hangler");
@@ -211,7 +216,7 @@ public class RegisterActivity extends BaseActivity {
                 @Override
                 public void onFailure(Throwable throwable) {
                     Log.i(TAG, "onFailure");
-                    enableButton(getVerifyCodeButton);
+                    enableButton();
                 }
             });
         } else {
@@ -224,7 +229,7 @@ public class RegisterActivity extends BaseActivity {
                 public void onSuccess(GetVerifyCodeResponse response) {
                     if (response.getIs_exist() == 1) {
                         MyApp.getApp().showToast(R.string.phone_already_exist);
-                        enableButton(getVerifyCodeButton);
+                        enableButton();
                     } else {
                         mobilePhoneNumberStart = mobilePhone;
                         MyApp.getApp().showToast(R.string.send_verify_code);
@@ -234,23 +239,20 @@ public class RegisterActivity extends BaseActivity {
                 @Override
                 public void onFailure(Throwable throwable) {
                     Log.i(TAG, "onFailure");
-                    enableButton(getVerifyCodeButton);
+                    enableButton();
                 }
             });
         }
 
     }
 
-    private void enableButton(Button getVerifyCodeButton) {
-        getVerifyCodeButton.setTag(false);
-        //noinspection deprecation for Downward compatible
-        getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_black));
+    private void enableButton() {
         handler.sendEmptyMessageDelayed(ENABLE_BUTTON, 60000);
     }
 
-    private void disableButton(Button getVerifyCodeButton) {
-        getVerifyCodeButton.setTag(true);
+    private void disableButton(final Button getVerifyCodeButton) {
+        getVerifyCodeButton.setTag(false);
+        getVerifyCodeButton.setOnClickListener(null);
         getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_white));
     }
-
 }
