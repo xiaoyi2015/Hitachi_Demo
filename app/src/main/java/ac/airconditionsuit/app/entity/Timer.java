@@ -16,7 +16,7 @@ public class Timer extends RootEntity {
     boolean onoff;
     boolean repeat;
     int timerid;
-    List<Integer> indexes = new ArrayList<>();
+    List<Integer> address = new ArrayList<>();
     int fan;
     int mode;
     boolean detailenabled;
@@ -79,11 +79,11 @@ public class Timer extends RootEntity {
     }
 
     public List<Integer> getIndexes() {
-        return indexes;
+        return address;
     }
 
     public void setIndexes(List<Integer> index) {
-        this.indexes = index;
+        this.address = index;
     }
 
     public int getFan() {
@@ -227,7 +227,7 @@ public class Timer extends RootEntity {
         }
 
         //address
-        for (int index : this.indexes) {
+        for (int index : this.address) {
             if (index < 0 || index > 255) {
                 throw new Exception("address error");
             }
@@ -351,7 +351,7 @@ public class Timer extends RootEntity {
     }
 
     public void addControlAircondition(int i) {
-        indexes.add(i);
+        address.add(i);
     }
 
     public void setWeek(int... weeks) {
@@ -366,7 +366,7 @@ public class Timer extends RootEntity {
         this.onoff = timer.isOnoff();
         this.repeat = timer.isRepeat();
         this.timerid = timer.getTimerid();
-        this.indexes = timer.getIndexes();
+        this.address = timer.getIndexes();
         this.fan = timer.fan;
         this.mode = timer.mode;
         this.detailenabled = timer.isDetailenabled();
