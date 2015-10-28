@@ -65,6 +65,14 @@ public class ChangeRoomNameActivity extends BaseActivity{
         ChangeRoomNamePage.setOnClickListener(myOnClickListener);
         roomName.setOnClickListener(myOnClickListener);
 
+        setOnclickListenerOnTextViewDrawable(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v instanceof EditText) {
+                    ((EditText) v).setText("");
+                }
+            }
+        }, roomName);
         GridView gridView = (GridView) findViewById(R.id.air_list);
         AirListAdapter airListAdapter = new AirListAdapter(this);
         gridView.setAdapter(airListAdapter);

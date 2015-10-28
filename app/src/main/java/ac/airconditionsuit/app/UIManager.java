@@ -76,4 +76,15 @@ public class UIManager {
         }
     }
 
+    public static int getArrowRight() {
+        switch (UIManager.UITYPE){
+            case HIT:
+                return R.drawable.icon_arrow_right_hit;
+            case DC:
+                return R.drawable.icon_arrow_right_dc;
+            default:
+                return R.drawable.icon_arrow_right_hit;
+        }
+    }
+
 }

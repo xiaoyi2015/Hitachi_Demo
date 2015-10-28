@@ -65,22 +65,26 @@ public class FamilyFragment extends Fragment {
 
     private void initDataFromInternet() {
 
-        final RequestParams requestParams = new RequestParams();
-        requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
-        requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_TYPE_GET_CHAT_CUST_LIST);
-        requestParams.put(Constant.REQUEST_PARAMS_KEY_CHAT_ID, MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId());
+        if(MyApp.getApp().getServerConfigManager().hasDevice()) {
+            final RequestParams requestParams = new RequestParams();
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_TYPE_GET_CHAT_CUST_LIST);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_CHAT_ID, MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId());
 
-        HttpClient.get(requestParams, GetChatCustListResponse.class, new HttpClient.JsonResponseHandler<GetChatCustListResponse>() {
-            @Override
-            public void onSuccess(GetChatCustListResponse response) {
-                inflaterUI(response.getCust_list());
-            }
+            HttpClient.get(requestParams, GetChatCustListResponse.class, new HttpClient.JsonResponseHandler<GetChatCustListResponse>() {
+                @Override
+                public void onSuccess(GetChatCustListResponse response) {
+                    inflaterUI(response.getCust_list());
+                }
 
-            @Override
-            public void onFailure(Throwable throwable) {
-                MyApp.getApp().showToast("111");
-            }
-        });
+                @Override
+                public void onFailure(Throwable throwable) {
+                    MyApp.getApp().showToast("获取用户成员列表失败");
+                }
+            });
+        }else{
+            inflaterUI(null);
+        }
     }
 
     private void inflaterUI(List<MyUser> cust_list) {
@@ -88,7 +92,6 @@ public class FamilyFragment extends Fragment {
             cust_list = new ArrayList<>();
         }
         List<MyUser> customers1 = new ArrayList<>();
-
         for (int i = 0; i < cust_list.size(); i++) {
             if ((!Objects.equals(cust_list.get(i).getCust_id(), MyApp.getApp().getUser().getCust_id())) && (!Objects.equals(cust_list.get(i).getCust_name(), ""))) {
                 if (cust_list.get(i).getCust_id() <= 0x01000000000000l && cust_list.get(i).getCust_id() >= 0)
@@ -96,10 +99,13 @@ public class FamilyFragment extends Fragment {
             }
         }
 
-        int n = customers1.size();
         ListView listView = (ListView) view.findViewById(R.id.family_list);
-        customAdapter = new CustomAdapter(baseActivity, customers1, admin);
-        listView.setAdapter(customAdapter);
+        if(customers1.size() == 0){
+            listView.setAdapter(null);
+        }else {
+            customAdapter = new CustomAdapter(baseActivity, customers1, admin);
+            listView.setAdapter(customAdapter);
+        }
     }
 
     private class CustomAdapter extends BaseAdapter {
@@ -170,7 +176,6 @@ public class FamilyFragment extends Fragment {
                 @Override
                 public boolean onLongClick(View v) {
                     if (isAdmin) {
-
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle(R.string.tip);
                         builder.setMessage(getString(R.string.delete_member1) + name1.getText().toString() + getString(R.string.delete_member2));
@@ -306,21 +311,23 @@ public class FamilyFragment extends Fragment {
         private void deleteCust(final MyUser myUser) {
             final RequestParams requestParams = new RequestParams();
             requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
-            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_TYPE_GET_CHAT_CUST_LIST);
-            requestParams.put(Constant.REQUEST_PARAMS_KEY_CHAT_ID, MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId());
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_DELETE_CHAT_CUST);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_CHAT_ID, MyApp.getApp().getServerConfigManager().getCurrentChatId());
             requestParams.put(Constant.REQUEST_PARAMS_KEY_DELETE_CUST_ID, myUser.getCust_id());
 
             HttpClient.post(requestParams, GetChatCustListResponse.class, new HttpClient.JsonResponseHandler<GetChatCustListResponse>() {
                 @Override
                 public void onSuccess(GetChatCustListResponse response) {
                     customers.remove(myUser);
+                    customAdapter.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    MyApp.getApp().showToast("111");
+                    MyApp.getApp().showToast("删除成员失败");
                 }
             });
+
         }
     }
 }

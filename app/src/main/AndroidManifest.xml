@@ -147,6 +147,7 @@
         <activity
                 android:name=".activity.ChangeRoomNameActivity"
                 android:screenOrientation="portrait"
+                android:theme="@style/HalfTranslucent2"
                 android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
 

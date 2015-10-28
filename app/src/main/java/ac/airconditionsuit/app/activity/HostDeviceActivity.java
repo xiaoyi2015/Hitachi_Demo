@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -19,6 +20,8 @@ import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
+import ac.airconditionsuit.app.view.CommonChooseView;
+import ac.airconditionsuit.app.view.CommonModeArrowView;
 import ac.airconditionsuit.app.view.CommonTopBar;
 import com.android.volley.Response;
 import com.loopj.android.http.RequestParams;
@@ -95,16 +98,32 @@ public class HostDeviceActivity extends BaseActivity{
         }
         commonTopBar.setIconView(myOnClickListener, null);
 
-        findViewById(R.id.host_device_qr_code).setOnClickListener(myOnClickListener);
+        CommonModeArrowView qrCode = (CommonModeArrowView)findViewById(R.id.host_device_qr_code);
+        qrCode.setOnClickListener(myOnClickListener);
+        ImageView imageView1 = (ImageView)qrCode.findViewById(R.id.onoff);
+        ImageView imageView2 = (ImageView)qrCode.findViewById(R.id.mode);
+        ImageView imageView3 = (ImageView)qrCode.findViewById(R.id.wind);
+        TextView textView = (TextView)qrCode.findViewById(R.id.temp);
+        TextView textView1 = (TextView)qrCode.findViewById(R.id.label_text);
+        ImageView imageView4 = (ImageView)qrCode.findViewById(R.id.temp_none);
+        ImageView imageView5 = (ImageView)qrCode.findViewById(R.id.arrow_right);
+        textView.setVisibility(View.GONE);
+        imageView1.setVisibility(View.INVISIBLE);
+        imageView2.setVisibility(View.INVISIBLE);
+        imageView3.setVisibility(View.INVISIBLE);
+        imageView4.setVisibility(View.VISIBLE);
+        imageView4.setImageResource(R.drawable.common_2d_code);
+        imageView5.setImageResource(R.drawable.icon_arrow_right_dc);
         findViewById(R.id.delete_host_device).setOnClickListener(myOnClickListener);
+        textView1.setText(getString(R.string.qr_code));
+        textView1.setTextSize(TypedValue.COMPLEX_UNIT_SP,17);
 
         CommonButtonWithArrow hostDeviceName = (CommonButtonWithArrow)findViewById(R.id.host_device_name);
         CommonButtonWithArrow hostDeviceIP = (CommonButtonWithArrow)findViewById(R.id.host_device_ip);
         CommonButtonWithArrow scanIndoorDevice = (CommonButtonWithArrow)findViewById(R.id.scan_indoor_device);
         LinearLayout deleteView = (LinearLayout)findViewById(R.id.delete_host_device_view);
-        if(!MyApp.getApp().getUser().isAdmin()){
-            deleteView.setVisibility(View.GONE);
-        }
+        TextView deleteText = (TextView)deleteView.findViewById(R.id.label_text);
+        deleteText.setTextColor(getResources().getColor(R.color.hit_heat_red));
 
         hostDeviceName.setOnlineTextView(MyApp.getApp().getServerConfigManager().getConnections().get(0).getName());
         hostDeviceIP.setOnlineTextView(MyApp.getApp().getServerConfigManager().getCurrentHostIP());
