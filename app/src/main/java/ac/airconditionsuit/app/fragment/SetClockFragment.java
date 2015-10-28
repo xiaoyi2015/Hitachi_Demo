@@ -97,12 +97,7 @@ public class SetClockFragment extends BaseFragment {
         if (resultCode == RESULT_OK)
             switch (requestCode) {
                 case REQUEST_CODE_CLOCK:
-                    Timer timer = new Gson().fromJson(data.getStringExtra("clock"),Timer.class);
-                    if(data.getIntExtra("index",-1) != -1) {
-                        clockSettingAdapter.changeTimer(timer, data.getIntExtra("index", -1));
-                    }else{
-                        //todo
-                    }
+                    refreshUI();
                     break;
             }
         super.onActivityResult(requestCode, resultCode, data);
@@ -276,7 +271,6 @@ public class SetClockFragment extends BaseFragment {
                             || status == SocketManager.TCP_DEVICE_CONNECT) {
                         Intent intent = new Intent();
                         intent.putExtra("index", position);
-                        intent.putExtra("clock",list.get(position).toJsonString());
                         intent.putExtra("title", list.get(position).getName());
                         intent.setClass(getActivity(), EditClockActivity.class);
                         startActivityForResult(intent, REQUEST_CODE_CLOCK);
@@ -291,11 +285,6 @@ public class SetClockFragment extends BaseFragment {
 
         public void changeData(List<Timer> timer) {
             this.list = timer;
-            notifyDataSetChanged();
-        }
-
-        public void changeTimer(Timer timer,int index) {
-            this.list.set(index, timer);
             notifyDataSetChanged();
         }
 

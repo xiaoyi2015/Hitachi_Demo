@@ -109,8 +109,8 @@ public class EditClockActivity extends BaseActivity{
                             return;
                         }
                         MyApp.getApp().getAirConditionManager().addTimerServer(timer_temp);
+                        MyApp.getApp().getServerConfigManager().addTimer(timer_temp);
                         Intent intent = new Intent();
-                        intent.putExtra("clock",timer_temp.toJsonString());
                         setResult(RESULT_OK, intent);
                         finish();
                     }else{
@@ -151,9 +151,9 @@ public class EditClockActivity extends BaseActivity{
                             return;
                         }
                         MyApp.getApp().getAirConditionManager().modifyTimerServer(timer);
+                        MyApp.getApp().getServerConfigManager().getTimer().set(index, timer);
+                        MyApp.getApp().getServerConfigManager().writeToFile();
                         Intent intent = new Intent();
-                        intent.putExtra("index", index);
-                        intent.putExtra("clock",timer.toJsonString());
                         setResult(RESULT_OK, intent);
                         finish();
                     }
@@ -208,8 +208,7 @@ public class EditClockActivity extends BaseActivity{
 
         clockNameText = (EditText)findViewById(R.id.clock_name_text);
         deleteClock.setOnClickListener(myOnClickListener);
-        index = getIntent().getIntExtra("index",-1);
-        timer = new Gson().fromJson(getIntent().getStringExtra("clock"),Timer.class);
+        index = getIntent().getIntExtra("index", -1);
         String clock_name = getIntent().getStringExtra("title");
         is_add = clock_name.equals("");
         if(is_add){
@@ -267,6 +266,8 @@ public class EditClockActivity extends BaseActivity{
                             public void onClick(DialogInterface dialog, int which) {
                                 if (onOffView.getSelected() == 1) {
                                     temp_on_off = true;
+                                }else{
+                                    temp_on_off = false;
                                 }
                                 temp_mode = modeView.getSelected();
                                 temp_fan = fanView.getSelected();
@@ -278,6 +279,8 @@ public class EditClockActivity extends BaseActivity{
 
                                 if(temp_on_off){
                                     on_off = getString(R.string.on);
+                                }else{
+                                    on_off = getString(R.string.off);
                                 }
                                 switch (temp_mode){
                                     case 0:
@@ -359,6 +362,8 @@ public class EditClockActivity extends BaseActivity{
 
             if(timer.isOnoff()){
                 on_off = getString(R.string.on);
+            }else{
+                on_off = getString(R.string.off);
             }
             switch (timer.getMode()){
                 case 0:
