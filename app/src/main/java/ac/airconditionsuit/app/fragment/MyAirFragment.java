@@ -156,7 +156,9 @@ public class MyAirFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        pop.dismiss();
+        if(pop != null) {
+            pop.dismiss();
+        }
     }
 
     @Override

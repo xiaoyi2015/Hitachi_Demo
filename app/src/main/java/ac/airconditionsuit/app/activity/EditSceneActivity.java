@@ -155,6 +155,7 @@ public class EditSceneActivity extends BaseActivity{
             temp_fan.add(0);
             temp_temp.add(6);
         }
+
         if(!is_add){
             if(MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds() != null) {
                 for (int i = 0; i < MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().size(); i++) {
