@@ -85,68 +85,83 @@ public class MyAirFragment extends BaseFragment {
         final BaseActivity baseActivity = myGetActivity();
         commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(MyApp.getApp().getServerConfigManager().getHome().getName());
-        commonTopBar.getTitleView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = LayoutInflater.from(getActivity());
-                LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.pop_up_home_list, null);
-                for (int i = 0; i < homeList.size(); i++) {
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams.setMargins(0,-6,0,1);
-                    TextView textView = new TextView(getActivity());
-                    textView.setText(homeList.get(i).getName());
-                    textView.setBackgroundResource(UIManager.getHomeBarRes());
-                    textView.setGravity(Gravity.CENTER);
-                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-                    switch (UIManager.UITYPE) {
-                        case 1:
-                            textView.setTextColor(myGetActivity().getResources().getColor(R.color.text_color_white));
-                            break;
-                        default:
-                            break;
-                    }
-                    textView.setLayoutParams(layoutParams);
-                    linearLayout.addView(textView);
-                    final int finalI = i;
-                    textView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            MyApp.getApp().getLocalConfigManager().changeHome(finalI);
-                            commonTopBar.setTitle(homeList.get(finalI).getName());
-                            ((MainActivity) myGetActivity()).refreshUI();
-                            MyApp.getApp().getSocketManager().reconnect();
-                            pop.dismiss();
+        if(MyApp.getApp().getLocalConfigManager().getLocalConfig().getHomeNum() <= 1){
+            commonTopBar.getTitleView().setOnClickListener(null);
+        }else {
+            commonTopBar.getTitleView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LayoutInflater inflater = LayoutInflater.from(getActivity());
+                    LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.pop_up_home_list, null);
+                    for (int i = 0; i < homeList.size(); i++) {
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT);
+                        layoutParams.setMargins(0, -6, 0, 1);
+                        TextView textView = new TextView(getActivity());
+                        textView.setText(homeList.get(i).getName());
+                        textView.setBackgroundResource(UIManager.getHomeBarRes());
+                        textView.setGravity(Gravity.CENTER);
+                        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+                        switch (UIManager.UITYPE) {
+                            case 1:
+                                textView.setTextColor(myGetActivity().getResources().getColor(R.color.text_color_white));
+                                break;
+                            default:
+                                break;
                         }
-                    });
+                        textView.setLayoutParams(layoutParams);
+                        linearLayout.addView(textView);
+                        final int finalI = i;
+                        textView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                MyApp.getApp().getLocalConfigManager().changeHome(finalI);
+                                commonTopBar.setTitle(homeList.get(finalI).getName());
+                                ((MainActivity) myGetActivity()).refreshUI();
+                                MyApp.getApp().getSocketManager().reconnect();
+                                pop.dismiss();
+                            }
+                        });
+                    }
+                    if (pop == null) {
+                        pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+                    }
+                    pop.setBackgroundDrawable(new BitmapDrawable());
+                    pop.setOutsideTouchable(true);
+                    pop.showAsDropDown(commonTopBar);
                 }
-                if (pop == null) {
-                    pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
-                }
-                pop.setBackgroundDrawable(new BitmapDrawable());
-                pop.setOutsideTouchable(true);
-                pop.showAsDropDown(commonTopBar);
-            }
-        });
-
+            });
+        }
 
         switch (UIManager.UITYPE) {
             case 1:
                 commonTopBar.setRightIconView(R.drawable.top_bar_logo_hit);
                 commonTopBar.setIconView(null, myOnClickListener);
-                commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,
-                        myGetActivity().getResources().getDrawable(R.drawable.top_bar_arrow_down_hit));
+                if(MyApp.getApp().getLocalConfigManager().getLocalConfig().getHomeNum() <= 1){
+                    commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,null);
+                }else {
+                    commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,
+                            myGetActivity().getResources().getDrawable(R.drawable.top_bar_arrow_down_hit));
+                }
                 break;
             case 2:
                 commonTopBar.setIconView(null, null);
-                commonTopBar.getTitleView().setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null,
-                        myGetActivity().getResources().getDrawable(R.drawable.icon_arrow_down_dc));
+                if(MyApp.getApp().getLocalConfigManager().getLocalConfig().getHomeNum() <= 1){
+                    commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,null);
+                }else {
+                    commonTopBar.getTitleView().setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null,
+                            myGetActivity().getResources().getDrawable(R.drawable.icon_arrow_down_dc));
+                }
                 break;
             default:
                 commonTopBar.setRightIconView(R.drawable.top_bar_logo_hx);
                 commonTopBar.setIconView(null, myOnClickListener);
-                commonTopBar.getTitleView().setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null,
-                        myGetActivity().getResources().getDrawable(R.drawable.icon_arrow_down_dc));
+                if(MyApp.getApp().getLocalConfigManager().getLocalConfig().getHomeNum() <= 1){
+                    commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,null);
+                }else {
+                    commonTopBar.getTitleView().setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null,
+                            myGetActivity().getResources().getDrawable(R.drawable.icon_arrow_down_dc));
+                }
                 break;
         }
         commonTopBar.setRoundLeftIconView(myOnClickListener);
@@ -282,6 +297,7 @@ public class MyAirFragment extends BaseFragment {
         if (myAirSectionAdapter == null) {
             return;
         }
+
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             list = MyApp.getApp().getServerConfigManager().getSections();
             myAirSectionAdapter.changeData(list);
