@@ -53,6 +53,7 @@ dependencies {
     compile('com.fortysevendeg.swipelistview:swipelistview:1.0-SNAPSHOT@aar') {
         transitive = true
     }
+    compile 'com.umeng.analytics:analytics:latest.integration'
 
     // Unit testing dependencies
     testCompile 'junit:junit:4.12'
