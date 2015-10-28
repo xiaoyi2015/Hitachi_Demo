@@ -1,8 +1,13 @@
 package ac.airconditionsuit.app.util;
 
+import ac.airconditionsuit.app.network.socket.TcpSocket;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import java.io.IOException;
+import java.net.Inet4Address;
 
 /**
  * Created by ac on 9/24/15.
@@ -23,9 +28,15 @@ public class NetworkConnectionStatusUtil {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (null != activeNetwork) {
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
-                if (activeNetwork.isConnected()) {
-                    return TYPE_WIFI_CONNECT;
-                } else {
+                activeNetwork.isConnected();
+                try {
+                    if (activeNetwork.isConnected() && Inet4Address.getByName(TcpSocket.IP).isReachable(500)) {
+                        return TYPE_WIFI_CONNECT;
+                    } else {
+                        return TYPE_WIFI_UNCONNECT;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                     return TYPE_WIFI_UNCONNECT;
                 }
             } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {

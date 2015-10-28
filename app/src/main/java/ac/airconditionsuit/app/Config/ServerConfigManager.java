@@ -257,13 +257,18 @@ public class ServerConfigManager {
         if (!hasDevice()) {
             return;
         }
+        File currentHomeConfigFile = new File(fileName);
+        if (currentHomeConfigFile.getName().contains(Constant.AUTO_NO_DEVICE_CONFIG_FILE_PREFIX)
+                || currentHomeConfigFile.getName().contains(Constant.NO_DEVICE_CONFIG_FILE_PREFIX)) {
+            return;
+        }
         final RequestParams requestParams = new RequestParams();
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_FILE);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_UPLOAD_DEVICE_CONFIG_FILE);
-        MyApp app = MyApp.getApp();
-        requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICEID, app.getLocalConfigManager().getCurrentHomeDeviceId());
+        requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICEID, currentHomeConfigFile.getName().substring(0,
+                currentHomeConfigFile.getName().length() - 3));
         try {
-            requestParams.put(Constant.REQUEST_PARAMS_KEY_UPLOAD_FILE, Constant.X_DC, app.getLocalConfigManager().getCurrentHomeConfigFile());
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_UPLOAD_FILE, Constant.X_DC, currentHomeConfigFile);
         } catch (FileNotFoundException e) {
             Log.e(TAG, "uploaded file can not found");
             e.printStackTrace();

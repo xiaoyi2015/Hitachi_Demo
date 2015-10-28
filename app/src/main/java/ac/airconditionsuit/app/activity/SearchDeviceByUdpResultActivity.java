@@ -93,13 +93,18 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
             case ObserveData.FIND_DEVICE_BY_UDP_FINASH:
                 if (devices == null || devices.size() == 0) {
                     Log.i(TAG, "finish search device and can not find any");
-                    new AlertDialog.Builder(SearchDeviceByUdpResultActivity.this).setTitle(R.string.not_seek_ize).setMessage(R.string.not_seek_text).
-                            setPositiveButton(R.string.go_back, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            new AlertDialog.Builder(SearchDeviceByUdpResultActivity.this).setTitle(R.string.not_seek_ize).setMessage(R.string.not_seek_text).
+                                    setPositiveButton(R.string.go_back, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+                        }
+                    });
                 }
                 break;
         }

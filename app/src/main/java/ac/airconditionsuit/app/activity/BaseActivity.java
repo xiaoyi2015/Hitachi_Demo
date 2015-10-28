@@ -30,7 +30,7 @@ import java.util.Observer;
 public class BaseActivity extends FragmentActivity implements Observer {
 
     //Log 信息的时候使用的tag，尽量不要用system.out
-    static protected String TAG;
+    protected String TAG;
     private Dialog waitDialog;
 
     {

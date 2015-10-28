@@ -11,6 +11,7 @@ import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.LoginResponseData;
 import ac.airconditionsuit.app.util.CheckUtil;
 
+import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -128,9 +129,10 @@ public class LoginActivity extends BaseActivity {
                         dismissWaitProgress();
 
                         MyUser user = MyApp.getApp().getUser();
+                        MyApp.getApp().initSocketManager();
+                        MyApp.getApp().initPushDataManager();
+
                         if (user.infComplete()) {
-                            MyApp.getApp().initSocketManager();
-                            MyApp.getApp().initPushDataManager();
                             shortStartActivity(MainActivity.class);
                         } else {
                             shortStartActivity(UserInfoActivity.class);

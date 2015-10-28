@@ -243,7 +243,6 @@ public class RegisterActivity extends BaseActivity {
                 }
             });
         }
-
     }
 
     private void enableButtonAfter60s() {

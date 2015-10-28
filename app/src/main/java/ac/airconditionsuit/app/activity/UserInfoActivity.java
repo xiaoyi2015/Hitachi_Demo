@@ -302,8 +302,9 @@ public class UserInfoActivity extends BaseActivity {
         exit.setOnClickListener(myOnClickListener);
 
         String fromActivityName = getIntent().getStringExtra(Constant.INTENT_DATA_KEY_ACTIVITY_FROM);
-        if (fromActivityName != null && (fromActivityName.equals(SplashActivity.class.getName())
-                || fromActivityName.equals(LoginActivity.class.getName()))) {
+        if (fromActivityName != null &&
+                (fromActivityName.equals(SplashActivity.class.getName())
+                        || fromActivityName.equals(LoginActivity.class.getName()))) {
             password.setVisibility(View.GONE);
             clause.setVisibility(View.GONE);
             exit.setVisibility(View.GONE);

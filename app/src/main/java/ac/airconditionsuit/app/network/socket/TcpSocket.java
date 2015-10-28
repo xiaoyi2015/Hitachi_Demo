@@ -23,8 +23,8 @@ import java.util.Arrays;
 /**
  * Created by ac on 10/11/15.
  */
-class TcpSocket implements SocketWrap {
-    private static final String IP = "114.215.83.189";//日立
+public class TcpSocket implements SocketWrap {
+    public static final String IP = "114.215.83.189";//日立
     private static final int PORT = 7000;
     private static final String TAG = "TcpSocket";
 

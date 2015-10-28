@@ -284,30 +284,31 @@ public class SocketManager extends Observable {
         statusAllFalse();
     }
 
-    public void init(int status) {
-        if (!MyApp.getApp().isUserLogin()) {
-            return;
-        }
-
-        statusAllFalse();
-        lastHeartSuccessTime = 0;
-
-        final int socketType = getSocketType(status);
-        if (socketType == UDP) {
-            socket = new UdpSocket();
-        } else if (socketType == TCP) {
-            socket = new TcpSocket();
-        } else {
-            socket = null;
-            //如果没有联网，就不进行后面的操作了，直接return
-            Log.i(TAG, "init socket manager failed due to no network");
-            return;
-        }
-
-        //network task should be run on background
+    public void init(final int status) {
         new Thread(new Runnable() {
             @Override
             public void run() {
+
+                if (!MyApp.getApp().isUserLogin()) {
+                    return;
+                }
+
+                statusAllFalse();
+                lastHeartSuccessTime = 0;
+
+                final int socketType = getSocketType(status);
+                if (socketType == UDP) {
+                    socket = new UdpSocket();
+                } else if (socketType == TCP) {
+                    socket = new TcpSocket();
+                } else {
+                    socket = null;
+                    //如果没有联网，就不进行后面的操作了，直接return
+                    Log.i(TAG, "init socket manager failed due to no network");
+                    return;
+                }
+
+                //network task should be run on background
                 try {
                     if (socket != null) {
                         socket.connect();
@@ -325,14 +326,20 @@ public class SocketManager extends Observable {
                 //登录
                 LoginPackage loginPackage = new LoginPackage();
                 sendMessage(loginPackage);
+
             }
         }).start();
     }
 
     public void init() {
         //check to used tcp or udp
-        int status = NetworkConnectionStatusUtil.getConnectivityStatus(MyApp.getApp());
-        init(status);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int status = NetworkConnectionStatusUtil.getConnectivityStatus(MyApp.getApp());
+                init(status);
+            }
+        }).start();
     }
 
     public static int getSocketType(int status) {
