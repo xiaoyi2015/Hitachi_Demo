@@ -186,7 +186,6 @@ public class ServerConfigManager {
     }
 
     private void readFromFile(File serverConfigFile) {
-        fileName = serverConfigFile.getAbsolutePath();
         if (!MyApp.getApp().isUserLogin()) {
             Log.i(TAG, "readFromFile should be call after user login");
             return;
@@ -196,11 +195,15 @@ public class ServerConfigManager {
         try {
             //配置文件名字不存在
             if (serverConfigFile == null) {
-                rootJavaObj = ServerConfig.genNewConfig(Constant.NO_DEVICE_CONFIG_FILE_PREFIX + System.currentTimeMillis() + Constant.CONFIG_FILE_SUFFIX,
-                        "新的家");
+                String configFileName = Constant.NO_DEVICE_CONFIG_FILE_PREFIX
+                        + System.currentTimeMillis()
+                        + Constant.CONFIG_FILE_SUFFIX;
+                fileName = MyApp.getApp().getPrivateFile(configFileName, null).getAbsolutePath();
+                rootJavaObj = ServerConfig.genNewConfig(configFileName, "新的家");
                 writeToFile();
                 return;
             }
+            fileName = serverConfigFile.getAbsolutePath();
             //配置文件名字存在，文件不存在
             if (!serverConfigFile.exists()) {
                 throw new IOException();

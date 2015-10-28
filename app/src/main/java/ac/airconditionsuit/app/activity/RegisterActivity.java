@@ -13,9 +13,6 @@ import android.widget.LinearLayout;
 
 import com.loopj.android.http.RequestParams;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
@@ -63,7 +60,7 @@ public class RegisterActivity extends BaseActivity {
     private String mobilePhoneNumberStart = "";
     private Button getVerifyCodeButton;
     private Handler handler;
-    private final static int ENABLE_BUTTON = 10086;
+    private final static int UPDATE_BUTTON_STATUS = 10086;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +70,7 @@ public class RegisterActivity extends BaseActivity {
         CommonTopBar commonTopBar = getCommonTopBar();
         LinearLayout registerAgreeClause = (LinearLayout) findViewById(R.id.register_agree_clause);
         isAgreeCheckBox = (CheckBox) findViewById(R.id.register_agree_box);
-        switch (UIManager.UITYPE){
+        switch (UIManager.UITYPE) {
             case 1:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_cancel_hit);
                 commonTopBar.setRightIconView(R.drawable.top_bar_save_hit);
@@ -87,7 +84,7 @@ public class RegisterActivity extends BaseActivity {
                 commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
                 break;
         }
-        commonTopBar.setIconView(myOnClickListener,myOnClickListener);
+        commonTopBar.setIconView(myOnClickListener, myOnClickListener);
 
         getVerifyCodeButton = (Button) findViewById(R.id.register_get_verify_code);
         getVerifyCodeButton.setOnClickListener(myOnClickListener);
@@ -97,14 +94,20 @@ public class RegisterActivity extends BaseActivity {
         passwordFirstEditText = (EditText) findViewById(R.id.register_password_edit_text);
         passwordSecondEditText = (EditText) findViewById(R.id.register_confirm_password_edit_text);
 
-        handler = new Handler(new Handler.Callback(){
+        handler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 switch (msg.what) {
-                    case ENABLE_BUTTON:
-                        getVerifyCodeButton.setTag(true);
-                        getVerifyCodeButton.setOnClickListener(myOnClickListener);
-                        getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_black));
+                    case UPDATE_BUTTON_STATUS:
+                        Integer obj = (Integer) msg.obj;
+                        if (obj == 0) {
+                            getVerifyCodeButton.setTag(true);
+                            getVerifyCodeButton.setOnClickListener(myOnClickListener);
+                            getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_black));
+                            getVerifyCodeButton.setText(getString(R.string.get_verify_code));
+                        } else {
+                            getVerifyCodeButton.setText(obj + "秒");
+                        }
                         break;
                     default:
                         Log.e(TAG, "unhandle case in #hangler");
@@ -179,7 +182,7 @@ public class RegisterActivity extends BaseActivity {
                 @Override
                 public void onSuccess(RegisterResponseData response) {
                     Intent intent = new Intent();
-                    intent.putExtra("userName",mobilePhoneStr);
+                    intent.putExtra("userName", mobilePhoneStr);
                     intent.putExtra("password", password);
                     setResult(RESULT_OK, intent);
                     finish();
@@ -205,54 +208,69 @@ public class RegisterActivity extends BaseActivity {
             requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_LOGIN);
             requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_VALIDATE_CODE_FOR_FIND_PASSWORD);
             requestParams.put(Constant.REQUEST_PARAMS_KEY_MOBILE_PHONE, mobilePhone);
-            disableButton(getVerifyCodeButton);
             HttpClient.get(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
                 @Override
                 public void onSuccess(String response) {
                     mobilePhoneNumberStart = mobilePhone;
                     MyApp.getApp().showToast(R.string.send_verify_code);
+                    disableButton(getVerifyCodeButton);
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
                     Log.i(TAG, "onFailure");
-                    enableButton();
                 }
             });
         } else {
             requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
             requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_VALIDATE_CODE);
             requestParams.put(Constant.REQUEST_PARAMS_KEY_MOBILE_PHONE, mobilePhone);
-            disableButton(getVerifyCodeButton);
             HttpClient.get(requestParams, GetVerifyCodeResponse.class, new HttpClient.JsonResponseHandler<GetVerifyCodeResponse>() {
                 @Override
                 public void onSuccess(GetVerifyCodeResponse response) {
                     if (response.getIs_exist() == 1) {
                         MyApp.getApp().showToast(R.string.phone_already_exist);
-                        enableButton();
                     } else {
                         mobilePhoneNumberStart = mobilePhone;
                         MyApp.getApp().showToast(R.string.send_verify_code);
+                        disableButton(getVerifyCodeButton);
                     }
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
                     Log.i(TAG, "onFailure");
-                    enableButton();
                 }
             });
         }
 
     }
 
-    private void enableButton() {
-        handler.sendEmptyMessageDelayed(ENABLE_BUTTON, 60000);
+    private void enableButtonAfter60s() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int remain = 60;
+                while (remain > -1) {
+                    Message message = new Message();
+                    message.what = UPDATE_BUTTON_STATUS;
+                    message.obj = remain;
+                    handler.sendMessage(message);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    remain--;
+                }
+            }
+        }).start();
     }
 
     private void disableButton(final Button getVerifyCodeButton) {
         getVerifyCodeButton.setTag(false);
         getVerifyCodeButton.setOnClickListener(null);
         getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_white));
+        enableButtonAfter60s();
     }
 }
