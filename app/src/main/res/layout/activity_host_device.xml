@@ -42,14 +42,13 @@
         app:rightArrow="false">
     </ac.airconditionsuit.app.view.CommonButtonWithArrow>
 
-    <ac.airconditionsuit.app.view.CommonButtonWithArrow
+    <ac.airconditionsuit.app.view.CommonModeArrowView
         android:id="@+id/host_device_qr_code"
         android:layout_below="@id/host_device_ip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        app:textLabel="@string/qr_code">
-    </ac.airconditionsuit.app.view.CommonButtonWithArrow>
+        android:layout_marginTop="1dp">
+    </ac.airconditionsuit.app.view.CommonModeArrowView>
 
     <TextView
         android:id="@+id/manager_label_text2"

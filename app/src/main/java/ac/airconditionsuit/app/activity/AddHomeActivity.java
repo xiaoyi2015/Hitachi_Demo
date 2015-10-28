@@ -28,6 +28,10 @@ public class AddHomeActivity extends BaseActivity{
                     if (homeName == null) {
                         return;
                     }
+                    if(MyApp.getApp().getLocalConfigManager().getLocalConfig().getHomeNum() >= 4){
+                        MyApp.getApp().showToast("最多只能添加4个家");
+                        return;
+                    }
                     MyApp.getApp().getLocalConfigManager().addNewHome(homeName);
                     finish();
                     break;
