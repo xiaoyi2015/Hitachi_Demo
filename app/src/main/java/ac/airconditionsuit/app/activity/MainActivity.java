@@ -1,25 +1,21 @@
 package ac.airconditionsuit.app.activity;
 
+import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.PushData.PushDataManager;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
-import ac.airconditionsuit.app.entity.AirCondition;
 import ac.airconditionsuit.app.entity.ObserveData;
-import ac.airconditionsuit.app.fragment.BaseFragment;
-import ac.airconditionsuit.app.fragment.MyAirFragment;
-import ac.airconditionsuit.app.fragment.SceneFragment;
-import ac.airconditionsuit.app.fragment.SetClockFragment;
-import ac.airconditionsuit.app.fragment.SettingFragment;
+import ac.airconditionsuit.app.fragment.*;
+import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.view.TabIndicator;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 
 import java.util.Observable;
 
@@ -39,6 +35,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         refreshUI();
+
     }
 
     @Override

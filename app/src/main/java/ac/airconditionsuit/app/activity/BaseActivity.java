@@ -68,7 +68,12 @@ public class BaseActivity extends FragmentActivity implements Observer {
         for (int i = 0; i < keyAndValueLength / 2; ++i) {
             intent.putExtra(keyAndValue[i * 2], keyAndValue[i * 2 + 1]);
         }
-        intent.putExtra(Constant.INTENT_DATA_KEY_ACTIVITY_FROM, this.getClass().getName());
+        intent.putExtra(Constant.INTENT_DATA_KEY_ACTIVITY_FROM, TAG);
+        startActivity(intent);
+    }
+
+    public void shortStartActivity(Intent intent) {
+        intent.putExtra(Constant.INTENT_DATA_KEY_ACTIVITY_FROM, TAG);
         startActivity(intent);
     }
 
@@ -78,7 +83,7 @@ public class BaseActivity extends FragmentActivity implements Observer {
         for (int i = 0; i < keyAndValueLength / 2; ++i) {
             intent.putExtra(keyAndValue[i * 2], keyAndValue[i * 2 + 1]);
         }
-        intent.putExtra(Constant.INTENT_DATA_KEY_ACTIVITY_FROM, this.getClass().getName());
+        intent.putExtra(Constant.INTENT_DATA_KEY_ACTIVITY_FROM, TAG);
         startActivityForResult(intent, requsetCode);
     }
 

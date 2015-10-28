@@ -65,7 +65,6 @@ public class SocketManager extends Observable {
     private void statusTcpServerConnect() {
         isTcpHostConnect = true;
         isUdpDeviceConnect = false;
-        isTcpDeviceConnect = false;
         notifyActivity(new ObserveData(ObserveData.NETWORK_STATUS_CHANGE));
     }
 

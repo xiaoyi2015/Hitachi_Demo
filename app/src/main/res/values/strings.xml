@@ -188,6 +188,7 @@
     <string name="delete_host_device">删除本设备</string>
     <string name="device_symbol">台</string>
     <string name="is_delete_host_device">\n您是管理员，删除设备后，第一位成员将成为管理员，确定删除吗？\n</string>
+    <string name="is_search_air_condition">\n是否搜索家中的空调\n</string>
     <string name="tip">提示</string>
     <string name="is_delete_section">\n确定要删除该楼层吗？\n</string>
     <string name="qr_code_time_text">二维码有效时间为5分钟</string>

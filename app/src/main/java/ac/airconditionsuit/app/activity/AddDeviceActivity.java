@@ -4,6 +4,8 @@ import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.network.HttpClient;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -116,11 +118,25 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                                 Device device = new Device(qrCode);
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
                                 MyApp.getApp().getSocketManager().reconnect();
-                                Intent intent = new Intent();
-                                intent.setClass(AddDeviceActivity.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
+
+                                new AlertDialog.Builder(AddDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.is_search_air_condition).
+                                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                shortStartActivity(SearchIndoorDeviceActivity.class);
+                                                dialog.dismiss();
+                                                finish();
+                                            }
+                                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent();
+                                        intent.setClass(AddDeviceActivity.this, MainActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        shortStartActivity(intent);
+                                        finish();
+                                    }
+                                }).setCancelable(false).show();
                             }
 
                             @Override
@@ -131,11 +147,25 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                                 Device device = new Device(qrCode);
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
                                 MyApp.getApp().getSocketManager().reconnect();
-                                Intent intent = new Intent();
-                                intent.setClass(AddDeviceActivity.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
+
+                                new AlertDialog.Builder(AddDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.is_search_air_condition).
+                                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                shortStartActivity(SearchIndoorDeviceActivity.class);
+                                                dialog.dismiss();
+                                                finish();
+                                            }
+                                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent();
+                                        intent.setClass(AddDeviceActivity.this, MainActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        shortStartActivity(intent);
+                                        finish();
+                                    }
+                                }).setCancelable(false).show();
                             }
                         });
             }

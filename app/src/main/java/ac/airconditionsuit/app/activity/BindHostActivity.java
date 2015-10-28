@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.zxing.BinaryBitmap;
 import com.loopj.android.http.RequestParams;
 
 import java.io.File;
@@ -106,11 +109,26 @@ public class BindHostActivity extends BaseActivity {
                                 device.getInfo().setName(changeName.getText().toString());
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
                                 MyApp.getApp().getSocketManager().reconnect();
-                                Intent intent = new Intent();
-                                intent.setClass(BindHostActivity.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
+
+
+                                new AlertDialog.Builder(BindHostActivity.this).setTitle(R.string.tip).setMessage(R.string.is_search_air_condition).
+                                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                shortStartActivity(SearchIndoorDeviceActivity.class);
+                                                dialog.dismiss();
+                                                finish();
+                                            }
+                                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent();
+                                        intent.setClass(BindHostActivity.this, MainActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        shortStartActivity(intent);
+                                        finish();
+                                    }
+                                }).setCancelable(false).show();
                             }
 
                             @Override
@@ -121,11 +139,25 @@ public class BindHostActivity extends BaseActivity {
                                 device.getInfo().setName(changeName.getText().toString());
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
                                 MyApp.getApp().getSocketManager().reconnect();
-                                Intent intent = new Intent();
-                                intent.setClass(BindHostActivity.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
+
+                                new AlertDialog.Builder(BindHostActivity.this).setTitle(R.string.tip).setMessage(R.string.is_search_air_condition).
+                                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                shortStartActivity(SearchIndoorDeviceActivity.class);
+                                                dialog.dismiss();
+                                                finish();
+                                            }
+                                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent();
+                                        intent.setClass(BindHostActivity.this, MainActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        shortStartActivity(intent);
+                                        finish();
+                                    }
+                                }).setCancelable(false).show();
                             }
                         });
             }
