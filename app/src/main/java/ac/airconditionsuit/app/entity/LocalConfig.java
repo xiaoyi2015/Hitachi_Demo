@@ -61,7 +61,7 @@ public class LocalConfig extends RootEntity {
         users.add(newUser);
         //set currentIndex = latest user
         currentIndex = users.size() - 1;
-        newUser.addNewHome(Constant.NEW_HOME_NAME);
+        newUser.addNewHome(Constant.NEW_HOME_NAME, Constant.AUTO_NO_DEVICE_CONFIG_FILE_PREFIX);
     }
 
     public void updateCurrentUserHostDeviceConfigFile(List<String> fileNames) {

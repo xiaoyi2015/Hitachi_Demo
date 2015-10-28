@@ -295,7 +295,7 @@ public class Timer extends RootEntity {
         timer.setIndexes(address);
 
         //onoff
-        if ((contentData[13] & 0x0b10000) == 0) {
+        if ((contentData[13] & 0b10000) == 0) {
             timer.setOnoff(false);
         } else {
             timer.setOnoff(true);
