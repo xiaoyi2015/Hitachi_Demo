@@ -158,7 +158,7 @@ public class SetClockFragment extends BaseFragment {
                         clockSetting2.setTextColor(getResources().getColor(R.color.text_normal_color));
                         clockTime.setTextColor(getResources().getColor(R.color.text_normal_color));
                         MyApp.getApp().getServerConfigManager().getTimer().get(position).setTimerenabled(true);
-                        MyApp.getApp().getServerConfigManager().writeToFile();
+                        MyApp.getApp().getAirConditionManager().modifyTimerServer(MyApp.getApp().getServerConfigManager().getTimer().get(position));
                     } else {
                         switchOn.setChecked(false);
                         if (UIManager.UITYPE == 2) {
@@ -169,7 +169,7 @@ public class SetClockFragment extends BaseFragment {
                         clockSetting2.setTextColor(getResources().getColor(R.color.clock_off_gray));
                         clockTime.setTextColor(getResources().getColor(R.color.clock_off_gray));
                         MyApp.getApp().getServerConfigManager().getTimer().get(position).setTimerenabled(false);
-                        MyApp.getApp().getServerConfigManager().writeToFile();
+                        MyApp.getApp().getAirConditionManager().modifyTimerServer(MyApp.getApp().getServerConfigManager().getTimer().get(position));
                     }
                 }
             });

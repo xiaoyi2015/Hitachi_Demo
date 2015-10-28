@@ -33,8 +33,8 @@ import ac.airconditionsuit.app.view.CommonTopBar;
 public class SceneFragment extends BaseFragment {
 
     private View view;
-    private CommonTopBar commonTopBar;
     private int click_num = 0;
+    private CommonTopBar commonTopBar;
     private static final int RESULT_OK = -1;
     private static final int REQUEST_CODE_EDIT_SCENE = 110;
 
@@ -106,6 +106,7 @@ public class SceneFragment extends BaseFragment {
     @Override
     public void refreshUI() {
         super.refreshUI();
+        click_num = 0;
         if (sceneAdapter == null) {
             return;
         }
@@ -193,7 +194,7 @@ public class SceneFragment extends BaseFragment {
                         toDoControl.setGravity(Gravity.CENTER);
                         toDoControl.setText(R.string.is_to_do_control);
                         toDoControl.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-                        toDoControl.setMinHeight(150);
+                        toDoControl.setMinHeight(140);
                         new AlertDialog.Builder(getActivity()).setTitle(R.string.to_do_control_together).setView(toDoControl).
                                 setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                     @Override
