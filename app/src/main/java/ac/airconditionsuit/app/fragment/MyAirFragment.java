@@ -120,12 +120,15 @@ public class MyAirFragment extends BaseFragment {
                         }
                     });
                 }
-                pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+                if (pop == null) {
+                    pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+                }
                 pop.setBackgroundDrawable(new BitmapDrawable());
                 pop.setOutsideTouchable(true);
                 pop.showAsDropDown(commonTopBar);
             }
         });
+
 
         switch (UIManager.UITYPE) {
             case 1:
@@ -148,6 +151,12 @@ public class MyAirFragment extends BaseFragment {
         }
         commonTopBar.setRoundLeftIconView(myOnClickListener);
         refreshUI();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        pop.dismiss();
     }
 
     @Override
