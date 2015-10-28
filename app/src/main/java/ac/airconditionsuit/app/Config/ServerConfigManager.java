@@ -40,6 +40,7 @@ public class ServerConfigManager {
      * 这个field中以java对象的形式，储存着当前家整个配置文件的内容。其实这个家的内容和root
      */
     private ServerConfig rootJavaObj;
+    private String fileName;
 
     public List<Section> getSections() {
         List<Section> sections = rootJavaObj.getSections();
@@ -185,6 +186,7 @@ public class ServerConfigManager {
     }
 
     private void readFromFile(File serverConfigFile) {
+        fileName = serverConfigFile.getAbsolutePath();
         if (!MyApp.getApp().isUserLogin()) {
             Log.i(TAG, "readFromFile should be call after user login");
             return;
@@ -214,7 +216,7 @@ public class ServerConfigManager {
             Log.v(TAG, "read server config file success");
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
             rootJavaObj = ServerConfig.genNewConfig(serverConfigFile.getName(), "新的家");
-            writeToFile(serverConfigFile.getName());
+            writeToFile();
             Log.e(TAG, "read server config file error");
             e.printStackTrace();
         } finally {
@@ -239,49 +241,10 @@ public class ServerConfigManager {
         readFromFile(serverConfigFile);
     }
 
-    private void writeToFile(String fileName) {
-        FileOutputStream fos = null;
-        try {
-            File serverConfigFile = MyApp.getApp().getPrivateFile(fileName, null);
-            if (serverConfigFile == null) {
-                Log.e(TAG, "can not find device config file");
-                return;
-            }
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            NSDictionary root = PlistUtil.JavaObjectToNSDictionary(rootJavaObj);
-            PropertyListParser.saveAsXML(root, byteArrayOutputStream);
-            byte[] bytes = MyBase64Util.encodeToByte(byteArrayOutputStream.toByteArray(), true);
-
-            fos = new FileOutputStream(serverConfigFile);
-            fos.write(bytes);
-            fos.flush();
-            fos.close();
-            Log.v(TAG, "write server config file success");
-
-            //call when write success
-            uploadToServer();
-        } catch (IOException e) {
-            Log.e(TAG, "write server config file error");
-            e.printStackTrace();
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-    }
-
-    /**
-     * 本类中的所有setter方法结束之后都必须调用这个函数！
-     */
     public void writeToFile() {
-        String serverConfigFileName = MyApp.getApp().getLocalConfigManager().getCurrentHomeConfigFileName();
-        writeToFile(serverConfigFileName);
+        writeToFile(fileName);
     }
+
 
 
     /**
@@ -476,8 +439,45 @@ public class ServerConfigManager {
     public static ServerConfigManager genNewHomeConfigFile(String configFileName, String homeName) {
         ServerConfigManager scm = new ServerConfigManager();
         scm.setRootJavaObj(ServerConfig.genNewConfig(configFileName, homeName));
-        scm.writeToFile(configFileName);
+        scm.writeToFile(MyApp.getApp().getPrivateFile(configFileName, null).getAbsolutePath());
         return scm;
+    }
+
+    private void writeToFile(String configFileName) {
+        FileOutputStream fos = null;
+        try {
+            File serverConfigFile = new File(configFileName);
+            if (serverConfigFile == null) {
+                Log.e(TAG, "can not find device config file");
+                return;
+            }
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            NSDictionary root = PlistUtil.JavaObjectToNSDictionary(rootJavaObj);
+            PropertyListParser.saveAsXML(root, byteArrayOutputStream);
+            byte[] bytes = MyBase64Util.encodeToByte(byteArrayOutputStream.toByteArray(), true);
+
+            fos = new FileOutputStream(configFileName);
+            fos.write(bytes);
+            fos.flush();
+            fos.close();
+            Log.v(TAG, "write server config file success");
+
+            //call when write success
+            uploadToServer();
+        } catch (IOException e) {
+            Log.e(TAG, "write server config file error");
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
     }
 
     public void updateTimer(Timer timer) {

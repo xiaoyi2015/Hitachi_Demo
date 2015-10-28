@@ -135,8 +135,8 @@ public class UserForLocalConfig {
         MyApp.getApp().getPrivateFile(oldHostDeviceConfigFile, null).delete();
     }
 
-    public void addNewHome(String homeName) {
-        String configFileName = Constant.NO_DEVICE_CONFIG_FILE_PREFIX + System.currentTimeMillis() + Constant.CONFIG_FILE_SUFFIX;
+    public void addNewHome(String homeName, String prefix) {
+        String configFileName = prefix + System.currentTimeMillis() + Constant.CONFIG_FILE_SUFFIX;
         homeConfigFileNames.add(configFileName);
         if (currentHomeIndex == -1) {
             currentHomeIndex = homeConfigFileNames.size() - 1;
@@ -163,19 +163,24 @@ public class UserForLocalConfig {
         }
     }
 
-    public void updateCurrentHostDeviceConfigFile(String name) {
+    public void updateCurrentHostDeviceConfigFile(String newFileName) {
         if (currentHomeIndex == -1) {
             currentHomeIndex = 0;
-            homeConfigFileNames.add(name);
-        }
-        homeConfigFileNames.set(currentHomeIndex, name);
-    }
+            homeConfigFileNames.add(newFileName);
+            homeConfigFileNames.set(currentHomeIndex, newFileName);
+        } else {
+            String oldName = homeConfigFileNames.get(currentHomeIndex);
+            if (!oldName.equals(newFileName)) {
+                File oldFile = MyApp.getApp().getPrivateFile(oldName, null);
+                File newFile = MyApp.getApp().getPrivateFile(newFileName, null);
+                if (newFile.exists()) {
+                    oldFile.delete();
+                } else {
+                    oldFile.renameTo(newFile);
+                }
+                homeConfigFileNames.set(currentHomeIndex, newFileName);
+            }
 
-    public void changeCurrentServerConfigFileName(String newFileName) {
-        String oldName = getCurrentHomeConfigFileName();
-        File oldFile = MyApp.getApp().getPrivateFile(oldName, null);
-        File newFile = MyApp.getApp().getPrivateFile(newFileName, null);
-        oldFile.renameTo(newFile);
-        homeConfigFileNames.set(currentHomeIndex, newFileName);
+        }
     }
 }

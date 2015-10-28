@@ -123,7 +123,7 @@ public class LocalConfigManager {
 
     public void addNewHome(String homeName) {
         UserForLocalConfig user = getCurrentUserConfig();
-        user.addNewHome(homeName);
+        user.addNewHome(homeName, Constant.NO_DEVICE_CONFIG_FILE_PREFIX);
         saveToDisk();
     }
 
@@ -155,9 +155,5 @@ public class LocalConfigManager {
 
     public void updateCurrentServerConfigFile(String name) {
         getCurrentUserConfig().updateCurrentHostDeviceConfigFile(name);
-    }
-
-    public void changeCurrentServerConfigFileName(String name) {
-        getCurrentUserConfig().changeCurrentServerConfigFileName(name);
     }
 }
