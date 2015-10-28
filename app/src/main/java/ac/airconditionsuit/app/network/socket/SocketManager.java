@@ -208,6 +208,9 @@ public class SocketManager extends Observable {
         public void run() {
             while (!Thread.interrupted()) {
                 try {
+                    if (socket == null || !socket.isConnect()) {
+                        return;
+                    }
                     socket.receiveDataAndHandle();
                 } catch (IOException e) {
                     if (Thread.interrupted()) {
@@ -247,7 +250,9 @@ public class SocketManager extends Observable {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                socket.sendMessage(socketPackage);
+                if (socket != null) {
+                    socket.sendMessage(socketPackage);
+                }
             }
         }).start();
     }
@@ -287,7 +292,7 @@ public class SocketManager extends Observable {
         statusAllFalse();
         lastHeartSuccessTime = 0;
 
-        int socketType = getSocketType(status);
+        final int socketType = getSocketType(status);
         if (socketType == UDP) {
             socket = new UdpSocket();
         } else if (socketType == TCP) {
@@ -304,7 +309,9 @@ public class SocketManager extends Observable {
             @Override
             public void run() {
                 try {
-                    socket.connect();
+                    if (socket != null) {
+                        socket.connect();
+                    }
                 } catch (IOException e) {
                     Log.e(TAG, "establish socket connect failed!");
                     reconnect();
