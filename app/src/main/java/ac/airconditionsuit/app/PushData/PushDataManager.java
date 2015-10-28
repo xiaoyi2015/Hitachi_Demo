@@ -232,7 +232,7 @@ public class PushDataManager {
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_GET_PUSHDATA);
         requestParams.put("auth", MyApp.getApp().getUser().getAuth());
 
-        HttpClient.get(requestParams, new TypeToken<List<PushData>>(){}.getType(), new HttpClient.JsonResponseHandler<List<PushDataListResponse>>() {
+        HttpClient.get(requestParams, new TypeToken<List<PushDataListResponse>>(){}.getType(), new HttpClient.JsonResponseHandler<List<PushDataListResponse>>() {
             @Override
             public void onSuccess(List<PushDataListResponse> pushDatas) {
                 if (pushDatas == null) {
