@@ -124,7 +124,7 @@ public class PushDataManager {
         try {
             PushData pushData = new Gson().fromJson(data, PushData.class);
             saveToSQLite(pushData);
-            MyApp.getApp().showToast(pushData.getContent());
+//            MyApp.getApp().showToast(pushData.getContent());
             return pushData.getId();
         } catch (Exception e) {
             e.printStackTrace();

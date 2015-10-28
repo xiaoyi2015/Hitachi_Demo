@@ -86,7 +86,7 @@ public class BindHostActivity extends BaseActivity {
         params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, device.getInfo().getChat_id().toString());
         params.put(Constant.REQUEST_PARAMS_KEY_INTRODUCE, MyApp.getApp().getServerConfigManager().getHome().getName());
         params.put(Constant.REQUEST_PARAMS_KEY_MAC, device.getAuthCode());
-        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_NAME, changeName);
+        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_NAME, changeName.getText().toString());
         //always 1
         params.put(Constant.REQUEST_PARAMS_KEY_REGISTER_FROM, "1");
         params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_IP, device.getInfo().getIp());
