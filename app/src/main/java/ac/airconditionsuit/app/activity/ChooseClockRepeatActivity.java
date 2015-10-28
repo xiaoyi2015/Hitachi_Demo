@@ -107,7 +107,6 @@ public class ChooseClockRepeatActivity extends BaseActivity{
                     }
                     break;
 
-
             }
         }
     };
@@ -172,30 +171,29 @@ public class ChooseClockRepeatActivity extends BaseActivity{
         week7.setText(getString(R.string.Sunday));
         week7.setOnClickListener(myOnClickListener);
 
-        if(flag_repeat == 1){
+        if(flag_repeat == 1) {
             repeat.getIcon().setVisibility(View.VISIBLE);
-
-            if(flag[0] == 1){
-                week1.getIcon().setVisibility(View.VISIBLE);
-            }
-            if(flag[1] == 1){
-                week2.getIcon().setVisibility(View.VISIBLE);
-            }
-            if(flag[2] == 1){
-                week3.getIcon().setVisibility(View.VISIBLE);
-            }
-            if(flag[3] == 1){
-                week4.getIcon().setVisibility(View.VISIBLE);
-            }
-            if(flag[4] == 1){
-                week5.getIcon().setVisibility(View.VISIBLE);
-            }
-            if(flag[5] == 1){
-                week6.getIcon().setVisibility(View.VISIBLE);
-            }
-            if(flag[6] == 1){
-                week7.getIcon().setVisibility(View.VISIBLE);
-            }
+        }
+        if(flag[0] == 1){
+            week1.getIcon().setVisibility(View.VISIBLE);
+        }
+        if(flag[1] == 1){
+            week2.getIcon().setVisibility(View.VISIBLE);
+        }
+        if(flag[2] == 1){
+            week3.getIcon().setVisibility(View.VISIBLE);
+        }
+        if(flag[3] == 1){
+            week4.getIcon().setVisibility(View.VISIBLE);
+        }
+        if(flag[4] == 1){
+            week5.getIcon().setVisibility(View.VISIBLE);
+        }
+        if(flag[5] == 1){
+            week6.getIcon().setVisibility(View.VISIBLE);
+        }
+        if(flag[6] == 1){
+            week7.getIcon().setVisibility(View.VISIBLE);
         }
 
     }

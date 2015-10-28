@@ -80,18 +80,14 @@ public class EditClockActivity extends BaseActivity{
                         timer_temp.setTemperature(temp_temp);
                         ArrayList<Integer> week_list_temp = new ArrayList<>();
                         week_list_temp.clear();
+                        for(int i = 0; i < 7; i++){
+                            if(week_list[i] == 1){
+                                week_list_temp.add(i);
+                            }
+                        }
+                        timer_temp.setWeek(week_list_temp);
                         if(flag_repeat == 1){
-                            for(int i = 0; i < 7; i++){
-                                if(week_list[i] == 1){
-                                   week_list_temp.add(i);
-                                }
-                            }
-                            timer_temp.setWeek(week_list_temp);
-                            if(timer_temp.getWeek().size() == 0){
-                                timer_temp.setRepeat(false);
-                            }else{
-                                timer_temp.setRepeat(true);
-                            }
+                            timer_temp.setRepeat(true);
                         }else{
                             timer_temp.setRepeat(false);
                         }
@@ -120,18 +116,14 @@ public class EditClockActivity extends BaseActivity{
                         timer.setTemperature(temp_temp);
                         ArrayList<Integer> week_list_temp1 = new ArrayList<Integer>();
                         week_list_temp1.clear();
+                        for(int i = 0; i < 7; i++){
+                            if(week_list[i]==1){
+                                week_list_temp1.add(i);
+                            }
+                        }
+                        timer.setWeek(week_list_temp1);
                         if(flag_repeat == 1){
-                            for(int i = 0; i < 7; i++){
-                                if(week_list[i]==1){
-                                    week_list_temp1.add(i);
-                                }
-                            }
-                            timer.setWeek(week_list_temp1);
-                            if(timer.getWeek().size() == 0){
-                                timer.setRepeat(false);
-                            }else{
-                                timer.setRepeat(true);
-                            }
+                            timer.setRepeat(true);
                         }else{
                             timer.setRepeat(false);
                         }
@@ -445,17 +437,20 @@ public class EditClockActivity extends BaseActivity{
                 case REQUEST_CODE_REPEAT:
                     week_list = data.getIntArrayExtra("week");
                     flag_repeat = data.getIntExtra("repeat", -1);
-                    if(flag_repeat==1 && week_list.length!=0) {
+                    if(flag_repeat == 1) {
+                        clockRepeat.getLabelTextView().setText(R.string.repeat);
+                    }else{
+                        clockRepeat.getLabelTextView().setText(R.string.not_repeat);
+                    }
+                    if(week_list.length!=0) {
                         String week1 = "";
                         for(int i = 0; i < week_list.length; i++){
                             if(week_list[i]==1){
                                 week1 = week1 + weekName[i];
                             }
                         }
-                        clockRepeat.getLabelTextView().setText(R.string.repeat);
                         clockRepeat.getOnlineTextView().setText(week1);
                     }else{
-                        clockRepeat.getLabelTextView().setText(R.string.not_repeat);
                         clockRepeat.getOnlineTextView().setText("");
                     }
                     break;
