@@ -381,7 +381,7 @@ public class SocketManager extends Observable {
             @Override
             public void run() {
                 try {
-                    UdpSocket socket = new UdpSocket();
+                    final UdpSocket socket = new UdpSocket();
                     socket.connect(BROADCAST_ADDRESS);
                     SocketPackage socketPackage = new BroadcastPackage();
                     //重发三遍，主机偶尔会没有应答
@@ -390,10 +390,18 @@ public class SocketManager extends Observable {
                     socket.sendMessage(socketPackage);
 
                     //搜索时间十秒
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            socket.close();
+                        }
+                    }, 10 * 1000);
                     long currentTime = System.currentTimeMillis();
-                    while (System.currentTimeMillis() < currentTime + 10 * 1000) {
+                    while (currentTime < currentTime + 10 * 1000) {
                         socket.receiveDataAndHandle();
                     }
+                    ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP_FINASH);
+                    notifyActivity(od);
                 } catch (IOException e) {
                     ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP_FAIL);
                     notifyActivity(od);

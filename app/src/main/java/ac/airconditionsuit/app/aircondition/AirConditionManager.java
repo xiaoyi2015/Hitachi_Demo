@@ -132,9 +132,27 @@ public class AirConditionManager {
         if (elements == null || elements.size() == 0) {
             return null;
         }
-        AirCondition airCondition = getAirConditionByIndex(elements.get(0));
+        AirCondition airCondition = null;
+        for (int i = 0; i < elements.size(); ++i) {
+            airCondition = getAirConditionByIndex(elements.get(0));
+            if (airCondition == null) {
+                break;
+            }
+        }
+        if (airCondition == null) {
+            airCondition = new AirCondition();
+            airCondition.setMode(AirConditionControl.UNKNOW);
+            airCondition.setOnoff(AirConditionControl.UNKNOW);
+            airCondition.setFan(AirConditionControl.UNKNOW);
+            airCondition.setTemperature(AirConditionControl.UNKNOW);
+            airCondition.setRealTemperature(AirConditionControl.UNKNOW);
+            return airCondition;
+        }
         for (int i = 1; i < elements.size(); ++i) {
             AirCondition temp = getAirConditionByIndex(elements.get(i));
+            if (temp == null) {
+                continue;
+            }
             if (temp.getMode() != airCondition.getMode()) {
                 airCondition.setMode(AirConditionControl.UNKNOW);
             }

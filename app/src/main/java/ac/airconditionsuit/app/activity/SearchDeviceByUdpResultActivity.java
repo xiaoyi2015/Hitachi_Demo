@@ -8,6 +8,7 @@ import ac.airconditionsuit.app.listener.MyOnClickListener;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -56,6 +57,7 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
         }
         commonTopBar.setIconView(myOnClickListener, null);
         //调用这个函数以后开始在局域网中搜索主机
+        showWaitProgress();
         MyApp.getApp().getSocketManager().sendBroadCast();
 
         ListView listView = (ListView)findViewById(R.id.host_list);
@@ -74,15 +76,23 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
         super.update(observable, data);
         ObserveData od = (ObserveData) data;
 
+        dismissWaitProgress();
         switch (od.getMsg()) {
             case ObserveData.FIND_DEVICE_BY_UDP:
                 //如果不为空，就表示搜索到一个设备,做相应处理
                 Device device = (Device) od.getData();
                 addDevice(device);
                 break;
+//            case ObserveData.FIND_DEVICE_BY_UDP_FAIL:
+//                //如果返回会空，就表示发送广播包出现错误，做相应处理。如在界面上显示搜索失败之类的。
+//                MyApp.getApp().showToast(R.string.search_host_device_failed);
+//                break;
             case ObserveData.FIND_DEVICE_BY_UDP_FAIL:
-                //如果返回会空，就表示发送广播包出现错误，做相应处理。如在界面上显示搜索失败之类的。
-                MyApp.getApp().showToast(R.string.search_host_device_failed);
+            case ObserveData.FIND_DEVICE_BY_UDP_FINASH:
+                if (devices == null || devices.size() == 0) {
+                    Log.i(TAG, "finish search device and can not find any");
+                    //todo for zhulinan对应bug第二点，这边弹一个框，样式buglist里面有的。
+                }
                 break;
         }
     }

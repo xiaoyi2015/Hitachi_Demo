@@ -14,6 +14,7 @@ public class ObserveData {
 
     public static final int SEARCH_AIR_CONDITION_RESPONSE = 4;
     public static final int NETWORK_STATUS_CHANGE = 5;
+    public static final int FIND_DEVICE_BY_UDP_FINASH = 7;
 
     int msg;
     Object data;

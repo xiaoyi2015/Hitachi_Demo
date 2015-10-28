@@ -205,7 +205,7 @@
     <string name="settingFragmentNoHostNoDevice">无法连接服务器，未添加主机</string>
 
     <string name="settingFragmentWifiConnectDevice">通过wifi连接服务器成功</string>
-    <string name="settingFragmentMobileConnectDevice">通过4G/3G/2G连接服务器成功</string>
+    <string name="settingFragmentMobileConnectDevice">通过移动网络连接服务器成功</string>
     <string name="settingFragmentWifiUdpConnect">通过局域网控制</string>
     <string name="settingFragmentConnectServer">i-EZ控制器未联网</string>
     <string name="settingFragmentWifiNoServer">APP正使用WiFi，但无法连接服务器</string>
