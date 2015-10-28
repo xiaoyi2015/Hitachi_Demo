@@ -244,13 +244,18 @@ public class RoomAirSettingHitActivity extends BaseActivity {
             roomWarning.setVisibility(View.GONE);
         } else {
             for (int i = 0; i < room.getElements().size(); i++) {
-                if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(room.getElements().
-                        get(i)).getWarning() != 0) {
-                    air_index_list.add(room.getElements().get(i));
-                    warning_list.add(MyApp.getApp().getAirConditionManager().getAirConditionByIndex
-                            (room.getElements().get(i)).getWarning());
-                    address_list.add(MyApp.getApp().getServerConfigManager().getDevices().
-                            get(room.getElements().get(i)).getIndooraddress());
+                if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(room.getElements().
+                        get(i)) == null){
+                    break;
+                }else {
+                    if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(room.getElements().
+                            get(i)).getWarning() != 0) {
+                        air_index_list.add(room.getElements().get(i));
+                        warning_list.add(MyApp.getApp().getAirConditionManager().getAirConditionByIndex
+                                (room.getElements().get(i)).getWarning());
+                        address_list.add(MyApp.getApp().getServerConfigManager().getDevices().
+                                get(room.getElements().get(i)).getIndooraddress());
+                    }
                 }
             }
             if (air_index_list.size() > 0) {
