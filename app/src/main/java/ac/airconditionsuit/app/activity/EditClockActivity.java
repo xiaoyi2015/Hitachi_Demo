@@ -104,6 +104,7 @@ public class EditClockActivity extends BaseActivity{
                             MyApp.getApp().showToast("请选择定时的空调");
                             return;
                         }
+
                         MyApp.getApp().getAirConditionManager().addTimerServer(timer_temp);
                         MyApp.getApp().getServerConfigManager().addTimer(timer_temp);
                         Intent intent = new Intent();
@@ -388,10 +389,12 @@ public class EditClockActivity extends BaseActivity{
             }else{
                 repeat = getString(R.string.not_repeat);
             }
-            for(int i = 0; i < timer.getWeek().size()-1; i++){
-                week = week + weekName[timer.getWeek().get(i)];
+            if(timer.getWeek().size() != 0){
+                for (int i = 0; i < timer.getWeek().size() - 1; i++) {
+                    week = week + weekName[timer.getWeek().get(i)];
+                }
+                week = week + weekName[timer.getWeek().get(timer.getWeek().size() - 1)];
             }
-            week = week + weekName[timer.getWeek().get(timer.getWeek().size()-1)];
 
         }else{
             timePicker.setCurrentHour(0);

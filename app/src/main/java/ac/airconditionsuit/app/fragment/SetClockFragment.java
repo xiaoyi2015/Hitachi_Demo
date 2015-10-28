@@ -244,22 +244,30 @@ public class SetClockFragment extends BaseFragment {
                 repeat = getString(R.string.repeat);
                 week = getString(R.string.week_name);
                 List<Integer> week1 = list.get(position).getWeek();
-                for (int i = 0; i < week1.size() - 1; i++) {
-                    week = week + weekName[week1.get(i)] + "|";
+                if(week1.size() == 0){
+                    clockSetting2.setText(repeat);
+                }else {
+                    for (int i = 0; i < week1.size() - 1; i++) {
+                        week = week + weekName[week1.get(i)] + "|";
+                    }
+                    Integer integer = week1.get(week1.size() - 1);
+                    week = week + weekName[integer];
+                    clockSetting2.setText(repeat + "|" + week);
                 }
-                Integer integer = week1.get(week1.size() - 1);
-                week = week + weekName[integer];
-                clockSetting2.setText(repeat + "|" + week);
             } else {
                 repeat = getString(R.string.not_repeat);
                 week = getString(R.string.week_name);
                 List<Integer> week1 = list.get(position).getWeek();
-                for (int i = 0; i < week1.size() - 1; i++) {
-                    week = week + weekName[week1.get(i)] + "|";
+                if(week1.size() == 0){
+                    clockSetting2.setText(repeat);
+                }else {
+                    for (int i = 0; i < week1.size() - 1; i++) {
+                        week = week + weekName[week1.get(i)] + "|";
+                    }
+                    Integer integer = week1.get(week1.size() - 1);
+                    week = week + weekName[integer];
+                    clockSetting2.setText(repeat + "|" + week);
                 }
-                Integer integer = week1.get(week1.size() - 1);
-                week = week + weekName[integer];
-                clockSetting2.setText(repeat + "|" + week);
             }
 
             if (list.get(position).isOnoff()) {

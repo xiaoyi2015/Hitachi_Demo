@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -28,6 +30,22 @@ public class ChooseClockRepeatActivity extends BaseActivity{
                     finish();
                     break;
                 case R.id.right_icon:
+                    int k = 0;
+                    for(int i = 0; i < flag.length -1; i++){
+                        if(flag[i] == 1){
+                            k = 1;
+                        }
+                    }
+                    if(flag_repeat == 1 && k == 0){
+                        new AlertDialog.Builder(ChooseClockRepeatActivity.this).setTitle(R.string.tip).setMessage("\n请选择重复日期\n").
+                                setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+                        return;
+                    }
                     Intent intent = new Intent();
                     intent.putExtra("repeat",flag_repeat);
                     intent.putExtra("week",flag);
