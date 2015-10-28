@@ -16,6 +16,13 @@ public class LocalConfig extends RootEntity {
     List<UserForLocalConfig> users = new ArrayList<>();
     int currentIndex = -1;
 
+    public int getHomeNum(){
+        if(getCurrentUserForLocalConfig().getCurrentHomeConfigFileName() == null){
+            return 0;
+        }
+        return getCurrentUserForLocalConfig().getHomeConfigFileNames().size();
+    }
+
     public List<UserForLocalConfig> getUsers() {
         return users;
     }

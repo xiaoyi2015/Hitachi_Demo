@@ -415,10 +415,7 @@ public class EditClockActivity extends BaseActivity{
                 //int num = timer.getAddress().size();
                 if(timer.getIndexes().size() != 0){
                     for(int i = 0 ;i < timer.getIndexes().size(); i++){
-                        int temp_index_device = MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(timer.getIndexes().get(i));
-                        if(temp_index_device != -1){
-                            isDeviceChoose.set(temp_index_device,1);
-                        }
+                        isDeviceChoose.set(timer.getIndexes().get(i)-1,1);
                     }
                 }
             }
