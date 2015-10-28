@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,14 +109,15 @@ public class EditClockActivity extends BaseActivity{
                             return;
                         }
                         MyApp.getApp().getAirConditionManager().addTimerServer(timer_temp);
+                        MyApp.getApp().getServerConfigManager().addTimer(timer_temp);
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         finish();
                     }else{
-                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setOnoff(temp_on_off);
-                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setMode(temp_mode);
-                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setFan(temp_fan);
-                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setTemperature(temp_temp);
+                        timer.setOnoff(temp_on_off);
+                        timer.setMode(temp_mode);
+                        timer.setFan(temp_fan);
+                        timer.setTemperature(temp_temp);
                         ArrayList<Integer> week_list_temp1 = new ArrayList<Integer>();
                         week_list_temp1.clear();
                         if(flag_repeat == 1){
@@ -123,31 +126,33 @@ public class EditClockActivity extends BaseActivity{
                                     week_list_temp1.add(i);
                                 }
                             }
-                            MyApp.getApp().getServerConfigManager().getTimer().get(index).setWeek(week_list_temp1);
-                            if(MyApp.getApp().getServerConfigManager().getTimer().get(index).getWeek().size() == 0){
-                                MyApp.getApp().getServerConfigManager().getTimer().get(index).setRepeat(false);
+                            timer.setWeek(week_list_temp1);
+                            if(timer.getWeek().size() == 0){
+                                timer.setRepeat(false);
                             }else{
-                                MyApp.getApp().getServerConfigManager().getTimer().get(index).setRepeat(true);
+                                timer.setRepeat(true);
                             }
                         }else{
-                            MyApp.getApp().getServerConfigManager().getTimer().get(index).setRepeat(false);
+                            timer.setRepeat(false);
                         }
-                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setName(check_clock_name);
-                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setHour(timePicker.getCurrentHour());
-                        MyApp.getApp().getServerConfigManager().getTimer().get(index).setMinute(timePicker.getCurrentMinute());
+                        timer.setName(check_clock_name);
+                        timer.setHour(timePicker.getCurrentHour());
+                        timer.setMinute(timePicker.getCurrentMinute());
 
-                        MyApp.getApp().getServerConfigManager().getTimer().get(index).getIndexes().clear();
+                        timer.getIndexes().clear();
                         for(int i = 0; i < isDeviceChoose.size(); i++){
                             if(isDeviceChoose.get(i) == 1){
-                                MyApp.getApp().getServerConfigManager().getTimer().get(index).getIndexes().
+                                timer.getIndexes().
                                         add(i);
                             }
                         }
-                        if(MyApp.getApp().getServerConfigManager().getTimer().get(index).getIndexes().size() == 0){
+                        if(timer.getIndexes().size() == 0){
                             MyApp.getApp().showToast("请选择定时的空调");
                             return;
                         }
-                        MyApp.getApp().getAirConditionManager().modifyTimerServer(MyApp.getApp().getServerConfigManager().getTimer().get(index));
+                        MyApp.getApp().getAirConditionManager().modifyTimerServer(timer);
+                        MyApp.getApp().getServerConfigManager().getTimer().set(index, timer);
+                        MyApp.getApp().getServerConfigManager().writeToFile();
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         finish();
@@ -203,7 +208,7 @@ public class EditClockActivity extends BaseActivity{
 
         clockNameText = (EditText)findViewById(R.id.clock_name_text);
         deleteClock.setOnClickListener(myOnClickListener);
-        index = getIntent().getIntExtra("index",-1);
+        index = getIntent().getIntExtra("index", -1);
         String clock_name = getIntent().getStringExtra("title");
         is_add = clock_name.equals("");
         if(is_add){
@@ -261,6 +266,8 @@ public class EditClockActivity extends BaseActivity{
                             public void onClick(DialogInterface dialog, int which) {
                                 if (onOffView.getSelected() == 1) {
                                     temp_on_off = true;
+                                }else{
+                                    temp_on_off = false;
                                 }
                                 temp_mode = modeView.getSelected();
                                 temp_fan = fanView.getSelected();
@@ -272,6 +279,8 @@ public class EditClockActivity extends BaseActivity{
 
                                 if(temp_on_off){
                                     on_off = getString(R.string.on);
+                                }else{
+                                    on_off = getString(R.string.off);
                                 }
                                 switch (temp_mode){
                                     case 0:
@@ -353,6 +362,8 @@ public class EditClockActivity extends BaseActivity{
 
             if(timer.isOnoff()){
                 on_off = getString(R.string.on);
+            }else{
+                on_off = getString(R.string.off);
             }
             switch (timer.getMode()){
                 case 0:

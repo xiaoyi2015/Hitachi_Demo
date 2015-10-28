@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import java.util.List;
@@ -286,6 +287,7 @@ public class SetClockFragment extends BaseFragment {
             this.list = timer;
             notifyDataSetChanged();
         }
+
     }
 
     private class ClockCustomView extends LinearLayout {
