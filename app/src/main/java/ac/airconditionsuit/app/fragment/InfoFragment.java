@@ -92,7 +92,7 @@ public class InfoFragment extends Fragment{
             ViewHolder vh = (ViewHolder) itemView.getTag();
             final PushDataManager.PushData pushData = data.get(position);
             vh.content.setText(pushData.getContent());
-            vh.time.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.CHINESE).format(new Date(pushData.getTs() * 1000)));
+            vh.time.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(pushData.getTs() * 1000)));
             vh.deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

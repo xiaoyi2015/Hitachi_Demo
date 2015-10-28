@@ -77,6 +77,10 @@ public class LocalConfigManager {
 
     public String getCurrentHomeDeviceId() {
         String currentHomeConfigFileName = localConfig.getCurrentUserForLocalConfig().getCurrentHomeConfigFileName();
+        if (currentHomeConfigFileName == null)  {
+            return null;
+        }
+
         return currentHomeConfigFileName.substring(0, currentHomeConfigFileName.lastIndexOf(Constant.CONFIG_FILE_SUFFIX));
     }
 

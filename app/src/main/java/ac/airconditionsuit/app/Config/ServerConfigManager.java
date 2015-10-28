@@ -266,7 +266,7 @@ public class ServerConfigManager {
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_FILE);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_UPLOAD_DEVICE_CONFIG_FILE);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICEID, currentHomeConfigFile.getName().substring(0,
-                currentHomeConfigFile.getName().length() - 3));
+                currentHomeConfigFile.getName().lastIndexOf(Constant.CONFIG_FILE_SUFFIX)));
         try {
             requestParams.put(Constant.REQUEST_PARAMS_KEY_UPLOAD_FILE, Constant.X_DC, currentHomeConfigFile);
         } catch (FileNotFoundException e) {

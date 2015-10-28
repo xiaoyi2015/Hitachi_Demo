@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ac.airconditionsuit.app.Constant;
@@ -124,7 +125,9 @@ public class PushDataManager {
         try {
             PushData pushData = new Gson().fromJson(data, PushData.class);
             saveToSQLite(pushData);
-//            MyApp.getApp().showToast(pushData.getContent());
+            if (pushData.getType() == 103) {
+                MyApp.getApp().showToast(pushData.getContent());
+            }
             return pushData.getId();
         } catch (Exception e) {
             e.printStackTrace();
@@ -164,7 +167,11 @@ public class PushDataManager {
     public List<PushData> readPushDataFromDatabase() {
         // Select All Query
         // String selectQuery = "SELECT  * FROM " + TABLE_NAME;
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME +" where " + CHATID + " = \"" + MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId() + "\"";
+        String currentHomeDeviceId = MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId();
+        if (currentHomeDeviceId == null) {
+            return new ArrayList<>();
+        }
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME +" where " + CHATID + " = \"" + currentHomeDeviceId + "\"";
 
         SQLiteDatabase db = new PushDataDbHelper(MyApp.getApp()).getReadableDatabase();
         List<PushData> result = new ArrayList<>();
