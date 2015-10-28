@@ -92,7 +92,7 @@ public class Constant {
     public static final String REQUEST_PARAMS_VALUE_TYPE_GET_PUSHDATA = "getUnreadMsgList2";
     public static final java.lang.String REQUEST_PARAMS_VALUE_TYPE_ACK_MSG_ID = "setUnreadMsgListACK";
     public static final String REQUEST_PARAMS_KEY_PN_MSG_IDS = "msg_ids";
-
+    public static final java.lang.String REQUEST_PARAMS_VALUE_TYPE_DELETE_CHAT_CUST = "deleteChatCust";
 
     public static final String NEW_HOME_NAME = "新的家";
 }

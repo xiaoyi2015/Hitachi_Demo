@@ -78,7 +78,7 @@ public class FamilyFragment extends Fragment {
 
             @Override
             public void onFailure(Throwable throwable) {
-                MyApp.getApp().showToast("111");
+                MyApp.getApp().showToast("获取用户成员列表失败");
             }
         });
     }
@@ -88,7 +88,7 @@ public class FamilyFragment extends Fragment {
             cust_list = new ArrayList<>();
         }
         List<MyUser> customers1 = new ArrayList<>();
-
+        int k = cust_list.size();
         for (int i = 0; i < cust_list.size(); i++) {
             if ((!Objects.equals(cust_list.get(i).getCust_id(), MyApp.getApp().getUser().getCust_id())) && (!Objects.equals(cust_list.get(i).getCust_name(), ""))) {
                 if (cust_list.get(i).getCust_id() <= 0x01000000000000l && cust_list.get(i).getCust_id() >= 0)
@@ -306,21 +306,23 @@ public class FamilyFragment extends Fragment {
         private void deleteCust(final MyUser myUser) {
             final RequestParams requestParams = new RequestParams();
             requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
-            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_TYPE_GET_CHAT_CUST_LIST);
-            requestParams.put(Constant.REQUEST_PARAMS_KEY_CHAT_ID, MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId());
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_DELETE_CHAT_CUST);
+            requestParams.put(Constant.REQUEST_PARAMS_KEY_CHAT_ID, MyApp.getApp().getServerConfigManager().getCurrentChatId());
             requestParams.put(Constant.REQUEST_PARAMS_KEY_DELETE_CUST_ID, myUser.getCust_id());
 
             HttpClient.post(requestParams, GetChatCustListResponse.class, new HttpClient.JsonResponseHandler<GetChatCustListResponse>() {
                 @Override
                 public void onSuccess(GetChatCustListResponse response) {
                     customers.remove(myUser);
+                    customAdapter.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    MyApp.getApp().showToast("111");
+                    MyApp.getApp().showToast("删除成员失败");
                 }
             });
+
         }
     }
 }
