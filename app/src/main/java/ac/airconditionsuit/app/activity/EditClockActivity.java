@@ -102,6 +102,10 @@ public class EditClockActivity extends BaseActivity{
                             }
                         }
                         timer_temp.setIndexes(device_list_temp);
+                        if(device_list_temp.size() == 0){
+                            MyApp.getApp().showToast("请选择定时的空调");
+                            return;
+                        }
                         MyApp.getApp().getAirConditionManager().addTimerServer(timer_temp);
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
@@ -138,6 +142,10 @@ public class EditClockActivity extends BaseActivity{
                                 MyApp.getApp().getServerConfigManager().getTimer().get(index).getIndexes().
                                         add(i);
                             }
+                        }
+                        if(MyApp.getApp().getServerConfigManager().getTimer().get(index).getIndexes().size() == 0){
+                            MyApp.getApp().showToast("请选择定时的空调");
+                            return;
                         }
                         MyApp.getApp().getAirConditionManager().modifyTimerServer(MyApp.getApp().getServerConfigManager().getTimer().get(index));
                         Intent intent = new Intent();

@@ -287,7 +287,7 @@ public class UserInfoActivity extends BaseActivity {
             gender.setOnlineTextView(getString(R.string.unknow));
         }
         birth.setOnlineTextView(MyApp.getApp().getUser().getBirthday());
-        phone.setOnlineTextView(MyApp.getApp().getUser().getPhone());
+        phone.setOnlineTextView(MyApp.getApp().getLocalConfigManager().getCurrentUserPhoneNumber());
         email.setOnlineTextView(MyApp.getApp().getUser().getEmail());
 
         userIcon.setOnClickListener(myOnClickListener);
