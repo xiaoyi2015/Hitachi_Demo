@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
@@ -19,6 +21,7 @@
             android:label="@string/app_name"
             android:largeHeap="true"
             android:theme="@style/AppTheme">
+
         <activity
                 android:name=".activity.SplashActivity"
                 android:screenOrientation="portrait">
@@ -101,7 +104,7 @@
         </activity>
         <activity
                 android:name=".activity.EditClockActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
+                android:windowSoftInputMode="adjustPan|stateHidden"
                 android:screenOrientation="portrait">
         </activity>
         <activity
@@ -109,32 +112,32 @@
                 android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.RoomAirSettingHitActivity"
-            android:screenOrientation="portrait">
+                android:name=".activity.RoomAirSettingHitActivity"
+                android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.CustomCaptureActivity"
-            android:screenOrientation="portrait">
+                android:name=".activity.CustomCaptureActivity"
+                android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.HostDeviceActivity"
-            android:screenOrientation="portrait">
+                android:name=".activity.HostDeviceActivity"
+                android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.RoomAirSettingHxActivity"
-            android:screenOrientation="portrait">
+                android:name=".activity.RoomAirSettingHxActivity"
+                android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.SearchIndoorDeviceActivity"
-            android:screenOrientation="portrait">
+                android:name=".activity.SearchIndoorDeviceActivity"
+                android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.BindHostActivity"
-            android:screenOrientation="portrait">
+                android:name=".activity.BindHostActivity"
+                android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.QRCodeActivity"
-            android:screenOrientation="portrait">
+                android:name=".activity.QRCodeActivity"
+                android:screenOrientation="portrait">
         </activity>
         <activity
                 android:name=".activity.InfoPageActivity"
@@ -153,12 +156,16 @@
         </activity>
 
         <!--<receiver android:name=".receiver.NetworkChangeReceiver">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>-->
-                <!--<action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>-->
-            <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>-->
+        <!--<action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
 
+        <meta-data android:value="563080c1e0f55ad66c000dd5" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="Wandoujia" android:name="UMENG_CHANNEL"/>
+
+        <!--<meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>-->
     </application>
 
 </manifest>

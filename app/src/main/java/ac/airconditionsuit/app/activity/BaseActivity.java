@@ -19,6 +19,7 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -133,6 +134,7 @@ public class BaseActivity extends FragmentActivity implements Observer {
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
         SocketManager socketManager = MyApp.getApp().getSocketManager();
         if (socketManager != null) {
             socketManager.addObserver(this);
@@ -143,6 +145,7 @@ public class BaseActivity extends FragmentActivity implements Observer {
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPause(this);
         SocketManager socketManager = MyApp.getApp().getSocketManager();
         if (socketManager != null) {
             socketManager.deleteObserver(this);

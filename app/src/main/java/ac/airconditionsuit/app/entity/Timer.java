@@ -367,8 +367,8 @@ public class Timer extends RootEntity {
         this.repeat = timer.isRepeat();
         this.timerid = timer.getTimerid();
         this.indexes = timer.getIndexes();
-        this.fan = timer.getFan();
-        this.mode = timer.getMode();
+        this.fan = timer.fan;
+        this.mode = timer.mode;
         this.detailenabled = timer.isDetailenabled();
         this.week = timer.getWeek();
         this.minute = timer.getMinute();
