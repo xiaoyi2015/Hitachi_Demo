@@ -84,6 +84,7 @@ public class EditSceneActivity extends BaseActivity{
                         scene.setCommonds(commands);
                         scene.setName(check_scene_name);
                         MyApp.getApp().getServerConfigManager().addScene(scene);
+                        setResult(RESULT_OK);
                         finish();
                     }else{
                         MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().clear();
@@ -100,8 +101,7 @@ public class EditSceneActivity extends BaseActivity{
                         }
                         MyApp.getApp().getServerConfigManager().getScene().get(index).setName(check_scene_name);
                         MyApp.getApp().getServerConfigManager().writeToFile();
-                        Intent intent2 = new Intent();
-                        setResult(RESULT_OK, intent2);
+                        setResult(RESULT_OK);
                         finish();
                     }
 

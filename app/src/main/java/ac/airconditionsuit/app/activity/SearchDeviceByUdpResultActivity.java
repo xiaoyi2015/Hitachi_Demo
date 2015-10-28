@@ -6,7 +6,9 @@ import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -91,7 +93,13 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
             case ObserveData.FIND_DEVICE_BY_UDP_FINASH:
                 if (devices == null || devices.size() == 0) {
                     Log.i(TAG, "finish search device and can not find any");
-                    //todo for zhulinan对应bug第二点，这边弹一个框，样式buglist里面有的。
+                    new AlertDialog.Builder(SearchDeviceByUdpResultActivity.this).setTitle(R.string.not_seek_ize).setMessage(R.string.not_seek_text).
+                            setPositiveButton(R.string.go_back, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
                 }
                 break;
         }

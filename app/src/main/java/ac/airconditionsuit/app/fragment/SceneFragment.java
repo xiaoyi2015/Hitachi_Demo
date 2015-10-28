@@ -85,7 +85,7 @@ public class SceneFragment extends BaseFragment {
                     Intent intent = new Intent();
                     intent.putExtra("title", "");
                     intent.setClass(getActivity(), EditSceneActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, REQUEST_CODE_EDIT_SCENE);
                     break;
             }
         }
@@ -106,7 +106,6 @@ public class SceneFragment extends BaseFragment {
     @Override
     public void refreshUI() {
         super.refreshUI();
-        click_num = 0;
         if (sceneAdapter == null) {
             return;
         }
@@ -117,11 +116,17 @@ public class SceneFragment extends BaseFragment {
 //            MyApp.getApp().showToast("请先添加场景，再进行控制操作！");
             sceneAdapter.changeData(null);
         }
-        super.refreshUI();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        click_num = 0;
     }
 
     @Override
     public void setTopBar() {
+        click_num = 0;
         refreshUI();
         BaseActivity baseActivity = myGetActivity();
         commonTopBar = baseActivity.getCommonTopBar();

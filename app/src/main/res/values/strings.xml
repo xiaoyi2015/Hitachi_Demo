@@ -231,5 +231,8 @@
     <string name="change_room_tip">长按设备选择是否从房间内删除</string>
     <string name="room_name_empty_info">房间名称不能为空</string>
     <string name="room_name_too_long_info">房间名称长度不能超过20个字符</string>
+    <string name="not_seek_ize">未搜索到i-EZ控制器！</string>
+    <string name="not_seek_text">\n请确保i-EZ控制器已经正确工作，且与主机处于同一局域网内\n</string>
+    <string name="go_back">返回</string>
 
 </resources>
