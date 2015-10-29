@@ -2,12 +2,11 @@ package ac.airconditionsuit.app.entity;
 
 /**
  * Created by ac on 10/15/15.
- *
  */
 public class Command extends RootEntity {
     float temperature;
     int address;
-    int onoff;
+    boolean onoff;
     int fan;
     int mode;
 
@@ -28,16 +27,16 @@ public class Command extends RootEntity {
     }
 
     public int getOnoff() {
-        return onoff;
+        return onoff ? 1 : 0;
     }
 
     public void setOnoff(int onoff) {
-        this.onoff = onoff;
+        this.onoff = onoff == 1;
     }
 
     public int getFan() {
         int temp_fan;
-        switch (fan){
+        switch (fan) {
             case 1:
                 temp_fan = 0;
                 break;
@@ -53,7 +52,7 @@ public class Command extends RootEntity {
 
     public void setFan(int fan) {
         int temp_fan;
-        switch (fan){
+        switch (fan) {
             case 0:
                 temp_fan = 1;
                 break;
@@ -69,7 +68,7 @@ public class Command extends RootEntity {
 
     public int getMode() {
         int temp_mode;
-        switch (mode){
+        switch (mode) {
             case 1:
                 temp_mode = 3;
                 break;
@@ -85,7 +84,7 @@ public class Command extends RootEntity {
 
     public void setMode(int mode) {
         int temp_mode;
-        switch (mode){
+        switch (mode) {
             case 1:
                 temp_mode = 3;
                 break;

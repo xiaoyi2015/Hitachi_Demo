@@ -16,7 +16,7 @@ public class AirCondition extends Command {
         this.address = airConditionStatusResponse.getAddress();
         this.realTemperature = airConditionStatusResponse.getHuifengTemperature();
         this.mode = airConditionStatusResponse.getMode();
-        this.onoff = airConditionStatusResponse.getOnoff();
+        this.onoff = airConditionStatusResponse.getOnoff() == 1;
         this.temperature = airConditionStatusResponse.getTemperature();
         this.fan = airConditionStatusResponse.getWindVelocity();
     }
@@ -43,7 +43,7 @@ public class AirCondition extends Command {
 
     public void changeStatus(AirConditionStatusResponse airConditionStatusResponse) {
         mode = airConditionStatusResponse.getMode();
-        onoff = airConditionStatusResponse.getOnoff();
+        onoff = airConditionStatusResponse.getOnoff() == 1;
         fan = airConditionStatusResponse.getWindVelocity();
         temperature = airConditionStatusResponse.getTemperature();
         realTemperature = airConditionStatusResponse.getHuifengTemperature();
