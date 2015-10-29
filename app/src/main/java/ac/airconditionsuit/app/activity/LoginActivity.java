@@ -9,9 +9,9 @@ import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.LoginResponseData;
+import ac.airconditionsuit.app.network.socket.TcpSocket;
 import ac.airconditionsuit.app.util.CheckUtil;
 
-import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +20,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.loopj.android.http.RequestParams;
+
+import java.io.IOException;
+import java.net.Inet4Address;
 
 /**
  * Created by ac on 9/19/15.
@@ -81,6 +84,7 @@ public class LoginActivity extends BaseActivity {
         if(rememberCheckBox.isChecked()){
             passwordEditText.setText(MyApp.getApp().getLocalConfigManager().getCurrentUserRememberedPassword());
         }
+
     }
 
     private void login() {

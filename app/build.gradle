@@ -11,6 +11,9 @@ apply plugin: 'com.android.application'
 repositories {
     jcenter()
     maven { url 'http://clinker.47deg.com/nexus/content/groups/public' }
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
 }
 
 android {
@@ -38,6 +41,7 @@ android {
     packagingOptions {
         exclude 'zln_time'
     }
+    useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {
@@ -46,7 +50,8 @@ dependencies {
     compile 'com.android.support:support-v4:23.0.1'
     compile 'com.googlecode.plist:dd-plist:1.16'
     compile 'com.google.code.gson:gson:2.3.1'
-    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.loopj.android:android-async-http:1.4.8'
+//    compile 'com.loopj.android:android-async-http:1.5.0-SNAPSHOT'
     compile 'com.kyleduo.switchbutton:library:1.2.10'
     compile 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
     compile 'com.google.zxing:core:3.2.0'

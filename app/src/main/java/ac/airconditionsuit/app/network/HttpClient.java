@@ -3,7 +3,6 @@ package ac.airconditionsuit.app.network;
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
-import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.network.response.CommonResponse;
 
@@ -12,11 +11,17 @@ import android.util.Log;
 import android.widget.ImageView;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.loopj.android.http.*;
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.HttpStatus;
-import cz.msebera.android.httpclient.params.HttpConnectionParams;
-import cz.msebera.android.httpclient.params.HttpParams;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.BaseJsonHttpResponseHandler;
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import org.apache.http.Header;
+
+
+//import cz.msebera.android.httpclient.Header;
+//import cz.msebera.android.httpclient.HttpStatus;
+//import cz.msebera.android.httpclient.params.HttpConnectionParams;
+//import cz.msebera.android.httpclient.params.HttpParams;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -59,7 +64,42 @@ public class HttpClient {
         AsyncHttpClient asyncHttpClient = getAsyncHttpClient();
         asyncHttpClient.post(BASE_URL, wrapParams(params), new BaseJsonHttpResponseHandler<CommonResponse>() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, CommonResponse response) {
+            protected CommonResponse parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
+                Log.v(TAG, "response rawJsonData:\n" + rawJsonData);
+                return new Gson().fromJson(rawJsonData, CommonResponse.class);
+            }
+
+            @Override
+            public void onFailure(int statusCode, org.apache.http.Header[] headers, Throwable throwable, String rawJsonData, CommonResponse errorResponse) {
+                switch (statusCode) {
+                    //can not access to internet
+                    case 0:
+                        MyApp.getApp().showToast(R.string.toast_inf_no_net);
+                        break;
+                    case 200:
+                        if (throwable != null) {
+                            if (throwable instanceof JsonSyntaxException) {
+                                MyApp.getApp().showToast(R.string.toast_inf_net_data_error);
+                            } else if (throwable instanceof CommonError) {
+                                MyApp.getApp().showToast(((CommonError) throwable).getMyMessage().getDialog());
+                            } else {
+                                MyApp.getApp().showToast(throwable.getMessage());
+                            }
+                        } else {
+                            MyApp.getApp().showToast(R.string.toast_inf_unknown_net_error);
+                        }
+                        break;
+                    default:
+                        MyApp.getApp().showToast(R.string.toast_inf_unknown_net_error);
+                }
+
+                if (handler != null) {
+                    handler.onFailure(throwable);
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, org.apache.http.Header[] headers, String rawJsonResponse, CommonResponse response) {
                 //handle result
                 if (response.getCode() != 2000) {
                     onFailure(statusCode, headers, rawJsonResponse, new CommonError(response.getMsg()));
@@ -83,44 +123,8 @@ public class HttpClient {
                     }
                 }
             }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, String rawJsonData, CommonResponse errorResponse) {
-                switch (statusCode) {
-                    //can not access to internet
-                    case 0:
-                        MyApp.getApp().showToast(R.string.toast_inf_no_net);
-                        break;
-                    case HttpStatus.SC_OK:
-                        if (throwable != null) {
-                            if (throwable instanceof JsonSyntaxException) {
-                                MyApp.getApp().showToast(R.string.toast_inf_net_data_error);
-                            } else if (throwable instanceof CommonError) {
-                                MyApp.getApp().showToast(((CommonError) throwable).getMyMessage().getDialog());
-                            } else {
-                                MyApp.getApp().showToast(throwable.getMessage());
-                            }
-                        } else {
-                            MyApp.getApp().showToast(R.string.toast_inf_unknown_net_error);
-                        }
-                        break;
-                    default:
-                        MyApp.getApp().showToast(R.string.toast_inf_unknown_net_error);
-                }
-
-                if (handler != null) {
-                    handler.onFailure(throwable);
-                }
-            }
-
-            @Override
-            protected CommonResponse parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
-                Log.v(TAG, "response rawJsonData:\n" + rawJsonData);
-                return new Gson().fromJson(rawJsonData, CommonResponse.class);
-            }
         });
     }
-
 
     @SuppressWarnings("unchecked")
     public static <T> void get(RequestParams params, final Type type, final JsonResponseHandler<T> handler) {
@@ -128,7 +132,7 @@ public class HttpClient {
 
         asyncHttpClient.get(BASE_URL, wrapParams(params), new BaseJsonHttpResponseHandler<CommonResponse>() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, CommonResponse response) {
+            public void onSuccess(int statusCode, org.apache.http.Header[] headers, String rawJsonResponse, CommonResponse response) {
                 //handle result
                 if (response.getCode() != 2000) {
                     onFailure(statusCode, headers, rawJsonResponse, new CommonError(response.getMsg()));
@@ -155,13 +159,13 @@ public class HttpClient {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, String rawJsonData, CommonResponse errorResponse) {
+            public void onFailure(int statusCode, org.apache.http.Header[] headers, Throwable throwable, String rawJsonData, CommonResponse errorResponse) {
                 switch (statusCode) {
                     //can not access to internet
                     case 0:
                         MyApp.getApp().showToast(R.string.toast_inf_no_net);
                         break;
-                    case HttpStatus.SC_OK:
+                    case 200:
                         if (throwable != null) {
                             throwable.printStackTrace();
                             if (throwable instanceof JsonSyntaxException) {
@@ -212,13 +216,13 @@ public class HttpClient {
         }
         getAsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(MyApp.getApp()) {
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+            public void onFailure(int statusCode, org.apache.http.Header[] headers, Throwable throwable, File file) {
                 Log.e(TAG, "download from " + url + " failed");
                 imageView.setImageResource(R.drawable.user_dc);
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, File file) {
+            public void onSuccess(int statusCode, org.apache.http.Header[] headers, File file) {
                 Log.v(TAG, "download from " + url + " success");
                 imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
             }
@@ -229,7 +233,7 @@ public class HttpClient {
         File tempOutputFile = MyApp.getApp().getPrivateFile(outputFile.getName(), "temp");
         getAsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(tempOutputFile) {
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+            public void onFailure(int statusCode, org.apache.http.Header[] headers, Throwable throwable, File file) {
                 throwable.printStackTrace();
                 Log.e(TAG, "download file from " + url + "failed");
                 if (file.exists()) {
@@ -241,7 +245,7 @@ public class HttpClient {
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, File file) {
+            public void onSuccess(int statusCode, org.apache.http.Header[] headers, File file) {
                 Log.v(TAG, "download file " + file.getPath() + " success");
                 if (handler != null) {
                     if (outputFile.exists()) {
