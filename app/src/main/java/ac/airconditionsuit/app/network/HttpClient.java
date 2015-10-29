@@ -137,7 +137,7 @@ public class HttpClient {
                         try {
                             handler.onSuccess((T) new Gson().fromJson(response.getData(), type));
                         } catch (Exception e) {
-                            e.printStackTrace();
+//                            e.printStackTrace();
                             //可能 response.getData() 是空字符而type 是数组进行如下处理：
                             if (response.getData().getAsString().equals("")) {
                                 try {

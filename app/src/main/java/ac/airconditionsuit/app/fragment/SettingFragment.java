@@ -153,12 +153,17 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                     @Override
                     public void run() {
 
+                        int status = MyApp.getApp().getSocketManager().getStatus();
                         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
                             if (connectivityStatus != NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT
                                     && connectivityStatus != NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
-                                connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
+                                if (status == SocketManager.UDP_DEVICE_CONNECT) {
+                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentWifiUdpConnect);
+                                } else {
+                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
+                                }
                             } else {
-                                switch (MyApp.getApp().getSocketManager().getStatus()) {
+                                switch (status) {
                                     case SocketManager.TCP_DEVICE_CONNECT:
                                         if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
                                             connectionStatusView.setOnlineTextView(R.string.settingFragmentWifiConnectDevice);
@@ -196,7 +201,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                                 }
                             }
                         } else {
-                            switch (MyApp.getApp().getSocketManager().getStatus()) {
+                            switch (status) {
                                 case SocketManager.TCP_HOST_CONNECT:
                                     connectionStatusView.setOnlineTextView(R.string.settingFragmentHasHostNoDevice);
                                     break;

@@ -108,7 +108,7 @@ public class BindHostActivity extends BaseActivity {
                                 MyApp.getApp().getLocalConfigManager().updateCurrentServerConfigFile(deviceId + Constant.CONFIG_FILE_SUFFIX);
                                 device.getInfo().setName(changeName.getText().toString());
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
-                                MyApp.getApp().getSocketManager().reconnect();
+                                MyApp.getApp().getSocketManager().reconnectSocket();
 
 
                                 new AlertDialog.Builder(BindHostActivity.this).setTitle(R.string.tip).setMessage(R.string.is_search_air_condition).
@@ -138,7 +138,7 @@ public class BindHostActivity extends BaseActivity {
                                 MyApp.getApp().getServerConfigManager().readFromFile();
                                 device.getInfo().setName(changeName.getText().toString());
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
-                                MyApp.getApp().getSocketManager().reconnect();
+                                MyApp.getApp().getSocketManager().reconnectSocket();
 
                                 new AlertDialog.Builder(BindHostActivity.this).setTitle(R.string.tip).setMessage(R.string.is_search_air_condition).
                                         setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {

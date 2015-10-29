@@ -3,7 +3,6 @@ package ac.airconditionsuit.app.network.socket.socketpackage.Udp;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.aircondition.AirConditionControlBatch;
-import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.util.ByteUtil;
 import android.util.Log;
@@ -180,7 +179,7 @@ public class UdpPackage {
                 @Override
                 public void fail(int errorNo) {
                     //TODO for luzheqi,这里很可能需要退出登录
-                    MyApp.getApp().getSocketManager().reconnect();
+                    MyApp.getApp().getSocketManager().close();
                 }
             };
         }

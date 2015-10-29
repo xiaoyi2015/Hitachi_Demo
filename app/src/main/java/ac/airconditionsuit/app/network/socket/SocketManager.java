@@ -31,8 +31,13 @@ public class SocketManager extends Observable {
     public static final int NONE = 2;
 
 
-    public static final int HEART_BEAT_PERIOD = 60000;
-    public static final int HEART_BEAT_INVAILD_TIME = 70000;
+    public static final int HEART_BEAT_PERIOD_TCP = 60000;
+    public static final int HEART_BEAT_INVALID_TIME_TCP = 70000;
+
+    public static final int HEART_BEAT_PERIOD_UDP = 5000;
+    public static final int HEART_BEAT_INVALID_TIME_UDP = 10000;
+
+    public static final int CHECK_PERIOD = 5000;
 
     private boolean isTcpHostConnect = false;
     private boolean isTcpDeviceConnect = false;
@@ -40,6 +45,7 @@ public class SocketManager extends Observable {
 
     private long lastHeartSuccessTime = 0;
     private Timer heartBeatTimer;
+    private Timer checkTimer;
 
     public SocketManager() {
         udpPackageHandler = new UdpPackageHandler();
@@ -62,20 +68,20 @@ public class SocketManager extends Observable {
         }
     }
 
-    private void statusTcpServerConnect() {
+    public void statusTcpServerConnect() {
         isTcpHostConnect = true;
         isUdpDeviceConnect = false;
         notifyActivity(new ObserveData(ObserveData.NETWORK_STATUS_CHANGE));
     }
 
-    private void statusUdpConnect() {
+    public void statusUdpConnect() {
         isTcpHostConnect = false;
         isUdpDeviceConnect = true;
         isTcpDeviceConnect = false;
         notifyActivity(new ObserveData(ObserveData.NETWORK_STATUS_CHANGE));
     }
 
-    private void statusAllFalse() {
+    public void statusAllFalse() {
         isTcpHostConnect = false;
         isTcpDeviceConnect = false;
         isUdpDeviceConnect = false;
@@ -125,18 +131,21 @@ public class SocketManager extends Observable {
     }
 
     public void startHeartBeat() {
+        int heartbeatPeriod;
+        if (socket instanceof TcpSocket) {
+            heartbeatPeriod = HEART_BEAT_PERIOD_TCP;
+        } else {
+            heartbeatPeriod = HEART_BEAT_PERIOD_UDP;
+        }
+
         heartBeatTimer = new Timer();
         heartBeatTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (System.currentTimeMillis() - lastHeartSuccessTime > HEART_BEAT_INVAILD_TIME) {
-                    reconnect();
-                    return;
-                }
                 SocketPackage heartBeatSocket = new HeartBeatPackage();
                 sendMessage(heartBeatSocket);
             }
-        }, 0, HEART_BEAT_PERIOD);
+        }, 0, heartbeatPeriod);
 
     }
 
@@ -214,20 +223,19 @@ public class SocketManager extends Observable {
                     socket.receiveDataAndHandle();
                 } catch (IOException e) {
                     if (Thread.interrupted()) {
-                        close();
                         Log.e(TAG, "receive thread interrupted");
                     } else {
                         Log.e(TAG, "read data from socket failed");
-                        reconnect();
-                        e.printStackTrace();
                     }
+                    e.printStackTrace();
+                    close();
                     break;
                 }
             }
         }
     }
 
-    public void reconnect() {
+    public void reconnectSocket() {
         close();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -284,7 +292,13 @@ public class SocketManager extends Observable {
         statusAllFalse();
     }
 
-    public void init(final int status) {
+    public void stopCheck() {
+        if (checkTimer != null) {
+            checkTimer.cancel();
+        }
+    }
+
+    synchronized public void init(final int status) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -293,10 +307,15 @@ public class SocketManager extends Observable {
                     return;
                 }
 
+                final int socketType = getSocketType(status);
+                if (socket != null && socket.isConnect()
+                        && (socket instanceof TcpSocket && socketType == TCP)) {
+                    return;
+                }
+
                 statusAllFalse();
                 lastHeartSuccessTime = 0;
 
-                final int socketType = getSocketType(status);
                 if (socketType == UDP) {
                     socket = new UdpSocket();
                 } else if (socketType == TCP) {
@@ -315,7 +334,7 @@ public class SocketManager extends Observable {
                     }
                 } catch (IOException e) {
                     Log.e(TAG, "establish socket connect failed!");
-                    reconnect();
+                    close();
                     e.printStackTrace();
                 }
 
@@ -326,6 +345,48 @@ public class SocketManager extends Observable {
                 //登录
                 LoginPackage loginPackage = new LoginPackage();
                 sendMessage(loginPackage);
+
+
+                if (checkTimer == null) {
+
+                    final int heartBeatInvalidTimeTcp;
+                    int checkPeriod;
+                    if (socket instanceof TcpSocket) {
+                        heartBeatInvalidTimeTcp = HEART_BEAT_INVALID_TIME_TCP;
+                    } else {
+                        heartBeatInvalidTimeTcp = HEART_BEAT_INVALID_TIME_UDP;
+                    }
+
+                    checkTimer = new Timer();
+                    checkTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            //checkout error for socket
+                            if (socket == null || !socket.isConnect()) {
+                                reconnectSocket();
+                                return;
+                            }
+
+                            //checkout heartbeat
+                            if (System.currentTimeMillis() - lastHeartSuccessTime > heartBeatInvalidTimeTcp) {
+                                reconnectSocket();
+                                Log.v(TAG, "socket check lose heart beat");
+                                return;
+                            }
+
+                            int socketType = getSocketType(NetworkConnectionStatusUtil.getConnectivityStatus(MyApp.getApp()));
+                            if (socketType != NONE &&
+                                    (socket instanceof TcpSocket && socketType == UDP)
+                                    || (socket instanceof UdpSocket && socketType == TCP)) {
+                                reconnectSocket();
+                                Log.v(TAG, "socket switch socket type");
+                                return;
+                            }
+
+                            Log.v(TAG, "socket check ok");
+                        }
+                    }, CHECK_PERIOD, CHECK_PERIOD);
+                }
 
             }
         }).start();

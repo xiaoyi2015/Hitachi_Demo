@@ -4,8 +4,6 @@ import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.network.HttpClient;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -117,7 +115,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                                 MyApp.getApp().getLocalConfigManager().updateCurrentServerConfigFile(deviceId + Constant.CONFIG_FILE_SUFFIX);
                                 Device device = new Device(qrCode);
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
-                                MyApp.getApp().getSocketManager().reconnect();
+                                MyApp.getApp().getSocketManager().reconnectSocket();
 
                                 Intent intent = new Intent();
                                 intent.setClass(AddDeviceActivity.this, MainActivity.class);
@@ -132,7 +130,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                                 MyApp.getApp().getServerConfigManager().readFromFile();
                                 Device device = new Device(qrCode);
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
-                                MyApp.getApp().getSocketManager().reconnect();
+                                MyApp.getApp().getSocketManager().reconnectSocket();
 
                                 Intent intent = new Intent();
                                 intent.setClass(AddDeviceActivity.this, MainActivity.class);

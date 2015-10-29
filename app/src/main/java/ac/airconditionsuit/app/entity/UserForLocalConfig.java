@@ -164,7 +164,7 @@ public class UserForLocalConfig {
     }
 
     public void updateCurrentHostDeviceConfigFile(String newFileName) {
-        if (currentHomeIndex == -1) {
+        if (currentHomeIndex == -1 || homeConfigFileNames.size() == 0) {
             currentHomeIndex = 0;
             homeConfigFileNames.add(newFileName);
             homeConfigFileNames.set(currentHomeIndex, newFileName);

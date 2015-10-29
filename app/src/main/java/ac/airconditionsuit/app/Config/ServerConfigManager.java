@@ -447,8 +447,14 @@ public class ServerConfigManager {
     public static ServerConfigManager genNewHomeConfigFile(String configFileName, String homeName) {
         ServerConfigManager scm = new ServerConfigManager();
         scm.setRootJavaObj(ServerConfig.genNewConfig(configFileName, homeName));
-        scm.writeToFile(MyApp.getApp().getPrivateFile(configFileName, null).getAbsolutePath());
+        String absolutePath = MyApp.getApp().getPrivateFile(configFileName, null).getAbsolutePath();
+        scm.writeToFile(absolutePath);
+        scm.setFileName(absolutePath);
         return scm;
+    }
+
+    private void setFileName(String absolutePath) {
+        fileName = absolutePath;
     }
 
     private void writeToFile(String configFileName) {

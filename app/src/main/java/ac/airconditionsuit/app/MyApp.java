@@ -217,10 +217,8 @@ public class MyApp extends Application {
 
     public void offLine() {
         this.user = null;
-//        this.localConfigManager = null;
-//        this.serverConfigManager = null;
         this.socketManager.close();
-        this.socketManager = null;
+        this.socketManager.stopCheck();
     }
 
 }
