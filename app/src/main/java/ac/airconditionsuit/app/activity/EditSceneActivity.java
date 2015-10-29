@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -81,16 +80,16 @@ public class EditSceneActivity extends BaseActivity{
                                 commands.add(command);
                             }
                         }
-                        scene.setCommonds(commands);
+                        scene.setCommands(commands);
                         scene.setName(check_scene_name);
                         MyApp.getApp().getServerConfigManager().addScene(scene);
                         setResult(RESULT_OK);
                         finish();
                     }else{
-                        if(MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds() != null) {
-                            MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().clear();
+                        if(MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands() != null) {
+                            MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands().clear();
                         }else{
-                            MyApp.getApp().getServerConfigManager().getScene().get(index).setCommonds(new ArrayList<Command>());
+                            MyApp.getApp().getServerConfigManager().getScene().get(index).setCommands(new ArrayList<Command>());
                         }
                         for (int i = 0; i < temp_on_off.size(); i++) {
                             if (temp_on_off.get(i) != 2) {
@@ -100,7 +99,7 @@ public class EditSceneActivity extends BaseActivity{
                                 command.setMode(temp_mode.get(i));
                                 command.setFan(temp_fan.get(i));
                                 command.setTemperature((float) (temp_temp.get(i) + 19));
-                                MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().add(command);
+                                MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands().add(command);
                             }
                         }
                         MyApp.getApp().getServerConfigManager().getScene().get(index).setName(check_scene_name);
@@ -161,18 +160,17 @@ public class EditSceneActivity extends BaseActivity{
         }
 
         if(!is_add){
-            if(MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds() != null) {
-                for (int i = 0; i < MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().size(); i++) {
-                    int temp_index_device = MyApp.getApp().getServerConfigManager().
-                            getDeviceIndexFromAddress(MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().get(i).getAddress());
+            if(MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands() != null) {
+                for (int i = 0; i < MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands().size(); i++) {
+                    int temp_index_device = MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands().get(i).getAddress();
                     if (temp_index_device != -1) {
-                        temp_on_off.set(temp_index_device, MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().get(i).getOnoff());
-                        temp_mode.set(temp_index_device, MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().get(i).getMode());
-                        temp_fan.set(temp_index_device, MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().get(i).getFan());
-                        if(MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().get(i).getMode() == 1){
-                            temp_temp.set(temp_index_device, (int) (MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().get(i).getTemperature() - 17));
+                        temp_on_off.set(temp_index_device, MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands().get(i).getOnoff());
+                        temp_mode.set(temp_index_device, MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands().get(i).getMode());
+                        temp_fan.set(temp_index_device, MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands().get(i).getFan());
+                        if(MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands().get(i).getMode() == 1){
+                            temp_temp.set(temp_index_device, (int) (MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands().get(i).getTemperature() - 17));
                         }else{
-                            temp_temp.set(temp_index_device, (int) (MyApp.getApp().getServerConfigManager().getScene().get(index).getCommonds().get(i).getTemperature() - 19));
+                            temp_temp.set(temp_index_device, (int) (MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands().get(i).getTemperature() - 19));
                         }
 
                     }
