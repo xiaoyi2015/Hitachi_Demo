@@ -23,6 +23,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -215,7 +216,7 @@ public class ServerConfigManager {
             }
             NSDictionary root = (NSDictionary) PropertyListParser.parse(MyBase64Util.decodeToByte(bytes));
             String json = PlistUtil.NSDictionaryToJsonString(root);
-            rootJavaObj = new Gson().fromJson(json, ServerConfig.class);
+            rootJavaObj = switchAddressAndIndexFileToObj(new Gson().fromJson(json, ServerConfig.class), true);
             Log.v(TAG, "read server config file success");
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
             rootJavaObj = ServerConfig.genNewConfig(serverConfigFile.getName(), "新的家");
@@ -234,6 +235,82 @@ public class ServerConfigManager {
 
     }
 
+    private ServerConfig switchAddressAndIndexFileToObj(ServerConfig serverConfig, boolean flag) {
+        List<DeviceFromServerConfig> devices = serverConfig.getDevices();
+        if (devices == null || devices.size() == 0) {
+            return serverConfig;
+        }
+        List<Section> sections = serverConfig.getSections();
+        if (sections != null) {
+            for (Section section : sections) {
+                List<Room> rooms = section.getPages();
+                if (rooms == null) {
+                    continue;
+                }
+                for (Room room : rooms) {
+                    List<Integer> elements = room.getElements();
+                    if (elements == null) {
+                        continue;
+                    }
+                    List<Integer> newElements = new ArrayList<>();
+                    for (Integer integer : elements) {
+                        if (flag) {
+                            newElements.add(integer + 1);
+                        } else {
+                            newElements.add(integer - 1);
+                        }
+                    }
+                    room.setElements(newElements);
+                }
+            }
+        }
+
+        List<Scene> scenes = serverConfig.getScenes();
+        if (scenes != null) {
+            for (Scene scene : scenes) {
+                List<Command> commands = scene.getCommands();
+                if (commands == null) {
+                    continue;
+                }
+                for (Command command : commands) {
+                    if (flag) {
+                        int realAddress = devices.get(command.getAddress()).getAddress();
+                        command.setAddress(realAddress);
+                    } else {
+                        int realAddress = command.getAddress();
+                        for (int i = 0; i < devices.size(); ++i) {
+                            if (devices.get(i).getAddress() == realAddress) {
+                                command.setAddress(i);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        List<Timer> timers = serverConfig.getTimers();
+        if (timers != null) {
+            for (Timer timer : timers) {
+                List<Integer> indexes = timer.getIndexes();
+                if (indexes == null) {
+                    continue;
+                }
+                List<Integer> newIndexes = new ArrayList<>();
+                for (Integer index : indexes) {
+                    if (flag) {
+                        newIndexes.add(index + 1);
+                    } else {
+                        newIndexes.add(index - 1);
+                    }
+                }
+                timer.setIndexes(newIndexes);
+            }
+        }
+
+        return serverConfig;
+    }
+
     public void readFromFile(String fileName) {
         File serverConfigFile = MyApp.getApp().getLocalConfigManager().getHomeConfigFile(fileName);
         readFromFile(serverConfigFile);
@@ -247,7 +324,6 @@ public class ServerConfigManager {
     public void writeToFile() {
         writeToFile(fileName);
     }
-
 
 
     /**
@@ -466,7 +542,8 @@ public class ServerConfigManager {
                 return;
             }
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            NSDictionary root = PlistUtil.JavaObjectToNSDictionary(rootJavaObj);
+            ServerConfig rightServerConfig =  switchAddressAndIndexFileToObj(new Gson().fromJson(rootJavaObj.toJsonString(), ServerConfig.class), false);
+            NSDictionary root = PlistUtil.JavaObjectToNSDictionary(rightServerConfig);
             PropertyListParser.saveAsXML(root, byteArrayOutputStream);
             byte[] bytes = MyBase64Util.encodeToByte(byteArrayOutputStream.toByteArray(), true);
 
