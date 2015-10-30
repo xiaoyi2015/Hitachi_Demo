@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.aircondition;
 
+import android.util.Log;
+
 /**
  * Created by ac on 10/15/15.
  */
@@ -47,6 +49,7 @@ public class AirConditionStatusResponse extends AirConditionControl {
 
 
         int windVelocity = input[2];
+//        Log.v("liutao", "server wind: " + windVelocity);
         //wind velocity
         if (windVelocity == 3) {
             result.setWindVelocity(WINDVELOCITY_HIGH);

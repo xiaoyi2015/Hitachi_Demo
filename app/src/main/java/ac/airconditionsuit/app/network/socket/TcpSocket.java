@@ -191,7 +191,7 @@ public class TcpSocket implements SocketWrap {
         byte[] data = Arrays.copyOfRange(receiveData, 42, 42 + contentLen);
 
         if (contentType == 1) {
-            Log.i(TAG, "handle receive data as bin");
+            Log.i(TAG, "handle receive data as bin: " +  ByteUtil.byteArrayToReadableHexString(data));
             long chat_id = ByteUtil.byteArrayToLong(receiveData, 7);
             if (chat_id == 0 || chat_id == MyApp.getApp().getServerConfigManager().getCurrentChatId()) {
                 MyApp.getApp().getSocketManager().handUdpPackage(null, data);

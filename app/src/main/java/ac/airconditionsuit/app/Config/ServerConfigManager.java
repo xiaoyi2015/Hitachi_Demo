@@ -255,9 +255,11 @@ public class ServerConfigManager {
                     List<Integer> newElements = new ArrayList<>();
                     for (Integer integer : elements) {
                         if (flag) {
-                            newElements.add(integer + 1);
+//                            newElements.add(integer + 1);
+                            newElements.add(integer);
                         } else {
-                            newElements.add(integer - 1);
+//                            newElements.add(integer - 1);
+                            newElements.add(integer);
                         }
                     }
                     room.setElements(newElements);
