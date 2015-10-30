@@ -49,7 +49,6 @@ public class AirConditionStatusResponse extends AirConditionControl {
 
 
         int windVelocity = input[2];
-//        Log.v("liutao", "server wind: " + windVelocity);
         //wind velocity
         if (windVelocity == 3) {
             result.setWindVelocity(WINDVELOCITY_HIGH);
@@ -75,6 +74,8 @@ public class AirConditionStatusResponse extends AirConditionControl {
 //        }
 
         int temperature = input[4];
+
+        Log.v("liutao", "主机反馈空调状态 address: " + result.address + " mode: " + mode + " wind: " + windVelocity + " temp: " + temperature);
 
         if (result.mode == MODE_HEATING) {
             if (temperature < 17 || temperature > 30) {

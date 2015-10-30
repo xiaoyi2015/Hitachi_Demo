@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.aircondition;
 
+import android.util.Log;
+
 import ac.airconditionsuit.app.entity.RootEntity;
 import ac.airconditionsuit.app.entity.Timer;
 
@@ -153,6 +155,8 @@ public class AirConditionControl extends RootEntity{
 
         //temp
         result[3] = (byte) temperature;
+
+        Log.v("liutao", "控制空调状态 mode: " + (result[0]&0x0f) + " wind: " + result[1] + " temp: " + temperature);
 
         return result;
     }

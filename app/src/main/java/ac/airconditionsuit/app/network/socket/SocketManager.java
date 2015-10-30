@@ -170,7 +170,7 @@ public class SocketManager extends Observable {
             addresses.add(address);
         }
         QueryAirConditionStatusPackage queryAirConditionStatusPackage = new QueryAirConditionStatusPackage(addresses);
-//        Log.v("liutao", "读所有空调状态");
+        Log.v("liutao", "主动发包读所有空调状态");
         sendMessage(queryAirConditionStatusPackage);
     }
 
