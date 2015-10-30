@@ -153,9 +153,9 @@ public class SectionAndRoomView extends RelativeLayout {
                 airCondition.setOnoff(AirConditionControl.EMPTY);
             }else {
                 airCondition.setOnoff(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getOnoff());
-                airCondition.setMode(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getMode());
+                airCondition.setAirconditionMode(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getAirconditionMode());
                 airCondition.setAddress(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getAddress());
-                airCondition.setFan(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getFan());
+                airCondition.setAirconditionFan(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getFan());
                 airCondition.setTemperature(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getTemperature());
             }
             switch (UIManager.UITYPE){
@@ -229,6 +229,14 @@ public class SectionAndRoomView extends RelativeLayout {
                     roomOnOff = (ImageView)convertView.findViewById(R.id.room_on_off);
                     roomTempNone = (ImageView)convertView.findViewById(R.id.room_temp_none);
                     roomTemp.setText((int) airCondition.getTemperature() + getContext().getString(R.string.temp_symbol));
+
+                    roomOnOff.setImageResource(R.drawable.none_hit);
+                    roomMode.setImageResource(R.drawable.none_hit);
+                    roomWindSpeed.setImageResource(R.drawable.none_hit);
+                    roomTemp.setVisibility(GONE);
+                    roomTempNone.setVisibility(VISIBLE);
+                    roomTempNone.setImageResource(R.drawable.none_hit);
+
                     if(airCondition.getOnoff() == AirConditionControl.UNKNOW || airCondition.getOnoff() == AirConditionControl.EMPTY){
                         roomOnOff.setImageResource(R.drawable.none_hit);
                         roomMode.setImageResource(R.drawable.none_hit);
@@ -242,7 +250,7 @@ public class SectionAndRoomView extends RelativeLayout {
                         roomTempNone.setVisibility(GONE);
                         roomTemp.setTextColor(getResources().getColor(R.color.hit_off_gray));
                         roomOnOff.setImageResource(R.drawable.onoff_off_hit);
-                        switch (airCondition.getMode()){
+                        switch (airCondition.getAirconditionMode()){
                             case 0:
                                 roomMode.setImageResource(R.drawable.cool_off_hit);
                                 break;
@@ -256,7 +264,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomMode.setImageResource(R.drawable.fan_off_hit);
                                 break;
                         }
-                        switch (airCondition.getFan()){
+                        switch (airCondition.getAirconditionFan()){
                             case 0:
                                 roomWindSpeed.setImageResource(R.drawable.fan1_off_hit);
                                 break;
@@ -270,12 +278,12 @@ public class SectionAndRoomView extends RelativeLayout {
                     if(airCondition.getOnoff() == 1){
                         roomTemp.setVisibility(VISIBLE);
                         roomTempNone.setVisibility(GONE);
-                        switch (airCondition.getMode()){
+                        switch (airCondition.getAirconditionMode()){
                             case 0:
                                 roomTemp.setTextColor(getResources().getColor(R.color.hit_cool_blue));
                                 roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
                                 roomMode.setImageResource(R.drawable.cool_on_hit);
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
                                         break;
@@ -290,7 +298,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomTemp.setTextColor(getResources().getColor(R.color.hit_heat_red));
                                 roomOnOff.setImageResource(R.drawable.onoff_on_heat_hit);
                                 roomMode.setImageResource(R.drawable.heat_on_hit);
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan1_on_heat_hit);
                                         break;
@@ -305,7 +313,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomTemp.setTextColor(getResources().getColor(R.color.hit_cool_blue));
                                 roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
                                 roomMode.setImageResource(R.drawable.dry_on_hit);
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
                                         break;
@@ -320,7 +328,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomTemp.setTextColor(getResources().getColor(R.color.hit_cool_blue));
                                 roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
                                 roomMode.setImageResource(R.drawable.fan_on_hit);
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
                                         break;

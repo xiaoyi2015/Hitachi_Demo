@@ -34,6 +34,22 @@ public class Command extends RootEntity {
         this.onoff = onoff == 1;
     }
 
+    public int getAirconditionFan(){
+        return fan;
+    }
+
+    public int getAirconditionMode(){
+        return mode;
+    }
+
+    public void setAirconditionFan(int fan){
+        this.fan = fan;
+    }
+
+    public void setAirconditionMode(int mode){
+        this.mode = mode;
+    }
+
     public int getFan() {
         int temp_fan;
         switch (fan) {
