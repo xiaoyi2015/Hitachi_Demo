@@ -78,11 +78,12 @@ public class RoomAirSettingHitActivity extends BaseActivity {
                     tempSeekBar.setMax(11);
                     if(temp < 19){
                         tempSeekBar.setProgress(0);
+                        temp = 21;
                     }else {
                         tempSeekBar.setProgress(temp - 19);
                     }
                     if(flag == 1){
-                        if(temp >= 19) {
+                        if(temp > 19) {
                             temp = temp - 2;
                         }
                         changeTemp(temp);
@@ -112,11 +113,12 @@ public class RoomAirSettingHitActivity extends BaseActivity {
                     tempSeekBar.setMax(11);
                     if(temp < 19){
                         tempSeekBar.setProgress(0);
+                        temp = 21;
                     }else {
                         tempSeekBar.setProgress(temp - 19);
                     }
                     if(flag == 1){
-                        if(temp >= 19) {
+                        if(temp > 19) {
                             temp = temp - 2;
                         }
                         changeTemp(temp);
@@ -132,11 +134,12 @@ public class RoomAirSettingHitActivity extends BaseActivity {
                     tempSeekBar.setMax(11);
                     if(temp < 19){
                         tempSeekBar.setProgress(0);
+                        temp = 21;
                     }else {
                         tempSeekBar.setProgress(temp - 19);
                     }
                     if(flag == 1){
-                        if(temp >= 19) {
+                        if(temp > 19) {
                             temp = temp - 2;
                         }
                         changeTemp(temp);
