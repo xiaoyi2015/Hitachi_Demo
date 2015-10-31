@@ -91,8 +91,8 @@ public class AirConditionManager {
             }
             for (AirCondition airCondition : airConditions) {
                 if (airCondition.getAddress() == address) {
-                    airCondition.setMode(airConditionControl.getMode());
-                    airCondition.setFan(airConditionControl.getWindVelocity());
+                    airCondition.setAirconditionMode(airConditionControl.getMode());
+                    airCondition.setAirconditionFan(airConditionControl.getWindVelocity());
                     airCondition.setTemperature(airConditionControl.getTemperature());
                     airCondition.setOnoff(airConditionControl.getOnoff());
                 }

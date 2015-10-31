@@ -390,31 +390,12 @@ public class RoomAirSettingHitActivity extends BaseActivity {
 
 
     private void submit() {
-        switch (fan) {
-            case 0:
-                fan = 1;
-                break;
-            case 1:
-                fan = 2;
-                break;
-            case 2:
-                fan = 3;
-                break;
-        }
-        switch (mode) {
-            case 1:
-                mode = 3;
-                break;
-            case 3:
-                mode = 1;
-                break;
-            default:
-                break;
-        }
+
         airConditionControl.setMode(mode);
         airConditionControl.setOnoff(on_off);
         airConditionControl.setTemperature(temp);
         airConditionControl.setWindVelocity(fan);
+
         try {
             MyApp.getApp().getAirConditionManager().controlRoom(room, airConditionControl);
         } catch (Exception e) {

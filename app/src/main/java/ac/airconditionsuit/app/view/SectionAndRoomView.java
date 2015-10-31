@@ -155,7 +155,7 @@ public class SectionAndRoomView extends RelativeLayout {
                 airCondition.setOnoff(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getOnoff());
                 airCondition.setAirconditionMode(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getAirconditionMode());
                 airCondition.setAddress(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getAddress());
-                airCondition.setAirconditionFan(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getFan());
+                airCondition.setAirconditionFan(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getAirconditionFan());
                 airCondition.setTemperature(MyApp.getApp().getAirConditionManager().getAirConditions(rooms.get(position)).getTemperature());
             }
             switch (UIManager.UITYPE){
