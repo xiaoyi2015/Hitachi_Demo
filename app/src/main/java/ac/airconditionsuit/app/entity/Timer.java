@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.entity;
 
+import android.util.Log;
+
 import ac.airconditionsuit.app.aircondition.AirConditionControl;
 import ac.airconditionsuit.app.util.ByteUtil;
 
@@ -346,6 +348,8 @@ public class Timer extends RootEntity {
 
         //name
         timer.setName(new String(Arrays.copyOfRange(contentData, 17, 32)));
+
+        Log.v("liutao", "收到定时器 name: " + timer.getName());
 
         return timer;
     }

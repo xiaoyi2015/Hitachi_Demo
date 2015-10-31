@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.fragment;
 
 import ac.airconditionsuit.app.UIManager;
+import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.network.socket.SocketManager;
 import android.content.Context;
@@ -66,6 +67,8 @@ public class SetClockFragment extends BaseFragment {
         clockSettingAdapter = new ClockSettingAdapter(getActivity(), null);
         listView.setAdapter(clockSettingAdapter);
         refreshUI();
+
+        MyApp.getApp().getAirConditionManager().queryTimerAll();
         return view;
     }
 

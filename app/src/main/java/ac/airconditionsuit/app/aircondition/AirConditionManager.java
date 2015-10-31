@@ -193,6 +193,11 @@ public class AirConditionManager {
         return airCondition;
     }
 
+    public void queryTimerAll() {
+        Log.v("liutao", "主动发包读取所有定时器状态");
+        MyApp.getApp().getSocketManager().sendMessage(new QueryTimerPackage(0xffff));
+    }
+
     public void queryTimer(int id) {
         MyApp.getApp().getSocketManager().sendMessage(new QueryTimerPackage(id));
     }
