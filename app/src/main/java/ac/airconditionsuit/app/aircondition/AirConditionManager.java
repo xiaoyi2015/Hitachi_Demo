@@ -211,6 +211,8 @@ public class AirConditionManager {
             if (temp.getRealTemperature() != airCondition.getRealTemperature()) {
                 airCondition.setRealTemperature(AirConditionControl.UNKNOW);
             }
+            if (temp.getTemperature() > 30 || temp.getTemperature() < 17) airCondition.setTemperature(AirConditionControl.UNKNOW);
+            if (temp.getRealTemperature() > 30 || temp.getRealTemperature() < 17) airCondition.setRealTemperature(AirConditionControl.UNKNOW);
         }
         return airCondition;
     }
