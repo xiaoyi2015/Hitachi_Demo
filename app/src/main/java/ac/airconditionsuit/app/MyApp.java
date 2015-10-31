@@ -7,6 +7,8 @@ import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.socket.SocketManager;
+
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.*;
+import java.util.List;
 
 /**
  * Created by ac on 9/19/15.
@@ -23,6 +26,16 @@ public class MyApp extends Application {
 
     private static final String TAG = "MyApp";
     private static MyApp INSTANCE;
+
+    public static boolean isAppActive() {
+        return appActive;
+    }
+
+    public static void setAppActive(boolean appActive) {
+        MyApp.appActive = appActive;
+    }
+
+    private static boolean appActive = false;
 
     private ServerConfigManager serverConfigManager;
 
@@ -57,6 +70,7 @@ public class MyApp extends Application {
 
         Log.v(TAG, getDeviceInfo(this));
     }
+
 
     public boolean isUserLogin() {
         return user != null;
@@ -221,4 +235,50 @@ public class MyApp extends Application {
         this.socketManager.stopCheck();
     }
 
+    public static Context context() {
+        return getApp().getApplicationContext();
+    }
+
+    public static boolean isAppOnForeground() {
+        // Returns a list of application processes that are running on the
+        // device
+
+        ActivityManager activityManager = (ActivityManager) context().getSystemService(Context.ACTIVITY_SERVICE);
+        String packageName = MyApp.context().getPackageName();
+
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        if (appProcesses == null)
+            return false;
+
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            // The name of the process that this object is associated with.
+            if (appProcess.processName.equals(packageName) && appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static void appResume() {
+        if (MyApp.isAppOnForeground() && !isAppActive()) {
+            setAppActive(true);
+            MyApp.enterForeground();
+        }
+    }
+
+    public static void appStop() {
+        if (!MyApp.isAppOnForeground()) {
+            setAppActive(false);
+            enterBackground();
+        }
+    }
+
+    private static void enterForeground() {
+        Log.v("liutao", "进入前台");
+    }
+
+    private static void enterBackground() {
+        Log.v("liutao", "进入后台");
+    }
 }
