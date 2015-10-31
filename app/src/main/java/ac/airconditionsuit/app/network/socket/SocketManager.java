@@ -55,6 +55,14 @@ public class SocketManager extends Observable {
         this.lastHeartSuccessTime = lastHeartSuccessTime;
     }
 
+    public boolean shouldSendPacketsToQuery() {
+        if (!MyApp.getApp().getServerConfigManager().hasDevice()) return false;
+
+        int status = getStatus();
+        if (status == UDP_DEVICE_CONNECT || status == TCP_DEVICE_CONNECT) return true;
+        return false;
+    }
+
     public void heartSuccess() {
         setLastHeartSuccessTime(System.currentTimeMillis());
         if (socket == null) {

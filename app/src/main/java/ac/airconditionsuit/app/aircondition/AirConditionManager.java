@@ -23,6 +23,7 @@ public class AirConditionManager {
 
     public void queryAirConditionStatus() {
         try {
+            if (MyApp.getApp().getSocketManager().shouldSendPacketsToQuery())
             MyApp.getApp().getSocketManager().getAllAirConditionStatusFromHostDevice(
                     MyApp.getApp().getServerConfigManager().getDevices()
             );
@@ -199,7 +200,8 @@ public class AirConditionManager {
 
     public void queryTimerAll() {
         Log.v("liutao", "主动发包读取所有定时器状态");
-        MyApp.getApp().getSocketManager().sendMessage(new QueryTimerPackage(0xffff));
+        if (MyApp.getApp().getSocketManager().shouldSendPacketsToQuery())
+            MyApp.getApp().getSocketManager().sendMessage(new QueryTimerPackage(0xffff));
     }
 
     public void queryTimer(int id) {
