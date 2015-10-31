@@ -71,9 +71,11 @@ public class AirConditionManager {
         MyApp.getApp().getSocketManager().sendMessage(scene.toSocketControlPackage());
         //发送场景时，不主动查询空调状态，因为空调控制成功需要时间，此时查询到的状态，有可能是控制之前空调的状态。进而造成本地显示与实际空调状态不一致
         //目前，控制空调成功后，主机不一定会反馈空调状态给app
-        //所以，发送场景控制命令时，先set到本地缓存，使界面得到更新。
         //在我的空调界面，允许用户手动下拉刷新，主动发包读取所有空调状态
         //MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+
+        //发送场景控制命令时，先set到本地缓存，使界面得到更新。
+        updateACsBySceneControl(scene);
     }
 
     public void controlRoom(Room room, AirConditionControl airConditionControl) throws Exception {
@@ -81,6 +83,21 @@ public class AirConditionManager {
         updateAirconditions(room, airConditionControl);
     }
 
+    private void updateACsBySceneControl(Scene scene) {
+        List<Command> commands = scene.getCommands();
+        if (commands == null) return;
+        for (Command command : commands) {
+            int address = command.getAddress();
+            for (AirCondition airCondition : airConditions) {
+                if (airCondition.getAddress() == address) {
+                    airCondition.setAirconditionMode(command.getMode());
+                    airCondition.setAirconditionFan(command.getFan());
+                    airCondition.setTemperature(command.getTemperature());
+                    airCondition.setOnoff(command.getOnoff());
+                }
+            }
+        }
+    }
     private void updateAirconditions(Room room, AirConditionControl airConditionControl) throws Exception {
 
         for (int index : room.getElements()) {
