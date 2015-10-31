@@ -199,7 +199,16 @@ public class AirConditionManager {
     }
 
     public void queryTimerAll() {
-        Log.v("liutao", "主动发包读取所有定时器状态");
+        try {
+            Log.v("liutao", "主动发包读取所有定时器状态");
+            queryTimerAllWithException();
+        }
+        catch (Exception e) {
+
+        }
+    }
+
+    private void queryTimerAllWithException() throws Exception {
         if (MyApp.getApp().getSocketManager().shouldSendPacketsToQuery())
             MyApp.getApp().getSocketManager().sendMessage(new QueryTimerPackage(0xffff));
     }

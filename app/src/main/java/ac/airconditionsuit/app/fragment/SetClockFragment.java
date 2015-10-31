@@ -7,6 +7,7 @@ import ac.airconditionsuit.app.network.socket.SocketManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import ac.airconditionsuit.app.view.CommonTopBar;
 public class SetClockFragment extends BaseFragment {
     private View view;
     private static String[] weekName = new String[]{"一", "二", "三", "四", "五", "六", "日"};
+    private static boolean firstCreateMyTimer = true;
 
     private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
@@ -68,7 +70,11 @@ public class SetClockFragment extends BaseFragment {
         listView.setAdapter(clockSettingAdapter);
         refreshUI();
 
-        MyApp.getApp().getAirConditionManager().queryTimerAll();
+        if (firstCreateMyTimer) {
+            firstCreateMyTimer = false;
+            Log.v("liutao", "定时器onCreate");
+            MyApp.getApp().getAirConditionManager().queryTimerAll();
+        }
         return view;
     }
 

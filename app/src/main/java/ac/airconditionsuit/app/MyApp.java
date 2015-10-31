@@ -35,7 +35,7 @@ public class MyApp extends Application {
         MyApp.appActive = appActive;
     }
 
-    private static boolean appActive = false;
+    private static boolean appActive = true;//第一次进入app，不检测
 
     private ServerConfigManager serverConfigManager;
 
@@ -276,6 +276,8 @@ public class MyApp extends Application {
 
     private static void enterForeground() {
         Log.v("liutao", "进入前台");
+        getApp().getAirConditionManager().queryAirConditionStatus();
+        getApp().getAirConditionManager().queryTimerAll();
     }
 
     private static void enterBackground() {

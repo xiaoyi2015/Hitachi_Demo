@@ -61,6 +61,8 @@ public class MyAirFragment extends BaseFragment {
     private PopupWindow pop;
     private List<Home> homeList;
 
+    private static boolean firstCreate = true;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_my_air, container, false);
@@ -70,8 +72,11 @@ public class MyAirFragment extends BaseFragment {
         refreshUI();
         homeList = MyApp.getApp().getLocalConfigManager().getHomeList();
 
-
-        MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+        if (firstCreate) {
+            firstCreate = false;
+            Log.v("liutao", "我的空调onCreate");
+            MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+        }
         return view;
     }
 
