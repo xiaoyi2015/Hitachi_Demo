@@ -76,7 +76,11 @@ public class EditSceneActivity extends BaseActivity{
                                 command.setOnoff(temp_on_off.get(i));
                                 command.setMode(temp_mode.get(i));
                                 command.setFan(temp_fan.get(i));
-                                command.setTemperature((float) (temp_temp.get(i) + 19));
+                                if(temp_mode.get(i) == 1){
+                                    command.setTemperature((float) (temp_temp.get(i) + 17));
+                                }else {
+                                    command.setTemperature((float) (temp_temp.get(i) + 19));
+                                }
 
                                 commands.add(command);
                             }
@@ -99,7 +103,11 @@ public class EditSceneActivity extends BaseActivity{
                                 command.setOnoff(temp_on_off.get(i));
                                 command.setMode(temp_mode.get(i));
                                 command.setFan(temp_fan.get(i));
-                                command.setTemperature((float) (temp_temp.get(i) + 19));
+                                if(temp_mode.get(i) == 1){
+                                    command.setTemperature((float) (temp_temp.get(i) + 17));
+                                }else {
+                                    command.setTemperature((float) (temp_temp.get(i) + 19));
+                                }
                                 MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands().add(command);
                             }
                         }
