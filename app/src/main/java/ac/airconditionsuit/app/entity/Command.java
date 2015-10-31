@@ -75,8 +75,11 @@ public class Command extends RootEntity {
             case 1:
                 temp_fan = 2;
                 break;
-            default:
+            case 2:
                 temp_fan = 3;
+                break;
+            default:
+                temp_fan = fan;
                 break;
         }
         this.fan = temp_fan;

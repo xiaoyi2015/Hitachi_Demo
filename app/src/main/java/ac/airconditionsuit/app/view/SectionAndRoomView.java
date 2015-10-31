@@ -137,7 +137,7 @@ public class SectionAndRoomView extends RelativeLayout {
 
         private boolean shouldHideTemperature(int t) {
             return  (t < 17 || t > 30);
-       }
+        }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
@@ -366,7 +366,9 @@ public class SectionAndRoomView extends RelativeLayout {
                                 }
                             }else {
                                 Intent intent = new Intent();
-                                intent.putExtra("air", airCondition.toJsonString());
+                                AirCondition ac = new AirCondition(airCondition);
+                                ac.repair();
+                                intent.putExtra("air", ac.toJsonString());
                                 intent.putExtra("room", rooms.get(position).toJsonString());
                                 intent.setClass(context, RoomAirSettingHitActivity.class);
                                 intent.putExtra("title", rooms.get(position).getName());
@@ -511,7 +513,9 @@ public class SectionAndRoomView extends RelativeLayout {
                                 }
                             }else {
                                 Intent intent = new Intent();
-                                intent.putExtra("air", airCondition.toJsonString());
+                                AirCondition ac = new AirCondition(airCondition);
+                                ac.repair();
+                                intent.putExtra("air", ac.toJsonString());
                                 intent.putExtra("room", rooms.get(position).toJsonString());
                                 intent.setClass(context, RoomAirSettingActivity.class);
                                 intent.putExtra("title", rooms.get(position).getName());
@@ -649,7 +653,9 @@ public class SectionAndRoomView extends RelativeLayout {
                                 }
                             }else {
                                 Intent intent = new Intent();
-                                intent.putExtra("air", airCondition.toJsonString());
+                                AirCondition ac = new AirCondition(airCondition);
+                                ac.repair();
+                                intent.putExtra("air", ac.toJsonString());
                                 intent.putExtra("room", rooms.get(position).toJsonString());
                                 intent.setClass(context, RoomAirSettingHxActivity.class);
                                 intent.putExtra("title", rooms.get(position).getName());
