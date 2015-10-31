@@ -1,6 +1,8 @@
 package ac.airconditionsuit.app.entity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -121,6 +123,11 @@ public class ServerConfig extends RootEntity{
             }
         }
         timers.add(timer);
+        resortTimers();
+    }
+
+    public void resortTimers() {
+        Collections.sort(timers, new ComparatorTimer());
     }
 
     public static ServerConfig genNewConfig(String configFileName, String homeName) {
@@ -130,5 +137,21 @@ public class ServerConfig extends RootEntity{
         home.setFilename(configFileName);
         sc.setHome(home);
         return sc;
+    }
+
+    //按timerid降序排列
+    public static final class ComparatorTimer implements Comparator<Timer> {
+        @Override
+        public int compare(Timer lhs, Timer rhs) {
+            int lid = lhs.getTimerid();
+            int rid = lhs.getTimerid();
+            if (lid > rid) {
+                return 1;
+            }
+            else if (lid < rid) {
+                return -1;
+            }
+            return 0;
+        }
     }
 }

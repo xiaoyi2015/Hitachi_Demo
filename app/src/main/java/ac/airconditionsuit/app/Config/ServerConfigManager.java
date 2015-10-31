@@ -294,6 +294,7 @@ public class ServerConfigManager {
             }
         }
 
+        serverConfig.resortTimers();
         List<Timer> timers = serverConfig.getTimers();
         if (timers != null) {
             for (Timer timer : timers) {
@@ -312,6 +313,8 @@ public class ServerConfigManager {
                 timer.setIndexes(newIndexes);
             }
         }
+
+
 
         return serverConfig;
     }

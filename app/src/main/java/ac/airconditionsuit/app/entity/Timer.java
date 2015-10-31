@@ -349,7 +349,7 @@ public class Timer extends RootEntity {
         //name
         timer.setName(new String(Arrays.copyOfRange(contentData, 17, 32)));
 
-        Log.v("liutao", "收到定时器 name: " + timer.getName());
+        Log.v("liutao", "收到定时器 id: " + timer.getTimerid() + " name: " + timer.getName());
 
         return timer;
     }
