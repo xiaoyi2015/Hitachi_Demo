@@ -95,8 +95,7 @@ public class AirModePickerView extends LinearLayout {
                     curTempBase = 19;
                 }
 
-                //不为制热状态，则检查curTemp的合法性
-                //制热状态，curTemp必然合法
+                //检查curTemp的合法性
                 if (curTemp < curTempBase) {
                     curTemp = curTempBase;
                 }

@@ -78,5 +78,4 @@ public class UdpSocket implements SocketWrap {
     public boolean isConnect() {
         return datagramSocket != null;
     }
-
 }

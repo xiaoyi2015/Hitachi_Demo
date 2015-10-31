@@ -83,6 +83,10 @@ public class AirConditionManager {
         updateAirconditions(room, airConditionControl);
     }
 
+    private void  updateAcsByTimerRunned(int timer_id) {
+
+    }
+
     private void updateACsBySceneControl(Scene scene) {
         List<Command> commands = scene.getCommands();
         if (commands == null) return;

@@ -3,6 +3,7 @@ package ac.airconditionsuit.app.network.socket.socketpackage.Udp;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.aircondition.AirConditionControlBatch;
+import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.util.ByteUtil;
 import android.util.Log;
@@ -24,6 +25,7 @@ public class UdpPackage {
     private byte framNumber;
     private Handler handler;
     private byte[] msg_no;
+    private static int acIndexToCheckDevice = 0;
 
     public static UdpPackage genBroadcastPackage() {
         UdpPackage p = new UdpPackage();
@@ -46,7 +48,17 @@ public class UdpPackage {
     public static UdpPackage genCheckDevicePackage() {
         UdpPackage p = new UdpPackage();
         List<Byte> addressList = new ArrayList<>();
-        addressList.add((byte) 0);
+
+        //按顺序选取一个空调
+        List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
+        acIndexToCheckDevice ++;
+        if (acIndexToCheckDevice >= devices.size()) acIndexToCheckDevice = 0;
+        if (acIndexToCheckDevice < devices.size()) {
+            addressList.add((byte)devices.get(acIndexToCheckDevice).getAddress());
+        }
+        else {
+            addressList.add((byte) 0);
+        }
         p.setContent(p.new QueryAirConditionStatusUdpPackageContent(addressList));
         return p;
     }
