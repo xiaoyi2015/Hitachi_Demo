@@ -21,6 +21,24 @@ public class AirConditionManager {
     List<AirCondition> airConditions = new ArrayList<>();
 //    List<Timer> timers = new ArrayList<>();//usused
 
+
+    public void initAirConditionsByDeviceList() {
+        List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
+        for (DeviceFromServerConfig dev : devices) {
+            boolean found = false;
+            for (AirCondition air : airConditions) {
+                if (air.getAddress() == dev.getAddress()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                AirCondition ac = new AirCondition(dev);
+                airConditions.add(ac);
+            }
+        }
+    }
+
     public void queryAirConditionStatus() {
         try {
             if (MyApp.getApp().getSocketManager().shouldSendPacketsToQuery())
@@ -110,6 +128,7 @@ public class AirConditionManager {
         if (commands == null) return;
         for (Command command : commands) {
             int address = command.getAddress();
+//            initAirConditionsByDeviceList();
             for (AirCondition airCondition : airConditions) {
                 if (airCondition.getAddress() == address) {
                     airCondition.setAirconditionMode(command.getMode());
@@ -132,6 +151,7 @@ public class AirConditionManager {
             if (address > 255 || address < 0) {
                 throw new Exception("air condition address error");
             }
+//            initAirConditionsByDeviceList();
             for (AirCondition airCondition : airConditions) {
                 if (airCondition.getAddress() == address) {
                     airCondition.setAirconditionMode(airConditionControl.getMode());

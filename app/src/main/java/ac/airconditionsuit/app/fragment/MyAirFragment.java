@@ -77,6 +77,8 @@ public class MyAirFragment extends BaseFragment {
             Log.v("liutao", "我的空调onCreate");
             MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
         }
+
+        MyApp.getApp().getAirConditionManager().initAirConditionsByDeviceList();
         return view;
     }
 

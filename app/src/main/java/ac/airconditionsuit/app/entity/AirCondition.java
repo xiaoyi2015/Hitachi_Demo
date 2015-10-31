@@ -27,6 +27,16 @@ public class AirCondition extends Command {
 
     }
 
+    public AirCondition(DeviceFromServerConfig dev) {
+        this.warning         = 0         ;
+        this.address         = dev.getAddress()         ;
+        this.realTemperature = AirConditionControl.UNKNOW;
+        this.mode            = AirConditionControl.UNKNOW            ;
+        this.onoff           = false           ;
+        this.temperature     = AirConditionControl.UNKNOW;
+        this.fan             = AirConditionControl.UNKNOW             ;
+    }
+
     public AirCondition(AirCondition ac) {
         this.warning         = ac.warning         ;
         this.address         = ac.address         ;
