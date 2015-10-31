@@ -25,6 +25,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.TimerTask;
 
 /**
  * Created by ac on 9/19/15.
@@ -42,6 +43,7 @@ public class ServerConfigManager {
      */
     private ServerConfig rootJavaObj;
     private String fileName;
+    private TimerTask writeToServerTask;
 
     public List<Section> getSections() {
         List<Section> sections = rootJavaObj.getSections();
@@ -333,6 +335,7 @@ public class ServerConfigManager {
      * 当配置文件有改动时，上传配置文件当服务器
      */
     public void uploadToServer() {
+        Log.v("liutao", "上传配置文件到服务器");
         if (!hasDevice()) {
             return;
         }
@@ -557,7 +560,8 @@ public class ServerConfigManager {
             Log.v(TAG, "write server config file success");
 
             //call when write success
-            uploadToServer();
+            uploadToServerAfterDelay();
+//            uploadToServer();
         } catch (IOException e) {
             Log.e(TAG, "write server config file error");
             e.printStackTrace();
@@ -572,6 +576,24 @@ public class ServerConfigManager {
         }
 
 
+    }
+
+    private void uploadToServerAfterDelay() {
+        if (writeToServerTask != null) {
+            writeToServerTask.cancel();
+            writeToServerTask = null;
+            //Log.v("lt", "测试定时任务，取消");
+        }
+
+        writeToServerTask = new TimerTask() {
+            public void run() {
+                uploadToServer();
+                //Log.v("lt", "测试定时任务，执行");
+            }
+        };
+        java.util.Timer writeToServerTimer = new java.util.Timer();
+        writeToServerTimer.schedule(writeToServerTask, 3000);//3s
+//            Log.v("lt", "测试定时任务，开始计时");
     }
 
     public void updateTimer(Timer timer) {
