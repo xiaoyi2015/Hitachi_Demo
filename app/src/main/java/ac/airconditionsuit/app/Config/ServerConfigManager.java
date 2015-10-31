@@ -218,7 +218,6 @@ public class ServerConfigManager {
             }
             NSDictionary root = (NSDictionary) PropertyListParser.parse(MyBase64Util.decodeToByte(bytes));
             String json = PlistUtil.NSDictionaryToJsonString(root);
-            Log.v("liutao", "服务器上的配置文件内容: " + json);
             rootJavaObj = switchAddressAndIndexFileToObj(new Gson().fromJson(json, ServerConfig.class), true);
             Log.v(TAG, "read server config file success");
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
