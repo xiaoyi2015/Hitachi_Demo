@@ -101,7 +101,8 @@ public class UdpPackageHandler {
 
             case UdpPackage.AFN_TIMER_RUN_RESPONSE:
                 Log.i(TAG, "receive timer run");
-                MyApp.getApp().getAirConditionManager().timerRun(ByteUtil.byteArrayToShort(UdpPackage.getContentData(receiveData)));
+//                MyApp.getApp().getAirConditionManager().timerRun(ByteUtil.byteArrayToShort(UdpPackage.getContentData(receiveData)));
+                MyApp.getApp().getAirConditionManager().timerRun(ByteUtil.byteArrayToShortAsBigEndian(UdpPackage.getContentData(receiveData)));
                 break;
 
             case UdpPackage.AFN_DELETE_TIMER:

@@ -19,7 +19,7 @@ public class AirConditionManager {
     public static final int QUERY_ALL_TIMER = 0xffff;
     public static final int QUERY_TIMER_NO = 0xfffe;
     List<AirCondition> airConditions = new ArrayList<>();
-    List<Timer> timers = new ArrayList<>();
+//    List<Timer> timers = new ArrayList<>();//usused
 
     public void queryAirConditionStatus() {
         try {
@@ -65,7 +65,8 @@ public class AirConditionManager {
      * @param timerId 定时器id
      */
     public void timerRun(int timerId) {
-        //todo for luzheqi
+        Log.v("liutao", "定时器执行");
+        updateAcsByTimerRunned(timerId);
     }
 
     public void controlScene(Scene scene) throws Exception {
@@ -85,7 +86,23 @@ public class AirConditionManager {
     }
 
     private void  updateAcsByTimerRunned(int timer_id) {
-
+        List<Timer> timers = MyApp.getApp().getServerConfigManager().getTimer();
+        for (Timer tm : timers) {
+            if (tm.getTimerid() == timer_id) {
+                List<Integer> indexes = tm.getIndexes();
+                for (Integer idxInTimer : indexes) {
+                    Integer idx = idxInTimer - 1;
+                    if (idx >= 0 && idx < airConditions.size()) {
+                        AirCondition ac = airConditions.get(idx);
+                        ac.setAirconditionMode(tm.getMode());
+                        ac.setAirconditionFan(tm.getFan());
+                        ac.setTemperature(tm.getTemperature());
+                        ac.setOnoff(tm.isOnoff() ? 1 : 0);
+                        MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.AIR_CONDITION_STATUS_RESPONSE, ac));
+                    }
+                }
+            }
+        }
     }
 
     private void updateACsBySceneControl(Scene scene) {
