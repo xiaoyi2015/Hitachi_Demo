@@ -68,6 +68,9 @@ public class MyAirFragment extends BaseFragment {
         listView.setAdapter(myAirSectionAdapter);
         refreshUI();
         homeList = MyApp.getApp().getLocalConfigManager().getHomeList();
+
+
+        MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
         return view;
     }
 

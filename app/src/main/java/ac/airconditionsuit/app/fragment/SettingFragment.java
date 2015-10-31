@@ -51,6 +51,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
         connectionStatusView = (CommonButtonWithArrow) view.findViewById(R.id.connect_status);
         refreshUI();
+
         return view;
     }
 
