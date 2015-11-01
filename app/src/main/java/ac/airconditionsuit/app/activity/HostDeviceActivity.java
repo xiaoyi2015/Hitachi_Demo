@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.activity;
 
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.network.HttpClient;
+import ac.airconditionsuit.app.network.response.CommonResponse;
 import ac.airconditionsuit.app.network.response.DeleteDeviceResponse;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -63,12 +64,12 @@ public class HostDeviceActivity extends BaseActivity{
                                             requestParams.put(Constant.REQUEST_PARAMS_KEY_CUST_ID, MyApp.getApp().getUser().getCust_id());
                                             requestParams.put(Constant.REQUEST_PARAMS_KEY_DISPLAY_ID, MyApp.getApp().getUser().getDisplay_id());
                                             requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, chat_id);
-                                            //todo for luzheqi 类名确定一下
-                                            HttpClient.get(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
+
+                                            HttpClient.get(requestParams, CommonResponse.class, new HttpClient.JsonResponseHandler<CommonResponse>() {
 
                                                 @Override
-                                                public void onSuccess(String response) {
-
+                                                public void onSuccess(CommonResponse response) {
+                                                    Log.i(TAG, "删除配置文件成功");
                                                 }
 
                                                 @Override
