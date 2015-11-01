@@ -2,7 +2,9 @@ package ac.airconditionsuit.app.entity;
 
 import android.util.Log;
 
+import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.aircondition.AirConditionControl;
+import ac.airconditionsuit.app.fragment.MyAirFragment;
 import ac.airconditionsuit.app.util.ByteUtil;
 
 import java.util.ArrayList;
@@ -287,10 +289,12 @@ public class Timer extends RootEntity {
 
         //address
         List<Integer> address = new ArrayList<>();
+        int cntDev = MyApp.getApp().getServerConfigManager().getDeviceCount();
         for (int i = 0; i < 8; ++i) {
             for (int j = 0; j < 8; ++j) {
                 if ((contentData[i + 5] & (1 << j)) != 0) {
-                    address.add(i * 8 + j + 1);
+                    int t = i * 8 + j + 1;
+                    if (t >= 1 && t <= cntDev) address.add(t);
                 }
             }
         }

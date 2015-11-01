@@ -160,11 +160,17 @@ public class ServerConfigManager {
                 break;
             }
         }
+        MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.TIMER_STATUS_RESPONSE, null));
         writeToFile();
     }
 
     public List<DeviceFromServerConfig> getDevices() {
         return rootJavaObj.getDevices();
+    }
+
+    public Integer getDeviceCount() {
+        if (rootJavaObj.getDevices() == null) return 0;
+        return rootJavaObj.getDevices().size();
     }
 
     public Home getHome() {

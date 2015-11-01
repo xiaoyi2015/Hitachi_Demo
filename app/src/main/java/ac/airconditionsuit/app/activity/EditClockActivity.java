@@ -337,7 +337,7 @@ public class EditClockActivity extends BaseActivity{
         fan = getString(R.string.low_wind);
         temp = getString(R.string.default_temp);
         String repeat = getString(R.string.not_repeat);
-        String week = "周";
+        String week = "";
 
         if(!is_add){
             timer = new Gson().fromJson(getIntent().getStringExtra("clock"),Timer.class);
@@ -393,6 +393,7 @@ public class EditClockActivity extends BaseActivity{
                 repeat = getString(R.string.not_repeat);
             }
             if(timer.getWeek().size() != 0){
+                week = "周";
                 for (int i = 0; i < timer.getWeek().size() - 1; i++) {
                     week = week + weekName[timer.getWeek().get(i)] + "|";
                 }
@@ -449,10 +450,11 @@ public class EditClockActivity extends BaseActivity{
                         clockRepeat.getLabelTextView().setText(R.string.not_repeat);
                     }
                     if(week_list.length!=0) {
-                        String week1 = "周";
+                        String week1 = "";
                         int k = 0;
                         for(int i = 0; i < week_list.length; i++){
                             if(week_list[i]==1){
+                                week1 = "周";
                                 k++ ;
                             }
                         }
