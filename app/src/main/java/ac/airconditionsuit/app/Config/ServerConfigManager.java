@@ -64,6 +64,10 @@ public class ServerConfigManager {
         return rootJavaObj.getTimers();
     }
 
+    public void clearTimer() {
+        rootJavaObj.setTimers(new ArrayList<Timer>());
+    }
+
     public int getDeviceIndexFromAddress(int address) {
         for (int i = 0; i < rootJavaObj.getDevices().size(); i++) {
             if (address == rootJavaObj.getDevices().get(i).getAddress()) {
