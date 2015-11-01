@@ -6,6 +6,7 @@ import ac.airconditionsuit.app.network.response.DeleteDeviceResponse;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -49,12 +50,32 @@ public class HostDeviceActivity extends BaseActivity{
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    long chat_id = MyApp.getApp().getServerConfigManager().getConnections().get(0).getChat_id();
+                                    final long chat_id = MyApp.getApp().getServerConfigManager().getConnections().get(0).getChat_id();
                                     showWaitProgress();
                                     MyApp.getApp().getServerConfigManager().deleteDevice(chat_id, new HttpClient.JsonResponseHandler<Object>(){
 
                                         @Override
                                         public void onSuccess(Object response) {
+                                            final RequestParams requestParams = new RequestParams();
+                                            requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_FILE);
+                                            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_RESET_DEVICE_CONFIG_FILE);
+                                            requestParams.put(Constant.REQUEST_PARAMS_KEY_TOKEN, MyApp.getApp().getUser().getToken());
+                                            requestParams.put(Constant.REQUEST_PARAMS_KEY_CUST_ID, MyApp.getApp().getUser().getCust_id());
+                                            requestParams.put(Constant.REQUEST_PARAMS_KEY_DISPLAY_ID, MyApp.getApp().getUser().getDisplay_id());
+                                            requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, chat_id);
+                                            //todo for luzheqi 类名确定一下
+                                            HttpClient.get(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
+
+                                                @Override
+                                                public void onSuccess(String response) {
+
+                                                }
+
+                                                @Override
+                                                public void onFailure(Throwable throwable) {
+                                                    Log.i(TAG, "删除配置文件失败");
+                                                }
+                                            });
                                             dismissWaitProgress();
                                             finish();
                                         }
