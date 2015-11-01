@@ -153,7 +153,9 @@ public class UserForLocalConfig {
         if (homeConfigFileNames.size() <= 1) {
             return false;
         } else {
-            MyApp.getApp().getServerConfigManager().deleteDevice();
+            if(MyApp.getApp().getServerConfigManager().hasDevice()) {
+                MyApp.getApp().getServerConfigManager().deleteDevice();
+            }
             deleteHostDeviceConfigFile(homeConfigFileNames.remove(currentHomeIndex));
             if (currentHomeIndex >= homeConfigFileNames.size()) {
                 currentHomeIndex = homeConfigFileNames.size() - 1;
