@@ -508,6 +508,8 @@ public class ServerConfigManager {
                 if (handler != null) {
                     handler.onSuccess(response);
                 }
+
+                //删除配置文件
                 final RequestParams requestParams = new RequestParams();
                 requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_FILE);
                 requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_RESET_DEVICE_CONFIG_FILE);
