@@ -44,6 +44,10 @@ public class SetClockFragment extends BaseFragment {
             switch (v.getId()) {
                 case R.id.right_icon:
                     int status = MyApp.getApp().getSocketManager().getStatus();
+                    if(MyApp.getApp().getServerConfigManager().getTimer().size() >= 10){
+                        MyApp.getApp().showToast("定时器最多只能添加10个");
+                        return;
+                    }
                     if (status == SocketManager.UDP_DEVICE_CONNECT
                             || status == SocketManager.TCP_DEVICE_CONNECT) {
                         Intent intent = new Intent();
