@@ -14,7 +14,6 @@
         android:id="@+id/manager_label_text"
         android:layout_marginTop="30dp"
         android:layout_below="@id/default_top_bar"
-        android:text="@string/manager_text"
         android:textSize="14sp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"

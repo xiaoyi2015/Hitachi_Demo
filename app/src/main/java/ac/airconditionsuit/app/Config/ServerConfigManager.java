@@ -6,6 +6,7 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.*;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.HttpClient;
+import ac.airconditionsuit.app.network.response.CommonResponse;
 import ac.airconditionsuit.app.network.response.DeleteDeviceResponse;
 import ac.airconditionsuit.app.network.response.UploadConfigResponse;
 import ac.airconditionsuit.app.util.MyBase64Util;
@@ -488,7 +489,7 @@ public class ServerConfigManager {
         deleteDevice(getCurrentChatId(), null);
     }
 
-    public void deleteDevice(long chat_id, final HttpClient.JsonResponseHandler handler) {
+    public void deleteDevice(final long chat_id, final HttpClient.JsonResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
         params.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_CANCEL);
@@ -507,6 +508,26 @@ public class ServerConfigManager {
                 if (handler != null) {
                     handler.onSuccess(response);
                 }
+                final RequestParams requestParams = new RequestParams();
+                requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_FILE);
+                requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_RESET_DEVICE_CONFIG_FILE);
+                requestParams.put(Constant.REQUEST_PARAMS_KEY_TOKEN, MyApp.getApp().getUser().getToken());
+                requestParams.put(Constant.REQUEST_PARAMS_KEY_CUST_ID, MyApp.getApp().getUser().getCust_id());
+                requestParams.put(Constant.REQUEST_PARAMS_KEY_DISPLAY_ID, MyApp.getApp().getUser().getDisplay_id());
+                requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, chat_id);
+
+                HttpClient.get(requestParams, CommonResponse.class, new HttpClient.JsonResponseHandler<CommonResponse>() {
+
+                    @Override
+                    public void onSuccess(CommonResponse response) {
+                        Log.i(TAG, "删除配置文件成功");
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Log.i(TAG, "删除配置文件失败");
+                    }
+                });
             }
 
             @Override

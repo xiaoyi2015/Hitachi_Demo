@@ -57,26 +57,6 @@ public class HostDeviceActivity extends BaseActivity{
 
                                         @Override
                                         public void onSuccess(Object response) {
-                                            final RequestParams requestParams = new RequestParams();
-                                            requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_FILE);
-                                            requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_RESET_DEVICE_CONFIG_FILE);
-                                            requestParams.put(Constant.REQUEST_PARAMS_KEY_TOKEN, MyApp.getApp().getUser().getToken());
-                                            requestParams.put(Constant.REQUEST_PARAMS_KEY_CUST_ID, MyApp.getApp().getUser().getCust_id());
-                                            requestParams.put(Constant.REQUEST_PARAMS_KEY_DISPLAY_ID, MyApp.getApp().getUser().getDisplay_id());
-                                            requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, chat_id);
-
-                                            HttpClient.get(requestParams, CommonResponse.class, new HttpClient.JsonResponseHandler<CommonResponse>() {
-
-                                                @Override
-                                                public void onSuccess(CommonResponse response) {
-                                                    Log.i(TAG, "删除配置文件成功");
-                                                }
-
-                                                @Override
-                                                public void onFailure(Throwable throwable) {
-                                                    Log.i(TAG, "删除配置文件失败");
-                                                }
-                                            });
                                             dismissWaitProgress();
                                             finish();
                                         }
@@ -92,7 +72,12 @@ public class HostDeviceActivity extends BaseActivity{
                     break;
 
                 case R.id.scan_indoor_device:
-                    shortStartActivity(SearchIndoorDeviceActivity.class);
+                    if(MyApp.getApp().getUser().isAdmin()) {
+                        shortStartActivity(SearchIndoorDeviceActivity.class);
+                    }else{
+                        MyApp.getApp().showToast("只有设备的管理者才能扫描室内机");
+                        return;
+                    }
                     break;
 
             }
@@ -129,16 +114,8 @@ public class HostDeviceActivity extends BaseActivity{
         TextView textView1 = (TextView)qrCode.findViewById(R.id.label_text);
         ImageView imageView4 = (ImageView)qrCode.findViewById(R.id.temp_none);
         ImageView imageView5 = (ImageView)qrCode.findViewById(R.id.arrow_right);
-        textView.setVisibility(View.GONE);
-        imageView1.setVisibility(View.INVISIBLE);
-        imageView2.setVisibility(View.INVISIBLE);
-        imageView3.setVisibility(View.INVISIBLE);
-        imageView4.setVisibility(View.VISIBLE);
-        imageView4.setImageResource(R.drawable.common_2d_code);
-        imageView5.setImageResource(R.drawable.icon_arrow_right_dc);
-        findViewById(R.id.delete_host_device).setOnClickListener(myOnClickListener);
-        textView1.setText(getString(R.string.qr_code));
-        textView1.setTextSize(TypedValue.COMPLEX_UNIT_SP,17);
+        TextView manageLabelText = (TextView)findViewById(R.id.manager_label_text);
+        TextView manageLabelText2 = (TextView)findViewById(R.id.manager_label_text2);
 
         CommonButtonWithArrow hostDeviceName = (CommonButtonWithArrow)findViewById(R.id.host_device_name);
         CommonButtonWithArrow hostDeviceIP = (CommonButtonWithArrow)findViewById(R.id.host_device_ip);
@@ -146,11 +123,30 @@ public class HostDeviceActivity extends BaseActivity{
         LinearLayout deleteView = (LinearLayout)findViewById(R.id.delete_host_device_view);
         TextView deleteText = (TextView)deleteView.findViewById(R.id.label_text);
         deleteText.setTextColor(getResources().getColor(R.color.hit_heat_red));
-
+        findViewById(R.id.delete_host_device).setOnClickListener(myOnClickListener);
         hostDeviceName.setOnlineTextView(MyApp.getApp().getServerConfigManager().getConnections().get(0).getName());
         hostDeviceIP.setOnlineTextView(MyApp.getApp().getServerConfigManager().getCurrentHostIP());
         scanIndoorDevice.setOnClickListener(myOnClickListener);
         scanIndoorDevice.setOnlineTextView(MyApp.getApp().getServerConfigManager().getDevices().size() + getString(R.string.device_symbol));
 
+        if(MyApp.getApp().getUser().isAdmin()) {
+            manageLabelText.setText(getString(R.string.manager_text));
+            manageLabelText2.setVisibility(View.VISIBLE);
+            qrCode.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.GONE);
+            imageView1.setVisibility(View.INVISIBLE);
+            imageView2.setVisibility(View.INVISIBLE);
+            imageView3.setVisibility(View.INVISIBLE);
+            imageView4.setVisibility(View.VISIBLE);
+            imageView4.setImageResource(R.drawable.common_2d_code);
+            imageView5.setImageResource(R.drawable.icon_arrow_right_dc);
+            textView1.setText(getString(R.string.qr_code));
+            textView1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
+
+        }else{
+            manageLabelText.setText(getString(R.string.manager_text3));
+            manageLabelText2.setVisibility(View.GONE);
+            qrCode.setVisibility(View.INVISIBLE);
+        }
     }
 }
