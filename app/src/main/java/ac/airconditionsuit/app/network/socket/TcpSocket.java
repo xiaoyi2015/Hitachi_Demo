@@ -254,6 +254,10 @@ public class TcpSocket implements SocketWrap {
         }
     }
 
+    public void checkDeviceConnectOnIntend() {
+        checkDeviceConnect();
+    }
+
     private void checkDeviceConnect() {
         ServerConfigManager serverConfigManager = MyApp.getApp().getServerConfigManager();
         if (serverConfigManager == null) {

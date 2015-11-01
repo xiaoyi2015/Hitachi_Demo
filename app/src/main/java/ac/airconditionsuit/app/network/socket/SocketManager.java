@@ -244,6 +244,28 @@ public class SocketManager extends Observable {
         }
     }
 
+    public void setDeviceOfflineAndRecheckDevie() {
+        //如果是tcp连接，不关闭tcp，只是重新检查设备
+        if (isTcpHostConnect && isTcpDeviceConnect) {
+            isTcpDeviceConnect = false;
+            if (socket instanceof TcpSocket) {
+                ((TcpSocket) socket).checkDeviceConnectOnIntend();
+            }
+        }
+        if (!isTcpDeviceConnect && isUdpDeviceConnect) {
+            isUdpDeviceConnect = false;
+            //如果是udp，也不必关闭udp连接，直接去尝试连接新的device即可。
+            if (socket instanceof UdpSocket) {
+                //todo should be checked by luzheqi, from liutao
+                //如果检查这部分逻辑没有问题，把下面三句uncomment
+//                ((UdpSocket) socket).resetIpToCurrentDevice();
+//                LoginPackage loginPackage = new LoginPackage();
+//                sendMessage(loginPackage);
+            }
+        }
+        notifyActivity(new ObserveData(ObserveData.NETWORK_STATUS_CHANGE));
+    }
+
     public void reconnectSocket() {
         close();
         Timer timer = new Timer();

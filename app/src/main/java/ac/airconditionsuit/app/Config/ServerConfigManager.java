@@ -68,6 +68,7 @@ public class ServerConfigManager {
 
     public void clearTimer() {
         rootJavaObj.setTimers(new ArrayList<Timer>());
+        writeToFile();
     }
 
     public int getDeviceIndexFromAddress(int address) {
@@ -309,6 +310,7 @@ public class ServerConfigManager {
 
         serverConfig.resortTimers();
         List<Timer> timers = serverConfig.getTimers();
+        serverConfig.setTimers(new ArrayList<Timer>());
         if (timers != null) {
             for (Timer timer : timers) {
                 List<Integer> indexes = timer.getIndexes();
@@ -505,7 +507,9 @@ public class ServerConfigManager {
                 rootJavaObj.setScenes(null);
                 rootJavaObj.setTimers(null);
                 writeToFile();
-                MyApp.getApp().getSocketManager().close();
+                //删除设备后，不应关闭tcp链接
+//                MyApp.getApp().getSocketManager().close();
+                MyApp.getApp().getSocketManager().setDeviceOfflineAndRecheckDevie();
                 if (handler != null) {
                     handler.onSuccess(response);
                 }
