@@ -248,8 +248,10 @@ public class AirConditionManager {
     }
 
     private void queryTimerAllWithException() throws Exception {
-        if (MyApp.getApp().getSocketManager().shouldSendPacketsToQuery())
+        if (MyApp.getApp().getSocketManager().shouldSendPacketsToQuery()) {
             MyApp.getApp().getSocketManager().sendMessage(new QueryTimerPackage(0xffff));
+            MyApp.getApp().getServerConfigManager().clearTimer();
+        }
     }
 
     public void queryTimer(int id) {

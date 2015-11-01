@@ -61,7 +61,7 @@ public class MyAirFragment extends BaseFragment {
     private PopupWindow pop;
     private List<Home> homeList;
 
-    private static boolean firstCreate = true;
+    private boolean firstCreate = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
