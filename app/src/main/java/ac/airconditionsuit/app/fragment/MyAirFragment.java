@@ -70,7 +70,6 @@ public class MyAirFragment extends BaseFragment {
         myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), null);
         listView.setAdapter(myAirSectionAdapter);
         refreshUI();
-        homeList = MyApp.getApp().getLocalConfigManager().getHomeList();
 
         if (firstCreate) {
             firstCreate = false;
@@ -104,6 +103,7 @@ public class MyAirFragment extends BaseFragment {
                 public void onClick(View v) {
                     LayoutInflater inflater = LayoutInflater.from(getActivity());
                     LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.pop_up_home_list, null);
+                    homeList = MyApp.getApp().getLocalConfigManager().getHomeList();
                     for (int i = 0; i < homeList.size(); i++) {
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -134,9 +134,7 @@ public class MyAirFragment extends BaseFragment {
                             }
                         });
                     }
-                    if (pop == null) {
-                        pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
-                    }
+                    pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
                     pop.setBackgroundDrawable(new BitmapDrawable());
                     pop.setOutsideTouchable(true);
                     pop.showAsDropDown(commonTopBar);
