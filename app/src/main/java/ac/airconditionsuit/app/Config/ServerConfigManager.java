@@ -8,6 +8,7 @@ import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.CommonResponse;
 import ac.airconditionsuit.app.network.response.DeleteDeviceResponse;
+import ac.airconditionsuit.app.network.response.RegisterResponseData;
 import ac.airconditionsuit.app.network.response.UploadConfigResponse;
 import ac.airconditionsuit.app.util.MyBase64Util;
 import ac.airconditionsuit.app.util.PlistUtil;
@@ -516,12 +517,12 @@ public class ServerConfigManager {
                 requestParams.put(Constant.REQUEST_PARAMS_KEY_TOKEN, MyApp.getApp().getUser().getToken());
                 requestParams.put(Constant.REQUEST_PARAMS_KEY_CUST_ID, MyApp.getApp().getUser().getCust_id());
                 requestParams.put(Constant.REQUEST_PARAMS_KEY_DISPLAY_ID, MyApp.getApp().getUser().getDisplay_id());
-                requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, chat_id);
+                requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICEID, chat_id);
 
-                HttpClient.get(requestParams, CommonResponse.class, new HttpClient.JsonResponseHandler<CommonResponse>() {
+                HttpClient.get(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
 
                     @Override
-                    public void onSuccess(CommonResponse response) {
+                    public void onSuccess(String response) {
                         Log.i(TAG, "删除配置文件成功");
                     }
 
