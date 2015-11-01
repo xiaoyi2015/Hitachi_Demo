@@ -297,6 +297,7 @@ public class SetClockFragment extends BaseFragment {
                             || status == SocketManager.TCP_DEVICE_CONNECT) {
                         Intent intent = new Intent();
                         intent.putExtra("index", position);
+                        intent.putExtra("clock", list.get(position).toJsonString());
                         intent.putExtra("title", list.get(position).getName());
                         intent.setClass(getActivity(), EditClockActivity.class);
                         startActivityForResult(intent, REQUEST_CODE_CLOCK);

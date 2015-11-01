@@ -58,7 +58,7 @@ public class EditClockActivity extends BaseActivity{
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    MyApp.getApp().getAirConditionManager().deleteTimerServer(index);
+                                    MyApp.getApp().getAirConditionManager().deleteTimerServer(timer.getTimerid());
                                     Intent intent1 = new Intent();
                                     setResult(RESULT_OK, intent1);
                                     finish();
@@ -105,9 +105,9 @@ public class EditClockActivity extends BaseActivity{
                             MyApp.getApp().showToast("请选择定时的空调");
                             return;
                         }
-
+                        //添加定时器时，本地不添加，等待服务器数据返回。因为本地timer没有timer id，会造成重复
                         MyApp.getApp().getAirConditionManager().addTimerServer(timer_temp);
-                        MyApp.getApp().getServerConfigManager().addTimer(timer_temp);
+                        //MyApp.getApp().getServerConfigManager().addTimer(timer_temp);
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         finish();
@@ -145,8 +145,8 @@ public class EditClockActivity extends BaseActivity{
                             return;
                         }
                         MyApp.getApp().getAirConditionManager().modifyTimerServer(timer);
-                        MyApp.getApp().getServerConfigManager().getTimer().set(index, timer);
-                        MyApp.getApp().getServerConfigManager().writeToFile();
+                        //MyApp.getApp().getServerConfigManager().getTimer().set(index, timer);
+                        //MyApp.getApp().getServerConfigManager().writeToFile();
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         finish();
@@ -340,7 +340,7 @@ public class EditClockActivity extends BaseActivity{
         String week = "周";
 
         if(!is_add){
-            timer = MyApp.getApp().getServerConfigManager().getTimer().get(index);
+            timer = new Gson().fromJson(getIntent().getStringExtra("clock"),Timer.class);
             temp_on_off = timer.isOnoff();
             temp_mode = timer.getMode();
             temp_fan = timer.getFan();
