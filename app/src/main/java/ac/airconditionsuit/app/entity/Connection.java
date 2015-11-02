@@ -29,8 +29,6 @@ public class Connection extends RootEntity {
     }
 
     public String getAddress() {
-        //TODO for luzheqi
-//        return "192.168.1.123";
         return address;
     }
 
@@ -39,8 +37,6 @@ public class Connection extends RootEntity {
     }
 
     public String getMac() {
-        //TODO for luzheqi
-//        return "001EC00E1FB3";
         return mac;
     }
 

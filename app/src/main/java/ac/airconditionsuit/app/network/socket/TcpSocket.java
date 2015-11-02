@@ -236,7 +236,6 @@ public class TcpSocket implements SocketWrap {
         short result_code = ByteUtil.byteArrayToShort(receiveData, 15);
         if (result_code == 200) {
             Log.i(TAG, "tcp login success");
-            //comment for debug todo
             MyApp.getApp().getSocketManager().startHeartBeat();
 
             ServerConfigManager serverConfigManager = MyApp.getApp().getServerConfigManager();

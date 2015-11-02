@@ -77,10 +77,10 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
 
         ObserveData od = (ObserveData) data;
         switch (od.getMsg()) {
-            case ObserveData.AIR_CONDITION_STATUS_RESPONSE:
-                AirCondition airCondition = (AirCondition) od.getData();
-                //todo for zhulinan
-                break;
+//            case ObserveData.AIR_CONDITION_STATUS_RESPONSE:
+//                AirCondition airCondition = (AirCondition) od.getData();
+//                //untodo for zhulinan
+//                break;
             case ObserveData.SEARCH_AIR_CONDITION_RESPONSE:
                 runOnUiThread(new Runnable() {
                     @Override

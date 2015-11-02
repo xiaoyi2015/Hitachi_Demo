@@ -411,9 +411,7 @@ public class EditClockActivity extends BaseActivity{
         clockRepeat.getLabelTextView().setText(repeat);
         clockRepeat.getOnlineTextView().setText(week);
 
-        if( MyApp.getApp().getServerConfigManager().getDevices() == null){
-            //TODO
-        }else {
+        if( MyApp.getApp().getServerConfigManager().getDevices() != null){
             for (int i = 0; i < MyApp.getApp().getServerConfigManager().getDevices().size(); i++){
                 isDeviceChoose.add(0);
             }
@@ -432,9 +430,7 @@ public class EditClockActivity extends BaseActivity{
         List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
         AirDeviceClockSettingAdapter airDeviceClockSettingAdapter = new AirDeviceClockSettingAdapter(EditClockActivity.this,devices);
         listView.setAdapter(airDeviceClockSettingAdapter);
-
         setListViewHeightBasedOnChildren(listView);
-
     }
 
     @Override

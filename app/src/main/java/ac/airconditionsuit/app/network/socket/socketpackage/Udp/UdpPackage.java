@@ -144,53 +144,10 @@ public class UdpPackage {
                 public void success() {
                     MyApp.getApp().getSocketManager().startHeartBeat();
                     MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
-                    //test code todo for luzheqi
-//                    MyApp.getApp().getSocketManager().getAirConditionAddressFromHostDevice();
-
-                    //test code for control
-//            Command command = new Command();
-//            command.setTemperature(20);
-//            command.setFan(2);
-//            command.setMode(1);
-//            command.setOnoff(0);
-//            command.setAddress(2);
-//            MyApp.getApp().getAirconditionManager().controlAirCondition(command);
-
-                    //test code for query timer
-                   // MyApp.getApp().getServerConfigManager().deleteAllTimer();
-                   // MyApp.getApp().getAirConditionManager().queryTimer(AirConditionManager.QUERY_ALL_TIMER);
-
-                    //test add timer
-//            Timer timer = new Timer();
-//            timer.setTimerid(7);
-//            timer.setMode(AirConditionControl.MODE_HEATING);
-//            timer.setName("newnew");
-//            timer.setTemperature(21);
-//            timer.setFan(AirConditionControl.WINDVELOCITY_HIGH);
-//            timer.addControlAircondition(2);
-//            timer.setHour(10);
-//            timer.setMinute(10);
-//            timer.setOnoff(AirConditionControl.OFF);
-//            timer.setRepeat(true);
-//            timer.setTimerenabled(true);
-//            timer.setWeek(3,4);
-//            MyApp.getApp().getAirconditionManager().addTimerServer(timer);
-
-                    //test modity timer
-//            MyApp.getApp().getAirconditionManager().modityTimerServer(timer);
-
-                    //test delete timer
-//            MyApp.getApp().getAirConditionManager().deleteTimerServer(45);
-
-//            MyApp.getApp().getAirconditionManager().queryTimer(2);
-
-//                    MyApp.getApp().getSocketManager().getAirConditionAddressFromHostDevice();
-
                 }
 
                 @Override
                 public void fail(int errorNo) {
-                    //TODO for luzheqi,这里很可能需要退出登录
                     MyApp.getApp().getSocketManager().close();
                 }
             };

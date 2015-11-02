@@ -259,9 +259,9 @@ public class SocketManager extends Observable {
             if (socket instanceof UdpSocket) {
                 //todo should be checked by luzheqi, from liutao
                 //如果检查这部分逻辑没有问题，把下面三句uncomment
-//                ((UdpSocket) socket).resetIpToCurrentDevice();
-//                LoginPackage loginPackage = new LoginPackage();
-//                sendMessage(loginPackage);
+                ((UdpSocket) socket).resetIpToCurrentDevice();
+                LoginPackage loginPackage = new LoginPackage();
+                sendMessage(loginPackage);
             }
         }
         notifyActivity(new ObserveData(ObserveData.NETWORK_STATUS_CHANGE));

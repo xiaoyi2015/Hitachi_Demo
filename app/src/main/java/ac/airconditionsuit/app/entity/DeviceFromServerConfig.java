@@ -6,7 +6,6 @@ package ac.airconditionsuit.app.entity;
 public class DeviceFromServerConfig extends RootEntity {
     String name;
 
-    //todo for zhulinan,空调地址 = indoorindex * 16 + indooraddress
     int indooraddress;
     int indoorindex;
 
