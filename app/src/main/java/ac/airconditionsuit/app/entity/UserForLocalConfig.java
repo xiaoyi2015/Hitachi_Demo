@@ -3,6 +3,8 @@ package ac.airconditionsuit.app.entity;
 import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.network.HttpClient;
+import ac.airconditionsuit.app.network.response.DeleteDeviceResponse;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -154,13 +156,22 @@ public class UserForLocalConfig {
             return false;
         } else {
             if(MyApp.getApp().getServerConfigManager().hasDevice()) {
-                MyApp.getApp().getServerConfigManager().deleteDevice();
+                MyApp.getApp().getServerConfigManager().deleteCurrentDevice(new HttpClient.JsonResponseHandler<DeleteDeviceResponse>() {
+                    @Override
+                    public void onSuccess(DeleteDeviceResponse response) {
+                        deleteHostDeviceConfigFile(homeConfigFileNames.remove(currentHomeIndex));
+                        if (currentHomeIndex >= homeConfigFileNames.size()) {
+                            currentHomeIndex = homeConfigFileNames.size() - 1;
+                        }
+                        MyApp.getApp().getServerConfigManager().readFromFile();
+                        MyApp.getApp().getSocketManager().recheckDevice();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                    }
+                });
             }
-            deleteHostDeviceConfigFile(homeConfigFileNames.remove(currentHomeIndex));
-            if (currentHomeIndex >= homeConfigFileNames.size()) {
-                currentHomeIndex = homeConfigFileNames.size() - 1;
-            }
-            MyApp.getApp().getServerConfigManager().readFromFile();
             return true;
         }
     }

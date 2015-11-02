@@ -6,15 +6,12 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.*;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.HttpClient;
-import ac.airconditionsuit.app.network.response.CommonResponse;
 import ac.airconditionsuit.app.network.response.DeleteDeviceResponse;
-import ac.airconditionsuit.app.network.response.RegisterResponseData;
 import ac.airconditionsuit.app.network.response.UploadConfigResponse;
 import ac.airconditionsuit.app.util.MyBase64Util;
 import ac.airconditionsuit.app.util.PlistUtil;
 import android.util.Log;
 
-import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
@@ -27,7 +24,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.TimerTask;
 
@@ -330,7 +326,6 @@ public class ServerConfigManager {
         }
 
 
-
         return serverConfig;
     }
 
@@ -488,15 +483,12 @@ public class ServerConfigManager {
         writeToFile();
     }
 
-    public void deleteDevice() {
-        deleteDevice(getCurrentChatId(), null);
-    }
-
-    public void deleteDevice(final long chat_id, final HttpClient.JsonResponseHandler handler) {
+    public void deleteCurrentDevice(final HttpClient.JsonResponseHandler<DeleteDeviceResponse> handler) {
         RequestParams params = new RequestParams();
         params.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
         params.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_CANCEL);
-        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, chat_id);
+        final long currentChatId = getCurrentChatId();
+        params.put(Constant.REQUEST_PARAMS_KEY_DEVICE_ID, currentChatId);
 
         HttpClient.get(params, DeleteDeviceResponse.class, new HttpClient.JsonResponseHandler<DeleteDeviceResponse>() {
             @Override
@@ -506,10 +498,9 @@ public class ServerConfigManager {
                 rootJavaObj.setDevices(null);
                 rootJavaObj.setScenes(null);
                 rootJavaObj.setTimers(null);
+                MyApp.getApp().getSocketManager().setDeviceOffline();
                 writeToFile();
                 //删除设备后，不应关闭tcp链接
-//                MyApp.getApp().getSocketManager().close();
-                MyApp.getApp().getSocketManager().setDeviceOfflineAndRecheckDevie();
                 if (handler != null) {
                     handler.onSuccess(response);
                 }
@@ -521,7 +512,7 @@ public class ServerConfigManager {
                 requestParams.put(Constant.REQUEST_PARAMS_KEY_TOKEN, MyApp.getApp().getUser().getToken());
                 requestParams.put(Constant.REQUEST_PARAMS_KEY_CUST_ID, MyApp.getApp().getUser().getCust_id());
                 requestParams.put(Constant.REQUEST_PARAMS_KEY_DISPLAY_ID, MyApp.getApp().getUser().getDisplay_id());
-                requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICEID, chat_id);
+                requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICEID, currentChatId);
 
                 HttpClient.get(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
 
@@ -545,6 +536,9 @@ public class ServerConfigManager {
                 }
             }
         });
+    }
+
+    public void deleteDevice(final long chat_id, final HttpClient.JsonResponseHandler handler, final boolean deleteHomeOrDevice) {
     }
 
 
@@ -590,7 +584,7 @@ public class ServerConfigManager {
                 return;
             }
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ServerConfig rightServerConfig =  switchAddressAndIndexFileToObj(new Gson().fromJson(rootJavaObj.toJsonString(), ServerConfig.class), false);
+            ServerConfig rightServerConfig = switchAddressAndIndexFileToObj(new Gson().fromJson(rootJavaObj.toJsonString(), ServerConfig.class), false);
             NSDictionary root = PlistUtil.JavaObjectToNSDictionary(rightServerConfig);
             PropertyListParser.saveAsXML(root, byteArrayOutputStream);
             byte[] bytes = MyBase64Util.encodeToByte(byteArrayOutputStream.toByteArray(), true);

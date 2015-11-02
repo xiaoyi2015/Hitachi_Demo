@@ -26,10 +26,15 @@ public class UdpSocket implements SocketWrap {
     private String ip;
 
     public void resetIpToCurrentDevice() {
-        if (MyApp.getApp().getServerConfigManager() == null) return;
+        if (MyApp.getApp().getServerConfigManager() == null) {
+            this.ip = null;
+            return;
+        }
         String curIp = MyApp.getApp().getServerConfigManager().getCurrentHostIP();
         if (curIp != null && curIp.length() > 0) {
             this.ip = curIp;
+        } else {
+            this.ip = null;
         }
     }
 

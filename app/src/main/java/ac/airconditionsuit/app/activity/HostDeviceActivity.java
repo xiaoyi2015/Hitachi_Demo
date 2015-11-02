@@ -51,12 +51,12 @@ public class HostDeviceActivity extends BaseActivity{
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    final long chat_id = MyApp.getApp().getServerConfigManager().getConnections().get(0).getChat_id();
+//                                    final long chat_id = MyApp.getApp().getServerConfigManager().getConnections().get(0).getChat_id();
                                     showWaitProgress();
-                                    MyApp.getApp().getServerConfigManager().deleteDevice(chat_id, new HttpClient.JsonResponseHandler<Object>(){
+                                    MyApp.getApp().getServerConfigManager().deleteCurrentDevice(new HttpClient.JsonResponseHandler<DeleteDeviceResponse>() {
 
                                         @Override
-                                        public void onSuccess(Object response) {
+                                        public void onSuccess(DeleteDeviceResponse response) {
                                             dismissWaitProgress();
                                             finish();
                                         }
