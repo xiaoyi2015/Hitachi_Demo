@@ -33,6 +33,7 @@ import ac.airconditionsuit.app.view.CommonTopBar;
 public class RoomAirSettingHitActivity extends BaseActivity {
 
     private static final int ENABLE_OK_BUTTON = 10098;
+    private int flag;
     private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
         public void onClick(View v) {
@@ -75,28 +76,77 @@ public class RoomAirSettingHitActivity extends BaseActivity {
                 case R.id.mode_cool:
                     mode = 0;
                     tempSeekBar.setMax(11);
-                    tempSeekBar.setProgress(30);
+                    if(temp < 19){
+                        tempSeekBar.setProgress(0);
+                        temp = 21;
+                    }else {
+                        tempSeekBar.setProgress(temp - 19);
+                    }
+                    if(flag == 1){
+                        if(temp > 19) {
+                            temp = temp - 2;
+                        }
+                        changeTemp(temp);
+                    }else {
+                        changeTemp(temp);
+                    }
+                    flag = 0;
                     changeIconColor(on_off, mode, fan);
                     break;
 
                 case R.id.mode_heat:
                     mode = 1;
                     tempSeekBar.setMax(13);
-                    tempSeekBar.setProgress(30);
+                    tempSeekBar.setProgress(temp - 17);
+                    if(flag == 0){
+                        temp = temp + 2;
+                        changeTemp(temp);
+                    }else {
+                        changeTemp(temp);
+                    }
+                    flag = 1;
                     changeIconColor(on_off, mode, fan);
                     break;
 
                 case R.id.mode_dry:
                     mode = 2;
                     tempSeekBar.setMax(11);
-                    tempSeekBar.setProgress(30);
+                    if(temp < 19){
+                        tempSeekBar.setProgress(0);
+                        temp = 21;
+                    }else {
+                        tempSeekBar.setProgress(temp - 19);
+                    }
+                    if(flag == 1){
+                        if(temp > 19) {
+                            temp = temp - 2;
+                        }
+                        changeTemp(temp);
+                    }else {
+                        changeTemp(temp);
+                    }
+                    flag = 0;
                     changeIconColor(on_off, mode, fan);
                     break;
 
                 case R.id.mode_fan:
                     mode = 3;
                     tempSeekBar.setMax(11);
-                    tempSeekBar.setProgress(30);
+                    if(temp < 19){
+                        tempSeekBar.setProgress(0);
+                        temp = 21;
+                    }else {
+                        tempSeekBar.setProgress(temp - 19);
+                    }
+                    if(flag == 1){
+                        if(temp > 19) {
+                            temp = temp - 2;
+                        }
+                        changeTemp(temp);
+                    }else {
+                        changeTemp(temp);
+                    }
+                    flag = 0;
                     changeIconColor(on_off, mode, fan);
                     break;
 
@@ -323,25 +373,29 @@ public class RoomAirSettingHitActivity extends BaseActivity {
             temp = 30;
         } else {
             on_off = airCondition.getOnoff();
-            mode = airCondition.getMode();
-            fan = airCondition.getFan();
+            mode = airCondition.getAirconditionMode();
+            fan = airCondition.getAirconditionFan();
             temp = (int) airCondition.getTemperature();
         }
         changeTemp(temp);
         if (mode == 1) {
             tempSeekBar.setMax(13);
+            flag = 1;
         } else {
             tempSeekBar.setMax(11);
+            flag = 0;
         }
         changeIconColor(on_off, mode, fan);
     }
 
 
     private void submit() {
+
         airConditionControl.setMode(mode);
         airConditionControl.setOnoff(on_off);
         airConditionControl.setTemperature(temp);
         airConditionControl.setWindVelocity(fan);
+
         try {
             MyApp.getApp().getAirConditionManager().controlRoom(room, airConditionControl);
         } catch (Exception e) {

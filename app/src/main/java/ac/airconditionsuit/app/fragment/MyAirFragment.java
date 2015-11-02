@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -60,14 +63,46 @@ public class MyAirFragment extends BaseFragment {
     private PopupWindow pop;
     private List<Home> homeList;
 
+    private boolean firstCreate = true;
+    private static final int REFRESH_COMPLETE = 2008;
+    private Handler mHandler = new Handler() {
+        public void handleMessage(android.os.Message msg)
+        {
+            switch (msg.what)
+            {
+                case REFRESH_COMPLETE:
+                    refreshView.setRefreshing(false);
+                    break;
+
+            }
+        }
+    };
+    private SwipeRefreshLayout refreshView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_my_air, container, false);
+        refreshView = (SwipeRefreshLayout) view.findViewById(R.id.refresh_view);
+        refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+                mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
+            }
+        });
+        refreshView.setColorScheme(android.R.color.holo_red_dark);
         listView = (ListView) view.findViewById(R.id.section_view);
         myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), null);
         listView.setAdapter(myAirSectionAdapter);
         refreshUI();
-        homeList = MyApp.getApp().getLocalConfigManager().getHomeList();
+
+        if (firstCreate) {
+            firstCreate = false;
+            Log.v("liutao", "我的空调onCreate");
+            MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+        }
+
+        MyApp.getApp().getAirConditionManager().initAirConditionsByDeviceList();
         return view;
     }
 
@@ -93,6 +128,7 @@ public class MyAirFragment extends BaseFragment {
                 public void onClick(View v) {
                     LayoutInflater inflater = LayoutInflater.from(getActivity());
                     LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.pop_up_home_list, null);
+                    homeList = MyApp.getApp().getLocalConfigManager().getHomeList();
                     for (int i = 0; i < homeList.size(); i++) {
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -123,9 +159,7 @@ public class MyAirFragment extends BaseFragment {
                             }
                         });
                     }
-                    if (pop == null) {
-                        pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
-                    }
+                    pop = new PopupWindow(linearLayout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
                     pop.setBackgroundDrawable(new BitmapDrawable());
                     pop.setOutsideTouchable(true);
                     pop.showAsDropDown(commonTopBar);

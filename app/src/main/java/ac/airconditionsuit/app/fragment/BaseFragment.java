@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.fragment;
 
+import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.activity.BaseActivity;
 import android.os.Bundle;
@@ -37,6 +38,14 @@ public class BaseFragment extends Fragment {
     public void onResume() {
         super.onResume();
         refreshUI();
+
+        MyApp.appResume();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        MyApp.appStop();
     }
 
     @Override
@@ -49,4 +58,6 @@ public class BaseFragment extends Fragment {
 
     public void refreshUI() {
     }
+
+
 }

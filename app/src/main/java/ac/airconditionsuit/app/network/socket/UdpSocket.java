@@ -25,6 +25,14 @@ public class UdpSocket implements SocketWrap {
     private DatagramSocket datagramSocket;
     private String ip;
 
+    public void resetIpToCurrentDevice() {
+        if (MyApp.getApp().getServerConfigManager() == null) return;
+        String curIp = MyApp.getApp().getServerConfigManager().getCurrentHostIP();
+        if (curIp != null && curIp.length() > 0) {
+            this.ip = curIp;
+        }
+    }
+
     public void connect(String ip) throws SocketException, UnknownHostException {
         datagramSocket = new DatagramSocket();
         this.ip = ip;
@@ -78,5 +86,4 @@ public class UdpSocket implements SocketWrap {
     public boolean isConnect() {
         return datagramSocket != null;
     }
-
 }

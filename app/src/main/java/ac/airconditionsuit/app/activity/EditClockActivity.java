@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class EditClockActivity extends BaseActivity{
     private static final int REQUEST_CODE_REPEAT = 222;
     private boolean is_add;
     private int index;
-    private static String[] weekName = new String[]{"周一","周二","周三","周四","周五","周六","周日"};
+    private static String[] weekName = new String[]{"一","二","三","四","五","六","日"};
 
     private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
@@ -57,7 +58,7 @@ public class EditClockActivity extends BaseActivity{
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    MyApp.getApp().getAirConditionManager().deleteTimerServer(index);
+                                    MyApp.getApp().getAirConditionManager().deleteTimerServer(timer.getTimerid());
                                     Intent intent1 = new Intent();
                                     setResult(RESULT_OK, intent1);
                                     finish();
@@ -104,9 +105,9 @@ public class EditClockActivity extends BaseActivity{
                             MyApp.getApp().showToast("请选择定时的空调");
                             return;
                         }
-
+                        //添加定时器时，本地不添加，等待服务器数据返回。因为本地timer没有timer id，会造成重复
                         MyApp.getApp().getAirConditionManager().addTimerServer(timer_temp);
-                        MyApp.getApp().getServerConfigManager().addTimer(timer_temp);
+                        //MyApp.getApp().getServerConfigManager().addTimer(timer_temp);
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         finish();
@@ -144,8 +145,8 @@ public class EditClockActivity extends BaseActivity{
                             return;
                         }
                         MyApp.getApp().getAirConditionManager().modifyTimerServer(timer);
-                        MyApp.getApp().getServerConfigManager().getTimer().set(index, timer);
-                        MyApp.getApp().getServerConfigManager().writeToFile();
+                        //MyApp.getApp().getServerConfigManager().getTimer().set(index, timer);
+                        //MyApp.getApp().getServerConfigManager().writeToFile();
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         finish();
@@ -339,16 +340,18 @@ public class EditClockActivity extends BaseActivity{
         String week = "";
 
         if(!is_add){
-            timer = MyApp.getApp().getServerConfigManager().getTimer().get(index);
+            timer = new Gson().fromJson(getIntent().getStringExtra("clock"),Timer.class);
             temp_on_off = timer.isOnoff();
             temp_mode = timer.getMode();
             temp_fan = timer.getFan();
             temp_temp = timer.getTemperature();
             if(timer.isRepeat()){
                 flag_repeat = 1;
-                for(int i = 0; i < timer.getWeek().size(); i++){
-                    week_list[timer.getWeek().get(i)] = 1;
-                }
+            }else{
+                flag_repeat = 0;
+            }
+            for(int i = 0; i < timer.getWeek().size(); i++){
+                week_list[timer.getWeek().get(i)] = 1;
             }
             timePicker.setCurrentHour(timer.getHour());
             timePicker.setCurrentMinute(timer.getMinute());
@@ -390,10 +393,13 @@ public class EditClockActivity extends BaseActivity{
                 repeat = getString(R.string.not_repeat);
             }
             if(timer.getWeek().size() != 0){
+                week = "周";
                 for (int i = 0; i < timer.getWeek().size() - 1; i++) {
-                    week = week + weekName[timer.getWeek().get(i)];
+                    week = week + weekName[timer.getWeek().get(i)] + "|";
                 }
                 week = week + weekName[timer.getWeek().get(timer.getWeek().size() - 1)];
+            }else{
+                week = "";
             }
 
         }else{
@@ -415,6 +421,7 @@ public class EditClockActivity extends BaseActivity{
                 //int num = timer.getAddress().size();
                 if(timer.getIndexes().size() != 0){
                     for(int i = 0 ;i < timer.getIndexes().size(); i++){
+                        Log.i("liu tao !!!!!!!", timer.getIndexes().get(i) + "");
                         isDeviceChoose.set(timer.getIndexes().get(i)-1,1);
                     }
                 }
@@ -444,9 +451,22 @@ public class EditClockActivity extends BaseActivity{
                     }
                     if(week_list.length!=0) {
                         String week1 = "";
+                        int k = 0;
                         for(int i = 0; i < week_list.length; i++){
                             if(week_list[i]==1){
-                                week1 = week1 + weekName[i];
+                                week1 = "周";
+                                k++ ;
+                            }
+                        }
+                        int p = 0;
+                        for(int i = 0; i < week_list.length; i++){
+                            if(week_list[i]==1){
+                                p++;
+                                if( p < k ) {
+                                    week1 = week1 + weekName[i] + "|";
+                                }else{
+                                    week1 = week1 + weekName[i];
+                                }
                             }
                         }
                         clockRepeat.getOnlineTextView().setText(week1);

@@ -140,6 +140,14 @@ public class BaseActivity extends FragmentActivity implements Observer {
             socketManager.addObserver(this);
 //            socketManager.onResume(this);
         }
+
+        MyApp.appResume();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MyApp.appStop();
     }
 
     @Override

@@ -234,5 +234,6 @@
     <string name="not_seek_ize">未搜索到i-EZ控制器！</string>
     <string name="not_seek_text">\n请确保i-EZ控制器已经正确工作，且与主机处于同一局域网内\n</string>
     <string name="go_back">返回</string>
+    <string name="manager_text3">您是此设备的成员</string>
 
 </resources>

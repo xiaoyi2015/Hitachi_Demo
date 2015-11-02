@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -72,15 +73,37 @@ public class AirModePickerView extends LinearLayout {
 
             @Override
             public void selecting(int id, String text) {
+//                if (id == 1) {
+//                    tempView.setData(temp_list_heat);
+//                    tempView.setDefault(8);
+//                    tempView.invalidate();
+//                } else {
+//                    tempView.setData(temp_list);
+//                    tempView.setDefault(6);
+//                    tempView.invalidate();
+//                }
+
+                int curTempPos = tempView.getSelected();
+                int curTempCount = tempView.getListSize();
+                int curTempBase = 30 - curTempCount + 1;
+                int curTemp = curTempBase + curTempPos;
                 if (id == 1) {
                     tempView.setData(temp_list_heat);
-                    tempView.setDefault(8);
-                    tempView.invalidate();
+                    curTempBase = 17;
                 } else {
                     tempView.setData(temp_list);
-                    tempView.setDefault(6);
-                    tempView.invalidate();
+                    curTempBase = 19;
                 }
+
+                //检查curTemp的合法性
+                if (curTemp < curTempBase) {
+                    curTemp = curTempBase;
+                }
+
+                tempView.setDefault(curTemp - curTempBase);
+                tempView.invalidate();
+
+//              Log.v("liutao", "测试PickerView curTemp: " + curTemp);
             }
         });
 

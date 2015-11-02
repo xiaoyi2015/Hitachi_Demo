@@ -76,7 +76,11 @@ public class EditSceneActivity extends BaseActivity{
                                 command.setOnoff(temp_on_off.get(i));
                                 command.setMode(temp_mode.get(i));
                                 command.setFan(temp_fan.get(i));
-                                command.setTemperature((float) (temp_temp.get(i) + 19));
+                                if(temp_mode.get(i) == 1){
+                                    command.setTemperature((float) (temp_temp.get(i) + 17));
+                                }else {
+                                    command.setTemperature((float) (temp_temp.get(i) + 19));
+                                }
 
                                 commands.add(command);
                             }
@@ -99,7 +103,11 @@ public class EditSceneActivity extends BaseActivity{
                                 command.setOnoff(temp_on_off.get(i));
                                 command.setMode(temp_mode.get(i));
                                 command.setFan(temp_fan.get(i));
-                                command.setTemperature((float) (temp_temp.get(i) + 19));
+                                if(temp_mode.get(i) == 1){
+                                    command.setTemperature((float) (temp_temp.get(i) + 17));
+                                }else {
+                                    command.setTemperature((float) (temp_temp.get(i) + 19));
+                                }
                                 MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands().add(command);
                             }
                         }
@@ -262,7 +270,12 @@ public class EditSceneActivity extends BaseActivity{
                     if (temp_on_off.get(position) != 2) {
                         temp_none.setVisibility(View.GONE);
                         temp_text.setVisibility(View.VISIBLE);
-                        int flag_temp = temp_temp.get(position) + 19;
+                        int flag_temp;
+                        if(temp_mode.get(position) == 1){
+                            flag_temp = temp_temp.get(position) + 17;
+                        }else {
+                            flag_temp = temp_temp.get(position) + 19;
+                        }
                         temp_text.setText(flag_temp + getString(R.string.temp_symbol));
                         if(temp_on_off.get(position) == 0){
                             onoff_view.setImageResource(R.drawable.onoff_off_hit);
@@ -379,7 +392,7 @@ public class EditSceneActivity extends BaseActivity{
 
                             if(temp_mode.get(position) == 1){
                                 airModePickerView.setTempHeatList();
-                                tempView.setDefault(temp_temp.get(position) + 2);
+                                tempView.setDefault(temp_temp.get(position));
                             }else{
                                 tempView.setDefault(temp_temp.get(position));
                             }
@@ -396,7 +409,7 @@ public class EditSceneActivity extends BaseActivity{
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             if(modeView.getSelected() == 1){
-                                                temp_temp.set(position, tempView.getSelected() - 2);
+                                                temp_temp.set(position, tempView.getSelected());
                                             }else{
                                                 temp_temp.set(position, tempView.getSelected());
                                             }
@@ -407,7 +420,12 @@ public class EditSceneActivity extends BaseActivity{
                                             if (temp_on_off.get(position) != 2) {
                                                 temp_none.setVisibility(View.GONE);
                                                 temp_text.setVisibility(View.VISIBLE);
-                                                int flag_temp1 = temp_temp.get(position) + 19;
+                                                int flag_temp1;
+                                                if(temp_mode.get(position) == 1){
+                                                    flag_temp1 = temp_temp.get(position) + 17;
+                                                }else {
+                                                    flag_temp1 = temp_temp.get(position) + 19;
+                                                }
                                                 temp_text.setText(flag_temp1 + getString(R.string.temp_symbol));
                                                 if(temp_on_off.get(position) == 0){
                                                     onoff_view.setImageResource(R.drawable.onoff_off_hit);

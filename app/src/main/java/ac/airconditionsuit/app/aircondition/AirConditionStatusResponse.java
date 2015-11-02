@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.aircondition;
 
+import android.util.Log;
+
 /**
  * Created by ac on 10/15/15.
  */
@@ -72,6 +74,8 @@ public class AirConditionStatusResponse extends AirConditionControl {
 //        }
 
         int temperature = input[4];
+
+        Log.v("liutao", "主机反馈空调状态 address: " + result.address + " mode: " + mode + " wind: " + windVelocity + " temp: " + temperature);
 
         if (result.mode == MODE_HEATING) {
             if (temperature < 17 || temperature > 30) {

@@ -42,7 +42,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         roundImageView = (RoundImageView) view.findViewById(R.id.user_icon);
         HttpClient.loadImage(MyApp.getApp().getUser().getAvatar(), roundImageView);
         home_name = (TextView) view.findViewById(R.id.setting_home_name);
-        home_name.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
 
         view.findViewById(R.id.software_information).setOnClickListener(this);
         view.findViewById(R.id.user_icon).setOnClickListener(this);
@@ -51,6 +50,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
         connectionStatusView = (CommonButtonWithArrow) view.findViewById(R.id.connect_status);
         refreshUI();
+
         return view;
     }
 
@@ -61,6 +61,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             return;
         }
         refreshNetworkStatus();
+        home_name.setText(MyApp.getApp().getServerConfigManager().getHome().getName());
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             view.findViewById(R.id.add_device).setVisibility(View.GONE);
             view.findViewById(R.id.host_device).setVisibility(View.VISIBLE);

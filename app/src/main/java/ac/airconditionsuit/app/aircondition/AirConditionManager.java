@@ -19,10 +19,29 @@ public class AirConditionManager {
     public static final int QUERY_ALL_TIMER = 0xffff;
     public static final int QUERY_TIMER_NO = 0xfffe;
     List<AirCondition> airConditions = new ArrayList<>();
-    List<Timer> timers = new ArrayList<>();
+//    List<Timer> timers = new ArrayList<>();//usused
+
+
+    public void initAirConditionsByDeviceList() {
+        List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
+        for (DeviceFromServerConfig dev : devices) {
+            boolean found = false;
+            for (AirCondition air : airConditions) {
+                if (air.getAddress() == dev.getAddress()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                AirCondition ac = new AirCondition(dev);
+                airConditions.add(ac);
+            }
+        }
+    }
 
     public void queryAirConditionStatus() {
         try {
+            if (MyApp.getApp().getSocketManager().shouldSendPacketsToQuery())
             MyApp.getApp().getSocketManager().getAllAirConditionStatusFromHostDevice(
                     MyApp.getApp().getServerConfigManager().getDevices()
             );
@@ -64,12 +83,19 @@ public class AirConditionManager {
      * @param timerId 定时器id
      */
     public void timerRun(int timerId) {
-        //todo for luzheqi
+        Log.v("liutao", "定时器执行");
+        updateAcsByTimerRunned(timerId);
     }
 
     public void controlScene(Scene scene) throws Exception {
         MyApp.getApp().getSocketManager().sendMessage(scene.toSocketControlPackage());
-        MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+        //发送场景时，不主动查询空调状态，因为空调控制成功需要时间，此时查询到的状态，有可能是控制之前空调的状态。进而造成本地显示与实际空调状态不一致
+        //目前，控制空调成功后，主机不一定会反馈空调状态给app
+        //在我的空调界面，允许用户手动下拉刷新，主动发包读取所有空调状态
+        //MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+
+        //发送场景控制命令时，先set到本地缓存，使界面得到更新。
+        updateACsBySceneControl(scene);
     }
 
     public void controlRoom(Room room, AirConditionControl airConditionControl) throws Exception {
@@ -77,6 +103,42 @@ public class AirConditionManager {
         updateAirconditions(room, airConditionControl);
     }
 
+    private void  updateAcsByTimerRunned(int timer_id) {
+        List<Timer> timers = MyApp.getApp().getServerConfigManager().getTimer();
+        for (Timer tm : timers) {
+            if (tm.getTimerid() == timer_id) {
+                List<Integer> indexes = tm.getIndexes();
+                for (Integer idxInTimer : indexes) {
+                    Integer idx = idxInTimer - 1;
+                    if (idx >= 0 && idx < airConditions.size()) {
+                        AirCondition ac = airConditions.get(idx);
+                        ac.setAirconditionMode(tm.getMode());
+                        ac.setAirconditionFan(tm.getFan());
+                        ac.setTemperature(tm.getTemperature());
+                        ac.setOnoff(tm.isOnoff() ? 1 : 0);
+                        MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.AIR_CONDITION_STATUS_RESPONSE, ac));
+                    }
+                }
+            }
+        }
+    }
+
+    private void updateACsBySceneControl(Scene scene) {
+        List<Command> commands = scene.getCommands();
+        if (commands == null) return;
+        for (Command command : commands) {
+            int address = command.getAddress();
+//            initAirConditionsByDeviceList();
+            for (AirCondition airCondition : airConditions) {
+                if (airCondition.getAddress() == address) {
+                    airCondition.setAirconditionMode(command.getMode());
+                    airCondition.setAirconditionFan(command.getFan());
+                    airCondition.setTemperature(command.getTemperature());
+                    airCondition.setOnoff(command.getOnoff());
+                }
+            }
+        }
+    }
     private void updateAirconditions(Room room, AirConditionControl airConditionControl) throws Exception {
 
         for (int index : room.getElements()) {
@@ -89,10 +151,11 @@ public class AirConditionManager {
             if (address > 255 || address < 0) {
                 throw new Exception("air condition address error");
             }
+//            initAirConditionsByDeviceList();
             for (AirCondition airCondition : airConditions) {
                 if (airCondition.getAddress() == address) {
-                    airCondition.setMode(airConditionControl.getMode());
-                    airCondition.setFan(airConditionControl.getWindVelocity());
+                    airCondition.setAirconditionMode(airConditionControl.getMode());
+                    airCondition.setAirconditionFan(airConditionControl.getWindVelocity());
                     airCondition.setTemperature(airConditionControl.getTemperature());
                     airCondition.setOnoff(airConditionControl.getOnoff());
                 }
@@ -168,8 +231,27 @@ public class AirConditionManager {
             if (temp.getRealTemperature() != airCondition.getRealTemperature()) {
                 airCondition.setRealTemperature(AirConditionControl.UNKNOW);
             }
+            if (temp.getTemperature() > 30 || temp.getTemperature() < 17) airCondition.setTemperature(AirConditionControl.UNKNOW);
+            if (temp.getRealTemperature() > 30 || temp.getRealTemperature() < 17) airCondition.setRealTemperature(AirConditionControl.UNKNOW);
         }
         return airCondition;
+    }
+
+    public void queryTimerAll() {
+        try {
+            Log.v("liutao", "主动发包读取所有定时器状态");
+            queryTimerAllWithException();
+        }
+        catch (Exception e) {
+
+        }
+    }
+
+    private void queryTimerAllWithException() throws Exception {
+        if (MyApp.getApp().getSocketManager().shouldSendPacketsToQuery()) {
+            MyApp.getApp().getSocketManager().sendMessage(new QueryTimerPackage(0xffff));
+            MyApp.getApp().getServerConfigManager().clearTimer();
+        }
     }
 
     public void queryTimer(int id) {

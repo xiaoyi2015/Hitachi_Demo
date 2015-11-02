@@ -34,6 +34,22 @@ public class Command extends RootEntity {
         this.onoff = onoff == 1;
     }
 
+    public int getAirconditionFan(){
+        return fan;
+    }
+
+    public int getAirconditionMode(){
+        return mode;
+    }
+
+    public void setAirconditionFan(int fan){
+        this.fan = fan;
+    }
+
+    public void setAirconditionMode(int mode){
+        this.mode = mode;
+    }
+
     public int getFan() {
         int temp_fan;
         switch (fan) {
@@ -59,8 +75,11 @@ public class Command extends RootEntity {
             case 1:
                 temp_fan = 2;
                 break;
-            default:
+            case 2:
                 temp_fan = 3;
+                break;
+            default:
+                temp_fan = fan;
                 break;
         }
         this.fan = temp_fan;

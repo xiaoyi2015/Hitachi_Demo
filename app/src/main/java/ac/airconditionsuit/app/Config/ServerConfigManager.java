@@ -6,11 +6,15 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.*;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.HttpClient;
+import ac.airconditionsuit.app.network.response.CommonResponse;
 import ac.airconditionsuit.app.network.response.DeleteDeviceResponse;
+import ac.airconditionsuit.app.network.response.RegisterResponseData;
 import ac.airconditionsuit.app.network.response.UploadConfigResponse;
 import ac.airconditionsuit.app.util.MyBase64Util;
 import ac.airconditionsuit.app.util.PlistUtil;
 import android.util.Log;
+
+import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
@@ -25,6 +29,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.TimerTask;
 
 /**
  * Created by ac on 9/19/15.
@@ -42,6 +47,7 @@ public class ServerConfigManager {
      */
     private ServerConfig rootJavaObj;
     private String fileName;
+    private TimerTask writeToServerTask;
 
     public List<Section> getSections() {
         List<Section> sections = rootJavaObj.getSections();
@@ -58,6 +64,11 @@ public class ServerConfigManager {
 
     public List<Timer> getTimer() {
         return rootJavaObj.getTimers();
+    }
+
+    public void clearTimer() {
+        rootJavaObj.setTimers(new ArrayList<Timer>());
+        writeToFile();
     }
 
     public int getDeviceIndexFromAddress(int address) {
@@ -152,11 +163,17 @@ public class ServerConfigManager {
                 break;
             }
         }
+        MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.TIMER_STATUS_RESPONSE, null));
         writeToFile();
     }
 
     public List<DeviceFromServerConfig> getDevices() {
         return rootJavaObj.getDevices();
+    }
+
+    public Integer getDeviceCount() {
+        if (rootJavaObj.getDevices() == null) return 0;
+        return rootJavaObj.getDevices().size();
     }
 
     public Home getHome() {
@@ -255,9 +272,11 @@ public class ServerConfigManager {
                     List<Integer> newElements = new ArrayList<>();
                     for (Integer integer : elements) {
                         if (flag) {
-                            newElements.add(integer + 1);
+//                            newElements.add(integer + 1);
+                            newElements.add(integer);
                         } else {
-                            newElements.add(integer - 1);
+//                            newElements.add(integer - 1);
+                            newElements.add(integer);
                         }
                     }
                     room.setElements(newElements);
@@ -289,7 +308,9 @@ public class ServerConfigManager {
             }
         }
 
+        serverConfig.resortTimers();
         List<Timer> timers = serverConfig.getTimers();
+        serverConfig.setTimers(new ArrayList<Timer>());
         if (timers != null) {
             for (Timer timer : timers) {
                 List<Integer> indexes = timer.getIndexes();
@@ -307,6 +328,8 @@ public class ServerConfigManager {
                 timer.setIndexes(newIndexes);
             }
         }
+
+
 
         return serverConfig;
     }
@@ -330,6 +353,7 @@ public class ServerConfigManager {
      * 当配置文件有改动时，上传配置文件当服务器
      */
     public void uploadToServer() {
+        Log.v("liutao", "上传配置文件到服务器");
         if (!hasDevice()) {
             return;
         }
@@ -468,7 +492,7 @@ public class ServerConfigManager {
         deleteDevice(getCurrentChatId(), null);
     }
 
-    public void deleteDevice(long chat_id, final HttpClient.JsonResponseHandler handler) {
+    public void deleteDevice(final long chat_id, final HttpClient.JsonResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
         params.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_CANCEL);
@@ -483,10 +507,34 @@ public class ServerConfigManager {
                 rootJavaObj.setScenes(null);
                 rootJavaObj.setTimers(null);
                 writeToFile();
-                MyApp.getApp().getSocketManager().close();
+                //删除设备后，不应关闭tcp链接
+//                MyApp.getApp().getSocketManager().close();
+                MyApp.getApp().getSocketManager().setDeviceOfflineAndRecheckDevie();
                 if (handler != null) {
                     handler.onSuccess(response);
                 }
+
+                //删除配置文件
+                final RequestParams requestParams = new RequestParams();
+                requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_FILE);
+                requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_RESET_DEVICE_CONFIG_FILE);
+                requestParams.put(Constant.REQUEST_PARAMS_KEY_TOKEN, MyApp.getApp().getUser().getToken());
+                requestParams.put(Constant.REQUEST_PARAMS_KEY_CUST_ID, MyApp.getApp().getUser().getCust_id());
+                requestParams.put(Constant.REQUEST_PARAMS_KEY_DISPLAY_ID, MyApp.getApp().getUser().getDisplay_id());
+                requestParams.put(Constant.REQUEST_PARAMS_KEY_DEVICEID, chat_id);
+
+                HttpClient.get(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
+
+                    @Override
+                    public void onSuccess(String response) {
+                        Log.i(TAG, "删除配置文件成功");
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Log.i(TAG, "删除配置文件失败");
+                    }
+                });
             }
 
             @Override
@@ -554,7 +602,8 @@ public class ServerConfigManager {
             Log.v(TAG, "write server config file success");
 
             //call when write success
-            uploadToServer();
+            uploadToServerAfterDelay();
+//            uploadToServer();
         } catch (IOException e) {
             Log.e(TAG, "write server config file error");
             e.printStackTrace();
@@ -569,6 +618,24 @@ public class ServerConfigManager {
         }
 
 
+    }
+
+    private void uploadToServerAfterDelay() {
+        if (writeToServerTask != null) {
+            writeToServerTask.cancel();
+            writeToServerTask = null;
+            //Log.v("lt", "测试定时任务，取消");
+        }
+
+        writeToServerTask = new TimerTask() {
+            public void run() {
+                uploadToServer();
+                //Log.v("lt", "测试定时任务，执行");
+            }
+        };
+        java.util.Timer writeToServerTimer = new java.util.Timer();
+        writeToServerTimer.schedule(writeToServerTask, 3000);//3s
+//            Log.v("lt", "测试定时任务，开始计时");
     }
 
     public void updateTimer(Timer timer) {

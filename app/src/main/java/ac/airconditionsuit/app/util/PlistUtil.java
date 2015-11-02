@@ -76,7 +76,12 @@ public class PlistUtil {
                 if (((NSNumber) value).isBoolean()) {
                     result += ((NSNumber) value).boolValue() ? "true," : "false,";
                 } else if (((NSNumber) value).isInteger()) {
-                    result += ((NSNumber) value).longValue() + ",";
+                    if (key.equals("onoff")) {//将onoff的int值转化为boolean值
+                        result += ((((NSNumber) value).intValue() == 0) ? "false," : "true,");
+                    }
+                    else {
+                        result += ((NSNumber) value).longValue() + ",";
+                    }
                 } else {
                     result += ((NSNumber) value).doubleValue() + ",";
                 }

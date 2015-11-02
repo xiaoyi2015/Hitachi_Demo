@@ -1,11 +1,15 @@
 package ac.airconditionsuit.app.fragment;
 
 import ac.airconditionsuit.app.UIManager;
+import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.network.socket.SocketManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +37,7 @@ import ac.airconditionsuit.app.view.CommonTopBar;
 public class SetClockFragment extends BaseFragment {
     private View view;
     private static String[] weekName = new String[]{"一", "二", "三", "四", "五", "六", "日"};
+    private boolean firstCreateMyTimer = true;
 
     private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
@@ -41,6 +46,10 @@ public class SetClockFragment extends BaseFragment {
             switch (v.getId()) {
                 case R.id.right_icon:
                     int status = MyApp.getApp().getSocketManager().getStatus();
+                    if(MyApp.getApp().getServerConfigManager().getTimer().size() >= 10){
+                        MyApp.getApp().showToast("定时器最多只能添加10个");
+                        return;
+                    }
                     if (status == SocketManager.UDP_DEVICE_CONNECT
                             || status == SocketManager.TCP_DEVICE_CONNECT) {
                         Intent intent = new Intent();
@@ -59,13 +68,43 @@ public class SetClockFragment extends BaseFragment {
     private ClockSettingAdapter clockSettingAdapter;
     private ListView listView;
 
+    private static final int REFRESH_OK = 2012;
+    private Handler mHandler = new Handler() {
+        public void handleMessage(android.os.Message msg)
+        {
+            switch (msg.what)
+            {
+                case REFRESH_OK:
+                    refreshView.setRefreshing(false);
+                    break;
+
+            }
+        }
+    };
+    private SwipeRefreshLayout refreshView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_set_clock, container, false);
+        refreshView = (SwipeRefreshLayout) view.findViewById(R.id.refresh_view);
+        refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                MyApp.getApp().getAirConditionManager().queryTimerAll();
+                mHandler.sendEmptyMessageDelayed(REFRESH_OK, 2000);
+            }
+        });
+        refreshView.setColorScheme(android.R.color.holo_red_dark);
         listView = (ListView) view.findViewById(R.id.clock_list);
         clockSettingAdapter = new ClockSettingAdapter(getActivity(), null);
         listView.setAdapter(clockSettingAdapter);
         refreshUI();
+
+        if (firstCreateMyTimer) {
+            firstCreateMyTimer = false;
+            Log.v("liutao", "定时器onCreate");
+            MyApp.getApp().getAirConditionManager().queryTimerAll();
+        }
         return view;
     }
 
@@ -286,6 +325,7 @@ public class SetClockFragment extends BaseFragment {
                             || status == SocketManager.TCP_DEVICE_CONNECT) {
                         Intent intent = new Intent();
                         intent.putExtra("index", position);
+                        intent.putExtra("clock", list.get(position).toJsonString());
                         intent.putExtra("title", list.get(position).getName());
                         intent.setClass(getActivity(), EditClockActivity.class);
                         startActivityForResult(intent, REQUEST_CODE_CLOCK);

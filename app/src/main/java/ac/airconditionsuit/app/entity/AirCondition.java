@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.entity;
 
+import ac.airconditionsuit.app.aircondition.AirConditionControl;
+import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.aircondition.AirConditionStatusResponse;
 
 /**
@@ -23,6 +25,50 @@ public class AirCondition extends Command {
 
     public AirCondition() {
 
+    }
+
+    public AirCondition(DeviceFromServerConfig dev) {
+        this.warning         = 0         ;
+        this.address         = dev.getAddress()         ;
+        this.realTemperature = AirConditionControl.UNKNOW;
+        this.mode            = AirConditionControl.UNKNOW            ;
+        this.onoff           = false           ;
+        this.temperature     = AirConditionControl.UNKNOW;
+        this.fan             = AirConditionControl.UNKNOW             ;
+    }
+
+    public AirCondition(AirCondition ac) {
+        this.warning         = ac.warning         ;
+        this.address         = ac.address         ;
+        this.realTemperature = ac.realTemperature ;
+        this.mode            = ac.mode            ;
+        this.onoff           = ac.onoff           ;
+        this.temperature     = ac.temperature     ;
+        this.fan             = ac.fan             ;
+    }
+
+    private boolean variableWrong(int t) {
+        if (t == AirConditionControl.UNKNOW || t == AirConditionControl.EMPTY || t == UNFETCH) {
+            return true;
+        }
+        return false;
+    }
+
+    public void repair() {
+        if (variableWrong(mode)) {
+            mode = 0;
+        }
+        if (variableWrong(fan)) {
+            fan = 1;
+        }
+
+        if (variableWrong((int)temperature)) {
+            temperature = 25;
+        }
+
+        if (variableWrong(realTemperature)) {
+            realTemperature = 25;
+        }
     }
 
     public int getRealTemperature() {
