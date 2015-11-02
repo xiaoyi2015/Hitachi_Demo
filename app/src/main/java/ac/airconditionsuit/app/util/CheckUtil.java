@@ -118,7 +118,7 @@ public class CheckUtil {
     }
 
     public static String checkLength(EditText nameText, int length, int emptyInf, int tooLongInf) {
-        String name = nameText.getText().toString();
+        String name = nameText.getText().toString().trim();
         if (name.length() == 0) {
             MyApp.getApp().showToast(emptyInf);
             return null;
