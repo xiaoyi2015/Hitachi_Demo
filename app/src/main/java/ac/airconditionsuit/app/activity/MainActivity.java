@@ -155,6 +155,7 @@ public class MainActivity extends BaseActivity {
                 MyApp.getApp().showToast(msg);
                 exitTime = System.currentTimeMillis();
             } else {
+                MyApp.getApp().offLine();
                 finish();
             }
             return true;

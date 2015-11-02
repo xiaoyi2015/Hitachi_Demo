@@ -230,6 +230,7 @@ public class MyApp extends Application {
     }
 
     public void offLine() {
+        Log.v("liutao", "offline is called");
         this.user = null;
         this.socketManager.close();
         this.socketManager.stopCheck();
@@ -276,8 +277,10 @@ public class MyApp extends Application {
 
     private static void enterForeground() {
         Log.v("liutao", "进入前台");
-        getApp().getAirConditionManager().queryAirConditionStatus();
-        getApp().getAirConditionManager().queryTimerAll();
+        if (MyApp.getApp().isUserLogin()) {
+            getApp().getAirConditionManager().queryAirConditionStatus();
+            getApp().getAirConditionManager().queryTimerAll();
+        }
     }
 
     private static void enterBackground() {

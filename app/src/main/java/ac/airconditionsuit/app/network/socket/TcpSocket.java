@@ -244,6 +244,7 @@ public class TcpSocket implements SocketWrap {
             }
 
         } else if (result_code == 401) {
+            Log.v("liutao", "tcp receive 401");
             MyApp.getApp().getSocketManager().close();
             MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.OFFLINE));
         } else if (result_code == 403) {

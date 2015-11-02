@@ -260,7 +260,6 @@ public class HttpClient {
 
 
     private static RequestParams wrapParams(RequestParams params) {
-        Log.v(TAG, "output params\n" + params.toString());
         params.put(Constant.REQUEST_PARAMS_KEY_LANGUAGE, "zh-Hans");
         params.put(Constant.REQUEST_PARAMS_KEY_VERSION, "1.0");
 
@@ -270,6 +269,7 @@ public class HttpClient {
             params.put("cust_id", user.getCust_id());
             params.put("display_id", user.getDisplay_id());
         }
+        Log.v(TAG, "output params\n" + params.toString());
         return params;
     }
 
