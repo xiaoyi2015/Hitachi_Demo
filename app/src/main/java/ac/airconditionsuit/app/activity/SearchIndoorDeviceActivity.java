@@ -6,6 +6,7 @@ import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.AirCondition;
 import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import ac.airconditionsuit.app.entity.ObserveData;
+import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.CommonDeviceView;
 import ac.airconditionsuit.app.view.CommonTopBar;
 import android.app.AlertDialog;
@@ -155,15 +156,20 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                     et.setBackgroundResource(R.color.text_color_white);
                     et.setMinHeight(150);
-                    et.setHint(MyApp.getApp().getServerConfigManager().getDevices().get(position).getName());
+                    et.setText(MyApp.getApp().getServerConfigManager().getDevices().get(position).getName());
+                    et.setSelection(MyApp.getApp().getServerConfigManager().getDevices().get(position).getName().length());
                     new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle(R.string.rename_indoor_device).setView(et).
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    String device_new_name = et.getText().toString();
+                                    String device_new_name = CheckUtil.checkLength(et,10,R.string.device_name_empty_info,R.string.device_name_too_long_info);
+                                    if(device_new_name == null){
+                                        return;
+                                    }
                                     MyApp.getApp().getServerConfigManager().getDevices().get(position).setName(device_new_name);
                                     MyApp.getApp().getServerConfigManager().writeToFile();
                                     notifyDataSetChanged();
+                                    dialog.dismiss();
                                 }
                             }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
                 }
