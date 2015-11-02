@@ -7,6 +7,8 @@ import ac.airconditionsuit.app.network.socket.SocketManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,11 +68,33 @@ public class SetClockFragment extends BaseFragment {
     private ClockSettingAdapter clockSettingAdapter;
     private ListView listView;
 
+    private static final int REFRESH_OK = 2012;
+    private Handler mHandler = new Handler() {
+        public void handleMessage(android.os.Message msg)
+        {
+            switch (msg.what)
+            {
+                case REFRESH_OK:
+                    refreshView.setRefreshing(false);
+                    break;
 
+            }
+        }
+    };
+    private SwipeRefreshLayout refreshView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_set_clock, container, false);
+        refreshView = (SwipeRefreshLayout) view.findViewById(R.id.refresh_view);
+        refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                MyApp.getApp().getAirConditionManager().queryTimerAll();
+                mHandler.sendEmptyMessageDelayed(REFRESH_OK, 2000);
+            }
+        });
+        refreshView.setColorScheme(android.R.color.holo_red_dark);
         listView = (ListView) view.findViewById(R.id.clock_list);
         clockSettingAdapter = new ClockSettingAdapter(getActivity(), null);
         listView.setAdapter(clockSettingAdapter);

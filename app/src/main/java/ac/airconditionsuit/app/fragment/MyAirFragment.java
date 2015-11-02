@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -62,10 +64,33 @@ public class MyAirFragment extends BaseFragment {
     private List<Home> homeList;
 
     private boolean firstCreate = true;
+    private static final int REFRESH_COMPLETE = 2008;
+    private Handler mHandler = new Handler() {
+        public void handleMessage(android.os.Message msg)
+        {
+            switch (msg.what)
+            {
+                case REFRESH_COMPLETE:
+                    refreshView.setRefreshing(false);
+                    break;
+
+            }
+        }
+    };
+    private SwipeRefreshLayout refreshView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_my_air, container, false);
+        refreshView = (SwipeRefreshLayout) view.findViewById(R.id.refresh_view);
+        refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+                mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
+            }
+        });
+        refreshView.setColorScheme(android.R.color.holo_red_dark);
         listView = (ListView) view.findViewById(R.id.section_view);
         myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), null);
         listView.setAdapter(myAirSectionAdapter);
