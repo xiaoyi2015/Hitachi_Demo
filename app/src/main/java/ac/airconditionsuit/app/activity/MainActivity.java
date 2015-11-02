@@ -1,19 +1,16 @@
 package ac.airconditionsuit.app.activity;
 
-import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.fragment.*;
-import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.view.TabIndicator;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -147,4 +144,22 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
+    long exitTime = 0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            // 判断间隔时间 大于2秒就退出应用
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                String msg = "再次点击退出";
+                MyApp.getApp().showToast(msg);
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }
