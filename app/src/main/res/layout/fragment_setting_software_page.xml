@@ -12,6 +12,7 @@
 
     <ListView
         android:layout_marginTop="25dp"
+        android:layout_marginBottom="30dp"
         android:id="@+id/group_view"
         android:layout_below="@+id/default_top_bar"
         android:layout_width="match_parent"
