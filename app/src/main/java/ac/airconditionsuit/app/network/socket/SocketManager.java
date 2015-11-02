@@ -184,27 +184,28 @@ public class SocketManager extends Observable {
     }
 
     public void searchIndoorAirCondition() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UdpSocket socket = new UdpSocket();
-                    socket.connect();
-                    SocketPackage socketPackage = new QueryAirConditionAddressPackage();
-                    socket.sendMessage(socketPackage);
-
-                    //搜索时间十秒
-                    long currentTime = System.currentTimeMillis();
-                    while (System.currentTimeMillis() < currentTime + 10 * 1000) {
-                        socket.receiveDataAndHandle();
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "search indoor air condition failed");
-                }
-            }
-        }).start();
+        sendMessage(new QueryAirConditionAddressPackage());
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    UdpSocket socket = new UdpSocket();
+//                    socket.connect();
+//                    SocketPackage socketPackage = new QueryAirConditionAddressPackage();
+//                    socket.sendMessage(socketPackage);
+//
+//                    //搜索时间十秒
+//                    long currentTime = System.currentTimeMillis();
+//                    while (System.currentTimeMillis() < currentTime + 10 * 1000) {
+//                        socket.receiveDataAndHandle();
+//                    }
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    Log.e(TAG, "search indoor air condition failed");
+//                }
+//            }
+//        }).start();
     }
 
     public void sendUdpACK(byte[] no) {
