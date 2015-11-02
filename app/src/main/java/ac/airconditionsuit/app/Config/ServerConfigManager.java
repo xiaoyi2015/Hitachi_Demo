@@ -64,6 +64,7 @@ public class ServerConfigManager {
 
     public void clearTimer() {
         rootJavaObj.setTimers(new ArrayList<Timer>());
+        MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.TIMER_STATUS_RESPONSE, null));
         writeToFile();
     }
 
