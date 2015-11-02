@@ -20,6 +20,7 @@ import android.widget.*;
 
 import java.util.List;
 import java.util.Observable;
+import java.util.TimerTask;
 
 /**
  * Created by Administrator on 2015/10/21.
@@ -67,9 +68,28 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
         searchIndoorDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyApp.getApp().getSocketManager().searchIndoorAirCondition();
+                new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle("警告").setMessage("非专业人员请勿随意搜索室内机，数量变化会导致本地楼层和场景模式被清空").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showWaitProgress();
+                        MyApp.getApp().getSocketManager().searchIndoorAirCondition();
+
+                        TimerTask dismissWait = new TimerTask() {
+                            @Override
+                            public void run() {
+                                toastIndoorDeviceNumber();
+                            }
+                        };
+                        new java.util.Timer().schedule(dismissWait, 10000);
+                    }
+                }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
             }
         });
+    }
+
+    private void toastIndoorDeviceNumber() {
+        dismissWaitProgress();
+        MyApp.getApp().showToast("共搜索到" + MyApp.getApp().getServerConfigManager().getDeviceCount() + "台室内机");
     }
 
     @Override
@@ -87,6 +107,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     @Override
                     public void run() {
                         indoorDeviceAdapter.notifyDataSetChanged();
+                        toastIndoorDeviceNumber();
                     }
                 });
                 break;
