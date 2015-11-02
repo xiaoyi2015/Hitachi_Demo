@@ -87,6 +87,7 @@ public class ServerConfigManager {
                 && rootJavaObj.getConnection().size() != 0;
     }
 
+
     public boolean hasHome() {
         return rootJavaObj != null
                 && rootJavaObj.getHome() != null;
@@ -557,6 +558,13 @@ public class ServerConfigManager {
         } else {
             return -1;
         }
+    }
+
+    public String getCurrentChatIdStringForMenuInMyAirFragment() {
+        long t = getCurrentChatId();
+        if (t == -1) return "";
+        if (t == MyApp.getApp().getServerConfigManager().getCurrentChatId()) return " (当前)";
+        return " (" + t + ")";
     }
 
     public void setRootJavaObj(ServerConfig rootJavaObj) {

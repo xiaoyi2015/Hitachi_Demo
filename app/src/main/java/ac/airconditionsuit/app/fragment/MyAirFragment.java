@@ -129,12 +129,14 @@ public class MyAirFragment extends BaseFragment {
                     LayoutInflater inflater = LayoutInflater.from(getActivity());
                     LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.pop_up_home_list, null);
                     homeList = MyApp.getApp().getLocalConfigManager().getHomeList();
-                    for (int i = 0; i < homeList.size(); i++) {
+                    List<String> commentStrs = MyApp.getApp().getLocalConfigManager().getHomeDeviceStringListForMenuInMyAirFragment();
+
+                    for (int i = 0; i < homeList.size() && i < commentStrs.size(); i++) {
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
                         layoutParams.setMargins(0, -6, 0, 1);
                         TextView textView = new TextView(getActivity());
-                        textView.setText(homeList.get(i).getName());
+                        textView.setText(homeList.get(i).getName() + commentStrs.get(i));
                         textView.setBackgroundResource(UIManager.getHomeBarRes());
                         textView.setGravity(Gravity.CENTER);
                         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);

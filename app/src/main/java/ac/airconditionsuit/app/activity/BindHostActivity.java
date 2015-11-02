@@ -111,7 +111,7 @@ public class BindHostActivity extends BaseActivity {
                                 MyApp.getApp().getSocketManager().reconnectSocket();
 
 
-                                new AlertDialog.Builder(BindHostActivity.this).setTitle(R.string.tip).setMessage(R.string.is_search_air_condition).
+                                new AlertDialog.Builder(BindHostActivity.this).setTitle(R.string.tip_bind_hostdevice_ok).setMessage(R.string.is_search_air_condition).
                                         setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -140,7 +140,7 @@ public class BindHostActivity extends BaseActivity {
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
                                 MyApp.getApp().getSocketManager().reconnectSocket();
 
-                                new AlertDialog.Builder(BindHostActivity.this).setTitle(R.string.tip).setMessage(R.string.is_search_air_condition).
+                                new AlertDialog.Builder(BindHostActivity.this).setTitle(R.string.tip_bind_hostdevice_ok).setMessage(R.string.is_search_air_condition).
                                         setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
