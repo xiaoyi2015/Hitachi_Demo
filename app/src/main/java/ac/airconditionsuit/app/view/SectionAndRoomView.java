@@ -34,7 +34,7 @@ import ac.airconditionsuit.app.fragment.MyAirFragment;
 
 public class SectionAndRoomView extends RelativeLayout {
 
-    private List<Room> rooms;
+    private List<Room> room;
     private Context context;
     private MyAirRoomAdapter myAirRoomAdapter;
 
@@ -44,13 +44,14 @@ public class SectionAndRoomView extends RelativeLayout {
 
     public SectionAndRoomView(Context context, List<Room> roomList) {
         super(context);
-        this.rooms = roomList;
+        this.room = roomList;
         this.context = context;
         init(this.context);
     }
 
     public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
+        this.room = rooms;
+        init(context);
     }
 
     public SectionAndRoomView(Context context, AttributeSet attrs) {
@@ -90,7 +91,7 @@ public class SectionAndRoomView extends RelativeLayout {
         }
 
         ListView listView = (ListView)findViewById(R.id.room_list);
-        myAirRoomAdapter = new MyAirRoomAdapter(context);
+        myAirRoomAdapter = new MyAirRoomAdapter(context,room);
         listView.setAdapter(myAirRoomAdapter);
         setListViewHeightBasedOnChildren(listView);
 
@@ -116,8 +117,11 @@ public class SectionAndRoomView extends RelativeLayout {
     public class MyAirRoomAdapter extends BaseAdapter{
 
         private Context context;
-        public MyAirRoomAdapter(Context context){
+        private List<Room> rooms;
+
+        public MyAirRoomAdapter(Context context,List<Room> rooms){
             this.context = context;
+            this.rooms = rooms;
         }
 
         @Override
