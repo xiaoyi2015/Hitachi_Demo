@@ -49,7 +49,7 @@ public class SoftwarePageActivity extends BaseActivity {
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            String group_new_name = CheckUtil.checkLength(et, 10, R.string.group_name_empty_info, R.string.group_name_too_long_info);
+                            String group_new_name = CheckUtil.checkLength(et, 20, R.string.group_name_empty_info, R.string.group_name_too_long_info);
                             if(group_new_name == null){
                                 return;
                             }
@@ -158,7 +158,7 @@ public class SoftwarePageActivity extends BaseActivity {
                                     setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            String group_new_name = CheckUtil.checkLength(et, 10, R.string.device_name_empty_info, R.string.device_name_too_long_info);
+                                            String group_new_name = CheckUtil.checkLength(et, 20, R.string.device_name_empty_info, R.string.device_name_too_long_info);
                                             if(group_new_name == null){
                                                 return;
                                             }

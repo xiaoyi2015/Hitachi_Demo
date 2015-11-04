@@ -183,7 +183,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    String device_new_name = CheckUtil.checkLength(et,10,R.string.device_name_empty_info,R.string.device_name_too_long_info);
+                                    String device_new_name = CheckUtil.checkLength(et,20,R.string.device_name_empty_info,R.string.device_name_too_long_info);
                                     if(device_new_name == null){
                                         return;
                                     }

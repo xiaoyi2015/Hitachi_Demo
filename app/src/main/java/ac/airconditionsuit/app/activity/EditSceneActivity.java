@@ -63,7 +63,7 @@ public class EditSceneActivity extends BaseActivity{
                             }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
                     break;
                 case R.id.right_icon:
-                    final String check_scene_name = CheckUtil.checkLength(sceneName, 10, R.string.pls_input_scene_name, R.string.scene_name_length_too_long);
+                    final String check_scene_name = CheckUtil.checkLength(sceneName, 20, R.string.pls_input_scene_name, R.string.scene_name_length_too_long);
                     if (check_scene_name == null)
                         return;
                     if(is_add){
