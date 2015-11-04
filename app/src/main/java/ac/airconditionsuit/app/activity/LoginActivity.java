@@ -62,6 +62,7 @@ public class LoginActivity extends BaseActivity {
         userNameEditText = (EditText) findViewById(R.id.user_name);
         passwordEditText = (EditText) findViewById(R.id.password);
         rememberCheckBox = (CheckBox) findViewById(R.id.remember_psd_box);
+        rememberCheckBox.setChecked(true);
 
         findViewById(R.id.login_button).setOnClickListener(myOnClickListener);
         findViewById(R.id.forget_psd).setOnClickListener(myOnClickListener);
