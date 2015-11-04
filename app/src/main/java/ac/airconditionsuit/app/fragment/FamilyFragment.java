@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -58,6 +59,7 @@ public class FamilyFragment extends Fragment {
             IsAdmin.setText(getString(R.string.admin));
         }
         HttpClient.loadImage(MyApp.getApp().getUser().getAvatar(), userPicture);
+        Log.v("liutao", "family fragment oncreate");
         initDataFromInternet();
 
         return view;

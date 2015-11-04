@@ -135,7 +135,8 @@ public class HttpClient {
             public void onSuccess(int statusCode, org.apache.http.Header[] headers, String rawJsonResponse, CommonResponse response) {
                 //handle result
                 if (response.getCode() != 2000) {
-                    onFailure(statusCode, headers, rawJsonResponse, new CommonError(response.getMsg()));
+                    if (response.getCode() != 2001)
+                        onFailure(statusCode, headers, rawJsonResponse, new CommonError(response.getMsg()));
                 } else {
                     if (handler != null) {
                         try {
