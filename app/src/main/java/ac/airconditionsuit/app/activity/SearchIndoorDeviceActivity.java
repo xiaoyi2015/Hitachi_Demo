@@ -30,6 +30,8 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
 
     private IndoorDeviceAdapter indoorDeviceAdapter;
 
+    private TimerTask searchTimerTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_search_indoor_device);
@@ -74,13 +76,13 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                         showWaitProgress();
                         MyApp.getApp().getSocketManager().searchIndoorAirCondition();
 
-                        TimerTask dismissWait = new TimerTask() {
+                        searchTimerTask = new TimerTask() {
                             @Override
                             public void run() {
                                 toastIndoorDeviceNumber();
                             }
                         };
-                        new java.util.Timer().schedule(dismissWait, 10000);
+                        new java.util.Timer().schedule(searchTimerTask, 10000);
                     }
                 }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
             }
@@ -107,7 +109,9 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     @Override
                     public void run() {
                         indoorDeviceAdapter.notifyDataSetChanged();
+                        searchTimerTask.cancel();
                         toastIndoorDeviceNumber();
+                        MyApp.getApp().getServerConfigManager().writeToFile();
                     }
                 });
                 break;
@@ -161,14 +165,15 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
             textView.setText(MyApp.getApp().getServerConfigManager().getDevices().get(position).getName());
             imageView.setImageResource(R.drawable.drag_device_icon);
             rightUpText.setBackgroundResource(R.drawable.drag_device_name_bar);
-            int address = MyApp.getApp().getServerConfigManager().getDevices().get(position).getAddress();
-            if(MyApp.getApp().getServerConfigManager().getDevices().get(position).getIndooraddress() < 10) {
-                rightUpText.setText(String.valueOf(MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(address)) + "-0" +
-                        MyApp.getApp().getServerConfigManager().getDevices().get(position).getIndooraddress());
-            }else{
-                rightUpText.setText(String.valueOf(MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(address)) + "-" +
-                        MyApp.getApp().getServerConfigManager().getDevices().get(position).getIndooraddress());
-            }
+            rightUpText.setText(MyApp.getApp().getServerConfigManager().getDevices().get(position).getFormatNameByIndoorIndexAndAddress());
+//            int address = MyApp.getApp().getServerConfigManager().getDevices().get(position).getAddress();
+//            if(MyApp.getApp().getServerConfigManager().getDevices().get(position).getIndooraddress() < 10) {
+//                rightUpText.setText(String.valueOf(MyApp.getApp().getServerConfigManager().getDevices().get(position).getIndoorIndex()) + "-0" +
+//                        MyApp.getApp().getServerConfigManager().getDevices().get(position).getIndooraddress());
+//            }else{
+//                rightUpText.setText(String.valueOf(String.valueOf(MyApp.getApp().getServerConfigManager().getDevices().get(position).getIndoorIndex()) + "-" +
+//                        MyApp.getApp().getServerConfigManager().getDevices().get(position).getIndooraddress());
+//            }
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
