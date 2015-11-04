@@ -153,7 +153,7 @@ public class ByteUtil {
     }
 
     public static int BCDByteToInt(byte b) {
-        return (b & 0xf) + (b >>> 4) * 10;
+        return (b & 0x0f) + ((b & 0xf0) >>> 4) * 10;
     }
 
 }
