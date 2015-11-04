@@ -82,6 +82,10 @@ public class SceneFragment extends BaseFragment {
                     }
                     break;
                 case R.id.left_icon:
+                    if(MyApp.getApp().getServerConfigManager().getScene().size() >= 16){
+                        MyApp.getApp().showToast("场景数量不能超过16个");
+                        return;
+                    }
                     Intent intent = new Intent();
                     intent.putExtra("title", "");
                     intent.setClass(getActivity(), EditSceneActivity.class);
