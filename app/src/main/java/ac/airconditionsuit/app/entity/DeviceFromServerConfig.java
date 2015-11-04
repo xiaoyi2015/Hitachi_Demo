@@ -1,5 +1,7 @@
 package ac.airconditionsuit.app.entity;
 
+import android.util.Log;
+
 /**
  * Created by ac on 10/15/15.
  */
@@ -10,9 +12,10 @@ public class DeviceFromServerConfig extends RootEntity {
     int indoorindex;
 
     public DeviceFromServerConfig(byte address) {
-        indooraddress = address & 0xf;
-        indoorindex = address >>> 4;
+        indooraddress = address & 0x0f;
+        indoorindex = (address & 0xf0) >>> 4;
         name = "新空调" + indoorindex + "-" + indooraddress;
+        //Log.v("liutao", "ac address: " + indoorindex + " - " + indooraddress);
     }
 
     public int getIndooraddress() {
