@@ -315,6 +315,10 @@ public class DragDeviceActivity extends BaseActivity {
                     case DragEvent.ACTION_DRAG_EXITED:
                         return true;
                     case DragEvent.ACTION_DROP:
+                        if(dragDeviceAdapter.rooms.size() >= 9){
+                            MyApp.getApp().showToast("房间数量不能超过9个");
+                            return false;
+                        }
                         ClipData clipData = event.getClipData();
                         Room room = new Room();
                         room.setName(getString(R.string.new_room));

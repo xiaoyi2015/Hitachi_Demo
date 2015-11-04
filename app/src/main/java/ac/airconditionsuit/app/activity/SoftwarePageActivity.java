@@ -41,6 +41,10 @@ public class SoftwarePageActivity extends BaseActivity {
             super.onClick(v);
             switch (v.getId()){
                 case R.id.add_group:
+                    if(MyApp.getApp().getServerConfigManager().getSections().size() >= 16){
+                        MyApp.getApp().showToast("群组数量不能超过16个");
+                        return;
+                    }
                     final EditText et = new EditText(SoftwarePageActivity.this);
                     et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                     et.setMinHeight(200);
