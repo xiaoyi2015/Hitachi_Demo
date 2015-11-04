@@ -25,8 +25,8 @@
                 android:layout_height="match_parent">
                 <ac.airconditionsuit.app.view.RoundImageView
                     android:id="@+id/user_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:scaleType="fitXY"
                     android:background="@null"
@@ -45,8 +45,8 @@
                 android:layout_height="match_parent">
                 <ImageButton
                     android:id="@+id/software_information"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:scaleType="fitXY"
                     android:background="@null"

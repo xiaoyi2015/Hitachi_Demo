@@ -33,7 +33,7 @@
                 android:layout_marginTop="25dp"
                 android:orientation="horizontal">
 
-                <ImageView
+                <ac.airconditionsuit.app.view.RoundImageView
                     android:id="@+id/network_icon"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
