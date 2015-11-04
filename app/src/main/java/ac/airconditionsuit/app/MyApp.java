@@ -285,19 +285,21 @@ public class MyApp extends Application {
         if (MyApp.getApp().isUserLogin()) {
             getApp().getAirConditionManager().queryAirConditionStatus();
             getApp().getAirConditionManager().queryTimerAll();
-            if (getApp().getServerConfigManager() != null) {
-                getApp().getServerConfigManager().downloadDeviceInformationFromServer(new CommonNetworkListener() {
-                    @Override
-                    public void onSuccess() {
 
-                    }
-
-                    @Override
-                    public void onFailure() {
-
-                    }
-                });
-            }
+            //todo should checked by luzheqi, 进入前台的时候，调用这个会有问题吗？
+//            if (getApp().getServerConfigManager() != null) {
+//                getApp().getServerConfigManager().downloadDeviceInformationFromServer(new CommonNetworkListener() {
+//                    @Override
+//                    public void onSuccess() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure() {
+//
+//                    }
+//                });
+//            }
         }
     }
 
