@@ -95,7 +95,9 @@ public class BaseActivity extends FragmentActivity implements Observer {
     }
 
     public void dismissWaitProgress() {
-        waitDialog.dismiss();
+        if (waitDialog.isShowing()) {
+            waitDialog.dismiss();
+        }
     }
 
     protected void setOnclickListenerOnTextViewDrawable(final View.OnClickListener onClickListener, EditText... editTexts) {

@@ -67,6 +67,7 @@ public class LoginActivity extends BaseActivity {
         findViewById(R.id.forget_psd).setOnClickListener(myOnClickListener);
         findViewById(R.id.login_add_user).setOnClickListener(myOnClickListener);
         findViewById(R.id.login_info).setOnClickListener(myOnClickListener);
+        findViewById(R.id.login_info).setVisibility((UIManager.UITYPE==UIManager.DC) ? View.VISIBLE : View.GONE);
 
         setOnclickListenerOnTextViewDrawable(new View.OnClickListener() {
             @Override
@@ -84,7 +85,10 @@ public class LoginActivity extends BaseActivity {
         if(rememberCheckBox.isChecked()){
             passwordEditText.setText(MyApp.getApp().getLocalConfigManager().getCurrentUserRememberedPassword());
         }
-
+        else {
+            passwordEditText.setText("");
+        }
+        rememberCheckBox.setChecked(true);
     }
 
     private void login() {

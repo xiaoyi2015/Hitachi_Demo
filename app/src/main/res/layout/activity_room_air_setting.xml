@@ -13,7 +13,7 @@
     <LinearLayout
         android:id="@+id/real_temp_view"
         android:layout_below="@+id/default_top_bar"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
         android:background="@drawable/room_bg_normal_dc"
@@ -204,5 +204,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/execute_command"
+        android:layout_below="@+id/temp_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/executing"
+        android:gravity="center"
+        android:background="@drawable/progress_bar_dc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

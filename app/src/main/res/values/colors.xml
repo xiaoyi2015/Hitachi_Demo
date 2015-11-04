@@ -23,5 +23,6 @@
     <color name="hit_off_gray">#cccccc</color>
     <color name="delete_red_hx">#4bc3bc</color>
     <color name="bg_gray">#333333</color>
+    <color name="color_gray">#bf000000</color>
 
 </resources>

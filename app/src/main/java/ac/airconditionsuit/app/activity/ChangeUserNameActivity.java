@@ -31,7 +31,7 @@ public class ChangeUserNameActivity extends BaseActivity{
                     break;
                 case R.id.right_icon:
                     if(title.equals(getString(R.string.nick_name))) {
-                        final String user_name = CheckUtil.checkLength(changeUserName, 10, R.string.pls_input_nickname, R.string.nickname_length_too_long);
+                        final String user_name = CheckUtil.checkLength(changeUserName, 20, R.string.pls_input_nickname, R.string.nickname_length_too_long);
                         if (user_name == null)
                             return;
                         final RequestParams requestParams = new RequestParams();

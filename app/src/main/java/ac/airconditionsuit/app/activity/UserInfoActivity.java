@@ -37,6 +37,7 @@ import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
 import ac.airconditionsuit.app.view.CommonTopBar;
+import ac.airconditionsuit.app.view.RoundImageView;
 
 /**
  * Created by Administrator on 2015/9/18.
@@ -244,7 +245,7 @@ public class UserInfoActivity extends BaseActivity {
     private CommonButtonWithArrow phone;
     private CommonButtonWithArrow email;
     private CommonButtonWithArrow addHome;
-    private ImageView userIcon;
+    private RoundImageView userIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -265,7 +266,7 @@ public class UserInfoActivity extends BaseActivity {
         }
         commonTopBar.setIconView(myOnClickListener, null);
 
-        userIcon = (ImageView) findViewById(R.id.network_icon);
+        userIcon = (RoundImageView) findViewById(R.id.network_icon);
 
         nickName = (CommonButtonWithArrow) findViewById(R.id.nick_name);
         gender = (CommonButtonWithArrow) findViewById(R.id.gender);

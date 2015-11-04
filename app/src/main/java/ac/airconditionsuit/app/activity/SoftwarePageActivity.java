@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -25,6 +27,7 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.Section;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
+import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
@@ -38,6 +41,10 @@ public class SoftwarePageActivity extends BaseActivity {
             super.onClick(v);
             switch (v.getId()){
                 case R.id.add_group:
+                    if(MyApp.getApp().getServerConfigManager().getSections().size() >= 16){
+                        MyApp.getApp().showToast("群组数量不能超过16个");
+                        return;
+                    }
                     final EditText et = new EditText(SoftwarePageActivity.this);
                     et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                     et.setMinHeight(200);
@@ -46,10 +53,14 @@ public class SoftwarePageActivity extends BaseActivity {
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            String group_new_name = et.getText().toString();
+                            String group_new_name = CheckUtil.checkLength(et, 20, R.string.group_name_empty_info, R.string.group_name_too_long_info);
+                            if(group_new_name == null){
+                                return;
+                            }
                             Section section = new Section();
                             section.setName(group_new_name);
                             MyApp.getApp().getServerConfigManager().addSections(section);
+                            dialog.dismiss();
                         }
                     }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
 
@@ -91,7 +102,7 @@ public class SoftwarePageActivity extends BaseActivity {
             if(convertView == null){
                 convertView = new CommonButtonWithArrow(context);
             }
-            TextView group_name = (TextView)convertView.findViewById(R.id.label_text);
+            final TextView group_name = (TextView)convertView.findViewById(R.id.label_text);
             group_name.setText(list.get(position).getName());
 
             convertView.setOnClickListener(new MyOnClickListener() {
@@ -107,16 +118,16 @@ public class SoftwarePageActivity extends BaseActivity {
                 @Override
                 public boolean onLongClick(View v) {
                     LayoutInflater inflater = LayoutInflater.from(SoftwarePageActivity.this);
-                    v = inflater.inflate(R.layout.pop_up_window_section, null);
-                    final PopupWindow pop = new PopupWindow(v, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
+                    View v1 = inflater.inflate(R.layout.pop_up_window_section, null);
+                    final PopupWindow pop = new PopupWindow(v1, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
                     pop.setBackgroundDrawable(new BitmapDrawable());
                     pop.setOutsideTouchable(true);
                     RelativeLayout view = (RelativeLayout)findViewById(R.id.software_page_layout);
                     pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
 
-                    TextView cancel = (TextView)v.findViewById(R.id.cancel);
-                    TextView delete = (TextView)v.findViewById(R.id.delete_section);
-                    TextView change_name = (TextView)v.findViewById(R.id.change_name);
+                    TextView cancel = (TextView)v1.findViewById(R.id.cancel);
+                    TextView delete = (TextView)v1.findViewById(R.id.delete_section);
+                    TextView change_name = (TextView)v1.findViewById(R.id.change_name);
                     cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -145,14 +156,20 @@ public class SoftwarePageActivity extends BaseActivity {
                             et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                             et.setBackgroundResource(R.color.text_color_white);
                             et.setMinHeight(200);
+                            et.setText(list.get(position).getName());
+                            et.setSelection(list.get(position).getName().length());
                             new AlertDialog.Builder(SoftwarePageActivity.this).setTitle(R.string.pls_input_group_name).setView(et).
                                     setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            String group_new_name = et.getText().toString();
+                                            String group_new_name = CheckUtil.checkLength(et, 20, R.string.device_name_empty_info, R.string.device_name_too_long_info);
+                                            if(group_new_name == null){
+                                                return;
+                                            }
                                             MyApp.getApp().getServerConfigManager().getSections().get(position).setName(group_new_name);
                                             MyApp.getApp().getServerConfigManager().writeToFile();
                                             notifyDataSetChanged();
+                                            dialog.dismiss();
                                         }
                                     }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
                             pop.dismiss();
@@ -186,13 +203,34 @@ public class SoftwarePageActivity extends BaseActivity {
                 break;
         }
         commonTopBar.setIconView(myOnClickListener, null);
-        TextView add_new_group = (TextView) findViewById(R.id.add_group);
-        add_new_group.setOnClickListener(myOnClickListener);
 
         ListView listView = (ListView) findViewById(R.id.group_view);
         List<Section> list = MyApp.getApp().getServerConfigManager().getSections();
         RoomSectionAdapter roomSectionAdapter= new RoomSectionAdapter(this,list);
         listView.setAdapter(roomSectionAdapter);
+        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.footer_add_group, null);
+        TextView add_new_group = (TextView) view.findViewById(R.id.add_group);
+        add_new_group.setOnClickListener(myOnClickListener);
+        listView.addFooterView(view);
+        //setListViewHeightBasedOnChildren(listView);
     }
+/*
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
 
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
+*/
 }

@@ -26,7 +26,7 @@ public class ChangeHomeNameActivity extends BaseActivity {
                     break;
                 case R.id.right_icon:
                     String home_name = CheckUtil.checkLength(changeName,
-                            10, R.string.home_name_empty_info, R.string.home_name_too_long_info);
+                            20, R.string.home_name_empty_info, R.string.home_name_too_long_info);
                     if(home_name == null){
                         return;
                     }

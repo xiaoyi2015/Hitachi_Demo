@@ -34,7 +34,7 @@ import ac.airconditionsuit.app.fragment.MyAirFragment;
 
 public class SectionAndRoomView extends RelativeLayout {
 
-    private List<Room> rooms;
+    private List<Room> room;
     private Context context;
     private MyAirRoomAdapter myAirRoomAdapter;
 
@@ -44,13 +44,14 @@ public class SectionAndRoomView extends RelativeLayout {
 
     public SectionAndRoomView(Context context, List<Room> roomList) {
         super(context);
-        this.rooms = roomList;
+        this.room = roomList;
         this.context = context;
         init(this.context);
     }
 
     public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
+        this.room = rooms;
+        init(context);
     }
 
     public SectionAndRoomView(Context context, AttributeSet attrs) {
@@ -90,7 +91,7 @@ public class SectionAndRoomView extends RelativeLayout {
         }
 
         ListView listView = (ListView)findViewById(R.id.room_list);
-        myAirRoomAdapter = new MyAirRoomAdapter(context);
+        myAirRoomAdapter = new MyAirRoomAdapter(context,room);
         listView.setAdapter(myAirRoomAdapter);
         setListViewHeightBasedOnChildren(listView);
 
@@ -116,8 +117,11 @@ public class SectionAndRoomView extends RelativeLayout {
     public class MyAirRoomAdapter extends BaseAdapter{
 
         private Context context;
-        public MyAirRoomAdapter(Context context){
+        private List<Room> rooms;
+
+        public MyAirRoomAdapter(Context context,List<Room> rooms){
             this.context = context;
+            this.rooms = rooms;
         }
 
         @Override
@@ -401,7 +405,7 @@ public class SectionAndRoomView extends RelativeLayout {
                         roomWindSpeed.setVisibility(VISIBLE);
                         roomTemp.setTextColor(getResources().getColor(R.color.mode_off_gray));
                         bgBar.setImageResource(R.drawable.room_bg_bar_off_dc);
-                        switch (airCondition.getMode()){
+                        switch (airCondition.getAirconditionMode()){
                             case 0:
                                 roomMode.setImageResource(R.drawable.cool_off_dc);
                                 break;
@@ -415,7 +419,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomMode.setImageResource(R.drawable.fan_off_dc);
                                 break;
                         }
-                        switch (airCondition.getFan()){
+                        switch (airCondition.getAirconditionFan()){
                             case 0:
                                 roomWindSpeed.setImageResource(R.drawable.fan_off1_dc);
                                 break;
@@ -431,12 +435,12 @@ public class SectionAndRoomView extends RelativeLayout {
                         roomTempNone.setVisibility(GONE);
                         roomWindNone.setVisibility(GONE);
                         roomWindSpeed.setVisibility(VISIBLE);
-                        switch (airCondition.getMode()) {
+                        switch (airCondition.getAirconditionMode()) {
                             case 0:
                                 roomMode.setImageResource(R.drawable.cool_on_dc);
                                 bgBar.setImageResource(R.drawable.room_bg_bar_cool_dc);
                                 roomTemp.setTextColor(getResources().getColor(R.color.mode_cool_blue));
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan_cool1_dc);
                                         break;
@@ -451,7 +455,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomMode.setImageResource(R.drawable.heat_on_dc);
                                 bgBar.setImageResource(R.drawable.room_bg_bar_heat_dc);
                                 roomTemp.setTextColor(getResources().getColor(R.color.mode_heat_pink));
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan_heat1_dc);
                                         break;
@@ -466,7 +470,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomMode.setImageResource(R.drawable.dry_on_dc);
                                 bgBar.setImageResource(R.drawable.room_bg_bar_dry_dc);
                                 roomTemp.setTextColor(getResources().getColor(R.color.mode_dry_purple));
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan_dry1_dc);
                                         break;
@@ -481,7 +485,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomMode.setImageResource(R.drawable.fan_on_dc);
                                 bgBar.setImageResource(R.drawable.room_bg_bar_fan_dc);
                                 roomTemp.setTextColor(getResources().getColor(R.color.mode_fan_green));
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan_fan1_dc);
                                         break;
@@ -526,10 +530,83 @@ public class SectionAndRoomView extends RelativeLayout {
                     });
                     break;
                 default:
+                    roomWarning  = (ImageView)convertView.findViewById(R.id.room_warning);
+                    final ArrayList<Integer> air_index_list1 = new ArrayList<>();
+                    final ArrayList<Integer> warning_list1 = new ArrayList<>();
+                    final ArrayList<Integer> address_list1 = new ArrayList<>();
+                    if(rooms.get(position).getElements() == null){
+                        roomWarning.setVisibility(GONE);
+                    }else {
+                        for (int i = 0; i < rooms.get(position).getElements().size(); i++) {
+                            if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.get(position).getElements().
+                                    get(i)) == null){
+                                break;
+                            }else {
+                                if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.get(position).getElements().
+                                        get(i)).getWarning() != 0) {
+                                    air_index_list1.add(rooms.get(position).getElements().get(i));
+                                    warning_list1.add(MyApp.getApp().getAirConditionManager().getAirConditionByIndex
+                                            (rooms.get(position).getElements().get(i)).getWarning());
+                                    address_list1.add(MyApp.getApp().getServerConfigManager().getDevices().
+                                            get(rooms.get(position).getElements().get(i)).getIndooraddress());
+                                }
+                            }
+                        }
+                        if(air_index_list1.size()>0){
+                            roomWarning.setVisibility(VISIBLE);
+                            roomWarning.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    TextView et = new TextView(context);
+                                    et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                                    et.setGravity(Gravity.CENTER);
+                                    String warning = " \n";
+                                    for (int i = 0; i < air_index_list1.size(); i++) {
+                                        if (warning_list1.get(i) == -2) {
+                                            if (address_list1.get(i) < 10) {
+                                                warning = warning + "空调 " + air_index_list1.get(i) + "-0" +
+                                                        address_list1.get(i) + "离线" + "\n";
+                                            } else {
+                                                warning = warning + "空调 " + air_index_list1.get(i) + "-" +
+                                                        address_list1.get(i) + "离线" + "\n";
+                                            }
+                                        } else {
+                                            if (address_list1.get(i) < 10) {
+                                                warning = warning + "空调 " + air_index_list1.get(i) + "-0" +
+                                                        address_list1.get(i) + "，报警代码：" + Integer.toHexString(warning_list1.get(i)) + "\n";
+                                            } else {
+                                                warning = warning + "空调 " + air_index_list1.get(i) + "-" +
+                                                        address_list1.get(i) + "，报警代码：" +  Integer.toHexString(warning_list1.get(i)) + "\n";
+                                            }
+                                        }
+                                    }
+                                    et.setText(warning);
+                                    new AlertDialog.Builder(context).setTitle(R.string.tip).setView(et).
+                                            setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).setCancelable(false).show();
+                                }
+                            });
+                        }else{
+                            roomWarning.setVisibility(GONE);
+                        }
+                    }
+
                     roomOnOff = (ImageView)convertView.findViewById(R.id.room_on_off);
                     roomTempNone = (ImageView)convertView.findViewById(R.id.room_temp_none);
-
                     roomTemp.setText((int) airCondition.getTemperature() + getContext().getString(R.string.temp_symbol));
+
+                    roomOnOff.setImageResource(R.drawable.none_hit);
+                    roomMode.setImageResource(R.drawable.none_hit);
+                    roomWindSpeed.setImageResource(R.drawable.none_hit);
+                    roomTemp.setVisibility(GONE);
+                    roomTempNone.setVisibility(VISIBLE);
+                    roomTempNone.setImageResource(R.drawable.none_hit);
+
                     if(airCondition.getOnoff() == AirConditionControl.UNKNOW || airCondition.getOnoff() == AirConditionControl.EMPTY){
                         roomOnOff.setImageResource(R.drawable.none_hit);
                         roomMode.setImageResource(R.drawable.none_hit);
@@ -543,7 +620,7 @@ public class SectionAndRoomView extends RelativeLayout {
                         roomTempNone.setVisibility(GONE);
                         roomTemp.setTextColor(getResources().getColor(R.color.hit_off_gray));
                         roomOnOff.setImageResource(R.drawable.onoff_off_hit);
-                        switch (airCondition.getMode()){
+                        switch (airCondition.getAirconditionMode()){
                             case 0:
                                 roomMode.setImageResource(R.drawable.cool_off_hit);
                                 break;
@@ -557,7 +634,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomMode.setImageResource(R.drawable.fan_off_hit);
                                 break;
                         }
-                        switch (airCondition.getFan()){
+                        switch (airCondition.getAirconditionFan()){
                             case 0:
                                 roomWindSpeed.setImageResource(R.drawable.fan1_off_hit);
                                 break;
@@ -571,12 +648,12 @@ public class SectionAndRoomView extends RelativeLayout {
                     if(airCondition.getOnoff() == 1){
                         roomTemp.setVisibility(VISIBLE);
                         roomTempNone.setVisibility(GONE);
-                        switch (airCondition.getMode()){
+                        switch (airCondition.getAirconditionMode()){
                             case 0:
                                 roomTemp.setTextColor(getResources().getColor(R.color.hit_cool_blue));
                                 roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
                                 roomMode.setImageResource(R.drawable.cool_on_hit);
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
                                         break;
@@ -591,7 +668,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomTemp.setTextColor(getResources().getColor(R.color.hit_heat_red));
                                 roomOnOff.setImageResource(R.drawable.onoff_on_heat_hit);
                                 roomMode.setImageResource(R.drawable.heat_on_hit);
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan1_on_heat_hit);
                                         break;
@@ -606,7 +683,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomTemp.setTextColor(getResources().getColor(R.color.hit_cool_blue));
                                 roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
                                 roomMode.setImageResource(R.drawable.dry_on_hit);
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
                                         break;
@@ -621,7 +698,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomTemp.setTextColor(getResources().getColor(R.color.hit_cool_blue));
                                 roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
                                 roomMode.setImageResource(R.drawable.fan_on_hit);
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
                                         break;
@@ -642,6 +719,7 @@ public class SectionAndRoomView extends RelativeLayout {
                         roomTempNone.setImageResource(R.drawable.none_hit);
                     }
                     roomName.setText(rooms.get(position).getName());
+
                     roomView.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {

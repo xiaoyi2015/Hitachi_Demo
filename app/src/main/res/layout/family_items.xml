@@ -14,6 +14,7 @@
         <TextView
             android:id="@+id/admin_text1"
             android:gravity="center"
+            android:textColor="@color/text_color_white"
             android:layout_width="match_parent"
             android:layout_height="30dp" />
 
@@ -30,6 +31,7 @@
             android:layout_width="fill_parent"
             android:layout_height="30dp"
             android:gravity="center"
+            android:textColor="@color/text_color_white"
             android:layout_below="@+id/cust1_picture" />
 
     </RelativeLayout>
@@ -44,6 +46,7 @@
             android:id="@+id/admin_text2"
             android:gravity="center"
             android:layout_width="match_parent"
+            android:textColor="@color/text_color_white"
             android:layout_height="30dp" />
 
         <ac.airconditionsuit.app.view.RoundImageView
@@ -58,6 +61,7 @@
             android:id="@+id/cust2_name"
             android:layout_width="fill_parent"
             android:layout_height="30dp"
+            android:textColor="@color/text_color_white"
             android:gravity="center"
             android:layout_below="@+id/cust2_picture" />
 

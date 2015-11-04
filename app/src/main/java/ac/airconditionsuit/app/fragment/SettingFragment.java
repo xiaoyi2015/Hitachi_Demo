@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.fragment;
 
+import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.network.socket.SocketManager;
 import ac.airconditionsuit.app.util.NetworkConnectionStatusUtil;
 import android.app.Activity;
@@ -66,7 +67,11 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             view.findViewById(R.id.add_device).setVisibility(View.GONE);
             view.findViewById(R.id.host_device).setVisibility(View.VISIBLE);
             CommonButtonWithArrow hostDevice = (CommonButtonWithArrow) view.findViewById(R.id.host_device);
-            hostDevice.getLabelTextView().setText(getString(R.string.host_device));
+            if (UIManager.UITYPE == UIManager.HIT || UIManager.UITYPE == UIManager.HX)
+                hostDevice.getLabelTextView().setText("i-EZ控制器: ");
+            else {
+                hostDevice.getLabelTextView().setText("空调控制器: ");
+            }
             hostDevice.setOnlineTextView(MyApp.getApp().getServerConfigManager().getConnections().get(0).getName());
             hostDevice.setOnClickListener(this);
         } else {

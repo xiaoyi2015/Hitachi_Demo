@@ -1,32 +1,24 @@
 package ac.airconditionsuit.app.activity;
 
-import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.network.HttpClient;
-import ac.airconditionsuit.app.network.response.CommonResponse;
 import ac.airconditionsuit.app.network.response.DeleteDeviceResponse;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
-import ac.airconditionsuit.app.entity.Device;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
 import ac.airconditionsuit.app.view.CommonButtonWithArrow;
-import ac.airconditionsuit.app.view.CommonChooseView;
 import ac.airconditionsuit.app.view.CommonModeArrowView;
 import ac.airconditionsuit.app.view.CommonTopBar;
-import com.android.volley.Response;
-import com.loopj.android.http.RequestParams;
 
 /**
  * Created by Administrator on 2015/10/20.
@@ -51,7 +43,7 @@ public class HostDeviceActivity extends BaseActivity{
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-//                                    final long chat_id = MyApp.getApp().getServerConfigManager().getConnections().get(0).getChat_id();
+                                    // final long chat_id = MyApp.getApp().getServerConfigManager().getConnections().get(0).getChat_id();
                                     showWaitProgress();
                                     MyApp.getApp().getServerConfigManager().deleteCurrentDevice(new HttpClient.JsonResponseHandler<DeleteDeviceResponse>() {
 
@@ -72,12 +64,7 @@ public class HostDeviceActivity extends BaseActivity{
                     break;
 
                 case R.id.scan_indoor_device:
-                    if(MyApp.getApp().getUser().isAdmin()) {
-                        shortStartActivity(SearchIndoorDeviceActivity.class);
-                    }else{
-                        MyApp.getApp().showToast("只有设备的管理者才能扫描室内机");
-                        return;
-                    }
+                    shortStartActivity(SearchIndoorDeviceActivity.class);
                     break;
 
             }
@@ -105,7 +92,7 @@ public class HostDeviceActivity extends BaseActivity{
         }
         commonTopBar.setIconView(myOnClickListener, null);
 
-        CommonModeArrowView qrCode = (CommonModeArrowView)findViewById(R.id.host_device_qr_code);
+        RelativeLayout qrCode = (RelativeLayout)findViewById(R.id.host_device_qr_code);
         qrCode.setOnClickListener(myOnClickListener);
         ImageView imageView1 = (ImageView)qrCode.findViewById(R.id.onoff);
         ImageView imageView2 = (ImageView)qrCode.findViewById(R.id.mode);
@@ -115,7 +102,6 @@ public class HostDeviceActivity extends BaseActivity{
         ImageView imageView4 = (ImageView)qrCode.findViewById(R.id.temp_none);
         ImageView imageView5 = (ImageView)qrCode.findViewById(R.id.arrow_right);
         TextView manageLabelText = (TextView)findViewById(R.id.manager_label_text);
-        TextView manageLabelText2 = (TextView)findViewById(R.id.manager_label_text2);
 
         CommonButtonWithArrow hostDeviceName = (CommonButtonWithArrow)findViewById(R.id.host_device_name);
         CommonButtonWithArrow hostDeviceIP = (CommonButtonWithArrow)findViewById(R.id.host_device_ip);
@@ -131,22 +117,10 @@ public class HostDeviceActivity extends BaseActivity{
 
         if(MyApp.getApp().getUser().isAdmin()) {
             manageLabelText.setText(getString(R.string.manager_text));
-            manageLabelText2.setVisibility(View.VISIBLE);
             qrCode.setVisibility(View.VISIBLE);
-            textView.setVisibility(View.GONE);
-            imageView1.setVisibility(View.INVISIBLE);
-            imageView2.setVisibility(View.INVISIBLE);
-            imageView3.setVisibility(View.INVISIBLE);
-            imageView4.setVisibility(View.VISIBLE);
-            imageView4.setImageResource(R.drawable.common_2d_code);
-            imageView5.setImageResource(R.drawable.icon_arrow_right_dc);
-            textView1.setText(getString(R.string.qr_code));
-            textView1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
-
         }else{
             manageLabelText.setText(getString(R.string.manager_text3));
-            manageLabelText2.setVisibility(View.GONE);
-            qrCode.setVisibility(View.INVISIBLE);
+            qrCode.setVisibility(View.GONE);
         }
     }
 }

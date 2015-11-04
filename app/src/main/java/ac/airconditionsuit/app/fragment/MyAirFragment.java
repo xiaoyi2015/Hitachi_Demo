@@ -129,12 +129,14 @@ public class MyAirFragment extends BaseFragment {
                     LayoutInflater inflater = LayoutInflater.from(getActivity());
                     LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.pop_up_home_list, null);
                     homeList = MyApp.getApp().getLocalConfigManager().getHomeList();
-                    for (int i = 0; i < homeList.size(); i++) {
+                    List<String> commentStrs = MyApp.getApp().getLocalConfigManager().getHomeDeviceStringListForMenuInMyAirFragment();
+
+                    for (int i = 0; i < homeList.size() && i < commentStrs.size(); i++) {
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
                         layoutParams.setMargins(0, -6, 0, 1);
                         TextView textView = new TextView(getActivity());
-                        textView.setText(homeList.get(i).getName());
+                        textView.setText(homeList.get(i).getName() + commentStrs.get(i));
                         textView.setBackgroundResource(UIManager.getHomeBarRes());
                         textView.setGravity(Gravity.CENTER);
                         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
@@ -265,10 +267,8 @@ public class MyAirFragment extends BaseFragment {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = new SectionAndRoomView(context, list.get(position).getPages());
-            }
 
+            convertView = new SectionAndRoomView(context, list.get(position).getPages());
             ((SectionAndRoomView ) convertView).getMyAirRoomAdapter().notifyDataSetChanged();
 
             final LinearLayout sectionView = (LinearLayout) convertView.findViewById(R.id.section_item);
@@ -276,6 +276,20 @@ public class MyAirFragment extends BaseFragment {
             sectionName.setText(list.get(position).getName());
             final ListView roomList = (ListView) convertView.findViewById(R.id.room_list);
             final ImageView arrowIcon = (ImageView) convertView.findViewById(R.id.arrow_icon);
+            switch (UIManager.UITYPE) {
+                case 1:
+                    arrowIcon.setImageResource(R.drawable.icon_arrow_right_hit);
+                    sectionView.setBackgroundResource(R.drawable.room_section_box_hit);
+                    break;
+                case 2:
+                    arrowIcon.setImageResource(R.drawable.icon_arrow_right_dc);
+                    break;
+                default:
+                    arrowIcon.setImageResource(R.drawable.icon_arrow_right_hit);
+                    sectionView.setBackgroundResource(R.drawable.room_section_box_hit);
+                    break;
+            }
+            roomList.setVisibility(View.GONE);
             isCheck[position] = false;
             sectionView.setOnClickListener(new MyOnClickListener() {
                 @Override

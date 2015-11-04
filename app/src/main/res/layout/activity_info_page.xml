@@ -28,19 +28,20 @@
     <View
         android:id="@+id/seg_line1"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="#FFFFFF"
         android:layout_above="@+id/exit_button"/>
 
-    <ImageButton
+    <ImageView
         android:id="@+id/exit_button"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_margin="18dp"
+        android:scaleType="fitXY"
         android:layout_alignParentBottom="true"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:src="@drawable/top_bar_cancel_dc"
-        android:background="#00000000"
         />
 
 </RelativeLayout>

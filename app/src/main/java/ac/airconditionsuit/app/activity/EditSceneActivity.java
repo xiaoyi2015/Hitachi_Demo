@@ -63,7 +63,7 @@ public class EditSceneActivity extends BaseActivity{
                             }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
                     break;
                 case R.id.right_icon:
-                    final String check_scene_name = CheckUtil.checkLength(sceneName, 10, R.string.pls_input_scene_name, R.string.scene_name_length_too_long);
+                    final String check_scene_name = CheckUtil.checkLength(sceneName, 20, R.string.pls_input_scene_name, R.string.scene_name_length_too_long);
                     if (check_scene_name == null)
                         return;
                     if(is_add){
@@ -557,7 +557,7 @@ public class EditSceneActivity extends BaseActivity{
                     if (temp_on_off.get(position) != 2) {
                         if(temp_mode.get(position) == 1){
                             settingText.setText(onOffView1.getItemText(temp_on_off.get(position)) + "|" + modeView1.getItemText(temp_mode.get(position))
-                                    + "|" + fanView1.getItemText(temp_fan.get(position)) + "|" + tempView1.getItemText(temp_temp.get(position) + 2));
+                                    + "|" + fanView1.getItemText(temp_fan.get(position)) + "|" + tempView1.getItemText(temp_temp.get(position)));
                         }else{
                             settingText.setText(onOffView1.getItemText(temp_on_off.get(position)) + "|" + modeView1.getItemText(temp_mode.get(position))
                                     + "|" + fanView1.getItemText(temp_fan.get(position)) + "|" + tempView1.getItemText(temp_temp.get(position)));
@@ -582,7 +582,7 @@ public class EditSceneActivity extends BaseActivity{
 
                             if(temp_mode.get(position) == 1){
                                 airModePickerView.setTempHeatList();
-                                tempView.setDefault(temp_temp.get(position) + 2);
+                                tempView.setDefault(temp_temp.get(position));
                             }else{
                                 tempView.setDefault(temp_temp.get(position));
                             }
@@ -598,7 +598,7 @@ public class EditSceneActivity extends BaseActivity{
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             if(modeView.getSelected() == 1){
-                                                temp_temp.set(position, tempView.getSelected() - 2);
+                                                temp_temp.set(position, tempView.getSelected());
                                             }else{
                                                 temp_temp.set(position, tempView.getSelected());
                                             }
@@ -609,7 +609,7 @@ public class EditSceneActivity extends BaseActivity{
                                             if (temp_on_off.get(position) != 2) {
                                                 if(temp_mode.get(position) == 1){
                                                     settingText.setText(onOffView.getItemText(temp_on_off.get(position)) + "|" + modeView.getItemText(temp_mode.get(position))
-                                                            + "|" + fanView.getItemText(temp_fan.get(position)) + "|" + tempView.getItemText(temp_temp.get(position) + 2));
+                                                            + "|" + fanView.getItemText(temp_fan.get(position)) + "|" + tempView.getItemText(temp_temp.get(position)));
                                                 }else{
                                                     settingText.setText(onOffView.getItemText(temp_on_off.get(position)) + "|" + modeView.getItemText(temp_mode.get(position))
                                                             + "|" + fanView.getItemText(temp_fan.get(position)) + "|" + tempView.getItemText(temp_temp.get(position)));

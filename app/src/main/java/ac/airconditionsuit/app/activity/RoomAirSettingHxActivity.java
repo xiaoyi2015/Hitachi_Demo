@@ -67,28 +67,33 @@ public class RoomAirSettingHxActivity extends BaseActivity{
 
                 case R.id.mode_cool:
                     mode = 0;
-                    temp = 25;
+                    if(temp < 19){
+                        temp = 19;
+                    }
                     changeTemp(temp);
                     changeIconAndStatus(on_off, mode, fan);
                     break;
 
                 case R.id.mode_heat:
                     mode = 1;
-                    temp = 25;
                     changeTemp(temp);
                     changeIconAndStatus(on_off, mode, fan);
                     break;
 
                 case R.id.mode_dry:
                     mode = 2;
-                    temp = 25;
+                    if(temp < 19){
+                        temp = 19;
+                    }
                     changeTemp(temp);
                     changeIconAndStatus(on_off, mode, fan);
                     break;
 
                 case R.id.mode_fan:
                     mode = 3;
-                    temp = 25;
+                    if(temp < 19){
+                        temp = 19;
+                    }
                     changeTemp(temp);
                     changeIconAndStatus(on_off, mode, fan);
                     break;
@@ -137,13 +142,12 @@ public class RoomAirSettingHxActivity extends BaseActivity{
         airConditionControl.setWindVelocity(fan);
         try {
             MyApp.getApp().getAirConditionManager().controlRoom(room, airConditionControl);
-            enableButton(setOK);
         } catch (Exception e) {
             MyApp.getApp().showToast(getString(R.string.control_room_fail));
-            enableButton(setOK);
             Log.e(TAG, "control room fail!");
             e.printStackTrace();
         }
+        enableButton();
     }
 
     private int on_off;
@@ -215,7 +219,8 @@ public class RoomAirSettingHxActivity extends BaseActivity{
             public boolean handleMessage(Message msg) {
                 switch (msg.what) {
                     case ENABLE_OK_BUTTON:
-                        enableButton(setOK);
+                        setOK.setImageResource(R.drawable.room_ok_button_hx);
+                        setOK.setOnClickListener(myOnClickListener);
                         break;
                     default:
                         Log.e(TAG, "unhandle case in #hangler");
@@ -223,20 +228,18 @@ public class RoomAirSettingHxActivity extends BaseActivity{
                 return true;
             }
         });
-
+        setOK.setImageResource(R.drawable.room_ok_button_hx);
         init();
 
     }
 
-    private void enableButton(ImageView imageView) {
-        imageView.setOnClickListener(myOnClickListener);
-        imageView.setImageResource(R.drawable.room_icon_ok_hit);
-        handler.sendEmptyMessageDelayed(ENABLE_OK_BUTTON, 3000);
+    private void enableButton() {
+        handler.sendEmptyMessageDelayed(ENABLE_OK_BUTTON, 1200);
     }
 
     private void disableButton(ImageView imageView) {
+        imageView.setImageResource(R.drawable.room_ok_button_selected_hx);
         imageView.setOnClickListener(null);
-        imageView.setImageResource(R.drawable.room_icon_ok_hit);
     }
 
     private void init() {
@@ -247,8 +250,8 @@ public class RoomAirSettingHxActivity extends BaseActivity{
             temp = 25;
         }else {
             on_off = airCondition.getOnoff();
-            mode = airCondition.getMode();
-            fan = airCondition.getFan();
+            mode = airCondition.getAirconditionMode();
+            fan = airCondition.getAirconditionFan();
             temp = (int) airCondition.getTemperature();
         }
         changeTemp(temp);

@@ -6,6 +6,7 @@ import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.AirCondition;
 import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import ac.airconditionsuit.app.entity.ObserveData;
+import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.CommonDeviceView;
 import ac.airconditionsuit.app.view.CommonTopBar;
 import android.app.AlertDialog;
@@ -19,6 +20,7 @@ import android.widget.*;
 
 import java.util.List;
 import java.util.Observable;
+import java.util.TimerTask;
 
 /**
  * Created by Administrator on 2015/10/21.
@@ -35,7 +37,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
 
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.indoor_device_manage));
-        LinearLayout bottomBar = (LinearLayout) findViewById(R.id.bottom_bar);
+        RelativeLayout bottomBar = (RelativeLayout) findViewById(R.id.bottom_bar);
         TextView searchTip = (TextView) findViewById(R.id.search_tip);
         TextView searchIndoor = (TextView) findViewById(R.id.search_indoor);
         switch (UIManager.UITYPE) {
@@ -66,9 +68,28 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
         searchIndoorDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyApp.getApp().getSocketManager().searchIndoorAirCondition();
+                new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle("警告").setMessage("非专业人员请勿随意搜索室内机，数量变化会导致本地楼层和场景模式被清空").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showWaitProgress();
+                        MyApp.getApp().getSocketManager().searchIndoorAirCondition();
+
+                        TimerTask dismissWait = new TimerTask() {
+                            @Override
+                            public void run() {
+                                toastIndoorDeviceNumber();
+                            }
+                        };
+                        new java.util.Timer().schedule(dismissWait, 10000);
+                    }
+                }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
             }
         });
+    }
+
+    private void toastIndoorDeviceNumber() {
+        dismissWaitProgress();
+        MyApp.getApp().showToast("共搜索到" + MyApp.getApp().getServerConfigManager().getDeviceCount() + "台室内机");
     }
 
     @Override
@@ -86,6 +107,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     @Override
                     public void run() {
                         indoorDeviceAdapter.notifyDataSetChanged();
+                        toastIndoorDeviceNumber();
                     }
                 });
                 break;
@@ -155,15 +177,20 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                     et.setBackgroundResource(R.color.text_color_white);
                     et.setMinHeight(150);
-                    et.setHint(MyApp.getApp().getServerConfigManager().getDevices().get(position).getName());
+                    et.setText(MyApp.getApp().getServerConfigManager().getDevices().get(position).getName());
+                    et.setSelection(MyApp.getApp().getServerConfigManager().getDevices().get(position).getName().length());
                     new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle(R.string.rename_indoor_device).setView(et).
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    String device_new_name = et.getText().toString();
+                                    String device_new_name = CheckUtil.checkLength(et,20,R.string.device_name_empty_info,R.string.device_name_too_long_info);
+                                    if(device_new_name == null){
+                                        return;
+                                    }
                                     MyApp.getApp().getServerConfigManager().getDevices().get(position).setName(device_new_name);
                                     MyApp.getApp().getServerConfigManager().writeToFile();
                                     notifyDataSetChanged();
+                                    dialog.dismiss();
                                 }
                             }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
                 }

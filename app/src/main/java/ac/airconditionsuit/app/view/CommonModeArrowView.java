@@ -12,7 +12,7 @@ import ac.airconditionsuit.app.R;
 /**
  * Created by Administrator on 2015/10/17.
  */
-public class CommonModeArrowView extends LinearLayout {
+public class CommonModeArrowView extends RelativeLayout {
 
     public CommonModeArrowView(Context context) {
         super(context);

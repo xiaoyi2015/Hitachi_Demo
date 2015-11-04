@@ -3,6 +3,8 @@ package ac.airconditionsuit.app.activity;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,6 +34,7 @@ import ac.airconditionsuit.app.view.CommonTopBar;
  */
 public class RoomAirSettingActivity extends BaseActivity{
 
+    private static final int ENABLE_ON_OFF = 19985;
     private int on_off;
     private int mode;
     private int fan;
@@ -46,55 +49,27 @@ public class RoomAirSettingActivity extends BaseActivity{
         public void onClick(View v) {
             super.onClick(v);
             switch (v.getId()){
+
                 case R.id.left_icon:
                     Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
                     finish();
                     break;
+
                 case R.id.on_off_view:
                     on_off ++;
                     if(on_off > 1){
                         on_off = on_off - 2;
                     }
-                    submit();
-                    timer = new Timer();
-                    LayoutInflater inflater = LayoutInflater.from(RoomAirSettingActivity.this);
-                    v = inflater.inflate(R.layout.pop_up_set_onoff, null);
-                    final ProgressBar progressBar = (ProgressBar)v.findViewById(R.id.progress_bar);
-                    progressBar.setMax(100);
-                    progressBar.setProgress(0);
-                    final PopupWindow pop = new PopupWindow(v, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
-                    pop.setOutsideTouchable(false);
-                    RelativeLayout view = (RelativeLayout)findViewById(R.id.room_air_view);
-                    pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-
-                    for(int i = 0; i < 100; i++) {
-                        final int finalI = i;
-                        timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            progressBar.setProgress(finalI);
-                            }
-                        }, 0 ,100);
-                    }
-                    pop.dismiss();
+                    showWaitProgress();
+                    executeView.setVisibility(View.VISIBLE);
+                    enableButton();
                     break;
                 case R.id.mode_view:
-                    mode ++;
-                    switch (mode){
-                        case 0:
-                            temp = 25;
-                            break;
-                        case 1:
-                            temp = 25;
-                            break;
-                        case 2:
-                            temp = 25;
-                            break;
-                        case 3:
-                            temp = 25;
-                            break;
+                    if(temp < 19){
+                        temp = 19;
                     }
+                    mode ++;
                     if(mode > 3){
                         mode = mode - 4;
                     }
@@ -136,7 +111,8 @@ public class RoomAirSettingActivity extends BaseActivity{
             }
         }
     };
-    private Timer timer;
+    private Handler handler;
+    private TextView executeView;
 
     private void submit() {
         airConditionControl.setMode(mode);
@@ -204,9 +180,31 @@ public class RoomAirSettingActivity extends BaseActivity{
         roomModeText = (TextView)findViewById(R.id.mode_text);
         roomWindText = (TextView)findViewById(R.id.wind_text);
         roomOnOff = (ImageView)findViewById(R.id.on_off);
+        executeView = (TextView)findViewById(R.id.execute_command);
+        executeView.setVisibility(View.GONE);
+
+        handler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                switch (msg.what) {
+                    case ENABLE_ON_OFF:
+                        dismissWaitProgress();
+                        executeView.setVisibility(View.GONE);
+                        submit();
+                        break;
+                    default:
+                        Log.e(TAG, "unhandle case in #hangler");
+                }
+                return true;
+            }
+        });
 
         init();
 
+    }
+
+    private void enableButton() {
+        handler.sendEmptyMessageDelayed(ENABLE_ON_OFF, 1200);
     }
 
     private void init() {
@@ -217,8 +215,8 @@ public class RoomAirSettingActivity extends BaseActivity{
             temp = 25;
         }else {
             on_off = airCondition.getOnoff();
-            mode = airCondition.getMode();
-            fan = airCondition.getFan();
+            mode = airCondition.getAirconditionMode();
+            fan = airCondition.getAirconditionFan();
             temp = (int) airCondition.getTemperature();
         }
         if(airCondition.getRealTemperature() != AirCondition.UNFETCH) {

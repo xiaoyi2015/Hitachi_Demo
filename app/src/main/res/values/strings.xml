@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">i-EZ</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="tab_label_my_air_condition">我的空调</string>
@@ -10,7 +9,7 @@
     <string name="setting_home_setting">家的设置</string>
     <string name="software_page">软件界面个性化</string>
     <string name="device_list">设备列表</string>
-    <string name="add_device">+ 添加空调控制主机</string>
+    <string name="add_device">+ 添加i-EZ控制器</string>
 
     <string name="text_part1">您的建议或是技术问题对我们来说都十分的重要。\n
             收到您的邮件将是我们万分的荣幸。\n</string>
@@ -97,7 +96,7 @@
     <string name="is_delete_room">\n 确定要删除该房间吗？\n</string>
     <string name="change_user_name_failure">修改昵称失败</string>
     <string name="pls_input_nickname">请输入昵称</string>
-    <string name="nickname_length_too_long">输入昵称过长，不能超过10个字符</string>
+    <string name="nickname_length_too_long">输入昵称过长，不能超过20个字符</string>
     <string name="change_user_sex_failure">修改性别失败</string>
     <string name="is_quit_account">\n 确定要退出账号吗？\n</string>
     <string name="change_user_birthday_failure">修改生日失败</string>
@@ -147,9 +146,9 @@
     <string name="to_do_control_together">将对本场景执行一键式集中控制</string>
     <string name="is_to_do_control">\n是否要执行?\n</string>
     <string name="pls_input_scene_name">请输入场景名称</string>
-    <string name="scene_name_length_too_long">场景名称不能超过10个字符</string>
+    <string name="scene_name_length_too_long">场景名称不能超过20个字符</string>
     <string name="pls_input_clock_name">请输入定时名称</string>
-    <string name="clock_name_length_too_long">定时名称长度不能超过10个字符</string>
+    <string name="clock_name_length_too_long">定时名称长度不能超过20个字符</string>
     <string name="is_delete_scene">\n确定要删除该场景吗？\n</string>
     <string name="is_delete_clock">\n确定要删除该定时吗？\n</string>
     <string name="Monday">周一</string>
@@ -175,7 +174,7 @@
         设计和功能如有变更，恕不另行通知！</string>
     <string name="text_part1_hit">服务热线： 400-860-1111\n 版权所有@2015 青岛海信日立空调系统有限公司</string>
     <string name="none">——</string>
-    <string name="home_name_too_long_info">家的名称长度不能超过10个字符</string>
+    <string name="home_name_too_long_info">家的名称长度不能超过20个字符</string>
     <string name="host_device">设备管理器：</string>
     <string name="device_manage">设备管理</string>
     <string name="manager_text">你是此设备的管理者</string>
@@ -190,6 +189,7 @@
     <string name="is_delete_host_device">\n您是管理员，删除设备后，第一位成员将成为管理员，确定删除吗？\n</string>
     <string name="is_search_air_condition">\n是否搜索家中的空调\n</string>
     <string name="tip">提示</string>
+    <string name="tip_bind_hostdevice_ok">添加成功</string>
     <string name="is_delete_section">\n确定要删除该楼层吗？\n</string>
     <string name="qr_code_time_text">二维码有效时间为5分钟</string>
     <string name="search_tip">请操作墙面上空调的遥控按钮，软件中对应的空调小图标会闪烁！</string>
@@ -212,7 +212,7 @@
     <string name="settingFragmentCannotControl">手机无法连接服务器，且局域网无法控制</string>
     <string name="settingFragmentUnConnect">手机未联网</string>
     <string name="host_name_empty_info">设备管理器的名称不能为空</string>
-    <string name="host_name_too_long_info">设备管理器的名称长度不能超过10个字符</string>
+    <string name="host_name_too_long_info">设备管理器的名称长度不能超过20个字符</string>
     <string name="pls_add_air_to_room">房间里没有空调，请先添加空调到房间里！</string>
     <string name="fail_to_fetch_aircondition">连接主机失败，获取不到房间空调状态</string>
     <string name="unfetch_real_temp">获取实际温度失败</string>
@@ -234,6 +234,11 @@
     <string name="not_seek_ize">未搜索到i-EZ控制器！</string>
     <string name="not_seek_text">\n请确保i-EZ控制器已经正确工作，且与主机处于同一局域网内\n</string>
     <string name="go_back">返回</string>
-    <string name="manager_text3">您是此设备的成员</string>
+    <string name="manager_text3">你是此设备的成员</string>
+    <string name="device_name_empty_info">空调名称不能为空</string>
+    <string name="device_name_too_long_info">空调名称长度不能超过20个字符</string>
+    <string name="group_name_empty_info">群组名称不能为空</string>
+    <string name="group_name_too_long_info">群组名称长度不能超过20个字符</string>
+    <string name="executing">正在执行操作</string>
 
 </resources>

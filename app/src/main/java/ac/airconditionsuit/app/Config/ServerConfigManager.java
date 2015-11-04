@@ -64,6 +64,7 @@ public class ServerConfigManager {
 
     public void clearTimer() {
         rootJavaObj.setTimers(new ArrayList<Timer>());
+        MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.TIMER_STATUS_RESPONSE, null));
         writeToFile();
     }
 
@@ -85,6 +86,7 @@ public class ServerConfigManager {
                 && rootJavaObj.getConnection() != null
                 && rootJavaObj.getConnection().size() != 0;
     }
+
 
     public boolean hasHome() {
         return rootJavaObj != null
@@ -556,6 +558,15 @@ public class ServerConfigManager {
         } else {
             return -1;
         }
+    }
+
+    public String getCurrentChatIdStringForMenuInMyAirFragment() {
+        long t = getCurrentChatId();
+        if (t == -1) return "";
+//        if (t == MyApp.getApp().getServerConfigManager().getCurrentChatId()) return " (当前)";
+        if (t == MyApp.getApp().getServerConfigManager().getCurrentChatId()) return "";
+//        return " (" + t + ")";
+        return "";
     }
 
     public void setRootJavaObj(ServerConfig rootJavaObj) {

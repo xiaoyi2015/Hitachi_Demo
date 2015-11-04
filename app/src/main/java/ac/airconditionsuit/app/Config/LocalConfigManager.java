@@ -144,6 +144,19 @@ public class LocalConfigManager {
         return res;
     }
 
+    public List<String> getHomeDeviceStringListForMenuInMyAirFragment() {
+        List<String> res = new ArrayList<>();
+        for (String configFileName : getCurrentUserConfig().getHomeConfigFileNames()) {
+            ServerConfigManager serverConfigManager = new ServerConfigManager();
+            serverConfigManager.readFromFile(configFileName);
+            if (serverConfigManager.getRootJavaObj() == null) {
+                continue;
+            }
+            res.add(serverConfigManager.getCurrentChatIdStringForMenuInMyAirFragment());
+        }
+        return res;
+    }
+
     public void changeHome(int homeIndex) {
         getCurrentUserConfig().changeHome(homeIndex);
         saveToDisk();
