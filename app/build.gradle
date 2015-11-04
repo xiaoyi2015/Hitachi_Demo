@@ -60,6 +60,7 @@ dependencies {
     }
     compile 'com.umeng.analytics:analytics:latest.integration'
 
+
     // Unit testing dependencies
     testCompile 'junit:junit:4.12'
 

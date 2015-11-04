@@ -115,7 +115,9 @@ public class UdpPackageHandler {
 
                 int errorNoInt = Integer.parseInt(errorNo);
 
-                MyApp.getApp().showToast(UdpErrorNoUtil.getMessage(errorNoInt));
+                if (errorNoInt != 2001) {
+                    MyApp.getApp().showToast(UdpErrorNoUtil.getMessage(errorNoInt));
+                }
                 Log.i(TAG, "udp error: " + errorNo);
 
                 UdpPackage udpPackage = sentPackage.get(pfc);

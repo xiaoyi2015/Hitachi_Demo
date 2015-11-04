@@ -204,15 +204,13 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                         } else {
                             switch (status) {
                                 case SocketManager.TCP_HOST_CONNECT:
-                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentHasHostNoDevice);
+                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentConnectServer);
                                     break;
                                 default:
-                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentNoHostNoDevice);
+                                    connectionStatusView.setOnlineTextView(R.string.settingFragmentUnConnect);
                                     break;
                             }
                         }
-
-
                     }
                 });
             }

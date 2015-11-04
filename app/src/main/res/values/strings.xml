@@ -209,7 +209,7 @@
     <string name="settingFragmentWifiUdpConnect">通过局域网控制</string>
     <string name="settingFragmentConnectServer">i-EZ控制器未联网</string>
     <string name="settingFragmentWifiNoServer">APP正使用WiFi，但无法连接服务器</string>
-    <string name="settingFragmentCannotControl">无法连接服务器，且局域网无法控制</string>
+    <string name="settingFragmentCannotControl">手机无法连接服务器，且局域网无法控制</string>
     <string name="settingFragmentUnConnect">手机未联网</string>
     <string name="host_name_empty_info">设备管理器的名称不能为空</string>
     <string name="host_name_too_long_info">设备管理器的名称长度不能超过10个字符</string>
