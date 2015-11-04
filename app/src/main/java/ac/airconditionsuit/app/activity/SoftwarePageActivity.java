@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.activity;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -113,16 +114,16 @@ public class SoftwarePageActivity extends BaseActivity {
                 @Override
                 public boolean onLongClick(View v) {
                     LayoutInflater inflater = LayoutInflater.from(SoftwarePageActivity.this);
-                    v = inflater.inflate(R.layout.pop_up_window_section, null);
-                    final PopupWindow pop = new PopupWindow(v, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
+                    View v1 = inflater.inflate(R.layout.pop_up_window_section, null);
+                    final PopupWindow pop = new PopupWindow(v1, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
                     pop.setBackgroundDrawable(new BitmapDrawable());
                     pop.setOutsideTouchable(true);
                     RelativeLayout view = (RelativeLayout)findViewById(R.id.software_page_layout);
                     pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
 
-                    TextView cancel = (TextView)v.findViewById(R.id.cancel);
-                    TextView delete = (TextView)v.findViewById(R.id.delete_section);
-                    TextView change_name = (TextView)v.findViewById(R.id.change_name);
+                    TextView cancel = (TextView)v1.findViewById(R.id.cancel);
+                    TextView delete = (TextView)v1.findViewById(R.id.delete_section);
+                    TextView change_name = (TextView)v1.findViewById(R.id.change_name);
                     cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
