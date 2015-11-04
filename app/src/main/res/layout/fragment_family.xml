@@ -13,6 +13,7 @@
         <TextView
             android:id="@+id/admin_text"
             android:layout_width="match_parent"
+            android:textColor="@color/text_color_white"
             android:layout_height="25dp"
             android:gravity="center" />
 
@@ -29,6 +30,7 @@
         <TextView
             android:id="@+id/user_name"
             android:layout_width="match_parent"
+            android:textColor="@color/text_color_white"
             android:layout_height="25dp"
             android:gravity="center"
             android:layout_below="@+id/current_user" />
@@ -41,6 +43,7 @@
         android:layout_height="40dp"
         android:text="@string/delete_msg"
         android:layout_alignParentBottom="true"
+        android:textColor="@color/text_color_white"
         android:gravity="center"/>
 
     <ListView

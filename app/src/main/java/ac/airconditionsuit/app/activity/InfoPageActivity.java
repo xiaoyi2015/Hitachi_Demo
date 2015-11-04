@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.fragment.FamilyFragment;
@@ -28,7 +29,7 @@ public class InfoPageActivity extends BaseActivity{
         segmentControlView = (SegmentControlView)findViewById(R.id.SegmentControlView);
         setDefaultFragment();
         Listener();
-        ImageButton exit = (ImageButton)findViewById(R.id.exit_button);
+        ImageView exit = (ImageView)findViewById(R.id.exit_button);
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
