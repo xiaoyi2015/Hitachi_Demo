@@ -191,6 +191,14 @@ public class HttpClient {
             @Override
             protected CommonResponse parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
                 Log.v(TAG, "response rawJsonData:\n" + rawJsonData);
+                if (rawJsonData.equals("MOBILE_VALIDATE_CODE_ERROR")) {
+                    CommonResponse cr = new CommonResponse();
+                    cr.setCode(2002);
+                    CommonResponse.Message m = new CommonResponse.Message();
+                    m.setDialog("验证码错误");
+                    cr.setMsg(m);
+                    return cr;
+                }
                 return new Gson().fromJson(rawJsonData, CommonResponse.class);
             }
         });
