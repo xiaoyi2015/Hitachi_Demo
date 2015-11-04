@@ -90,7 +90,7 @@
         android:id="@+id/login_button"
         style="?android:textAppearanceSmall"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:gravity="center"
         android:layout_below="@id/psd_info"
         android:layout_centerHorizontal="true"
