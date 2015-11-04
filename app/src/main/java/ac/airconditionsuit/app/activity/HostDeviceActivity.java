@@ -9,6 +9,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import ac.airconditionsuit.app.MyApp;
@@ -91,7 +92,7 @@ public class HostDeviceActivity extends BaseActivity{
         }
         commonTopBar.setIconView(myOnClickListener, null);
 
-        CommonModeArrowView qrCode = (CommonModeArrowView)findViewById(R.id.host_device_qr_code);
+        RelativeLayout qrCode = (RelativeLayout)findViewById(R.id.host_device_qr_code);
         qrCode.setOnClickListener(myOnClickListener);
         ImageView imageView1 = (ImageView)qrCode.findViewById(R.id.onoff);
         ImageView imageView2 = (ImageView)qrCode.findViewById(R.id.mode);
@@ -117,16 +118,6 @@ public class HostDeviceActivity extends BaseActivity{
         if(MyApp.getApp().getUser().isAdmin()) {
             manageLabelText.setText(getString(R.string.manager_text));
             qrCode.setVisibility(View.VISIBLE);
-            textView.setVisibility(View.GONE);
-            imageView1.setVisibility(View.INVISIBLE);
-            imageView2.setVisibility(View.INVISIBLE);
-            imageView3.setVisibility(View.INVISIBLE);
-            imageView4.setVisibility(View.VISIBLE);
-            imageView4.setImageResource(R.drawable.common_2d_code);
-            imageView5.setImageResource(R.drawable.icon_arrow_right_dc);
-            textView1.setText(getString(R.string.qr_code));
-            textView1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
-
         }else{
             manageLabelText.setText(getString(R.string.manager_text3));
             qrCode.setVisibility(View.GONE);
