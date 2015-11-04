@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
@@ -118,6 +119,13 @@ public class RegisterActivity extends BaseActivity {
 
         if (isRegister) {
             commonTopBar.setTitle(getString(R.string.register_new_user));
+            TextView registerClause = (TextView) registerAgreeClause.findViewById(R.id.register_clause);
+            registerClause.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    shortStartActivity(AgreementActivity.class);
+                }
+            });
         } else {
             commonTopBar.setTitle(getString(R.string.find_password));
             registerAgreeClause.setVisibility(View.GONE);
