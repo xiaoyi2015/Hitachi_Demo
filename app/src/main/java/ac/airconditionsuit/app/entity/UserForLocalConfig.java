@@ -172,6 +172,14 @@ public class UserForLocalConfig {
                     }
                 });
             }
+            else {
+                homeConfigFileNames.remove(currentHomeIndex);
+                if (currentHomeIndex >= homeConfigFileNames.size()) {
+                    currentHomeIndex = homeConfigFileNames.size() - 1;
+                }
+                MyApp.getApp().getServerConfigManager().readFromFile();
+                MyApp.getApp().getSocketManager().recheckDevice();
+            }
             return true;
         }
     }

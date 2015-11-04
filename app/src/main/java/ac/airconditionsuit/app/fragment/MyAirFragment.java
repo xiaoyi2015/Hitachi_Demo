@@ -120,7 +120,8 @@ public class MyAirFragment extends BaseFragment {
         final BaseActivity baseActivity = myGetActivity();
         commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(MyApp.getApp().getServerConfigManager().getHome().getName());
-        if(MyApp.getApp().getLocalConfigManager().getLocalConfig().getHomeNum() <= 1){
+        boolean enableLock = false;
+        if(MyApp.getApp().getLocalConfigManager().getLocalConfig().getHomeNum() <= 1 && enableLock){
             commonTopBar.getTitleView().setOnClickListener(null);
         }else {
             commonTopBar.getTitleView().setOnClickListener(new View.OnClickListener() {
@@ -173,7 +174,7 @@ public class MyAirFragment extends BaseFragment {
             case 1:
                 commonTopBar.setRightIconView(R.drawable.top_bar_logo_hit);
                 commonTopBar.setIconView(null, myOnClickListener);
-                if(MyApp.getApp().getLocalConfigManager().getLocalConfig().getHomeNum() <= 1){
+                if(MyApp.getApp().getLocalConfigManager().getLocalConfig().getHomeNum() <= 1 && enableLock){
                     commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,null);
                 }else {
                     commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,
@@ -182,7 +183,7 @@ public class MyAirFragment extends BaseFragment {
                 break;
             case 2:
                 commonTopBar.setIconView(null, null);
-                if(MyApp.getApp().getLocalConfigManager().getLocalConfig().getHomeNum() <= 1){
+                if(MyApp.getApp().getLocalConfigManager().getLocalConfig().getHomeNum() <= 1 && enableLock){
                     commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,null);
                 }else {
                     commonTopBar.getTitleView().setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null,
@@ -192,7 +193,7 @@ public class MyAirFragment extends BaseFragment {
             default:
                 commonTopBar.setRightIconView(R.drawable.top_bar_logo_hx);
                 commonTopBar.setIconView(null, myOnClickListener);
-                if(MyApp.getApp().getLocalConfigManager().getLocalConfig().getHomeNum() <= 1){
+                if(MyApp.getApp().getLocalConfigManager().getLocalConfig().getHomeNum() <= 1 && enableLock){
                     commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null,null);
                 }else {
                     commonTopBar.getTitleView().setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null,
