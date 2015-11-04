@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/white_text_view_layout"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/label_text"
         android:textSize="19sp"
-        android:layout_gravity="left|center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
         android:layout_width="150dp"
         android:layout_height="wrap_content" />
 
     <ImageView
         android:id="@+id/onoff"
-        android:layout_marginLeft="20dp"
-        android:src="@drawable/cool_off_hit"
+        android:layout_toLeftOf="@+id/mode"
+        android:layout_centerVertical="true"
         android:scaleType="centerInside"
         android:layout_width="25dp"
         android:layout_height="25dp" />
@@ -24,7 +23,8 @@
     <ImageView
         android:id="@+id/mode"
         android:layout_marginLeft="2dp"
-        android:src="@drawable/onoff_off_hit"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/wind"
         android:scaleType="centerInside"
         android:layout_width="25dp"
         android:layout_height="25dp" />
@@ -32,15 +32,20 @@
     <ImageView
         android:id="@+id/wind"
         android:layout_marginLeft="2dp"
-        android:src="@drawable/fan1_off_hit"
+        android:layout_marginRight="57dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/arrow_right"
         android:scaleType="centerInside"
         android:layout_width="25dp"
         android:layout_height="25dp" />
 
     <ImageView
         android:id="@+id/temp_none"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="25dp"
         android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/arrow_right"
         android:src="@drawable/none_hit"
         android:scaleType="centerInside"
         android:layout_width="25dp"
@@ -48,22 +53,25 @@
 
     <TextView
         android:id="@+id/temp"
+        android:layout_centerVertical="true"
         android:textSize="16sp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="2dp"
-        android:text="@string/default_temp"
+        android:gravity="center"
+        android:layout_toLeftOf="@+id/arrow_right"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="5dp"
         android:layout_width="50dp"
         android:layout_height="25dp" />
 
 
     <ImageView
         android:id="@+id/arrow_right"
-        android:layout_gravity="right|center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
         android:scaleType="fitEnd"
         android:src="@drawable/icon_arrow_right_hit"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
 
 
-</LinearLayout>
+</RelativeLayout>

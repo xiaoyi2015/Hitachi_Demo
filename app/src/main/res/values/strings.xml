@@ -234,7 +234,7 @@
     <string name="not_seek_ize">未搜索到i-EZ控制器！</string>
     <string name="not_seek_text">\n请确保i-EZ控制器已经正确工作，且与主机处于同一局域网内\n</string>
     <string name="go_back">返回</string>
-    <string name="manager_text3">您是此设备的成员</string>
+    <string name="manager_text3">你是此设备的成员</string>
     <string name="device_name_empty_info">空调名称不能为空</string>
     <string name="device_name_too_long_info">空调名称长度不能超过10个字符</string>
     <string name="group_name_empty_info">群组名称不能为空</string>

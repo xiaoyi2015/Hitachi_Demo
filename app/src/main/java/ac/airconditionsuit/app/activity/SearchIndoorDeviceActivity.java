@@ -37,7 +37,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
 
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.indoor_device_manage));
-        LinearLayout bottomBar = (LinearLayout) findViewById(R.id.bottom_bar);
+        RelativeLayout bottomBar = (RelativeLayout) findViewById(R.id.bottom_bar);
         TextView searchTip = (TextView) findViewById(R.id.search_tip);
         TextView searchIndoor = (TextView) findViewById(R.id.search_indoor);
         switch (UIManager.UITYPE) {
