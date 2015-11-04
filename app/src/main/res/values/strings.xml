@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">i-EZ</string>
+    <string name="app_name">D-Controls</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="tab_label_my_air_condition">我的空调</string>
@@ -239,5 +239,6 @@
     <string name="device_name_too_long_info">空调名称长度不能超过10个字符</string>
     <string name="group_name_empty_info">群组名称不能为空</string>
     <string name="group_name_too_long_info">群组名称长度不能超过10个字符</string>
+    <string name="executing">正在执行操作</string>
 
 </resources>

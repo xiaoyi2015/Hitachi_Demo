@@ -405,7 +405,7 @@ public class SectionAndRoomView extends RelativeLayout {
                         roomWindSpeed.setVisibility(VISIBLE);
                         roomTemp.setTextColor(getResources().getColor(R.color.mode_off_gray));
                         bgBar.setImageResource(R.drawable.room_bg_bar_off_dc);
-                        switch (airCondition.getMode()){
+                        switch (airCondition.getAirconditionMode()){
                             case 0:
                                 roomMode.setImageResource(R.drawable.cool_off_dc);
                                 break;
@@ -419,7 +419,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomMode.setImageResource(R.drawable.fan_off_dc);
                                 break;
                         }
-                        switch (airCondition.getFan()){
+                        switch (airCondition.getAirconditionFan()){
                             case 0:
                                 roomWindSpeed.setImageResource(R.drawable.fan_off1_dc);
                                 break;
@@ -435,12 +435,12 @@ public class SectionAndRoomView extends RelativeLayout {
                         roomTempNone.setVisibility(GONE);
                         roomWindNone.setVisibility(GONE);
                         roomWindSpeed.setVisibility(VISIBLE);
-                        switch (airCondition.getMode()) {
+                        switch (airCondition.getAirconditionMode()) {
                             case 0:
                                 roomMode.setImageResource(R.drawable.cool_on_dc);
                                 bgBar.setImageResource(R.drawable.room_bg_bar_cool_dc);
                                 roomTemp.setTextColor(getResources().getColor(R.color.mode_cool_blue));
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan_cool1_dc);
                                         break;
@@ -455,7 +455,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomMode.setImageResource(R.drawable.heat_on_dc);
                                 bgBar.setImageResource(R.drawable.room_bg_bar_heat_dc);
                                 roomTemp.setTextColor(getResources().getColor(R.color.mode_heat_pink));
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan_heat1_dc);
                                         break;
@@ -470,7 +470,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomMode.setImageResource(R.drawable.dry_on_dc);
                                 bgBar.setImageResource(R.drawable.room_bg_bar_dry_dc);
                                 roomTemp.setTextColor(getResources().getColor(R.color.mode_dry_purple));
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan_dry1_dc);
                                         break;
@@ -485,7 +485,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                 roomMode.setImageResource(R.drawable.fan_on_dc);
                                 bgBar.setImageResource(R.drawable.room_bg_bar_fan_dc);
                                 roomTemp.setTextColor(getResources().getColor(R.color.mode_fan_green));
-                                switch (airCondition.getFan()){
+                                switch (airCondition.getAirconditionFan()){
                                     case 0:
                                         roomWindSpeed.setImageResource(R.drawable.fan_fan1_dc);
                                         break;

@@ -15,13 +15,15 @@
     <EditText
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:layout_below="@id/login_logo"
         android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
         android:drawableRight="@drawable/login_text_cancel"
         android:hint="@string/prompt_user_name"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:textSize="19sp"
         android:layout_marginTop="50dp"
         android:background="@drawable/login_edit_text_dc"
         android:inputType="phone"
@@ -38,17 +40,19 @@
         <EditText
             android:id="@+id/password"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
             android:layout_marginBottom="10dp"
             android:drawableRight="@drawable/login_text_cancel"
             android:background="@drawable/login_edit_text_dc"
             android:hint="@string/prompt_password"
+            android:textSize="19sp"
             android:inputType="textPassword"
             android:maxLines="1"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
             android:singleLine="true" />
 
         <CheckBox
@@ -86,13 +90,14 @@
         android:id="@+id/login_button"
         style="?android:textAppearanceSmall"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:gravity="center"
         android:layout_below="@id/psd_info"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:background="@drawable/login_edit_text_dc"
         android:text="@string/action_sign_in"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/login_add_user"
