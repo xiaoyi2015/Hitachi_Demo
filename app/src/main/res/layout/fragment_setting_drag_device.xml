@@ -27,7 +27,7 @@
 
     <TextView
         android:id="@+id/section_device_num"
-        android:layout_above="@+id/bottom_bar"
+        android:layout_above="@+id/scroll_view"
         android:gravity="center"
         android:textColor="@color/text_color_white"
         android:background="@color/text_color_gray"
@@ -36,13 +36,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:id="@+id/bottom_bar"
+    <HorizontalScrollView
+        android:id="@+id/scroll_view"
         android:layout_alignParentBottom="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="96dp">
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/bottom_bar"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="96dp">
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
 </RelativeLayout>
