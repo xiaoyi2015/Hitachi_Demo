@@ -563,8 +563,10 @@ public class ServerConfigManager {
     public String getCurrentChatIdStringForMenuInMyAirFragment() {
         long t = getCurrentChatId();
         if (t == -1) return "";
-        if (t == MyApp.getApp().getServerConfigManager().getCurrentChatId()) return " (当前)";
-        return " (" + t + ")";
+//        if (t == MyApp.getApp().getServerConfigManager().getCurrentChatId()) return " (当前)";
+        if (t == MyApp.getApp().getServerConfigManager().getCurrentChatId()) return "";
+//        return " (" + t + ")";
+        return "";
     }
 
     public void setRootJavaObj(ServerConfig rootJavaObj) {
