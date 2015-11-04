@@ -236,6 +236,11 @@ public class MyApp extends Application {
         this.socketManager.stopCheck();
     }
 
+    public void quitWithoutCleaningUser() {
+        this.socketManager.close();
+        this.socketManager.stopCheck();
+    }
+
     public static Context context() {
         return getApp().getApplicationContext();
     }
