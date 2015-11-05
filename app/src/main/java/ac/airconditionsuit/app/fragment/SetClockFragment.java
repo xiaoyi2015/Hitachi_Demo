@@ -95,7 +95,7 @@ public class SetClockFragment extends BaseFragment {
                 mHandler.sendEmptyMessageDelayed(REFRESH_OK, 2000);
             }
         });
-        refreshView.setColorScheme(android.R.color.holo_red_dark);
+        refreshView.setColorScheme(UIManager.getRefreshColor());
         listView = (ListView) view.findViewById(R.id.clock_list);
         clockSettingAdapter = new ClockSettingAdapter(getActivity(), null);
         listView.setAdapter(clockSettingAdapter);

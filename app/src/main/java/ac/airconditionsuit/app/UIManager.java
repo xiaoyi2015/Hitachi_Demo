@@ -87,4 +87,15 @@ public class UIManager {
         }
     }
 
+    public static int getRefreshColor(){
+        switch (UIManager.UITYPE){
+            case HIT:
+                return android.R.color.holo_red_dark;
+            case DC:
+                return R.color.text_normal_color;
+            default:
+                return R.color.delete_red_hx;
+        }
+    }
+
 }
