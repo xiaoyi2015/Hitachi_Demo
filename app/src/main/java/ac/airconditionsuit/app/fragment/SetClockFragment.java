@@ -76,6 +76,7 @@ public class SetClockFragment extends BaseFragment {
             switch (msg.what)
             {
                 case REFRESH_OK:
+                    MyApp.getApp().getAirConditionManager().queryTimerAll();
                     refreshView.setRefreshing(false);
                     break;
 
@@ -91,8 +92,7 @@ public class SetClockFragment extends BaseFragment {
         refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                MyApp.getApp().getAirConditionManager().queryTimerAll();
-                mHandler.sendEmptyMessageDelayed(REFRESH_OK, 2000);
+                mHandler.sendEmptyMessageDelayed(REFRESH_OK, 1200);
             }
         });
         refreshView.setColorScheme(UIManager.getRefreshColor());

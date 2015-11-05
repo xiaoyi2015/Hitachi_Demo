@@ -71,6 +71,7 @@ public class MyAirFragment extends BaseFragment {
             switch (msg.what)
             {
                 case REFRESH_COMPLETE:
+                    MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
                     refreshView.setRefreshing(false);
                     break;
 
@@ -86,11 +87,10 @@ public class MyAirFragment extends BaseFragment {
         refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
-                mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
+                mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 1200);
             }
         });
-        refreshView.setColorScheme(android.R.color.holo_red_dark);
+        refreshView.setColorScheme(UIManager.getRefreshColor());
         listView = (ListView) view.findViewById(R.id.section_view);
         myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), null);
         listView.setAdapter(myAirSectionAdapter);
