@@ -77,6 +77,7 @@ public class FamilyFragment extends Fragment {
                 @Override
                 public void onSuccess(GetChatCustListResponse response) {
                     inflaterUI(response.getCust_list());
+                    int n = response.getCust_list().size();
                 }
 
                 @Override
@@ -95,7 +96,7 @@ public class FamilyFragment extends Fragment {
         }
         List<MyUser> customers1 = new ArrayList<>();
         for (int i = 0; i < cust_list.size(); i++) {
-            if ((!Objects.equals(cust_list.get(i).getCust_id(), MyApp.getApp().getUser().getCust_id())) && (!Objects.equals(cust_list.get(i).getCust_name(), ""))) {
+            if (!Objects.equals(cust_list.get(i).getCust_id(), MyApp.getApp().getUser().getCust_id())) {
                 if (cust_list.get(i).getCust_id() <= 0x01000000000000l && cust_list.get(i).getCust_id() >= 0)
                     customers1.add(cust_list.get(i));
             }
