@@ -45,59 +45,59 @@ public class SceneFragment extends BaseFragment {
             super.onClick(v);
             switch (v.getId()) {
                 case R.id.right_icon:
-                    if (click_num == 0) {
-                        switch (UIManager.UITYPE) {
-                            case 1:
-                                commonTopBar.setLeftIconView(R.drawable.top_bar_add_hit);
-                                commonTopBar.setRightIconView(R.drawable.top_bar_save_hit);
-                                break;
-                            case 2:
-                                commonTopBar.setLeftIconView(R.drawable.top_bar_add_dc);
-                                commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
-                                break;
-                            default:
-                                commonTopBar.setLeftIconView(R.drawable.top_bar_add_dc);
-                                commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
-                                break;
-                        }
+                    int status = MyApp.getApp().getSocketManager().getStatus();
+                    if (status == SocketManager.UDP_DEVICE_CONNECT
+                            || status == SocketManager.TCP_DEVICE_CONNECT) {
+                        if (click_num == 0) {
+                            switch (UIManager.UITYPE) {
+                                case 1:
+                                    commonTopBar.setLeftIconView(R.drawable.top_bar_add_hit);
+                                    commonTopBar.setRightIconView(R.drawable.top_bar_save_hit);
+                                    break;
+                                case 2:
+                                    commonTopBar.setLeftIconView(R.drawable.top_bar_add_dc);
+                                    commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                                    break;
+                                default:
+                                    commonTopBar.setLeftIconView(R.drawable.top_bar_add_dc);
+                                    commonTopBar.setRightIconView(R.drawable.top_bar_save_dc);
+                                    break;
+                            }
 
-                        commonTopBar.setTitle(getString(R.string.edit_scene));
-                        commonTopBar.setIconView(myOnClickListener, myOnClickListener);
-                        click_num = 1;
-                    } else {
-                        commonTopBar.setTitle(getString(R.string.tab_label_scene_mode));
-                        switch (UIManager.UITYPE) {
-                            case 1:
-                                commonTopBar.setRightIconView(R.drawable.top_bar_edit_hit);
-                                break;
-                            case 2:
-                                commonTopBar.setRightIconView(R.drawable.top_bar_edit_dc);
-                                break;
-                            default:
-                                commonTopBar.setRightIconView(R.drawable.top_bar_edit_dc);
-                                break;
-                        }
+                            commonTopBar.setTitle(getString(R.string.edit_scene));
+                            commonTopBar.setIconView(myOnClickListener, myOnClickListener);
+                            click_num = 1;
+                        } else {
+                            commonTopBar.setTitle(getString(R.string.tab_label_scene_mode));
+                            switch (UIManager.UITYPE) {
+                                case 1:
+                                    commonTopBar.setRightIconView(R.drawable.top_bar_edit_hit);
+                                    break;
+                                case 2:
+                                    commonTopBar.setRightIconView(R.drawable.top_bar_edit_dc);
+                                    break;
+                                default:
+                                    commonTopBar.setRightIconView(R.drawable.top_bar_edit_dc);
+                                    break;
+                            }
 
-                        commonTopBar.setIconView(null, myOnClickListener);
-                        click_num = 0;
+                            commonTopBar.setIconView(null, myOnClickListener);
+                            click_num = 0;
+                        }
+                    }
+                    else {
+                        MyApp.getApp().showToast("未连接i-EZ控制器，无法编辑场景");
                     }
                     break;
                 case R.id.left_icon:
-                    int status = MyApp.getApp().getSocketManager().getStatus();
                     if(MyApp.getApp().getServerConfigManager().getScene().size() >= 16){
                         MyApp.getApp().showToast("场景数量不能超过16个");
                         return;
                     }
-                    if (status == SocketManager.UDP_DEVICE_CONNECT
-                            || status == SocketManager.TCP_DEVICE_CONNECT) {
-                        Intent intent = new Intent();
-                        intent.putExtra("title", "");
-                        intent.setClass(getActivity(), EditSceneActivity.class);
-                        startActivityForResult(intent, REQUEST_CODE_EDIT_SCENE);
-                    }
-                    else {
-                        MyApp.getApp().showToast("未连接i-EZ控制器，无法添加场景");
-                    }
+                    Intent intent = new Intent();
+                    intent.putExtra("title", "");
+                    intent.setClass(getActivity(), EditSceneActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_EDIT_SCENE);
                     break;
             }
         }
