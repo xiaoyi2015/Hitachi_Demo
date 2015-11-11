@@ -123,6 +123,7 @@ public class ServerConfig extends RootEntity{
             }
         }
         timers.add(timer);
+        resortTimers();
     }
 
     public void resortTimers() {
