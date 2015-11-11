@@ -24,5 +24,6 @@
     <color name="delete_red_hx">#4bc3bc</color>
     <color name="bg_gray">#333333</color>
     <color name="color_gray">#bf000000</color>
+    <color name="transparent_bg2">#3d3d3d</color>
 
 </resources>
