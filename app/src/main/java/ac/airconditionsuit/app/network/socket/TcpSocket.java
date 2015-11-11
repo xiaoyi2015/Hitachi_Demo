@@ -69,15 +69,7 @@ public class TcpSocket implements SocketWrap {
         byte[] tempForRead = new byte[256];
         //先读取tcp包头部的六个字节
         while (readQueue.size() < 6) {
-            if (socket != null && socket.isConnected()) {
-                int readCount = socket.getInputStream().read(tempForRead, 0, 255);
-                if (readCount <= 0) {
-                    throw new IOException("read data return -1 or 0");
-                }
-                readQueue.offer(tempForRead, 0, readCount);
-            } else {
-                throw new IOException("read fail because socket is null or socket is close");
-            }
+            _read(tempForRead);
         }
         byte[] header = readQueue.poll(6);
 
@@ -85,15 +77,7 @@ public class TcpSocket implements SocketWrap {
         //读取body
         int bodyLength = ByteUtil.byteArrayToShort(header, 1);
         while (readQueue.size() < bodyLength) {
-            if (socket != null && socket.isConnected()) {
-                int readCount = socket.getInputStream().read(tempForRead, 0, 255);
-                if (readCount <= 0) {
-                    throw new IOException("read data return -1 or 0");
-                }
-                readQueue.offer(tempForRead, 0, readCount);
-            } else {
-                throw new IOException("read fail because socket is null or socket is close");
-            }
+            _read(tempForRead);
         }
 
         byte[] body = readQueue.poll(bodyLength);
@@ -109,9 +93,22 @@ public class TcpSocket implements SocketWrap {
         return result;
     }
 
+    private void _read(byte[] tempForRead) throws IOException {
+        if (socket != null && socket.isConnected()) {
+            int readCount = socket.getInputStream().read(tempForRead, 0, 255);
+            if (readCount <= 0) {
+                throw new IOException("read data return -1 or 0");
+            }
+            readQueue.offer(tempForRead, 0, readCount);
+        } else {
+            throw new IOException("read fail because socket is null or socket is close");
+        }
+    }
+
     @Override
     public void receiveDataAndHandle() throws IOException {
         byte[] receiveData = readMessage();
+        
         Log.i(TAG, "receive data from tcp: " + ByteUtil.byteArrayToReadableHexString(receiveData));
 
         //检查头尾标志，长度，checksum, 如果有问题就会抛出异常。

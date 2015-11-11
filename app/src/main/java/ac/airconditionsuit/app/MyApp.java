@@ -68,7 +68,7 @@ public class MyApp extends Application {
 
         MyApp.getApp().initAirConditionManager();
 
-        Log.v(TAG, getDeviceInfo(this));
+//        Log.v(TAG, getDeviceInfo(this));
     }
 
 
@@ -121,6 +121,11 @@ public class MyApp extends Application {
     }
 
     public void initSocketManager() {
+        if (socketManager != null){
+            socketManager.close();
+            socketManager.stopCheck();
+            socketManager = null;
+        }
         socketManager = new SocketManager();
         socketManager.init();
     }
@@ -212,6 +217,10 @@ public class MyApp extends Application {
      * @param string string will be show
      */
     public void showToast(final String string) {
+        if (string == null || string.length() == 0 || string.contains("token 错误")) {
+            return;
+        }
+
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -236,10 +245,10 @@ public class MyApp extends Application {
         this.socketManager.stopCheck();
     }
 
-    public void quitWithoutCleaningUser() {
-        this.socketManager.close();
-        this.socketManager.stopCheck();
-    }
+//    public void quitWithoutCleaningUser() {
+//        this.socketManager.close();
+//        this.socketManager.stopCheck();
+//    }
 
     public static Context context() {
         return getApp().getApplicationContext();

@@ -135,8 +135,7 @@ public class HttpClient {
             public void onSuccess(int statusCode, org.apache.http.Header[] headers, String rawJsonResponse, CommonResponse response) {
                 //handle result
                 if (response.getCode() != 2000) {
-                    if (response.getCode() != 2001)
-                        onFailure(statusCode, headers, rawJsonResponse, new CommonError(response.getMsg()));
+                    onFailure(statusCode, headers, rawJsonResponse, new CommonError(response.getMsg()));
                 } else {
                     if (handler != null) {
                         try {
@@ -172,7 +171,8 @@ public class HttpClient {
                             if (throwable instanceof JsonSyntaxException) {
                                 MyApp.getApp().showToast(R.string.toast_inf_net_data_error);
                             } else if (throwable instanceof CommonError) {
-                                MyApp.getApp().showToast(((CommonError) throwable).getMyMessage().getDialog());
+                                CommonError commonError = (CommonError) throwable;
+                                MyApp.getApp().showToast(commonError.getMyMessage().getDialog());
                             } else {
                                 MyApp.getApp().showToast(throwable.getMessage());
                             }

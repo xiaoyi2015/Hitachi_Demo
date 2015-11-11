@@ -291,8 +291,12 @@ public class ServerConfigManager {
                 }
                 for (Command command : commands) {
                     if (flag) {
-                        int realAddress = devices.get(command.getAddress()).getAddress();
-                        command.setAddress(realAddress);
+                        if (command.getAddress() >= 32) {
+                            command.setAddress(0);
+                        } else {
+                            int realAddress = devices.get(command.getAddress()).getAddress();
+                            command.setAddress(realAddress);
+                        }
                     } else {
                         int realAddress = command.getAddress();
                         for (int i = 0; i < devices.size(); ++i) {
@@ -351,7 +355,7 @@ public class ServerConfigManager {
      */
     public void uploadToServer() {
         Log.v("liutao", "上传配置文件到服务器");
-        if (!hasDevice()) {
+        if (!hasDevice() || MyApp.getApp().getUser() == null) {
             return;
         }
         File currentHomeConfigFile = new File(fileName);
@@ -653,14 +657,30 @@ public class ServerConfigManager {
         if (contentData.length != count + 1) {
             Log.e(TAG, "decode air condition address fail");
         }
-        List<DeviceFromServerConfig> newDevice = new ArrayList<>();
+        List<DeviceFromServerConfig> newDevices = new ArrayList<>();
         for (int i = 1; i < contentData.length; ++i) {
             DeviceFromServerConfig tempDevice = new DeviceFromServerConfig(contentData[i]);
-            newDevice.add(tempDevice);
+            newDevices.add(tempDevice);
         }
-        getRootJavaObj().setDevices(newDevice);
+
+        List<DeviceFromServerConfig> oldDevices = getRootJavaObj().getDevices();
+        if (oldDevices != null) {
+            for (DeviceFromServerConfig oldDevice : oldDevices) {
+                for (DeviceFromServerConfig newDevice : newDevices){
+                    if (newDevice.getAddress() == oldDevice.getAddress()) {
+                        newDevice.setName(oldDevice.getName());
+                    }
+                }
+            }
+        }
+        getRootJavaObj().setDevices(newDevices);
+
         ObserveData od = new ObserveData(ObserveData.SEARCH_AIR_CONDITION_RESPONSE, getDevices());
         MyApp.getApp().getSocketManager().notifyActivity(od);
+
+        if (oldDevices != null && oldDevices.size() != 0 && oldDevices.size() != newDevices.size()) {
+            MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.SEARCH_AIR_CONDITION_NUMBERDIFFERENT));
+        }
     }
 
 
@@ -682,6 +702,18 @@ public class ServerConfigManager {
 
     public void deleteAllTimer() {
         rootJavaObj.setTimers(new ArrayList<Timer>());
+        writeToFile();
+    }
+
+    public void airconditionNumberChange() {
+        if (rootJavaObj.getScenes() != null) {
+            rootJavaObj.getScenes().clear();
+        }
+
+        if (rootJavaObj.getSections() != null) {
+            rootJavaObj.getSections().clear();
+        }
+
         writeToFile();
     }
 }
