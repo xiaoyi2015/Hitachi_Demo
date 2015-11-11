@@ -79,7 +79,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                         searchTimerTask = new TimerTask() {
                             @Override
                             public void run() {
-                                toastIndoorDeviceNumber();
+                                MyApp.getApp().showToast("未搜索到室内机");
                             }
                         };
                         new java.util.Timer().schedule(searchTimerTask, 10000);
