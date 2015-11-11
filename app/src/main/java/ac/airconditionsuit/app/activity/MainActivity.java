@@ -146,6 +146,7 @@ public class MainActivity extends BaseActivity {
     }
 
     long exitTime = 0;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
@@ -155,7 +156,7 @@ public class MainActivity extends BaseActivity {
                 MyApp.getApp().showToast(msg);
                 exitTime = System.currentTimeMillis();
             } else {
-                MyApp.getApp().quitWithoutCleaningUser();
+                MyApp.getApp().offLine();
                 finish();
             }
             return true;

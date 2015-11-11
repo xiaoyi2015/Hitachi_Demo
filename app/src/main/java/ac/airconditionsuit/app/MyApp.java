@@ -68,7 +68,7 @@ public class MyApp extends Application {
 
         MyApp.getApp().initAirConditionManager();
 
-        Log.v(TAG, getDeviceInfo(this));
+//        Log.v(TAG, getDeviceInfo(this));
     }
 
 
@@ -121,6 +121,11 @@ public class MyApp extends Application {
     }
 
     public void initSocketManager() {
+        if (socketManager != null){
+            socketManager.close();
+            socketManager.stopCheck();
+            socketManager = null;
+        }
         socketManager = new SocketManager();
         socketManager.init();
     }
@@ -236,10 +241,10 @@ public class MyApp extends Application {
         this.socketManager.stopCheck();
     }
 
-    public void quitWithoutCleaningUser() {
-        this.socketManager.close();
-        this.socketManager.stopCheck();
-    }
+//    public void quitWithoutCleaningUser() {
+//        this.socketManager.close();
+//        this.socketManager.stopCheck();
+//    }
 
     public static Context context() {
         return getApp().getApplicationContext();

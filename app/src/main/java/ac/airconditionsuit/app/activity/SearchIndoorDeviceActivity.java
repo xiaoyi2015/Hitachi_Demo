@@ -100,20 +100,30 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
 
         ObserveData od = (ObserveData) data;
         switch (od.getMsg()) {
-//            case ObserveData.AIR_CONDITION_STATUS_RESPONSE:
-//                AirCondition airCondition = (AirCondition) od.getData();
-//                //untodo for zhulinan
-//                break;
             case ObserveData.SEARCH_AIR_CONDITION_RESPONSE:
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         indoorDeviceAdapter.notifyDataSetChanged();
                         searchTimerTask.cancel();
+                        searchTimerTask = null;
                         toastIndoorDeviceNumber();
                         MyApp.getApp().getServerConfigManager().writeToFile();
                     }
                 });
+                break;
+            case ObserveData.SEARCH_AIR_CONDITION_NUMBERDIFFERENT:
+                if (searchTimerTask != null) {
+                    searchTimerTask.cancel();
+                }
+                new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle("警告")
+                        .setMessage("扫描到的空调室内机数量发生变化，将清除所有的个性化和场景设置")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                MyApp.getApp().getServerConfigManager().airconditionNumberChange();
+                            }
+                        }).setCancelable(false).show();
                 break;
         }
     }
@@ -188,8 +198,8 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    String device_new_name = CheckUtil.checkLength(et,20,R.string.device_name_empty_info,R.string.device_name_too_long_info);
-                                    if(device_new_name == null){
+                                    String device_new_name = CheckUtil.checkLength(et, 20, R.string.device_name_empty_info, R.string.device_name_too_long_info);
+                                    if (device_new_name == null) {
                                         return;
                                     }
                                     MyApp.getApp().getServerConfigManager().getDevices().get(position).setName(device_new_name);

@@ -102,6 +102,7 @@ public class ChangePasswordActivity extends BaseActivity{
 
             @Override
             public void onSuccess(String response) {
+                MyApp.getApp().offLine();
                 Intent intent = new Intent();
                 intent.setClass(ChangePasswordActivity.this,LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
