@@ -79,6 +79,7 @@ public class EditClockActivity extends BaseActivity{
                         timer_temp.setFan(temp_fan);
                         timer_temp.setOnoff(temp_on_off);
                         timer_temp.setTemperature(temp_temp);
+                        timer_temp.setTimerenabled(true);
                         ArrayList<Integer> week_list_temp = new ArrayList<>();
                         week_list_temp.clear();
                         for(int i = 0; i < 7; i++){

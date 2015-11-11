@@ -221,6 +221,7 @@ public class SceneFragment extends BaseFragment {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 try {
                                                     MyApp.getApp().getAirConditionManager().controlScene(list.get(position));
+                                                    MyApp.getApp().showToast("指令发送完成");
                                                 } catch (Exception e) {
                                                     MyApp.getApp().showToast("控制场景失败");
                                                     Log.e(TAG, "control scene fail!");
