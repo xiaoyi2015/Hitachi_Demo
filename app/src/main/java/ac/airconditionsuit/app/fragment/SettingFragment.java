@@ -116,6 +116,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         commonTopBar.setIconView(null, null);
         commonTopBar.setRoundLeftIconView(null);
         commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        commonTopBar.getTitleView().setOnClickListener(null);
     }
 
 

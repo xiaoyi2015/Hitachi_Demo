@@ -116,6 +116,7 @@ public class SetClockFragment extends BaseFragment {
         CommonTopBar commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_set_time));
         commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        commonTopBar.getTitleView().setOnClickListener(null);
         switch (UIManager.UITYPE) {
             case 1:
                 commonTopBar.setRightIconView(R.drawable.top_bar_add_hit);

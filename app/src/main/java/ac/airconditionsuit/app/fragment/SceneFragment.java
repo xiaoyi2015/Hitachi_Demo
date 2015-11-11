@@ -144,6 +144,7 @@ public class SceneFragment extends BaseFragment {
         commonTopBar = baseActivity.getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.tab_label_scene_mode));
         commonTopBar.getTitleView().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        commonTopBar.getTitleView().setOnClickListener(null);
         switch (UIManager.UITYPE) {
             case 1:
                 commonTopBar.setRightIconView(R.drawable.top_bar_edit_hit);
