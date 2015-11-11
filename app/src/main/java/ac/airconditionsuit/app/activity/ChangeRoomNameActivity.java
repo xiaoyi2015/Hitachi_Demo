@@ -128,13 +128,8 @@ public class ChangeRoomNameActivity extends BaseActivity{
             }
             ((CommonDeviceView)convertView).setBottomName(MyApp.getApp().getServerConfigManager().getDevices().
                     get(room.getElements().get(position)).getName());
-            if(MyApp.getApp().getServerConfigManager().getDevices().get(room.getElements().get(position)).getIndooraddress()<10) {
-                ((CommonDeviceView) convertView).setRightUpText(String.valueOf(room.getElements().get(position))
-                        + "-0" + MyApp.getApp().getServerConfigManager().getDevices().get(room.getElements().get(position)).getIndooraddress());
-            }else{
-                ((CommonDeviceView) convertView).setRightUpText(String.valueOf(room.getElements().get(position))
-                        + "-" + MyApp.getApp().getServerConfigManager().getDevices().get(room.getElements().get(position)).getIndooraddress());
-            }
+            ((CommonDeviceView) convertView).setRightUpText(MyApp.getApp().getServerConfigManager().getDevices().
+                    get(room.getElements().get(position)).getFormatNameByIndoorIndexAndAddress());
             convertView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
