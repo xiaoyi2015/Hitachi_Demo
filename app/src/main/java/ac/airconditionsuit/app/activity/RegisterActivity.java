@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.activity;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -120,6 +121,8 @@ public class RegisterActivity extends BaseActivity {
         if (isRegister) {
             commonTopBar.setTitle(getString(R.string.register_new_user));
             TextView registerClause = (TextView) registerAgreeClause.findViewById(R.id.register_clause);
+            registerClause.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+            registerClause.getPaint().setFakeBoldText(true);
             registerClause.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
