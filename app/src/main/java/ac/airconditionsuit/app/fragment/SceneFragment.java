@@ -25,6 +25,7 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.activity.BaseActivity;
 import ac.airconditionsuit.app.activity.EditSceneActivity;
 import ac.airconditionsuit.app.listener.MyOnClickListener;
+import ac.airconditionsuit.app.network.socket.SocketManager;
 import ac.airconditionsuit.app.view.CommonTopBar;
 
 /**
@@ -82,14 +83,21 @@ public class SceneFragment extends BaseFragment {
                     }
                     break;
                 case R.id.left_icon:
+                    int status = MyApp.getApp().getSocketManager().getStatus();
                     if(MyApp.getApp().getServerConfigManager().getScene().size() >= 16){
                         MyApp.getApp().showToast("场景数量不能超过16个");
                         return;
                     }
-                    Intent intent = new Intent();
-                    intent.putExtra("title", "");
-                    intent.setClass(getActivity(), EditSceneActivity.class);
-                    startActivityForResult(intent, REQUEST_CODE_EDIT_SCENE);
+                    if (status == SocketManager.UDP_DEVICE_CONNECT
+                            || status == SocketManager.TCP_DEVICE_CONNECT) {
+                        Intent intent = new Intent();
+                        intent.putExtra("title", "");
+                        intent.setClass(getActivity(), EditSceneActivity.class);
+                        startActivityForResult(intent, REQUEST_CODE_EDIT_SCENE);
+                    }
+                    else {
+                        MyApp.getApp().showToast("未连接i-EZ控制器，无法添加场景");
+                    }
                     break;
             }
         }
@@ -225,7 +233,7 @@ public class SceneFragment extends BaseFragment {
                             MyApp.getApp().showToast("请先搜索室内机");
                         }
                     } else {
-                        MyApp.getApp().showToast("请先添加主机");
+                        MyApp.getApp().showToast("请先添加i-EZ控制器");
                     }
                 }
             });
