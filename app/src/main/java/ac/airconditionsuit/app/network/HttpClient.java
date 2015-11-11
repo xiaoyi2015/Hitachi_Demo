@@ -135,8 +135,7 @@ public class HttpClient {
             public void onSuccess(int statusCode, org.apache.http.Header[] headers, String rawJsonResponse, CommonResponse response) {
                 //handle result
                 if (response.getCode() != 2000) {
-                    if (response.getCode() != 2001)
-                        onFailure(statusCode, headers, rawJsonResponse, new CommonError(response.getMsg()));
+                    onFailure(statusCode, headers, rawJsonResponse, new CommonError(response.getMsg()));
                 } else {
                     if (handler != null) {
                         try {
@@ -173,9 +172,7 @@ public class HttpClient {
                                 MyApp.getApp().showToast(R.string.toast_inf_net_data_error);
                             } else if (throwable instanceof CommonError) {
                                 CommonError commonError = (CommonError) throwable;
-                                if (!commonError.getMyMessage().getStr().equals("token error")) {
-                                    MyApp.getApp().showToast(commonError.getMyMessage().getDialog());
-                                }
+                                MyApp.getApp().showToast(commonError.getMyMessage().getDialog());
                             } else {
                                 MyApp.getApp().showToast(throwable.getMessage());
                             }

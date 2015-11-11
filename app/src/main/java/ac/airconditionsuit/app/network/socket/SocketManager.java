@@ -279,7 +279,7 @@ public class SocketManager extends Observable {
             public void run() {
                 init();
             }
-        }, 5000);
+        }, 500);
         Log.i(TAG, "reconnect");
     }
 

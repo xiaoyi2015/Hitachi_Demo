@@ -291,8 +291,12 @@ public class ServerConfigManager {
                 }
                 for (Command command : commands) {
                     if (flag) {
-                        int realAddress = devices.get(command.getAddress()).getAddress();
-                        command.setAddress(realAddress);
+                        if (command.getAddress() >= 32) {
+                            command.setAddress(0);
+                        } else {
+                            int realAddress = devices.get(command.getAddress()).getAddress();
+                            command.setAddress(realAddress);
+                        }
                     } else {
                         int realAddress = command.getAddress();
                         for (int i = 0; i < devices.size(); ++i) {

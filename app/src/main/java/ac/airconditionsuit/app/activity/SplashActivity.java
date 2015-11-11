@@ -19,27 +19,15 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        MobclickAgent.setDebugMode(true);
-        MobclickAgent.reportError(this, "error");
+//        MobclickAgent.setDebugMode(true);
+//        MobclickAgent.reportError(this, "error");
         super.onCreate(savedInstanceState);
         setContentView(UIManager.getSplashLayout());
-
-//        new AsyncHttpClient().get(this, "http://www.baidu.com", new AsyncHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-//                System.out.println(statusCode);
-//                System.out.println(new String(responseBody));
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-//
-//            }
-//        });
 
         beginTime = System.currentTimeMillis();
 
         final String password = MyApp.getApp().getLocalConfigManager().getCurrentUserRememberedPassword();
+        MyApp.getApp().setUser(MyApp.getApp().getLocalConfigManager().getCurrentUserInformation());
         if (password != null && password.length() != 0) {
             MyApp app = MyApp.getApp();
             app.initServerConfigManager(new CommonNetworkListener() {
@@ -48,11 +36,11 @@ public class SplashActivity extends BaseActivity {
                 public void onSuccess() {
                     long currentTime = System.currentTimeMillis();
                     if (currentTime - beginTime < 2000) {
-//                        try {
-//                            Thread.sleep(2000 - (currentTime - beginTime));
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
+                        try {
+                            Thread.sleep(2000 - (currentTime - beginTime));
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     MyUser user = MyApp.getApp().getUser();

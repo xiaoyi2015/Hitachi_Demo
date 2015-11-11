@@ -217,6 +217,10 @@ public class MyApp extends Application {
      * @param string string will be show
      */
     public void showToast(final String string) {
+        if (string == null || string.length() == 0 || string.contains("token 错误")) {
+            return;
+        }
+
         handler.post(new Runnable() {
             @Override
             public void run() {
