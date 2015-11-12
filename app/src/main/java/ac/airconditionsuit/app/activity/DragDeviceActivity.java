@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
@@ -55,6 +56,7 @@ public class DragDeviceActivity extends BaseActivity {
     };
     private DragDeviceAdapter dragDeviceAdapter;
     private int index;
+    private int room_num = 2000;
 
     private class DragDeviceAdapter extends BaseAdapter {
         private Context context;
@@ -145,8 +147,17 @@ public class DragDeviceActivity extends BaseActivity {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    shortStartActivityForResult(ChangeRoomNameActivity.class,REQUEST_CODE_CHANGE_NAME,
-                            "index",String.valueOf(position),"room",rooms.get(position).toJsonString());
+                    /*
+                    ArrayList<String> room_name_list = new ArrayList<>();
+                    for(int i = 0; i < rooms.size(); i++){
+                        room_name_list.add(rooms.get(i).getName());
+                    }*/
+                    Intent intent = new Intent();
+                    intent.putExtra("index", position);
+                    intent.putExtra("room", rooms.get(position).toJsonString());
+                    //intent.putStringArrayListExtra("name_list", room_name_list);
+                    intent.setClass(DragDeviceActivity.this, ChangeRoomNameActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_CHANGE_NAME);
                 }
             });
 
@@ -315,7 +326,9 @@ public class DragDeviceActivity extends BaseActivity {
                         }
                         ClipData clipData = event.getClipData();
                         Room room = new Room();
-                        room.setName(getString(R.string.new_room));
+                        String room_check_name = getString(R.string.new_room) + room_num;
+                        room.setName(room_check_name);
+                        room_num++;
                         room.addAirCondition(Integer.parseInt(clipData.getItemAt(0).getText().toString()));
                         dragDeviceAdapter.addRoom(room);
                         return true;
@@ -339,7 +352,7 @@ public class DragDeviceActivity extends BaseActivity {
             switch (requestCode) {
                 case REQUEST_CODE_CHANGE_NAME:
                     String room_name = data.getStringExtra("name");
-                    int room_index = Integer.parseInt(data.getStringExtra("room_index"));
+                    int room_index = data.getIntExtra("room_index", -1);
                     Room room_temp = new Gson().fromJson(data.getStringExtra("room"),Room.class);
                     dragDeviceAdapter.changeName(room_name, room_index);
                     dragDeviceAdapter.replaceRoom(room_index,room_temp);

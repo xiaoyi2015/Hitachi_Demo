@@ -40,25 +40,23 @@ public class FamilyFragment extends Fragment {
     private RoundImageView userPicture;
     private boolean admin;
     private CustomAdapter customAdapter;
+    private TextView adminText;
+    private TextView IsAdmin;
+    private TextView userName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         baseActivity = (BaseActivity) getActivity();
         view = inflater.inflate(R.layout.fragment_family, container, false);
-        TextView adminText = (TextView) view.findViewById(R.id.text_view);
-        TextView IsAdmin = (TextView) view.findViewById(R.id.admin_text);
-        TextView userName = (TextView) view.findViewById(R.id.user_name);
-        userName.setText(MyApp.getApp().getUser().getCust_name());
+        adminText = (TextView) view.findViewById(R.id.text_view);
+        IsAdmin = (TextView) view.findViewById(R.id.admin_text);
+        userName = (TextView) view.findViewById(R.id.user_name);
         userPicture = (RoundImageView) view.findViewById(R.id.current_user);
         if (!MyApp.getApp().getUser().isAdmin()) {
             admin = false;
-            adminText.setVisibility(View.GONE);
-            IsAdmin.setText(getString(R.string.member));
         } else {
             admin = true;
-            IsAdmin.setText(getString(R.string.admin));
         }
-        HttpClient.loadImage(MyApp.getApp().getUser().getAvatar(), userPicture);
         Log.v("liutao", "family fragment oncreate");
         initDataFromInternet();
 
@@ -68,6 +66,7 @@ public class FamilyFragment extends Fragment {
     private void initDataFromInternet() {
 
         if(MyApp.getApp().getServerConfigManager().hasDevice()) {
+            IsAdmin.setText(getString(R.string.admin));
             final RequestParams requestParams = new RequestParams();
             requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
             requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_TYPE_GET_CHAT_CUST_LIST);
@@ -77,7 +76,7 @@ public class FamilyFragment extends Fragment {
                 @Override
                 public void onSuccess(GetChatCustListResponse response) {
                     inflaterUI(response.getCust_list());
-                    int n = response.getCust_list().size();
+                    //int n = response.getCust_list().size();
                 }
 
                 @Override
@@ -87,6 +86,9 @@ public class FamilyFragment extends Fragment {
             });
         }else{
             inflaterUI(null);
+            IsAdmin.setVisibility(View.GONE);
+            userName.setVisibility(View.GONE);
+            userPicture.setVisibility(View.GONE);
         }
     }
 
@@ -96,9 +98,13 @@ public class FamilyFragment extends Fragment {
         }
         List<MyUser> customers1 = new ArrayList<>();
         for (int i = 0; i < cust_list.size(); i++) {
-            if (!Objects.equals(cust_list.get(i).getCust_id(), MyApp.getApp().getUser().getCust_id())) {
-                if (cust_list.get(i).getCust_id() <= 0x01000000000000l && cust_list.get(i).getCust_id() >= 0)
-                    customers1.add(cust_list.get(i));
+            if(cust_list.get(i).isAdmin()){
+                HttpClient.loadImage(cust_list.get(i).getAvatar(), userPicture);
+                userName.setText(cust_list.get(i).getCust_name());
+            }
+            if (cust_list.get(i).getCust_id() <= 0x01000000000000l && cust_list.get(i).getCust_id() >= 0 &&
+                    (!cust_list.get(i).isAdmin())) {
+                customers1.add(cust_list.get(i));
             }
         }
 
@@ -233,7 +239,7 @@ public class FamilyFragment extends Fragment {
 
             });
             //System.out.println("getView--" + position);
-            if (isAdmin || findAdmin) {
+            //if (isAdmin || findAdmin) {
                 if (position * 2 + 2 <= customers.size()) {
                     listItemView.image1.setVisibility(View.VISIBLE);
                     setImage(context, customers.get(2 * position), listItemView.image1);
@@ -260,6 +266,7 @@ public class FamilyFragment extends Fragment {
                     listItemView.adminText2.setVisibility(View.INVISIBLE);
 
                 }
+            /*
             } else {
                 if (position * 2 + 2 <= customers.size()) {
                     listItemView.image1.setVisibility(View.VISIBLE);
@@ -300,7 +307,7 @@ public class FamilyFragment extends Fragment {
                     listItemView.name2.setVisibility(View.INVISIBLE);
                     listItemView.adminText2.setVisibility(View.INVISIBLE);
                 }
-            }
+            }*/
             return convertView;
         }
 
