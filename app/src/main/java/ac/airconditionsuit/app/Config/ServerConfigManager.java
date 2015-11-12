@@ -174,6 +174,11 @@ public class ServerConfigManager {
         return rootJavaObj.getDevices().size();
     }
 
+    public void logAllDevices() {
+        if (rootJavaObj.getDevices() == null) return;
+
+    }
+
     public Home getHome() {
         return rootJavaObj.getHome();
     }
@@ -250,11 +255,14 @@ public class ServerConfigManager {
 
     }
 
+
+    //flag = true, from server to local
     private ServerConfig switchAddressAndIndexFileToObj(ServerConfig serverConfig, boolean flag) {
         List<DeviceFromServerConfig> devices = serverConfig.getDevices();
         if (devices == null || devices.size() == 0) {
             return serverConfig;
         }
+
         List<Section> sections = serverConfig.getSections();
         if (sections != null) {
             for (Section section : sections) {
@@ -291,7 +299,7 @@ public class ServerConfigManager {
                 }
                 for (Command command : commands) {
                     if (flag) {
-                        if (command.getAddress() >= 32) {
+                        if (command.getAddress() >= devices.size()) {
                             command.setAddress(0);
                         } else {
                             int realAddress = devices.get(command.getAddress()).getAddress();
@@ -312,7 +320,7 @@ public class ServerConfigManager {
 
         serverConfig.resortTimers();
         List<Timer> timers = serverConfig.getTimers();
-        serverConfig.setTimers(new ArrayList<Timer>());
+        serverConfig.setTimers(new ArrayList<Timer>());//清空服务器上的timer，timer实际存储在主机上
         if (timers != null) {
             for (Timer timer : timers) {
                 List<Integer> indexes = timer.getIndexes();
@@ -329,6 +337,10 @@ public class ServerConfigManager {
                 }
                 timer.setIndexes(newIndexes);
             }
+        }
+
+        for (int i = 0; i < devices.size(); i++) {
+            devices.get(i).reformatIndoorIndexAndAddress(flag, i);
         }
 
 
