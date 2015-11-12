@@ -36,7 +36,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
     private TimerTask blingTimerTask;
     private Animation blingAnimation;
 
-//    private TimerTask readTimerTest;
+    private TimerTask readTimerTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,22 +97,26 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
             }
         });
 
-//        readTimerTest = new TimerTask() {
-//            @Override
-//            public void run() {
-//                MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
-//            }
-//        };
-//        new java.util.Timer().schedule(readTimerTest, 0 ,10000);
+        readTimerTest = new TimerTask() {
+            @Override
+            public void run() {
+                MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+            }
+        };
+        new java.util.Timer().schedule(readTimerTest, 5000 ,10000);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        blingTimerTask.cancel();
-        blingTimerTask = null;
-        searchTimerTask.cancel();
-        searchTimerTask = null;
+        if (blingTimerTask != null) {
+            blingTimerTask.cancel();
+            blingTimerTask = null;
+        }
+        if (searchTimerTask != null) {
+            searchTimerTask.cancel();
+            searchTimerTask = null;
+        }
     }
 
     private void toastIndoorDeviceNumber() {
