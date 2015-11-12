@@ -57,6 +57,12 @@ public class SoftwarePageActivity extends BaseActivity {
                             if(group_new_name == null){
                                 return;
                             }
+                            for(int i = 0; i < MyApp.getApp().getServerConfigManager().getSections().size(); i++){
+                                if(MyApp.getApp().getServerConfigManager().getSections().get(i).getName().equals(group_new_name)){
+                                    MyApp.getApp().showToast("已存在“" + group_new_name + "”的楼层，请输入其他名称");
+                                    return;
+                                }
+                            }
                             Section section = new Section();
                             section.setName(group_new_name);
                             MyApp.getApp().getServerConfigManager().addSections(section);
@@ -122,12 +128,12 @@ public class SoftwarePageActivity extends BaseActivity {
                     final PopupWindow pop = new PopupWindow(v1, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
                     pop.setBackgroundDrawable(new BitmapDrawable());
                     pop.setOutsideTouchable(true);
-                    RelativeLayout view = (RelativeLayout)findViewById(R.id.software_page_layout);
+                    RelativeLayout view = (RelativeLayout) findViewById(R.id.software_page_layout);
                     pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
 
-                    TextView cancel = (TextView)v1.findViewById(R.id.cancel);
-                    TextView delete = (TextView)v1.findViewById(R.id.delete_section);
-                    TextView change_name = (TextView)v1.findViewById(R.id.change_name);
+                    TextView cancel = (TextView) v1.findViewById(R.id.cancel);
+                    TextView delete = (TextView) v1.findViewById(R.id.delete_section);
+                    TextView change_name = (TextView) v1.findViewById(R.id.change_name);
                     cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -162,9 +168,17 @@ public class SoftwarePageActivity extends BaseActivity {
                                     setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            String group_new_name = CheckUtil.checkLength(et, 20, R.string.device_name_empty_info, R.string.device_name_too_long_info);
-                                            if(group_new_name == null){
+                                            String group_new_name = CheckUtil.checkLength(et, 20, R.string.group_name_empty_info, R.string.group_name_too_long_info);
+                                            if (group_new_name == null) {
                                                 return;
+                                            }
+                                            for (int i = 0; i < MyApp.getApp().getServerConfigManager().getSections().size(); i++) {
+                                                if (i != position) {
+                                                    if (MyApp.getApp().getServerConfigManager().getSections().get(i).getName().equals(group_new_name)) {
+                                                        MyApp.getApp().showToast("已存在“" + group_new_name + "”的楼层，请输入其他名称");
+                                                        return;
+                                                    }
+                                                }
                                             }
                                             MyApp.getApp().getServerConfigManager().getSections().get(position).setName(group_new_name);
                                             MyApp.getApp().getServerConfigManager().writeToFile();

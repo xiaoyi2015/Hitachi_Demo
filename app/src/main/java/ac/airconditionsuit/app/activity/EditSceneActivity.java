@@ -67,6 +67,12 @@ public class EditSceneActivity extends BaseActivity{
                     if (check_scene_name == null)
                         return;
                     if(is_add){
+                        for(int i = 0; i < MyApp.getApp().getServerConfigManager().getScene().size(); i++){
+                            if(MyApp.getApp().getServerConfigManager().getScene().get(i).getName().equals(check_scene_name)){
+                                MyApp.getApp().showToast("已存在“" + check_scene_name + "”的场景，请输入其他名称");
+                                return;
+                            }
+                        }
                         Scene scene = new Scene();
                         ArrayList<Command> commands = new ArrayList<>();
                         for(int i = 0; i < temp_on_off.size(); i++){
@@ -91,6 +97,15 @@ public class EditSceneActivity extends BaseActivity{
                         setResult(RESULT_OK);
                         finish();
                     }else{
+                        for(int i = 0; i < MyApp.getApp().getServerConfigManager().getScene().size(); i++){
+                            if(i != index) {
+                                if (MyApp.getApp().getServerConfigManager().getScene().get(i).getName().equals(check_scene_name)) {
+                                    MyApp.getApp().showToast("已存在“" + check_scene_name + "”的场景，请输入其他名称");
+                                    return;
+                                }
+                            }
+                        }
+
                         if(MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands() != null) {
                             MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands().clear();
                         }else{
