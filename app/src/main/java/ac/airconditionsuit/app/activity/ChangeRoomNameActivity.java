@@ -15,6 +15,9 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
@@ -38,6 +41,15 @@ public class ChangeRoomNameActivity extends BaseActivity{
                     if(check_name == null){
                         return;
                     }
+                    /*
+                    for(int i = 0; i < nameList.size(); i++){
+                        if(i != index){
+                            if(nameList.get(i).equals(check_name)){
+                                MyApp.getApp().showToast("房间名称不能重复");
+                                return;
+                            }
+                        }
+                    }*/
                     intent.putExtra("name",check_name);
                     intent.putExtra("room_index",index);
                     intent.putExtra("room",room.toJsonString());
@@ -48,15 +60,17 @@ public class ChangeRoomNameActivity extends BaseActivity{
         }
     };
     private EditText roomName;
-    private String index;
+    private int index;
     private Room room;
+    //private ArrayList<String> nameList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_setting_change_room_name);
         super.onCreate(savedInstanceState);
 
-        index = getIntent().getStringExtra("index");
+        index = getIntent().getIntExtra("index",-1);
+        //nameList = getIntent().getStringArrayListExtra("name_list");
         room = new Gson().fromJson(getIntent().getStringExtra("room"),Room.class);
         RelativeLayout ChangeRoomNamePage = (RelativeLayout) findViewById(R.id.add_room_page);
         roomName = (EditText) findViewById(R.id.room_name);
@@ -128,13 +142,8 @@ public class ChangeRoomNameActivity extends BaseActivity{
             }
             ((CommonDeviceView)convertView).setBottomName(MyApp.getApp().getServerConfigManager().getDevices().
                     get(room.getElements().get(position)).getName());
-            if(MyApp.getApp().getServerConfigManager().getDevices().get(room.getElements().get(position)).getIndooraddress()<10) {
-                ((CommonDeviceView) convertView).setRightUpText(String.valueOf(room.getElements().get(position))
-                        + "-0" + MyApp.getApp().getServerConfigManager().getDevices().get(room.getElements().get(position)).getIndooraddress());
-            }else{
-                ((CommonDeviceView) convertView).setRightUpText(String.valueOf(room.getElements().get(position))
-                        + "-" + MyApp.getApp().getServerConfigManager().getDevices().get(room.getElements().get(position)).getIndooraddress());
-            }
+            ((CommonDeviceView) convertView).setRightUpText(MyApp.getApp().getServerConfigManager().getDevices().
+                    get(room.getElements().get(position)).getFormatNameByIndoorIndexAndAddress());
             convertView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {

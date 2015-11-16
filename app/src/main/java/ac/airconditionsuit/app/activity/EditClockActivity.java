@@ -133,7 +133,7 @@ public class EditClockActivity extends BaseActivity{
                         timer.setName(check_clock_name);
                         timer.setHour(timePicker.getCurrentHour());
                         timer.setMinute(timePicker.getCurrentMinute());
-
+                        timer.setTimerenabled(true);
                         timer.getIndexes().clear();
                         for(int i = 0; i < isDeviceChoose.size(); i++){
                             if(isDeviceChoose.get(i) == 1){
