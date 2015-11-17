@@ -11,6 +11,17 @@ public class DeviceFromServerConfig extends RootEntity {
     int indooraddress;
     int indoorindex;
 
+    public void reformatIndoorIndexAndAddress(boolean fromServerToLocal, int idx) {
+        if (fromServerToLocal) {
+            indoorindex = indooraddress / 16;
+            indooraddress = indooraddress % 16;
+        }
+        else  {
+            indooraddress = indoorindex * 16 + indooraddress;
+            indoorindex = idx;
+        }
+    }
+
     public DeviceFromServerConfig(byte address) {
         indooraddress = address & 0x0f;
         indoorindex = (address & 0xf0) >>> 4;

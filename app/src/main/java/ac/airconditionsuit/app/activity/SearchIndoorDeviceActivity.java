@@ -4,7 +4,6 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.AirCondition;
-import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.util.CheckUtil;
 import ac.airconditionsuit.app.view.CommonDeviceView;
@@ -16,9 +15,10 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.*;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.TimerTask;
 
@@ -31,11 +31,19 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
     private IndoorDeviceAdapter indoorDeviceAdapter;
 
     private TimerTask searchTimerTask;
+    
+    private int[] blingCounter = null;
+    private TimerTask blingTimerTask;
+    private Animation blingAnimation;
+
+//    private TimerTask readTimerTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_search_indoor_device);
         super.onCreate(savedInstanceState);
+
+        blingAnimation = AnimationUtils.loadAnimation(MyApp.getApp().getApplicationContext(), R.anim.blinganim);
 
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.indoor_device_manage));
@@ -79,6 +87,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                         searchTimerTask = new TimerTask() {
                             @Override
                             public void run() {
+                                dismissWaitProgress();
                                 MyApp.getApp().showToast("未搜索到室内机");
                             }
                         };
@@ -87,6 +96,27 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                 }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
             }
         });
+
+//        readTimerTest = new TimerTask() {
+//            @Override
+//            public void run() {
+//                MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+//            }
+//        };
+//        new java.util.Timer().schedule(readTimerTest, 5000 ,10000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (blingTimerTask != null) {
+            blingTimerTask.cancel();
+            blingTimerTask = null;
+        }
+        if (searchTimerTask != null) {
+            searchTimerTask.cancel();
+            searchTimerTask = null;
+        }
     }
 
     private void toastIndoorDeviceNumber() {
@@ -94,19 +124,78 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
         MyApp.getApp().showToast("共搜索到" + MyApp.getApp().getServerConfigManager().getDeviceCount() + "台室内机");
     }
 
+    private void setBlingCountDataByAcIndex(int incomingAcIndex) {
+        int deviceCnt = MyApp.getApp().getServerConfigManager().getDeviceCount();
+        if (incomingAcIndex >= 0 && incomingAcIndex < deviceCnt) {
+            if (blingCounter == null || blingCounter.length != deviceCnt) {
+                blingCounter = new int[deviceCnt];
+            }
+            blingCounter[incomingAcIndex] = 4;
+        }
+    }
+
+    private void blindAc() {
+        if (blingCounter == null) {
+            return;
+        }
+        boolean hasBlingAc = false;
+        for (int i = 0; i < blingCounter.length; i++) {
+            int c = blingCounter[i];
+            if (c > 0) {
+                hasBlingAc = true;
+            }
+            c --;
+            blingCounter[i] = (c < 0 ? 0 : c);
+        }
+        if (hasBlingAc) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    indoorDeviceAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+        else {
+            if (blingTimerTask != null) {
+                blingTimerTask.cancel();
+                blingTimerTask = null;
+            }
+        }
+    }
+
+    private void startBlingAcTimer() {
+        if (blingTimerTask == null) {
+            blingTimerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    blindAc();
+                }
+            };
+            new java.util.Timer().schedule(blingTimerTask, 0, 1000);
+        }
+    }
+
+
     @Override
     public void update(Observable observable, Object data) {
         super.update(observable, data);
 
         ObserveData od = (ObserveData) data;
         switch (od.getMsg()) {
+            case ObserveData.AIR_CONDITION_STATUS_RESPONSE:
+                int incomingAcIndex = MyApp.getApp().getServerConfigManager().getDeviceIndexFromAddress(((AirCondition) od.getData()).getAddress());
+                setBlingCountDataByAcIndex(incomingAcIndex);
+                startBlingAcTimer();
+                break;
             case ObserveData.SEARCH_AIR_CONDITION_RESPONSE:
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         indoorDeviceAdapter.notifyDataSetChanged();
-                        searchTimerTask.cancel();
-                        searchTimerTask = null;
+                        if (searchTimerTask != null) {
+                            searchTimerTask.cancel();
+                            searchTimerTask = null;
+                        }
                         toastIndoorDeviceNumber();
                         MyApp.getApp().getServerConfigManager().writeToFile();
                     }
@@ -115,6 +204,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
             case ObserveData.SEARCH_AIR_CONDITION_NUMBERDIFFERENT:
                 if (searchTimerTask != null) {
                     searchTimerTask.cancel();
+                    searchTimerTask = null;
                 }
                 new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle("警告")
                         .setMessage("扫描到的空调室内机数量发生变化，将清除所有的个性化和场景设置")
@@ -210,6 +300,10 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                             }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
                 }
             });
+
+            if (blingCounter != null && position < blingCounter.length && blingCounter[position] > 0) {
+                convertView.startAnimation(blingAnimation);
+            }
 
             return convertView;
         }
