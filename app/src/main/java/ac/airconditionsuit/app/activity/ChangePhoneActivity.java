@@ -87,12 +87,20 @@ public class ChangePhoneActivity extends BaseActivity{
 
         getVerifyCodeButton.setOnClickListener(myOnClickListener);
 
-        handler = new Handler(new Handler.Callback(){
+        handler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 switch (msg.what) {
                     case ENABLE_BUTTON:
-                        enableButton(getVerifyCodeButton);
+                        Integer obj = (Integer) msg.obj;
+                        if (obj == 0) {
+                            getVerifyCodeButton.setTag(true);
+                            getVerifyCodeButton.setOnClickListener(myOnClickListener);
+                            getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_black));
+                            getVerifyCodeButton.setText(getString(R.string.get_verify_code));
+                        } else {
+                            getVerifyCodeButton.setText(obj + "秒");
+                        }
                         break;
                     default:
                         Log.e(TAG, "unhandle case in #hangler");
@@ -157,37 +165,51 @@ public class ChangePhoneActivity extends BaseActivity{
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_VALIDATE_CODE);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_MOBILE_PHONE, mobilePhone);
-        disableButton(getVerifyCodeButton);
         HttpClient.get(requestParams, GetVerifyCodeResponse.class, new HttpClient.JsonResponseHandler<GetVerifyCodeResponse>() {
             @Override
             public void onSuccess(GetVerifyCodeResponse response) {
                 if (response.getIs_exist() == 1) {
                     MyApp.getApp().showToast(R.string.phone_already_exist);
-                    enableButton(getVerifyCodeButton);
                 } else {
                     mobilePhoneNumberStart = mobilePhone;
                     MyApp.getApp().showToast(R.string.send_verify_code);
+                    disableButton(getVerifyCodeButton);
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 Log.i(TAG, "onFailure");
-                enableButton(getVerifyCodeButton);
             }
         });
     }
 
-    private void enableButton(Button getVerifyCodeButton) {
-        getVerifyCodeButton.setTag(false);
-        //noinspection deprecation for Downward compatible
-        getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_black));
-        handler.sendEmptyMessageDelayed(ENABLE_BUTTON, 60000);
+    private void enableButton() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int remain = 60;
+                while (remain > -1) {
+                    Message message = new Message();
+                    message.what = ENABLE_BUTTON;
+                    message.obj = remain;
+                    handler.sendMessage(message);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    remain--;
+                }
+            }
+        }).start();
     }
 
     private void disableButton(Button getVerifyCodeButton) {
-        getVerifyCodeButton.setTag(true);
+        getVerifyCodeButton.setTag(false);
+        getVerifyCodeButton.setOnClickListener(null);
         getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_white));
+        enableButton();
     }
 
 }

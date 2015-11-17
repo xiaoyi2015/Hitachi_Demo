@@ -315,7 +315,7 @@ public class RoomAirSettingHitActivity extends BaseActivity {
                     public void onClick(View v) {
 
                         TextView et = new TextView(RoomAirSettingHitActivity.this);
-                        et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                        et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                         et.setGravity(Gravity.CENTER);
                         String warning = " \n";
                         for (int i = 0; i < air_index_list.size(); i++) {
@@ -338,6 +338,7 @@ public class RoomAirSettingHitActivity extends BaseActivity {
                             }
                         }
                         et.setText(warning);
+                        et.setTextColor(getResources().getColor(R.color.delete_red_hit));
                         new AlertDialog.Builder(RoomAirSettingHitActivity.this).setTitle(R.string.tip).setView(et).
                                 setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                     @Override
