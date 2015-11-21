@@ -6,6 +6,9 @@ import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.fragment.*;
 import ac.airconditionsuit.app.view.TabIndicator;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -78,6 +81,16 @@ public class MainActivity extends BaseActivity {
         initTabIndicator();
 //        pager.setCurrentItem(DEFAULT_FRAGMENT_POSITION);
         fragments[0].setTopBar();
+        if(!MyApp.getApp().getServerConfigManager().hasDevice()) {
+            new AlertDialog.Builder(MainActivity.this).setTitle("未检测到设备").setMessage(R.string.new_user_add_device).
+                    setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            shortStartActivity(AddDeviceActivity.class);
+                            dialog.dismiss();
+                        }
+                    }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+        }
 
     }
 
