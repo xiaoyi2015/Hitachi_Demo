@@ -242,5 +242,6 @@
     <string name="group_name_empty_info">群组名称不能为空</string>
     <string name="group_name_too_long_info">群组名称长度不能超过10个汉字或20个字母</string>
     <string name="executing">正在执行操作</string>
+    <string name="is_delete_host_device2">\n确定删除本设备吗\n</string>
 
 </resources>

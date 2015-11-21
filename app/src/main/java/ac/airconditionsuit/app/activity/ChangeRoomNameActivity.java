@@ -41,7 +41,7 @@ public class ChangeRoomNameActivity extends BaseActivity{
                     if(check_name == null){
                         return;
                     }
-                    /*
+
                     for(int i = 0; i < nameList.size(); i++){
                         if(i != index){
                             if(nameList.get(i).equals(check_name)){
@@ -49,7 +49,7 @@ public class ChangeRoomNameActivity extends BaseActivity{
                                 return;
                             }
                         }
-                    }*/
+                    }
                     intent.putExtra("name",check_name);
                     intent.putExtra("room_index",index);
                     intent.putExtra("room",room.toJsonString());
@@ -62,7 +62,7 @@ public class ChangeRoomNameActivity extends BaseActivity{
     private EditText roomName;
     private int index;
     private Room room;
-    //private ArrayList<String> nameList = new ArrayList<>();
+    private ArrayList<String> nameList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class ChangeRoomNameActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
 
         index = getIntent().getIntExtra("index",-1);
-        //nameList = getIntent().getStringArrayListExtra("name_list");
+        nameList = getIntent().getStringArrayListExtra("name_list");
         room = new Gson().fromJson(getIntent().getStringExtra("room"),Room.class);
         RelativeLayout ChangeRoomNamePage = (RelativeLayout) findViewById(R.id.add_room_page);
         roomName = (EditText) findViewById(R.id.room_name);

@@ -39,28 +39,53 @@ public class HostDeviceActivity extends BaseActivity{
                     break;
 
                 case R.id.delete_host_device:
-                    new AlertDialog.Builder(HostDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.is_delete_host_device).
-                            setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // final long chat_id = MyApp.getApp().getServerConfigManager().getConnections().get(0).getChat_id();
-                                    showWaitProgress();
-                                    MyApp.getApp().getServerConfigManager().deleteCurrentDevice(new HttpClient.JsonResponseHandler<DeleteDeviceResponse>() {
+                    if(MyApp.getApp().getUser().isAdmin()) {
+                        new AlertDialog.Builder(HostDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.is_delete_host_device).
+                                setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // final long chat_id = MyApp.getApp().getServerConfigManager().getConnections().get(0).getChat_id();
+                                        showWaitProgress();
+                                        MyApp.getApp().getServerConfigManager().deleteCurrentDevice(new HttpClient.JsonResponseHandler<DeleteDeviceResponse>() {
 
-                                        @Override
-                                        public void onSuccess(DeleteDeviceResponse response) {
-                                            dismissWaitProgress();
-                                            finish();
-                                        }
+                                            @Override
+                                            public void onSuccess(DeleteDeviceResponse response) {
+                                                dismissWaitProgress();
+                                                finish();
+                                            }
 
-                                        @Override
-                                        public void onFailure(Throwable throwable) {
-                                            dismissWaitProgress();
-                                        }
-                                    });
-                                    dialog.dismiss();
-                                }
-                            }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+                                            @Override
+                                            public void onFailure(Throwable throwable) {
+                                                dismissWaitProgress();
+                                            }
+                                        });
+                                        dialog.dismiss();
+                                    }
+                                }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+                    }else{
+                        new AlertDialog.Builder(HostDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.is_delete_host_device2).
+                                setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // final long chat_id = MyApp.getApp().getServerConfigManager().getConnections().get(0).getChat_id();
+                                        showWaitProgress();
+                                        MyApp.getApp().getServerConfigManager().deleteCurrentDevice(new HttpClient.JsonResponseHandler<DeleteDeviceResponse>() {
+
+                                            @Override
+                                            public void onSuccess(DeleteDeviceResponse response) {
+                                                dismissWaitProgress();
+                                                finish();
+                                            }
+
+                                            @Override
+                                            public void onFailure(Throwable throwable) {
+                                                dismissWaitProgress();
+                                            }
+                                        });
+                                        dialog.dismiss();
+                                    }
+                                }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+                    }
                     break;
 
                 case R.id.scan_indoor_device:
