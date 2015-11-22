@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.kyleduo.switchbutton.SwitchButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
@@ -84,6 +85,7 @@ public class SetClockFragment extends BaseFragment {
         }
     };
     private SwipeRefreshLayout refreshView;
+    private ArrayList<Boolean> isCheck = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,6 +98,9 @@ public class SetClockFragment extends BaseFragment {
             }
         });
         refreshView.setColorScheme(UIManager.getRefreshColor());
+        for(int i = 0 ;i < 20; i++){
+            isCheck.add(false);
+        }
         listView = (ListView) view.findViewById(R.id.clock_list);
         clockSettingAdapter = new ClockSettingAdapter(getActivity(), null);
         listView.setAdapter(clockSettingAdapter);
@@ -187,6 +192,43 @@ public class SetClockFragment extends BaseFragment {
             final SwitchButton switchOn = (SwitchButton) convertView.findViewById(R.id.clock_on_off);
             final ImageView bgBar = (ImageView) convertView.findViewById(R.id.bg_bar);
 
+            final ImageView arrowDown = (ImageView)convertView.findViewById(R.id.arrow_down);
+            final TextView airList = (TextView)convertView.findViewById(R.id.air_list);
+            if(isCheck.get(position)){
+                airList.setVisibility(View.VISIBLE);
+            }else {
+                airList.setVisibility(View.GONE);
+            }
+            arrowDown.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isCheck.set(position, !isCheck.get(position));
+                    if (isCheck.get(position)) {
+                        airList.setVisibility(View.VISIBLE);
+                    } else {
+                        airList.setVisibility(View.GONE);
+                    }
+                }
+            });
+
+            String air_list_name = "";
+            if(list.get(position).getIndexes().size() > 0){
+                if(list.get(position).getIndexes().size() > 1){
+                    int k;
+                    for(k = 0; k < list.get(position).getIndexes().size() - 1; k ++){
+                        air_list_name = air_list_name + MyApp.getApp().getServerConfigManager().getDevices().get(list.
+                                get(position).getIndexes().get(k) - 1).getName() + "|";
+                    }
+                    air_list_name = air_list_name + MyApp.getApp().getServerConfigManager().getDevices().get(list.
+                            get(position).getIndexes().get(k) - 1).getName();
+
+                }else {
+                    air_list_name = air_list_name + MyApp.getApp().getServerConfigManager().getDevices().get(list.
+                            get(position).getIndexes().get(0) - 1).getName();
+                }
+            }
+            airList.setText(air_list_name);
+
             switchOn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -216,9 +258,9 @@ public class SetClockFragment extends BaseFragment {
                 }
             });
 
+            clockName.setTextColor(getResources().getColor(R.color.text_normal_color));
             if (list.get(position).isTimerenabled()) {
                 switchOn.setChecked(true);
-                clockName.setTextColor(getResources().getColor(R.color.text_normal_color));
                 clockSetting1.setTextColor(getResources().getColor(R.color.text_normal_color));
                 clockSetting2.setTextColor(getResources().getColor(R.color.text_normal_color));
                 clockTime.setTextColor(getResources().getColor(R.color.text_normal_color));
@@ -227,7 +269,7 @@ public class SetClockFragment extends BaseFragment {
                 }
             } else {
                 switchOn.setChecked(false);
-                clockName.setTextColor(getResources().getColor(R.color.clock_off_gray));
+                //clockName.setTextColor(getResources().getColor(R.color.clock_off_gray));
                 clockSetting1.setTextColor(getResources().getColor(R.color.clock_off_gray));
                 clockSetting2.setTextColor(getResources().getColor(R.color.clock_off_gray));
                 clockTime.setTextColor(getResources().getColor(R.color.clock_off_gray));
