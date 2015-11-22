@@ -231,7 +231,8 @@ public class Timer extends RootEntity {
         }
 
         //address
-        for (int index : this.address) {
+        for (int indexinconfig : this.address) {
+            int index = indexinconfig - 1;
             if (index < 0 || index > 255) {
                 throw new Exception("address error");
             }
