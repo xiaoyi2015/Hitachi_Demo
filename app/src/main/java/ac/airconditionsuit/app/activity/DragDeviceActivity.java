@@ -147,15 +147,15 @@ public class DragDeviceActivity extends BaseActivity {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    /*
+
                     ArrayList<String> room_name_list = new ArrayList<>();
                     for(int i = 0; i < rooms.size(); i++){
                         room_name_list.add(rooms.get(i).getName());
-                    }*/
+                    }
                     Intent intent = new Intent();
                     intent.putExtra("index", position);
                     intent.putExtra("room", rooms.get(position).toJsonString());
-                    //intent.putStringArrayListExtra("name_list", room_name_list);
+                    intent.putStringArrayListExtra("name_list", room_name_list);
                     intent.setClass(DragDeviceActivity.this, ChangeRoomNameActivity.class);
                     startActivityForResult(intent, REQUEST_CODE_CHANGE_NAME);
                 }
@@ -327,6 +327,12 @@ public class DragDeviceActivity extends BaseActivity {
                         ClipData clipData = event.getClipData();
                         Room room = new Room();
                         String room_check_name = getString(R.string.new_room) + room_num;
+                        for(int k = 0; k < dragDeviceAdapter.rooms.size(); k ++){
+                            if(room_check_name.equals(dragDeviceAdapter.rooms.get(k).getName())){
+                                room_num ++ ;
+                                room_check_name = getString(R.string.new_room) + room_num;
+                            }
+                        }
                         room.setName(room_check_name);
                         room_num++;
                         room.addAirCondition(Integer.parseInt(clipData.getItemAt(0).getText().toString()));

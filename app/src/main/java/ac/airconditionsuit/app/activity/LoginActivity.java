@@ -179,7 +179,7 @@ public class LoginActivity extends BaseActivity {
             switch (requestCode) {
                 case REQUEST_CODE_REGISTER:
                     userNameEditText.setText(data.getStringExtra("userName"));
-                    passwordEditText.setText(data.getStringExtra("password"));
+                    passwordEditText.setText("");
                     break;
 
             }

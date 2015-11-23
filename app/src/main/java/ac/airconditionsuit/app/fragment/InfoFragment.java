@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.fortysevendeg.swipelistview.SwipeListView;
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -43,10 +45,12 @@ public class InfoFragment extends Fragment{
 
         public PushDataAdapter(List<PushDataManager.PushData> data) {
             this.data = data;
+            Collections.reverse(this.data);
         }
 
         public void setData(List<PushDataManager.PushData> data) {
             this.data = data;
+            Collections.reverse(this.data);
             notifyDataSetChanged();
         }
 

@@ -116,18 +116,25 @@ public class ServerConfig extends RootEntity{
 
 
     public void updateTimer(Timer timer) {
+        int p = 0;
         for (Timer t : timers) {
             if (t.getTimerid() == timer.getTimerid()) {
                 t.update(timer);
                 return;
             }
+            else if (t.getTimerid() > timer.getTimerid()) {
+                timers.add(p, timer);
+                return;
+            }
+            p ++;
         }
         timers.add(timer);
-        resortTimers();
+//        resortTimers();
     }
 
     public void resortTimers() {
         Collections.sort(timers, new ComparatorTimer());
+        setTimers(timers);
     }
 
     public static ServerConfig genNewConfig(String configFileName, String homeName) {

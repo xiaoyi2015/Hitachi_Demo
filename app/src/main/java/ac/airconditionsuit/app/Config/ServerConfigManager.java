@@ -655,7 +655,7 @@ public class ServerConfigManager {
             }
         };
         java.util.Timer writeToServerTimer = new java.util.Timer();
-        writeToServerTimer.schedule(writeToServerTask, 3000);//3s
+        writeToServerTimer.schedule(writeToServerTask, 1000);//3s
 //            Log.v("lt", "测试定时任务，开始计时");
     }
 

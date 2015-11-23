@@ -292,6 +292,14 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                                     if (device_new_name == null) {
                                         return;
                                     }
+                                    for(int i = 0 ;i < MyApp.getApp().getServerConfigManager().getDevices().size(); i ++){
+                                        if(i != position){
+                                            if(device_new_name.equals(MyApp.getApp().getServerConfigManager().getDevices().get(i).getName())){
+                                                MyApp.getApp().showToast("空调名称不能重复");
+                                                return;
+                                            }
+                                        }
+                                    }
                                     MyApp.getApp().getServerConfigManager().getDevices().get(position).setName(device_new_name);
                                     MyApp.getApp().getServerConfigManager().writeToFile();
                                     notifyDataSetChanged();

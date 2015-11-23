@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ac.airconditionsuit.app.MyApp;
@@ -79,6 +80,7 @@ public class MyAirFragment extends BaseFragment {
         }
     };
     private SwipeRefreshLayout refreshView;
+    private ArrayList<Boolean> isCheck = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,6 +92,9 @@ public class MyAirFragment extends BaseFragment {
                 mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 1200);
             }
         });
+        for(int i = 0 ;i < 20; i++){
+            isCheck.add(false);
+        }
         refreshView.setColorScheme(UIManager.getRefreshColor());
         listView = (ListView) view.findViewById(R.id.section_view);
         myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), null);
@@ -239,12 +244,10 @@ public class MyAirFragment extends BaseFragment {
 
         private Context context;
         List<Section> list;
-        final boolean[] isCheck = new boolean[100];
 
         public MyAirSectionAdapter(Context context, List<Section> list) {
             this.context = context;
             this.list = list;
-
         }
 
         @Override
@@ -290,14 +293,43 @@ public class MyAirFragment extends BaseFragment {
                     sectionView.setBackgroundResource(R.drawable.room_section_box_hit);
                     break;
             }
-            roomList.setVisibility(View.GONE);
-            isCheck[position] = false;
+            if(isCheck.get(position)){
+                switch (UIManager.UITYPE) {
+                    case 1:
+                        arrowIcon.setImageResource(R.drawable.icon_arrow_down_hit);
+                        sectionView.setBackgroundResource(R.drawable.room_section_top_box_hit);
+                        break;
+                    case 2:
+                        arrowIcon.setImageResource(R.drawable.icon_arrow_down_dc);
+                        break;
+                    default:
+                        arrowIcon.setImageResource(R.drawable.icon_arrow_down_hit);
+                        sectionView.setBackgroundResource(R.drawable.room_section_top_box_hit);
+                        break;
+                }
+                roomList.setVisibility(View.VISIBLE);
+            }else{
+                switch (UIManager.UITYPE) {
+                    case 1:
+                        arrowIcon.setImageResource(R.drawable.icon_arrow_right_hit);
+                        sectionView.setBackgroundResource(R.drawable.room_section_box_hit);
+                        break;
+                    case 2:
+                        arrowIcon.setImageResource(R.drawable.icon_arrow_right_dc);
+                        break;
+                    default:
+                        arrowIcon.setImageResource(R.drawable.icon_arrow_right_hit);
+                        sectionView.setBackgroundResource(R.drawable.room_section_box_hit);
+                        break;
+                }
+                roomList.setVisibility(View.GONE);
+            }
             sectionView.setOnClickListener(new MyOnClickListener() {
                 @Override
                 public void onClick(View v) {
                     super.onClick(v);
-                    isCheck[position] = !isCheck[position];
-                    if (isCheck[position]) {
+                    isCheck.set(position, !isCheck.get(position));
+                    if (isCheck.get(position)) {
                         switch (UIManager.UITYPE) {
                             case 1:
                                 arrowIcon.setImageResource(R.drawable.icon_arrow_down_hit);
