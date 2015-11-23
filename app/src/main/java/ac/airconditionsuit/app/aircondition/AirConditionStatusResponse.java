@@ -6,11 +6,11 @@ import android.util.Log;
  * Created by ac on 10/15/15.
  */
 public class AirConditionStatusResponse extends AirConditionControl {
-    byte address;
+    int address;
     byte huifengTemperature;
     byte warning;
 
-    public byte getAddress() {
+    public int getAddress() {
         return address;
     }
 
@@ -25,7 +25,7 @@ public class AirConditionStatusResponse extends AirConditionControl {
     public static AirConditionStatusResponse decodeFromByteArray(byte[] input) throws Exception {
         AirConditionStatusResponse result = new AirConditionStatusResponse();
 
-        result.address = input[0];
+        result.address = input[0] & 0xff;
 
         if ((input[1] & 0b10000) > 0) {
             result.setOnoff(ON);
