@@ -90,19 +90,21 @@
 
         <TextView
             android:id="@+id/air_list"
-            android:background="@drawable/clock_box_hit"
+            android:background="@drawable/clock_text_hit"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
+            android:layout_marginTop="-2dp"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="25dp" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <ImageView
-        android:background="@drawable/clock_box_hit"
+        android:background="@drawable/clock_arrow_hit"
         android:id="@+id/arrow_down"
+        android:layout_marginTop="-2dp"
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
