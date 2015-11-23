@@ -6,7 +6,9 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.network.response.CommonResponse;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
 import com.google.gson.Gson;
@@ -219,21 +221,37 @@ public class HttpClient {
     }
 
     public static void loadImage(final String url, final ImageView imageView) {
-        if (url == null || imageView == null) {
+        if (imageView == null) {
             Log.e(TAG, "load image fail");
+            return;
+        }
+        if (url == null) {
+            Bitmap oldUserAvatar = MyApp.getApp().getOldUserAvatar();
+            if (oldUserAvatar != null){
+                imageView.setImageBitmap(oldUserAvatar);
+            } else {
+                imageView.setImageResource(R.drawable.user_dc);
+            }
             return;
         }
         getAsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(MyApp.getApp()) {
             @Override
             public void onFailure(int statusCode, org.apache.http.Header[] headers, Throwable throwable, File file) {
                 Log.e(TAG, "download from " + url + " failed");
-                imageView.setImageResource(R.drawable.user_dc);
+                Bitmap oldUserAvatar = MyApp.getApp().getOldUserAvatar();
+                if (oldUserAvatar != null){
+                    imageView.setImageBitmap(oldUserAvatar);
+                } else {
+                    imageView.setImageResource(R.drawable.user_dc);
+                }
+//                imageView.setImageResource(R.drawable.user_dc);
             }
 
             @Override
             public void onSuccess(int statusCode, org.apache.http.Header[] headers, File file) {
                 Log.v(TAG, "download from " + url + " success");
                 imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                MyApp.getApp().setOldUserAvatar(file);
             }
         });
     }
