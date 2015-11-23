@@ -10,6 +10,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
+import java.nio.channels.Pipe;
 import java.util.*;
 
 /**
@@ -398,6 +399,7 @@ public class SocketManager extends Observable {
                         @Override
                         public void run() {
                             //checkout error for socket
+                            System.out.println("SocketManager.run");
                             if (socket == null || !socket.isConnect()) {
                                 reconnectSocket();
                                 return;
@@ -419,7 +421,6 @@ public class SocketManager extends Observable {
                                 return;
                             }
 
-                            Log.v(TAG, "socket check ok");
                         }
                     }, CHECK_PERIOD, CHECK_PERIOD);
                 }

@@ -138,7 +138,7 @@ public class EditClockActivity extends BaseActivity{
                         for(int i = 0; i < isDeviceChoose.size(); i++){
                             if(isDeviceChoose.get(i) == 1){
                                 timer.getIndexes().
-                                        add(i);
+                                        add(i + 1);
                             }
                         }
                         if(timer.getIndexes().size() == 0){
