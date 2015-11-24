@@ -25,7 +25,7 @@ public class DeviceFromServerConfig extends RootEntity {
     public DeviceFromServerConfig(byte address) {
         indooraddress = address & 0x0f;
         indoorindex = (address & 0xf0) >>> 4;
-        name = "新空调" + indoorindex + "-" + String.format("%02d", indooraddress);
+        name = "" + indoorindex + "-" + String.format("%02d", indooraddress);
         //Log.v("liutao", "ac address: " + indoorindex + " - " + indooraddress);
     }
 

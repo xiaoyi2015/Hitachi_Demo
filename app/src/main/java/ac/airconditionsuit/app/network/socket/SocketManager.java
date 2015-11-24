@@ -399,7 +399,6 @@ public class SocketManager extends Observable {
                         @Override
                         public void run() {
                             //checkout error for socket
-                            System.out.println("SocketManager.run");
                             if (socket == null || !socket.isConnect()) {
                                 reconnectSocket();
                                 return;

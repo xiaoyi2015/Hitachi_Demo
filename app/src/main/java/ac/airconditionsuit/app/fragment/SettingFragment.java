@@ -160,7 +160,11 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                     @Override
                     public void run() {
 
-                        int status = MyApp.getApp().getSocketManager().getStatus();
+                        SocketManager socketManager = MyApp.getApp().getSocketManager();
+                        if (socketManager == null) {
+                            return;
+                        }
+                        int status = socketManager.getStatus();
                         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
                             connectionStatusView.setOnlineTextView("");
                             if (connectivityStatus != NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT

@@ -11,6 +11,9 @@ import ac.airconditionsuit.app.network.socket.SocketManager;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
@@ -314,5 +317,16 @@ public class MyApp extends Application {
 
     private static void enterBackground() {
         Log.v("liutao", "进入后台");
+    }
+
+    public void setOldUserAvatar(File file) {
+        File savedFile = new File(getCacheDir(), "userAvatar");
+        if (!file.renameTo(savedFile)) {
+            Log.v(TAG, "save user avatar cache failed");
+        }
+    }
+
+    public Bitmap getOldUserAvatar() {
+        return BitmapFactory.decodeFile(new File(getCacheDir(), "userAvatar").getAbsolutePath());
     }
 }
