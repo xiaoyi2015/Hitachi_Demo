@@ -56,6 +56,7 @@ public class ChangePhoneActivity extends BaseActivity{
             }
         }
     };
+    private int remain;
 
 
     @Override
@@ -160,7 +161,7 @@ public class ChangePhoneActivity extends BaseActivity{
         if (mobilePhone == null) {
             return;
         }
-
+        disableButton(getVerifyCodeButton);
         final RequestParams requestParams = new RequestParams();
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_VALIDATE_CODE);
@@ -170,16 +171,26 @@ public class ChangePhoneActivity extends BaseActivity{
             public void onSuccess(GetVerifyCodeResponse response) {
                 if (response.getIs_exist() == 1) {
                     MyApp.getApp().showToast(R.string.phone_already_exist);
+                    remain = -1;
+                    getVerifyCodeButton.setTag(true);
+                    getVerifyCodeButton.setOnClickListener(myOnClickListener);
+                    getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_black));
+                    getVerifyCodeButton.setText(getString(R.string.get_verify_code));
                 } else {
                     mobilePhoneNumberStart = mobilePhone;
                     MyApp.getApp().showToast(R.string.send_verify_code);
-                    disableButton(getVerifyCodeButton);
+
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 Log.i(TAG, "onFailure");
+                remain = -1;
+                getVerifyCodeButton.setTag(true);
+                getVerifyCodeButton.setOnClickListener(myOnClickListener);
+                getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_black));
+                getVerifyCodeButton.setText(getString(R.string.get_verify_code));
             }
         });
     }
@@ -188,7 +199,7 @@ public class ChangePhoneActivity extends BaseActivity{
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int remain = 60;
+                remain = 300;
                 while (remain > -1) {
                     Message message = new Message();
                     message.what = ENABLE_BUTTON;

@@ -37,7 +37,7 @@
     <string name="home_basic_info">基本信息</string>
     <string name="name">名称</string>
     <string name="delete_home">删除家</string>
-    <string name="delete_info">删除后，家和家里控制器的所有信息均无法恢复配置</string>
+    <string name="delete_info">删除后，家和家里i-EZ控制器的所有信息均无法恢复配置</string>
     <string name="add_group">添加新群组</string>
     <string name="add_explain_text">自动搜索设备:\n
         如果设备首次使用，请通过自动搜索新设备的方式添加。在自动搜索前，请确保设备已正常工作，并通过网络或者WIFI的方式与路由器连接成功，只有保证手机、平板和主机设备在同一局域网内，设备才能被搜索到。\n\n
@@ -194,7 +194,7 @@
     <string name="tip_bind_hostdevice_ok">添加成功</string>
     <string name="is_delete_section">\n确定要删除该楼层吗？\n</string>
     <string name="qr_code_time_text">二维码有效时间为5分钟</string>
-    <string name="search_tip">请操作墙面上空调的遥控按钮，软件中对应的空调小图标会闪烁！</string>
+    <string name="search_tip">请操作墙面上空调有线遥控器，软件中对应的空调小图标会闪烁！</string>
     <string name="search_indoor_device">搜索室内机</string>
     <string name="indoor_device_manage">空调室内机管理</string>
     <string name="rename_indoor_device">请对空调室内机进行重命名：\n（请勿使用特殊字符）</string>
