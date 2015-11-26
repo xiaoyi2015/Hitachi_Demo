@@ -63,6 +63,7 @@ public class RegisterActivity extends BaseActivity {
     private Button getVerifyCodeButton;
     private Handler handler;
     private final static int UPDATE_BUTTON_STATUS = 10086;
+    private int remain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,7 +214,7 @@ public class RegisterActivity extends BaseActivity {
         if (mobilePhone == null) {
             return;
         }
-
+        disableButton(getVerifyCodeButton);
         final RequestParams requestParams = new RequestParams();
         if (!isRegister) {
             requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_LOGIN);
@@ -224,12 +225,16 @@ public class RegisterActivity extends BaseActivity {
                 public void onSuccess(String response) {
                     mobilePhoneNumberStart = mobilePhone;
                     MyApp.getApp().showToast(R.string.send_verify_code);
-                    disableButton(getVerifyCodeButton);
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
                     Log.i(TAG, "onFailure");
+                    remain = -1;
+                    getVerifyCodeButton.setTag(true);
+                    getVerifyCodeButton.setOnClickListener(myOnClickListener);
+                    getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_black));
+                    getVerifyCodeButton.setText(getString(R.string.get_verify_code));
                 }
             });
         } else {
@@ -241,16 +246,25 @@ public class RegisterActivity extends BaseActivity {
                 public void onSuccess(GetVerifyCodeResponse response) {
                     if (response.getIs_exist() == 1) {
                         MyApp.getApp().showToast(R.string.phone_already_exist);
+                        remain = -1;
+                        getVerifyCodeButton.setTag(true);
+                        getVerifyCodeButton.setOnClickListener(myOnClickListener);
+                        getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_black));
+                        getVerifyCodeButton.setText(getString(R.string.get_verify_code));
                     } else {
                         mobilePhoneNumberStart = mobilePhone;
                         MyApp.getApp().showToast(R.string.send_verify_code);
-                        disableButton(getVerifyCodeButton);
                     }
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
                     Log.i(TAG, "onFailure");
+                    remain = -1;
+                    getVerifyCodeButton.setTag(true);
+                    getVerifyCodeButton.setOnClickListener(myOnClickListener);
+                    getVerifyCodeButton.setTextColor(getResources().getColor(R.color.text_color_black));
+                    getVerifyCodeButton.setText(getString(R.string.get_verify_code));
                 }
             });
         }
@@ -260,7 +274,7 @@ public class RegisterActivity extends BaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int remain = 60;
+                remain = 300;
                 while (remain > -1) {
                     Message message = new Message();
                     message.what = UPDATE_BUTTON_STATUS;

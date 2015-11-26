@@ -98,7 +98,7 @@ public class EditClockActivity extends BaseActivity{
                         device_list_temp.clear();
                         for(int i = 0; i < isDeviceChoose.size(); i++){
                             if(isDeviceChoose.get(i) == 1){
-                                device_list_temp.add(i);
+                                device_list_temp.add(i + 1);
                             }
                         }
                         timer_temp.setIndexes(device_list_temp);
