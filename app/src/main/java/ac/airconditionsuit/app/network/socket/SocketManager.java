@@ -417,9 +417,7 @@ public class SocketManager extends Observable {
                                     || (socket instanceof UdpSocket && socketType == TCP)) {
                                 reconnectSocket();
                                 Log.v(TAG, "socket switch socket type");
-                                return;
                             }
-
                         }
                     }, CHECK_PERIOD, CHECK_PERIOD);
                 }

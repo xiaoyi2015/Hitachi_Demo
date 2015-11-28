@@ -181,7 +181,13 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                                             connectionStatusView.setLabelTextView(R.string.settingFragmentWifiConnectDevice);
                                         } else if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT) {
                                             connectionStatusView.setLabelTextView(R.string.settingFragmentMobileConnectDevice);
-                                        } else {
+                                        } else if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_2G) {
+                                            connectionStatusView.setLabelTextView(R.string.settingFragmentMobileConnectDevice2);
+                                        }  else if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_3G) {
+                                            connectionStatusView.setLabelTextView(R.string.settingFragmentMobileConnectDevice3);
+                                        }  else if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_4G) {
+                                            connectionStatusView.setLabelTextView(R.string.settingFragmentMobileConnectDevice4);
+                                        }  else {
                                             connectionStatusView.setLabelTextView(R.string.settingFragmentUnConnect);
                                         }
                                         break;
@@ -215,7 +221,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                         } else {
                             switch (status) {
                                 case SocketManager.TCP_HOST_CONNECT:
-                                    connectionStatusView.setLabelTextView(R.string.settingFragmentConnectServer);
+                                    connectionStatusView.setLabelTextView(R.string.settingFragmentNoDevice);
                                     break;
                                 default:
                                     connectionStatusView.setLabelTextView(R.string.settingFragmentUnConnect);
