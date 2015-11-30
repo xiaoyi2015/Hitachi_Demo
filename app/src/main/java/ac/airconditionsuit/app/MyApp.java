@@ -316,6 +316,7 @@ public class MyApp extends Application {
     }
 
     private static void enterBackground() {
+        MyApp.getApp().getServerConfigManager().writeToFileWithoutDelay();
         Log.v("liutao", "进入后台");
     }
 
