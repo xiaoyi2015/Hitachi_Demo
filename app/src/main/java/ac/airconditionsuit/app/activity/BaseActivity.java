@@ -129,7 +129,8 @@ public class BaseActivity extends FragmentActivity implements Observer {
 
     public void quiteLogin() {
         finishAffinity();
-        shortStartActivity(LoginActivity.class,"quit","1");
+        shortStartActivity(LoginActivity.class);
+        MyApp.getApp().getLocalConfigManager().setCurrentUserRememberedPassword("");
         MyApp.getApp().offLine();
     }
 

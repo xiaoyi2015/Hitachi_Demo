@@ -82,11 +82,10 @@ public class LoginActivity extends BaseActivity {
             userNameEditText.setText(MyApp.getApp().getLocalConfigManager().getCurrentUserPhoneNumber());
         }
         userNameEditText.setSelection(userNameEditText.getText().length());
-        if(rememberCheckBox.isChecked()&&(!getIntent().getStringExtra("quit").equals("1"))){
+        if(rememberCheckBox.isChecked()){
             passwordEditText.setText(MyApp.getApp().getLocalConfigManager().getCurrentUserRememberedPassword());
         }
         else {
-            MyApp.getApp().getLocalConfigManager().setCurrentUserRememberedPassword("");
             passwordEditText.setText("");
         }
         rememberCheckBox.setChecked(true);
