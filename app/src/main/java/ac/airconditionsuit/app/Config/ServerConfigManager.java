@@ -361,6 +361,10 @@ public class ServerConfigManager {
         writeToFile(fileName);
     }
 
+    public void writeToFileWithoutDelay() {
+        writeToFileWithoutDelay(fileName);
+    }
+
 
     /**
      * 当配置文件有改动时，上传配置文件当服务器
@@ -624,6 +628,45 @@ public class ServerConfigManager {
 
             //call when write success
             uploadToServerAfterDelay();
+//            uploadToServer();
+        } catch (IOException e) {
+            Log.e(TAG, "write server config file error");
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+    }
+
+    private void writeToFileWithoutDelay(String configFileName) {
+        FileOutputStream fos = null;
+        try {
+            File serverConfigFile = new File(configFileName);
+            if (serverConfigFile == null) {
+                Log.e(TAG, "can not find device config file");
+                return;
+            }
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ServerConfig rightServerConfig = switchAddressAndIndexFileToObj(new Gson().fromJson(rootJavaObj.toJsonString(), ServerConfig.class), false);
+            NSDictionary root = PlistUtil.JavaObjectToNSDictionary(rightServerConfig);
+            PropertyListParser.saveAsXML(root, byteArrayOutputStream);
+            byte[] bytes = MyBase64Util.encodeToByte(byteArrayOutputStream.toByteArray(), true);
+
+            fos = new FileOutputStream(configFileName);
+            fos.write(bytes);
+            fos.flush();
+            fos.close();
+            Log.v(TAG, "write server config file success");
+            Log.v("liutao", "后台无延时上传");
+            //call when write success
+            //uploadToServerAfterDelay();
 //            uploadToServer();
         } catch (IOException e) {
             Log.e(TAG, "write server config file error");
