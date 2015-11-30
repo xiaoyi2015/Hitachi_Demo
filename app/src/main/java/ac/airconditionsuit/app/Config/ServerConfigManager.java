@@ -728,4 +728,13 @@ public class ServerConfigManager {
 
         writeToFile();
     }
+
+    public void deleteDeviceLocal() {
+        rootJavaObj.setConnection(null);
+        rootJavaObj.setSections(null);
+        rootJavaObj.setDevices(null);
+        rootJavaObj.setScenes(null);
+        rootJavaObj.setTimers(null);
+        writeToFile();
+    }
 }
