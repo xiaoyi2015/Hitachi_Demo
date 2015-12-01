@@ -191,17 +191,17 @@ public class AirConditionManager {
     }
 
     public AirCondition getAirConditions(Room room) {
-        List<Integer> elements = room.getElements();
-        if (elements == null || elements.size() == 0) {
+        //List<Integer> elements = room.getElements();
+        if (room.getElements() == null || room.getElements().size() == 0) {
             return null;
         }
-        AirCondition airCondition = null;
-        for (int i = 0; i < elements.size(); ++i) {
-            airCondition = getAirConditionByIndex(elements.get(0));
-            if (airCondition == null) {
-                break;
-            }
-        }
+        AirCondition airCondition = new AirCondition();
+        airCondition.setAirconditionMode(getAirConditionByIndex(room.getElements().get(0)).getAirconditionMode());
+        airCondition.setOnoff(getAirConditionByIndex(room.getElements().get(0)).getOnoff());
+        airCondition.setAirconditionFan(getAirConditionByIndex(room.getElements().get(0)).getAirconditionFan());
+        airCondition.setTemperature(getAirConditionByIndex(room.getElements().get(0)).getTemperature());
+        airCondition.setRealTemperature(getAirConditionByIndex(room.getElements().get(0)).getRealTemperature());
+
         if (airCondition == null) {
             airCondition = new AirCondition();
             airCondition.setMode(AirConditionControl.UNKNOW);
@@ -211,16 +211,16 @@ public class AirConditionManager {
             airCondition.setRealTemperature(AirConditionControl.UNKNOW);
             return airCondition;
         }
-        for (int i = 1; i < elements.size(); ++i) {
-            AirCondition temp = getAirConditionByIndex(elements.get(i));
+        for (int i = 1; i < room.getElements().size(); i++) {
+            AirCondition temp = getAirConditionByIndex(room.getElements().get(i));
             if (temp == null) {
                 continue;
             }
             if (temp.getMode() != airCondition.getMode()) {
                 airCondition.setMode(AirConditionControl.UNKNOW);
             }
-            if (temp.getOnoff() != airCondition.getOnoff()) {
-                airCondition.setOnoff(AirConditionControl.UNKNOW);
+            if(airCondition.getOnoff() == 0){
+                airCondition.setOnoff(temp.getOnoff());
             }
             if (temp.getFan() != airCondition.getFan()) {
                 airCondition.setFan(AirConditionControl.UNKNOW);

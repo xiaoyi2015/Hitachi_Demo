@@ -11,6 +11,15 @@ public class AirCondition extends Command {
     public static final int UNFETCH = -10010;
     int realTemperature = UNFETCH;
     int warning;
+    int flag = 0;
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
 
     public AirCondition(AirConditionStatusResponse airConditionStatusResponse) {
         super();
