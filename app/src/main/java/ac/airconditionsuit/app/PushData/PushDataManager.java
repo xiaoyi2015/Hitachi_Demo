@@ -1,5 +1,8 @@
 package ac.airconditionsuit.app.PushData;
 
+import ac.airconditionsuit.app.Config.ServerConfigManager;
+import ac.airconditionsuit.app.entity.Timer;
+import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,8 +12,8 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import ac.airconditionsuit.app.Constant;
@@ -39,6 +42,13 @@ public class PushDataManager {
         private long ts;
         private long id;
         private long chatid;
+
+        public long getTid() {
+            return tid;
+        }
+
+        private long tid;
+        private long chat_id;
         private int type;
         private String content;
 
@@ -51,7 +61,14 @@ public class PushDataManager {
         }
 
         public long getChatid() {
-            return chatid;
+            if (chatid != 0) {
+                return chatid;
+            } else if (chat_id != 0) {
+                return chat_id;
+            } else {
+                Log.e(TAG, "error!!! for push data chat id");
+                return 0;
+            }
         }
 
         public int getType() {
@@ -72,6 +89,7 @@ public class PushDataManager {
 
         public void setChatid(long chatid) {
             this.chatid = chatid;
+            this.chat_id = chatid;
         }
 
         public void setType(int type) {
@@ -90,6 +108,11 @@ public class PushDataManager {
             this.tableId = tableId;
         }
 
+        public void fixTime() {
+            if (ts == 0) {
+                ts = System.currentTimeMillis() / 1000;
+            }
+        }
     }
 
     public class PushDataDbHelper extends SQLiteOpenHelper {
@@ -124,9 +147,46 @@ public class PushDataManager {
     public long add(String data) {
         try {
             PushData pushData = new Gson().fromJson(data, PushData.class);
+            if (pushData.getType() == 26) {
+                return 0;
+            }
+            pushData.fixTime();
             saveToSQLite(pushData);
-            if (pushData.getType() == 103) {
-                MyApp.getApp().showToast(pushData.getContent());
+            if (pushData.getType() == 103
+                    || pushData.getType() == 101
+                    || pushData.getType() == 102
+                    || pushData.getType() == 20) {
+                if (pushData.getType() == 103) {
+                    for (Timer t : MyApp.getApp().getServerConfigManager().getTimer()) {
+                        if (pushData.getTid() == (long) t.getTimerid()) {
+                            MyApp.getApp().showToast(pushData.getContent().substring(0, 4) + "\"" + t.getName() + "\"" + pushData.getContent().substring(4));
+                            break;
+                        }
+                    }
+                } else {
+                    MyApp.getApp().showToast(pushData.getContent());
+                }
+            }
+            if (pushData.getType() == 20) {
+                if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+                    Log.v(TAG, "delete device local!!!!");
+                    MyApp.getApp().getServerConfigManager().deleteDeviceLocal();
+                } else {
+                    for (String configFileName : MyApp.getApp().getLocalConfigManager().getCurrentUserConfig().getHomeConfigFileNames()) {
+                        ServerConfigManager serverConfigManager = new ServerConfigManager();
+                        serverConfigManager.readFromFile(configFileName);
+                        if (serverConfigManager.getRootJavaObj() == null) {
+                            continue;
+                        }
+                        if (serverConfigManager.hasDevice()) {
+                            if (serverConfigManager.getConnections().get(0).getChat_id() == pushData.getChatid()) {
+                                serverConfigManager.deleteDeviceLocal();
+                                Log.v(TAG, "delete device local!!!!");
+                                break;
+                            }
+                        }
+                    }
+                }
             }
             return pushData.getId();
         } catch (Exception e) {
@@ -137,7 +197,6 @@ public class PushDataManager {
 
 
     /**
-     *
      * @param pushDatas
      * @return return message ids, for ack
      */
@@ -171,7 +230,7 @@ public class PushDataManager {
         if (currentHomeDeviceId == null) {
             return new ArrayList<>();
         }
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME +" where " + CHATID + " = \"" + currentHomeDeviceId + "\"";
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " where " + CHATID + " = \"" + currentHomeDeviceId + "\"";
 
         SQLiteDatabase db = new PushDataDbHelper(MyApp.getApp()).getReadableDatabase();
         List<PushData> result = new ArrayList<>();
@@ -239,25 +298,26 @@ public class PushDataManager {
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_GET_PUSHDATA);
         requestParams.put("auth", MyApp.getApp().getUser().getAuth());
 
-        HttpClient.get(requestParams, new TypeToken<List<PushDataListResponse>>(){}.getType(),
+        HttpClient.get(requestParams, new TypeToken<List<PushDataListResponse>>() {
+                }.getType(),
                 new HttpClient.JsonResponseHandler<List<PushDataListResponse>>() {
-            @Override
-            public void onSuccess(List<PushDataListResponse> pushDatas) {
-                if (pushDatas == null) {
-                    return;
-                }
-                saveToSQLite(pushDatas);
-                ack(pushDatas);
-                if (pushDatas.size() != 0) {
-                    checkPushDataFromService();
-                }
-            }
+                    @Override
+                    public void onSuccess(List<PushDataListResponse> pushDatas) {
+                        if (pushDatas == null) {
+                            return;
+                        }
+                        saveToSQLite(pushDatas);
+                        ack(pushDatas);
+                        if (pushDatas.size() != 0) {
+                            checkPushDataFromService();
+                        }
+                    }
 
-            @Override
-            public void onFailure(Throwable throwable) {
-                MyApp.getApp().showToast(R.string.check_push_data_failure);
-            }
-        });
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        MyApp.getApp().showToast(R.string.check_push_data_failure);
+                    }
+                });
     }
 
     private void ack(List<PushDataListResponse> pushDatas) {
