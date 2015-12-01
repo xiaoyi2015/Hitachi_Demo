@@ -206,11 +206,11 @@
     <string name="settingFragmentHasHostNoDevice">成功连接服务器，未添加i-EZ控制器</string>
     <string name="settingFragmentNoHostNoDevice">无法连接服务器，未添加i-EZ控制器</string>
 
-    <string name="settingFragmentWifiConnectDevice">通过wifi运程控制</string>
-    <string name="settingFragmentMobileConnectDevice">通过移动网络运程控制</string>
-    <string name="settingFragmentMobileConnectDevice2">通过2G网络运程控制</string>
-    <string name="settingFragmentMobileConnectDevice3">通过3G网络运程控制</string>
-    <string name="settingFragmentMobileConnectDevice4">通过4G网络运程控制</string>
+    <string name="settingFragmentWifiConnectDevice">通过wifi远程控制</string>
+    <string name="settingFragmentMobileConnectDevice">通过移动网络远程控制</string>
+    <string name="settingFragmentMobileConnectDevice2">通过2G远程控制</string>
+    <string name="settingFragmentMobileConnectDevice3">通过3G远程控制</string>
+    <string name="settingFragmentMobileConnectDevice4">通过4G远程控制</string>
     <string name="settingFragmentWifiUdpConnect">通过局域网控制</string>
     <string name="settingFragmentConnectServer">i-EZ控制器未联网</string>
     <string name="settingFragmentNoDevice">无i-EZ控制器</string>
