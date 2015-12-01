@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.PushData;
 
 import ac.airconditionsuit.app.Config.ServerConfigManager;
+import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import android.content.ContentValues;
 import android.content.Context;
@@ -41,6 +42,12 @@ public class PushDataManager {
         private long ts;
         private long id;
         private long chatid;
+
+        public long getTid() {
+            return tid;
+        }
+
+        private long tid;
         private long chat_id;
         private int type;
         private String content;
@@ -149,7 +156,16 @@ public class PushDataManager {
                     || pushData.getType() == 101
                     || pushData.getType() == 102
                     || pushData.getType() == 20) {
-                MyApp.getApp().showToast(pushData.getContent());
+                if (pushData.getType() == 103) {
+                    for (Timer t : MyApp.getApp().getServerConfigManager().getTimer()) {
+                        if (pushData.getTid() == (long) t.getTimerid()) {
+                            MyApp.getApp().showToast(pushData.getContent().substring(0, 4) + "\"" + t.getName() + "\"" + pushData.getContent().substring(4));
+                            break;
+                        }
+                    }
+                } else {
+                    MyApp.getApp().showToast(pushData.getContent());
+                }
             }
             if (pushData.getType() == 20) {
                 if (MyApp.getApp().getServerConfigManager().hasDevice()) {
