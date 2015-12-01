@@ -416,18 +416,13 @@ public class EditSceneActivity extends BaseActivity{
                             modeView.setDefault(temp_mode.get(position));
                             fanView.setDefault(temp_fan.get(position));
 
-
                             airModePickerView.setMinimumHeight(400);
 
                             new AlertDialog.Builder(EditSceneActivity.this).setTitle(R.string.choose_scene_air_mode).setView(airModePickerView).
                                     setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            if(modeView.getSelected() == 1){
-                                                temp_temp.set(position, tempView.getSelected());
-                                            }else{
-                                                temp_temp.set(position, tempView.getSelected());
-                                            }
+
                                             temp_on_off.set(position, onOffView.getSelected());
                                             temp_mode.set(position, modeView.getSelected());
                                             temp_fan.set(position, fanView.getSelected());
@@ -437,9 +432,27 @@ public class EditSceneActivity extends BaseActivity{
                                                 temp_text.setVisibility(View.VISIBLE);
                                                 int flag_temp1;
                                                 if(temp_mode.get(position) == 1){
-                                                    flag_temp1 = temp_temp.get(position) + 17;
+                                                    flag_temp1 = tempView.getSelected() + 17;
                                                 }else {
-                                                    flag_temp1 = temp_temp.get(position) + 19;
+                                                    flag_temp1 = tempView.getSelected() + 19;
+                                                }
+                                                //test
+                                                if(flag_temp1 > 30){
+                                                    flag_temp1 = 30;
+                                                }
+                                                if(temp_mode.get(position) == 1){
+                                                    if(flag_temp1 < 17){
+                                                        flag_temp1 = 17;
+                                                    }
+                                                }else{
+                                                    if(flag_temp1 < 19){
+                                                        flag_temp1 = 19;
+                                                    }
+                                                }
+                                                if(temp_mode.get(position) == 1) {
+                                                    temp_temp.set(position, flag_temp1-17);
+                                                }else{
+                                                    temp_temp.set(position, flag_temp1-19);
                                                 }
                                                 temp_text.setText(flag_temp1 + getString(R.string.temp_symbol));
                                                 if(temp_on_off.get(position) == 0){

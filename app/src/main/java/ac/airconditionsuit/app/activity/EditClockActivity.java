@@ -272,6 +272,20 @@ public class EditClockActivity extends BaseActivity{
                                     temp_temp = (float) (tempView.getSelected() + 19);
                                 }
 
+                                //test
+                                if(temp_temp > 30){
+                                    temp_temp = 30;
+                                }
+                                if(temp_mode == 1){
+                                    if(temp_temp < 17){
+                                        temp_temp = 17;
+                                    }
+                                }else{
+                                    if(temp_temp < 19){
+                                        temp_temp = 19;
+                                    }
+                                }
+
                                 if(temp_on_off){
                                     on_off = getString(R.string.on);
                                 }else{
