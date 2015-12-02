@@ -177,7 +177,8 @@ public class SectionAndRoomView extends RelativeLayout {
                             }else {
                                 if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.get(position).getElements().
                                         get(i)).getWarning() != 0) {
-                                    air_index_list.add(rooms.get(position).getElements().get(i));
+                                    air_index_list.add(MyApp.getApp().getServerConfigManager().getDevices().
+                                            get(room.get(position).getElements().get(i)).getIndoorindex());
                                     warning_list.add(MyApp.getApp().getAirConditionManager().getAirConditionByIndex
                                             (rooms.get(position).getElements().get(i)).getWarning());
                                     address_list.add(MyApp.getApp().getServerConfigManager().getDevices().
@@ -199,10 +200,10 @@ public class SectionAndRoomView extends RelativeLayout {
                                         if (warning_list.get(i) == -2) {
                                             if (address_list.get(i) < 10) {
                                                 warning = warning + "          空调 " + air_index_list.get(i) + "-0" +
-                                                        address_list.get(i) + "离线" + "\n";
+                                                        address_list.get(i) + " 离线" + "\n";
                                             } else {
                                                 warning = warning + "          空调 " + air_index_list.get(i) + "-" +
-                                                        address_list.get(i) + "离线" + "\n";
+                                                        address_list.get(i) + " 离线" + "\n";
                                             }
                                         } else {
                                             if (address_list.get(i) < 10) {

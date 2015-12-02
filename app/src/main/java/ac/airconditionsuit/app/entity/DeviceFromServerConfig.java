@@ -33,6 +33,10 @@ public class DeviceFromServerConfig extends RootEntity {
         return indooraddress;
     }
 
+    public int getIndoorindex() {
+        return indoorindex;
+    }
+
     public String getFormatNameByIndoorIndexAndAddress() {
         return indoorindex + "-" + String.format("%02d", indooraddress);
     }
