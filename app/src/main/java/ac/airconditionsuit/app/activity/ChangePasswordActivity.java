@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.activity;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -66,6 +67,10 @@ public class ChangePasswordActivity extends BaseActivity{
                 break;
         }
         commonTopBar.setIconView(myOnClickListener, myOnClickListener);
+
+        TextView forgetPsd = (TextView) findViewById(R.id.forget_psd);
+        forgetPsd.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        forgetPsd.getPaint().setFakeBoldText(true);
 
         oldPasswordText = (EditText)findViewById(R.id.old_password_text);
         newPassword = (EditText)findViewById(R.id.new_password);
