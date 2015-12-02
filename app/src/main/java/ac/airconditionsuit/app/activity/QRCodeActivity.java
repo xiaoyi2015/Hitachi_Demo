@@ -77,6 +77,7 @@ public class QRCodeActivity extends BaseActivity{
                 qrCode.setName(hostDeviceInfo.getName());
                 qrCode.setAddress(hostDeviceInfo.getAddress());
                 qrCode.setCreator_cust_id(hostDeviceInfo.getCreator_cust_id());
+                qrCode.setHome(MyApp.getApp().getServerConfigManager().getHome().getName());
 
                 QRCodeWriter writer = new QRCodeWriter();
                 try {

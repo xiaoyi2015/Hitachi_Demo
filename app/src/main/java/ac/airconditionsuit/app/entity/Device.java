@@ -29,7 +29,18 @@ public class Device extends RootEntity {
         private String mac;
         private int cust_id = 10001;
         private int status = 1;
+
+        public String getHome() {
+            return home;
+        }
+
         private String name;
+
+        public void setHome(String home) {
+            this.home = home;
+        }
+
+        private String home;
 
         public QRCode(long chat_id) {
             this.chat_id = chat_id;
