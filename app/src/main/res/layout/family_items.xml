@@ -21,6 +21,7 @@
         <ac.airconditionsuit.app.view.RoundImageView
             android:id="@+id/cust1_picture"
             android:src="@drawable/user_dc"
+            android:scaleType="fitXY"
             android:layout_below="@+id/admin_text1"
             android:layout_centerHorizontal="true"
             android:layout_width="60dp"
@@ -29,6 +30,7 @@
         <TextView
             android:id="@+id/cust1_name"
             android:layout_width="fill_parent"
+            android:layout_marginTop="2dp"
             android:layout_height="30dp"
             android:gravity="center"
             android:textColor="@color/text_color_white"
@@ -52,6 +54,7 @@
         <ac.airconditionsuit.app.view.RoundImageView
             android:id="@+id/cust2_picture"
             android:src="@drawable/user_dc"
+            android:scaleType="fitXY"
             android:layout_below="@+id/admin_text2"
             android:layout_centerHorizontal="true"
             android:layout_width="60dp"
@@ -60,6 +63,7 @@
         <TextView
             android:id="@+id/cust2_name"
             android:layout_width="fill_parent"
+            android:layout_marginTop="2dp"
             android:layout_height="30dp"
             android:textColor="@color/text_color_white"
             android:gravity="center"
