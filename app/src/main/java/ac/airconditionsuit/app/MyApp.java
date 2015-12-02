@@ -124,7 +124,7 @@ public class MyApp extends Application {
     }
 
     public void initSocketManager() {
-        if (socketManager != null){
+        if (socketManager != null) {
             socketManager.close();
             socketManager.stopCheck();
             socketManager = null;
@@ -220,7 +220,7 @@ public class MyApp extends Application {
      * @param string string will be show
      */
     public void showToast(final String string) {
-        if (string == null || string.length() == 0 || string.contains("token 错误")) {
+        if (!isAppOnForeground() || string == null || string.length() == 0 || string.contains("token 错误")) {
             return;
         }
 
@@ -260,7 +260,6 @@ public class MyApp extends Application {
     public static boolean isAppOnForeground() {
         // Returns a list of application processes that are running on the
         // device
-
         ActivityManager activityManager = (ActivityManager) context().getSystemService(Context.ACTIVITY_SERVICE);
         String packageName = MyApp.context().getPackageName();
 
@@ -316,7 +315,10 @@ public class MyApp extends Application {
     }
 
     private static void enterBackground() {
-        MyApp.getApp().getServerConfigManager().writeToFileWithoutDelay();
+        ServerConfigManager serverConfigManager = MyApp.getApp().getServerConfigManager();
+        if (serverConfigManager != null) {
+            serverConfigManager.writeToFileWithoutDelay();
+        }
         Log.v("liutao", "进入后台");
     }
 

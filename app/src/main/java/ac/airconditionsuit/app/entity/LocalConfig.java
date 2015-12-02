@@ -23,22 +23,6 @@ public class LocalConfig extends RootEntity {
         return getCurrentUserForLocalConfig().getHomeConfigFileNames().size();
     }
 
-    public List<UserForLocalConfig> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<UserForLocalConfig> users) {
-        this.users = users;
-    }
-
-    public int getCurrentIndex() {
-        return currentIndex;
-    }
-
-    public void setCurrentIndex(int currentIndex) {
-        this.currentIndex = currentIndex;
-    }
-
     public UserForLocalConfig getCurrentUserForLocalConfig() {
         if (currentIndex < 0 || currentIndex >= users.size()) {
             return null;
@@ -55,13 +39,12 @@ public class LocalConfig extends RootEntity {
 
     public void updateUser(MyUser user) {
         for (int i = 0; i < users.size(); ++i) {
-            UserForLocalConfig tempuser = users.get(i);
-            if (Objects.equals(tempuser.getMyUser().getCust_id(), user.getCust_id())) {
-                tempuser.setMyUser(user);
+            UserForLocalConfig tempUser = users.get(i);
+            if (Objects.equals(tempUser.getMyUser().getCust_id(), user.getCust_id())) {
+                tempUser.setMyUser(user);
                 currentIndex = i;
                 return;
             }
-
         }
 
         UserForLocalConfig newUser = new UserForLocalConfig(user);
@@ -90,7 +73,10 @@ public class LocalConfig extends RootEntity {
     }
 
     public void rememberCurrentUserPassword(String password){
-        getCurrentUserForLocalConfig().setRememberedPassword(password);
+        UserForLocalConfig currentUserForLocalConfig = getCurrentUserForLocalConfig();
+        if (currentUserForLocalConfig != null) {
+            currentUserForLocalConfig.setRememberedPassword(password);
+        }
     }
 
     public String getCurrentUserRememberedPassword(){

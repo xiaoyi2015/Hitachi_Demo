@@ -131,7 +131,6 @@ public class MainActivity extends BaseActivity {
 
         ObserveData od = (ObserveData) data;
         switch (od.getMsg()) {
-
             case ObserveData.TIMER_STATUS_RESPONSE:
             case ObserveData.AIR_CONDITION_STATUS_RESPONSE:
                 refreshUI();
@@ -176,5 +175,6 @@ public class MainActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
 
 }
