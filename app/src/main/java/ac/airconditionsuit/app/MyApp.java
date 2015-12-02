@@ -321,13 +321,23 @@ public class MyApp extends Application {
     }
 
     public void setOldUserAvatar(File file) {
-        File savedFile = new File(getCacheDir(), "userAvatar");
+        File savedFile = getCacheAvatarName();
         if (!file.renameTo(savedFile)) {
             Log.v(TAG, "save user avatar cache failed");
         }
     }
 
+    public File getCacheAvatarName() {
+        return new File(getCacheDir(), user.getPhone() + "userAvatar" + ".png");
+    }
+
     public Bitmap getOldUserAvatar() {
-        return BitmapFactory.decodeFile(new File(getCacheDir(), "userAvatar").getAbsolutePath());
+        try {
+            return BitmapFactory.decodeFile(getCacheAvatarName().getAbsolutePath());
+        } catch (Exception e) {
+            Log.v(TAG, "no cache avatar");
+            e.printStackTrace();
+            return null;
+        }
     }
 }

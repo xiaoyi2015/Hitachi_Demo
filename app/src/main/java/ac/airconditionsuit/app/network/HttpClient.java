@@ -225,25 +225,28 @@ public class HttpClient {
             Log.e(TAG, "load image fail");
             return;
         }
+
+        Bitmap oldUserAvatar = MyApp.getApp().getOldUserAvatar();
+        if (oldUserAvatar != null){
+            imageView.setImageBitmap(oldUserAvatar);
+        } else {
+            imageView.setImageResource(R.drawable.user_dc);
+        }
+
         if (url == null) {
-            Bitmap oldUserAvatar = MyApp.getApp().getOldUserAvatar();
-            if (oldUserAvatar != null){
-                imageView.setImageBitmap(oldUserAvatar);
-            } else {
-                imageView.setImageResource(R.drawable.user_dc);
-            }
             return;
         }
+
         getAsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(MyApp.getApp()) {
             @Override
             public void onFailure(int statusCode, org.apache.http.Header[] headers, Throwable throwable, File file) {
                 Log.e(TAG, "download from " + url + " failed");
-                Bitmap oldUserAvatar = MyApp.getApp().getOldUserAvatar();
-                if (oldUserAvatar != null){
-                    imageView.setImageBitmap(oldUserAvatar);
-                } else {
-                    imageView.setImageResource(R.drawable.user_dc);
-                }
+//                Bitmap oldUserAvatar = MyApp.getApp().getOldUserAvatar();
+//                if (oldUserAvatar != null){
+//                    imageView.setImageBitmap(oldUserAvatar);
+//                } else {
+//                    imageView.setImageResource(R.drawable.user_dc);
+//                }
 //                imageView.setImageResource(R.drawable.user_dc);
             }
 
