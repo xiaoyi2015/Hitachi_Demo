@@ -278,7 +278,7 @@ public class UserInfoActivity extends BaseActivity {
         CommonButtonWithArrow clause = (CommonButtonWithArrow) findViewById(R.id.common_agree_clause);
         CommonButtonWithArrow exit = (CommonButtonWithArrow) findViewById(R.id.quit_account);
 
-        HttpClient.loadImage(MyApp.getApp().getUser().getAvatar(), userIcon);
+        HttpClient.loadCurrentUserAvatar(MyApp.getApp().getUser().getAvatar(), userIcon);
         nickName.setOnlineTextView(MyApp.getApp().getUser().getCust_name());
         if (MyApp.getApp().getUser().getSex() == MyUser.MAIL) {
             gender.setOnlineTextView(getString(R.string.male));
@@ -379,7 +379,7 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void onSuccess(UploadAvatar response) {
                 MyApp.getApp().getUser().setAvatar(response.getAvatar_url());
-                HttpClient.loadImage(response.getAvatar_url(), userIcon);
+                HttpClient.loadCurrentUserAvatar(response.getAvatar_url(), userIcon);
                 MyApp.getApp().showToast(R.string.upload_success);
             }
 
