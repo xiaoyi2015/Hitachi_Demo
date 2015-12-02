@@ -13,7 +13,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="50dp"
         android:layout_centerHorizontal="true"
         android:id="@+id/logo"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:gravity="bottom|center_horizontal"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:layout_below="@+id/text_part1"
         android:layout_alignParentBottom="true"
         android:id="@+id/text_part2"
