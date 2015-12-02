@@ -23,10 +23,12 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.loopj.android.http.RequestParams;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * Created by Administrator on 2015/10/21.
  */
-public class QRCodeActivity extends BaseActivity{
+public class QRCodeActivity extends BaseActivity {
 
     private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override
@@ -46,7 +48,7 @@ public class QRCodeActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.qr_code));
-        switch (UIManager.UITYPE){
+        switch (UIManager.UITYPE) {
             case 1:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
                 break;
@@ -57,12 +59,12 @@ public class QRCodeActivity extends BaseActivity{
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_dc);
                 break;
         }
-        commonTopBar.setIconView(myOnClickListener,null);
+        commonTopBar.setIconView(myOnClickListener, null);
         showQRCode();
 
     }
 
-    void showQRCode(){
+    void showQRCode() {
         RequestParams params = new RequestParams();
         params.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
         params.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_GET_CHAT_TOKEN);
@@ -81,9 +83,14 @@ public class QRCodeActivity extends BaseActivity{
 
                 QRCodeWriter writer = new QRCodeWriter();
                 try {
-                    BitMatrix bitMatrix =
-                            writer.encode(qrCode.toJsonString(),
-                                    BarcodeFormat.QR_CODE, 1024, 1024);
+                    String content;
+                    try {
+                        content = new String(qrCode.toJsonString().getBytes("UTF-8"), "ISO-8859-1");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                    BitMatrix bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, 1024, 1024);
 
                     int width = bitMatrix.getWidth();
                     int height = bitMatrix.getHeight();
@@ -93,7 +100,7 @@ public class QRCodeActivity extends BaseActivity{
                             bmp.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
                         }
                     }
-                    ((ImageView)findViewById(R.id.QRCode)).setImageBitmap(bmp);
+                    ((ImageView) findViewById(R.id.QRCode)).setImageBitmap(bmp);
                 } catch (WriterException e) {
                     Log.e(TAG, "gen qrcode failed");
                     e.printStackTrace();
