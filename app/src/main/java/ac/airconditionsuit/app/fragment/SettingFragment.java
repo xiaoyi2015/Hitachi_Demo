@@ -41,7 +41,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_setting, container, false);
         roundImageView = (RoundImageView) view.findViewById(R.id.user_icon);
-        HttpClient.loadImage(MyApp.getApp().getUser().getAvatar(), roundImageView);
+        HttpClient.loadCurrentUserAvatar(MyApp.getApp().getUser().getAvatar(), roundImageView);
         home_name = (TextView) view.findViewById(R.id.setting_home_name);
 
         view.findViewById(R.id.software_information).setOnClickListener(this);
@@ -127,7 +127,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                     home_name.setText(data.getStringExtra("name"));
                     break;
                 case REQUEST_CHANGE_ICON:
-                    HttpClient.loadImage(MyApp.getApp().getUser().getAvatar(), roundImageView);
+                    HttpClient.loadCurrentUserAvatar(MyApp.getApp().getUser().getAvatar(), roundImageView);
                     break;
             }
         }

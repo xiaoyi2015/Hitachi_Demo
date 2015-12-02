@@ -418,11 +418,10 @@ public class SetClockFragment extends BaseFragment {
             return;
         }
         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
-            List<Timer> timer = MyApp.getApp().getServerConfigManager().getTimer();
+            List<Timer> timer = new ArrayList<>(MyApp.getApp().getServerConfigManager().getTimer());
             clockSettingAdapter.changeData(timer);
         } else {
             clockSettingAdapter.changeData(null);
         }
-
     }
 }

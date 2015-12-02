@@ -220,31 +220,27 @@ public class HttpClient {
         void onSuccess(File file);
     }
 
-    public static void loadImage(final String url, final ImageView imageView) {
+    public static void loadCurrentUserAvatar(final String url, final ImageView imageView) {
         if (imageView == null) {
             Log.e(TAG, "load image fail");
             return;
         }
+
+        Bitmap oldUserAvatar = MyApp.getApp().getOldUserAvatar();
+        if (oldUserAvatar != null) {
+            imageView.setImageBitmap(oldUserAvatar);
+        } else {
+            imageView.setImageResource(R.drawable.user_dc);
+        }
+
         if (url == null) {
-            Bitmap oldUserAvatar = MyApp.getApp().getOldUserAvatar();
-            if (oldUserAvatar != null){
-                imageView.setImageBitmap(oldUserAvatar);
-            } else {
-                imageView.setImageResource(R.drawable.user_dc);
-            }
             return;
         }
+
         getAsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(MyApp.getApp()) {
             @Override
             public void onFailure(int statusCode, org.apache.http.Header[] headers, Throwable throwable, File file) {
                 Log.e(TAG, "download from " + url + " failed");
-                Bitmap oldUserAvatar = MyApp.getApp().getOldUserAvatar();
-                if (oldUserAvatar != null){
-                    imageView.setImageBitmap(oldUserAvatar);
-                } else {
-                    imageView.setImageResource(R.drawable.user_dc);
-                }
-//                imageView.setImageResource(R.drawable.user_dc);
             }
 
             @Override
@@ -252,6 +248,31 @@ public class HttpClient {
                 Log.v(TAG, "download from " + url + " success");
                 imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
                 MyApp.getApp().setOldUserAvatar(file);
+            }
+        });
+    }
+
+    public static void loadImage(final String url, final ImageView imageView) {
+        if (imageView == null) {
+            Log.e(TAG, "load image fail");
+            return;
+        }
+
+        if (url == null) {
+            return;
+        }
+        imageView.setImageResource(R.drawable.user_dc);
+
+        getAsyncHttpClient().get(url, new FileAsyncHttpResponseHandler(MyApp.getApp()) {
+            @Override
+            public void onFailure(int statusCode, org.apache.http.Header[] headers, Throwable throwable, File file) {
+                Log.e(TAG, "download from " + url + " failed");
+            }
+
+            @Override
+            public void onSuccess(int statusCode, org.apache.http.Header[] headers, File file) {
+                Log.v(TAG, "download from " + url + " success");
+                imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
             }
         });
     }

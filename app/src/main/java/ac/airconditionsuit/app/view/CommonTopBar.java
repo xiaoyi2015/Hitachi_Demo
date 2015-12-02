@@ -1,5 +1,9 @@
 package ac.airconditionsuit.app.view;
 
+import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.R;
+import ac.airconditionsuit.app.UIManager;
+import ac.airconditionsuit.app.network.HttpClient;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -7,11 +11,6 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.R;
-import ac.airconditionsuit.app.UIManager;
-import ac.airconditionsuit.app.network.HttpClient;
 
 /**
  * document your custom view class.
@@ -102,7 +101,7 @@ public class CommonTopBar extends RelativeLayout {
         if(listener == null){
             roundLeftIconView.setVisibility(GONE);
         }else {
-            HttpClient.loadImage(MyApp.getApp().getUser().getAvatar(),roundLeftIconView);
+            HttpClient.loadCurrentUserAvatar(MyApp.getApp().getUser().getAvatar(),roundLeftIconView);
             roundLeftIconView.setOnClickListener(listener);
             roundLeftIconView.setVisibility(VISIBLE);
         }

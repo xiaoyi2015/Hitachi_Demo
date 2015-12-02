@@ -115,6 +115,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                                 MyApp.getApp().getLocalConfigManager().updateCurrentServerConfigFile(deviceId + Constant.CONFIG_FILE_SUFFIX);
                                 Device device = new Device(qrCode);
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
+                                MyApp.getApp().getServerConfigManager().getHome().setName(qrCode.getHome());
                                 MyApp.getApp().getSocketManager().reconnectSocket();
 
                                 Intent intent = new Intent();
@@ -130,6 +131,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                                 MyApp.getApp().getServerConfigManager().readFromFile();
                                 Device device = new Device(qrCode);
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
+                                MyApp.getApp().getServerConfigManager().getHome().setName(qrCode.getHome());
                                 MyApp.getApp().getSocketManager().reconnectSocket();
 
                                 Intent intent = new Intent();

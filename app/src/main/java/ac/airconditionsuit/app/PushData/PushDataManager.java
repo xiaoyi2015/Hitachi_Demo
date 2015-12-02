@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 
+import java.io.PushbackInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +52,28 @@ public class PushDataManager {
         private long chat_id;
         private int type;
         private String content;
+
+        public Data getData() {
+            return data;
+        }
+
+        public void setData(Data data) {
+            this.data = data;
+        }
+
+        private Data data;
+
+        class Data {
+            public long getCust_id() {
+                return cust_id;
+            }
+
+            public void setCust_id(long cust_id) {
+                this.cust_id = cust_id;
+            }
+
+            private long cust_id;
+        }
 
         public long getTs() {
             return ts;
@@ -168,6 +191,9 @@ public class PushDataManager {
                 }
             }
             if (pushData.getType() == 20) {
+                if (pushData.getData().getCust_id() != MyApp.getApp().getUser().getCust_id()) {
+                    return 0;
+                }
                 if (MyApp.getApp().getServerConfigManager().hasDevice()) {
                     Log.v(TAG, "delete device local!!!!");
                     MyApp.getApp().getServerConfigManager().deleteDeviceLocal();

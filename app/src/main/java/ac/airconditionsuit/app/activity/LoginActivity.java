@@ -121,8 +121,8 @@ public class LoginActivity extends BaseActivity {
                 MyUser user = response.getUser();
                 MyApp app = MyApp.getApp();
                 app.setUser(user);
-                app.getLocalConfigManager().updateUser(user);
 
+                app.getLocalConfigManager().updateUser(user);
                 app.getLocalConfigManager().setCurrentUserPhoneNumber(userName);
                 app.getLocalConfigManager().setCurrentPassword(password);
                 if (rememberCheckBox.isChecked()){

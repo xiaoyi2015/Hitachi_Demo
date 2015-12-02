@@ -206,14 +206,19 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     searchTimerTask.cancel();
                     searchTimerTask = null;
                 }
-                new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle("警告")
-                        .setMessage("扫描到的空调室内机数量发生变化，将清除所有的个性化和场景设置")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                MyApp.getApp().getServerConfigManager().airconditionNumberChange();
-                            }
-                        }).setCancelable(false).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle("警告")
+                                .setMessage("扫描到的空调室内机数量发生变化，将清除所有的个性化和场景设置")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        MyApp.getApp().getServerConfigManager().airconditionNumberChange();
+                                    }
+                                }).setCancelable(false).show();
+                    }
+                });
                 break;
         }
     }
