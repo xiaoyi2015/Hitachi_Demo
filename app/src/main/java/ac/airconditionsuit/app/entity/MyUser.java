@@ -152,7 +152,6 @@ public class MyUser extends RootEntity {
     public boolean infComplete() {
         return cust_name != null && cust_name.length() != 0
                 && sex != -1 && sex != 0
-                && email != null && email.length() != 0
                 && birthday != null && birthday.length() != 0
                 && avatar_big != null && avatar_big.length() != 0;
     }

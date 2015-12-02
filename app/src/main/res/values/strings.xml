@@ -128,7 +128,7 @@
     <string name="low_wind">低风</string>
     <string name="edit_scene">编辑场景</string>
     <string name="scene_name_hint">场景名称</string>
-    <string name="choose_scene_text">选择需要设定的空调</string>
+    <string name="choose_scene_text">空调状态设置</string>
     <string name="upload_success">上传成功</string>
     <string name="upload_failure">上传失败</string>
     <string name="heat">制热</string>
@@ -143,7 +143,7 @@
     <string name="on">开机</string>
     <string name="off">关机</string>
     <string name="clock_name_hint">定时名称</string>
-    <string name="air_mode">空调模式</string>
+    <string name="air_mode">空调状态设置</string>
     <string name="choose_clock_text">选择需要定时的空调</string>
     <string name="to_do_control_together">将对本场景执行一键式集中控制</string>
     <string name="is_to_do_control">\n是否要执行?\n</string>

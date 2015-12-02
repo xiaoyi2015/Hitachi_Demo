@@ -94,8 +94,7 @@ public class CheckUtil {
     public static String checkEmail(EditText emailEditText) {
         String emailStr = emailEditText.getText().toString();
         if (emailEditText.length() == 0) {
-            MyApp.getApp().showToast(R.string.pls_input_email);
-            return null;
+            return emailStr;
         }
         if (!isEmail(emailStr)) {
             MyApp.getApp().showToast(R.string.pls_input_right_email);
