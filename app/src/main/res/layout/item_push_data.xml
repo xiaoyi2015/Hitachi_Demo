@@ -23,7 +23,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/front"
-        android:background="@color/transparent_bg2"
+        android:background="@color/color_bg"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             android:paddingLeft="10dp"
             android:paddingBottom="5dp"
             android:layout_width="match_parent"
-            android:textColor="@color/text_color_gray"
+            android:textColor="@color/text_color_white"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>

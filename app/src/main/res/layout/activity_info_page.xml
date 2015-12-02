@@ -36,12 +36,12 @@
         android:id="@+id/exit_button"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_margin="18dp"
+        android:layout_margin="10dp"
         android:scaleType="fitXY"
         android:layout_alignParentBottom="true"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/top_bar_cancel_dc"
+        android:src="@drawable/top_bar_cancel_hit"
         />
 
 </RelativeLayout>
