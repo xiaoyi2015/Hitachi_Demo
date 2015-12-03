@@ -369,17 +369,10 @@ public class RoomAirSettingHitActivity extends BaseActivity {
     }
 
     private void init() {
-        if (airCondition.getOnoff() == AirConditionControl.UNKNOW) {
-            on_off = 0;
-            mode = 0;
-            fan = 0;
-            temp = 30;
-        } else {
-            on_off = airCondition.getOnoff();
-            mode = airCondition.getAirconditionMode();
-            fan = airCondition.getAirconditionFan();
-            temp = (int) airCondition.getTemperature();
-        }
+        on_off = airCondition.getOnoff();
+        mode = airCondition.getAirconditionMode();
+        fan = airCondition.getAirconditionFan();
+        temp = (int) airCondition.getTemperature();
         changeTemp(temp);
         if (mode == 1) {
             tempSeekBar.setMax(13);

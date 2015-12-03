@@ -410,8 +410,23 @@ public class SectionAndRoomView extends RelativeLayout {
                                     MyApp.getApp().showToast(getContext().getString(R.string.fail_to_fetch_aircondition));
                                 }
                             }else {
+                                AirCondition ac;
+                                if (airCondition.getAirconditionMode() == AirConditionControl.UNKNOW||
+                                        airCondition.getAirconditionFan() == AirConditionControl.UNKNOW||
+                                        airCondition.getTemperature() == AirConditionControl.UNKNOW) {
+                                    int min_index = rooms.get(position).getElements().get(0);
+                                    for(int i = 1; i< rooms.get(position).getElements().size();i++){
+                                        if(MyApp.getApp().getServerConfigManager().getDevices().get(rooms.get(position).getElements().get(i)).getAddress()
+                                                > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.get(position).getElements().get(i)).getAddress()){
+                                            min_index = rooms.get(position).getElements().get(i);
+                                        }
+                                    }
+                                    AirCondition min_air = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index);
+                                    ac = new AirCondition(min_air);
+                                }else{
+                                    ac = new AirCondition(airCondition);
+                                }
                                 Intent intent = new Intent();
-                                AirCondition ac = new AirCondition(airCondition);
                                 ac.repair();
                                 intent.putExtra("air", ac.toJsonString());
                                 intent.putExtra("room", rooms.get(position).toJsonString());
