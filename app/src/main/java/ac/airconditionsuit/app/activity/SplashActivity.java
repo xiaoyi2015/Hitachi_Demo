@@ -33,38 +33,14 @@ public class SplashActivity extends BaseActivity {
 
                 @Override
                 public void onSuccess() {
-                    long currentTime = System.currentTimeMillis();
-                    if (currentTime - beginTime < 2000) {
-                        try {
-                            Thread.sleep(2000 - (currentTime - beginTime));
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    MyUser user = MyApp.getApp().getUser();
-                    if (user.infComplete()) {
-                        MyApp.getApp().initSocketManager();
-                        MyApp.getApp().initPushDataManager();
-                        shortStartActivity(MainActivity.class);
-                    } else {
-                        shortStartActivity(UserInfoActivity.class);
-                    }
-                    finish();
+                    goToNextPage();
                 }
 
                 @Override
                 public void onFailure() {
-                    long currentTime = System.currentTimeMillis();
-                    if (currentTime - beginTime < 2000) {
-                        try {
-                            Thread.sleep(2000 - (currentTime - beginTime));
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    shortStartActivity(LoginActivity.class);
-                    finish();
+                    goToNextPage();
+//                    shortStartActivity(LoginActivity.class);
+//                    finish();
                 }
             });
         } else {
@@ -76,5 +52,25 @@ public class SplashActivity extends BaseActivity {
                 }
             }, 2000);
         }
+    }
+
+    private void goToNextPage() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - beginTime < 2000) {
+            try {
+                Thread.sleep(2000 - (currentTime - beginTime));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        MyUser user = MyApp.getApp().getUser();
+        if (user.infComplete()) {
+            MyApp.getApp().initSocketManager();
+            MyApp.getApp().initPushDataManager();
+            shortStartActivity(MainActivity.class);
+        } else {
+            shortStartActivity(UserInfoActivity.class);
+        }
+        finish();
     }
 }
