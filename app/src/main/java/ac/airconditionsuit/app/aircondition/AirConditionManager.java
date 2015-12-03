@@ -40,10 +40,11 @@ public class AirConditionManager {
 
     public void queryAirConditionStatus() {
         try {
-            if (MyApp.getApp().getSocketManager().shouldSendPacketsToQuery())
-            MyApp.getApp().getSocketManager().getAllAirConditionStatusFromHostDevice(
-                    MyApp.getApp().getServerConfigManager().getDevices()
-            );
+            if (MyApp.getApp().getSocketManager() != null && MyApp.getApp().getSocketManager().shouldSendPacketsToQuery()) {
+                MyApp.getApp().getSocketManager().getAllAirConditionStatusFromHostDevice(
+                        MyApp.getApp().getServerConfigManager().getDevices()
+                );
+            }
         } catch (Exception e) {
             Log.e(TAG, "init air condition status fail");
             e.printStackTrace();
@@ -102,7 +103,7 @@ public class AirConditionManager {
         updateAirconditions(room, airConditionControl);
     }
 
-    private void  updateAcsByTimerRunned(int timer_id) {
+    private void updateAcsByTimerRunned(int timer_id) {
         List<Timer> timers = MyApp.getApp().getServerConfigManager().getTimer();
         for (Timer tm : timers) {
             if (tm.getTimerid() == timer_id) {
@@ -138,6 +139,7 @@ public class AirConditionManager {
             }
         }
     }
+
     private void updateAirconditions(Room room, AirConditionControl airConditionControl) throws Exception {
 
         for (int index : room.getElements()) {
@@ -218,7 +220,7 @@ public class AirConditionManager {
             if (temp.getMode() != airCondition.getMode()) {
                 airCondition.setMode(AirConditionControl.UNKNOW);
             }
-            if(airCondition.getOnoff() == 0){
+            if (airCondition.getOnoff() == 0) {
                 airCondition.setOnoff(temp.getOnoff());
             }
             if (temp.getFan() != airCondition.getFan()) {
@@ -230,8 +232,10 @@ public class AirConditionManager {
             if (temp.getRealTemperature() != airCondition.getRealTemperature()) {
                 airCondition.setRealTemperature(AirConditionControl.UNKNOW);
             }
-            if (temp.getTemperature() > 30 || temp.getTemperature() < 17) airCondition.setTemperature(AirConditionControl.UNKNOW);
-            if (temp.getRealTemperature() > 30 || temp.getRealTemperature() < 17) airCondition.setRealTemperature(AirConditionControl.UNKNOW);
+            if (temp.getTemperature() > 30 || temp.getTemperature() < 17)
+                airCondition.setTemperature(AirConditionControl.UNKNOW);
+            if (temp.getRealTemperature() > 30 || temp.getRealTemperature() < 17)
+                airCondition.setRealTemperature(AirConditionControl.UNKNOW);
         }
         return airCondition;
     }
@@ -240,8 +244,7 @@ public class AirConditionManager {
         try {
             Log.v("liutao", "主动发包读取所有定时器状态");
             queryTimerAllWithException();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
         }
     }
