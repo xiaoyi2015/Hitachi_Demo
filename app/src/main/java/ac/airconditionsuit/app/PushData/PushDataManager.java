@@ -186,7 +186,7 @@ public class PushDataManager {
             if (pushData.getType() == 103
                     || pushData.getType() == 102
                     || pushData.getType() == 20) {
-                MyApp.getApp().showToast(pushData.getContent());
+                    MyApp.getApp().showToast(pushData.getContent());
             }
             if (pushData.getType() == 20) {
                 if (pushData.getData().getCust_id() != MyApp.getApp().getUser().getCust_id()) {

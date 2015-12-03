@@ -168,6 +168,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                         if (MyApp.getApp().getServerConfigManager().hasDevice()) {
                             connectionStatusView.setOnlineTextView("");
                             if (connectivityStatus != NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT
+                                    && connectivityStatus != NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_2G
+                                    && connectivityStatus != NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_3G
+                                    && connectivityStatus != NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_4G
                                     && connectivityStatus != NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
                                 if (status == SocketManager.UDP_DEVICE_CONNECT) {
                                     connectionStatusView.setLabelTextView(R.string.settingFragmentWifiUdpConnect);
@@ -183,11 +186,11 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                                             connectionStatusView.setLabelTextView(R.string.settingFragmentMobileConnectDevice);
                                         } else if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_2G) {
                                             connectionStatusView.setLabelTextView(R.string.settingFragmentMobileConnectDevice2);
-                                        }  else if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_3G) {
+                                        } else if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_3G) {
                                             connectionStatusView.setLabelTextView(R.string.settingFragmentMobileConnectDevice3);
-                                        }  else if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_4G) {
+                                        } else if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_4G) {
                                             connectionStatusView.setLabelTextView(R.string.settingFragmentMobileConnectDevice4);
-                                        }  else {
+                                        } else {
                                             connectionStatusView.setLabelTextView(R.string.settingFragmentUnConnect);
                                         }
                                         break;
@@ -200,6 +203,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                                         break;
                                     case SocketManager.TCP_HOST_CONNECT:
                                         if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT ||
+                                                connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_2G ||
+                                                connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_3G ||
+                                                connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_4G ||
                                                 connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT) {
                                             connectionStatusView.setLabelTextView(R.string.settingFragmentConnectServer);
                                         } else {
@@ -208,8 +214,11 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
                                         break;
                                     case SocketManager.TCP_UDP_ALL_UNCONNECT:
-                                        if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT
-                                                || connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT) {
+                                        if (connectivityStatus == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT ||
+                                                connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_2G ||
+                                                connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_3G ||
+                                                connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_4G ||
+                                                connectivityStatus == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT) {
                                             connectionStatusView.setLabelTextView(R.string.settingFragmentCannotControl);
                                         } else {
                                             connectionStatusView.setLabelTextView(R.string.settingFragmentUnConnect);

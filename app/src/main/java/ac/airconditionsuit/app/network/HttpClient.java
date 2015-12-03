@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.internal.Excluder;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.BaseJsonHttpResponseHandler;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
@@ -68,7 +69,12 @@ public class HttpClient {
             @Override
             protected CommonResponse parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
                 Log.v(TAG, "response rawJsonData:\n" + rawJsonData);
-                return new Gson().fromJson(rawJsonData, CommonResponse.class);
+                try {
+                    return new Gson().fromJson(rawJsonData, CommonResponse.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw e;
+                }
             }
 
             @Override
@@ -202,7 +208,12 @@ public class HttpClient {
                     cr.setMsg(m);
                     return cr;
                 }
-                return new Gson().fromJson(rawJsonData, CommonResponse.class);
+                try {
+                    return new Gson().fromJson(rawJsonData, CommonResponse.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw e;
+                }
             }
         });
     }

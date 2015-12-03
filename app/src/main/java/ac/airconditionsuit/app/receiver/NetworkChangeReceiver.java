@@ -29,6 +29,9 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         if (status == NetworkConnectionStatusUtil.TYPE_WIFI_UNCONNECT) {
             logInf = "network status changed, change to udp";
         } else if (status == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT
+                || status == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_2G
+                || status == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_3G
+                || status == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_4G
                 || status == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
             logInf = "network status changed, change to tcp";
         } else {

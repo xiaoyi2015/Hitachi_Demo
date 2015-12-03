@@ -293,6 +293,9 @@ public class MyApp extends Application {
 
     private static void enterForeground() {
         Log.v("liutao", "进入前台");
+        if (MyApp.getApp().pushDataManager != null) {
+            MyApp.getApp().pushDataManager.checkPushDataFromService();
+        }
         if (MyApp.getApp().isUserLogin()) {
             getApp().getAirConditionManager().queryAirConditionStatus();
             getApp().getAirConditionManager().queryTimerAll();
