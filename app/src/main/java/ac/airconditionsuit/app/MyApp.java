@@ -194,7 +194,6 @@ public class MyApp extends Application {
         return null;
     }
 
-
     public AirConditionManager getAirConditionManager() {
         return airconditionManager;
     }

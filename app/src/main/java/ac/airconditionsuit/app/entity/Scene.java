@@ -1,6 +1,8 @@
 package ac.airconditionsuit.app.entity;
 
+import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.network.socket.socketpackage.ControlPackage;
+import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +30,12 @@ public class Scene extends RootEntity {
         this.commands = commands;
     }
 
-    public List<ControlPackage> toSocketControlPackage() throws Exception {
+    public List<ControlPackage> toSocketControlPackage(UdpPackage.Handler handle) throws Exception {
         List<ControlPackage> result = new ArrayList<>();
         for (Command c : commands) {
             result.add(new ControlPackage(c));
         }
+        result.get(result.size() - 1).setHandle(handle);
         return result;
     }
 }

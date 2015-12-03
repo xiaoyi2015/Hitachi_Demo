@@ -24,7 +24,9 @@ public class UdpPackageHandler {
     private Map<Byte, UdpPackage> sentPackage = new HashMap<>();
 
     public void addSentPackage(UdpPackage p) {
-        sentPackage.put(p.getFramNumber(), p);
+        if (p.getHandler() != null) {
+            sentPackage.put(p.getFramNumber(), p);
+        }
     }
 
     public void handleUdpPackage(DatagramPacket datagramPacket, byte[] receiveData) throws IOException {
