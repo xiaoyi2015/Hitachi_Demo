@@ -448,6 +448,9 @@ public class SocketManager extends Observable {
                 return UDP;
             }
         } else if (status == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT
+                || status == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_2G
+                || status == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_3G
+                || status == NetworkConnectionStatusUtil.TYPE_MOBILE_CONNECT_4G
                 || status == NetworkConnectionStatusUtil.TYPE_WIFI_CONNECT) {
             //tcp
             return TCP;

@@ -174,21 +174,19 @@ public class PushDataManager {
                 return 0;
             }
             pushData.fixTime();
+            if (pushData.getType() == 103) {
+                for (Timer t : MyApp.getApp().getServerConfigManager().getTimer()) {
+                    if (pushData.getTid() == (long) t.getTimerid()) {
+                        pushData.setContent(pushData.getContent().substring(0, 4) + "\"" + t.getName() + "\"" + pushData.getContent().substring(4));
+                        break;
+                    }
+                }
+            }
             saveToSQLite(pushData);
             if (pushData.getType() == 103
-                    || pushData.getType() == 101
                     || pushData.getType() == 102
                     || pushData.getType() == 20) {
-                if (pushData.getType() == 103) {
-                    for (Timer t : MyApp.getApp().getServerConfigManager().getTimer()) {
-                        if (pushData.getTid() == (long) t.getTimerid()) {
-                            MyApp.getApp().showToast(pushData.getContent().substring(0, 4) + "\"" + t.getName() + "\"" + pushData.getContent().substring(4));
-                            break;
-                        }
-                    }
-                } else {
                     MyApp.getApp().showToast(pushData.getContent());
-                }
             }
             if (pushData.getType() == 20) {
                 if (pushData.getData().getCust_id() != MyApp.getApp().getUser().getCust_id()) {

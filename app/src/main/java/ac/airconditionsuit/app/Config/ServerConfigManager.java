@@ -425,6 +425,7 @@ public class ServerConfigManager {
 
             @Override
             public void onFailure() {
+                MyApp.getApp().getServerConfigManager().readFromFile();
                 commonNetworkListener.onFailure();
             }
         };

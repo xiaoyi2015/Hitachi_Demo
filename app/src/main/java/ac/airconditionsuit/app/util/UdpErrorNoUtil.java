@@ -29,7 +29,7 @@ public class UdpErrorNoUtil {
             case 1099:
                 return "系统故障";
             case 2000:
-                return "控制成功";
+                return "空调控制成功";
             case 2001:
                 return "控制失败";
             default:
