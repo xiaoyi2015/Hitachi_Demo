@@ -83,7 +83,6 @@ public class MainActivity extends BaseActivity {
 //        pager.setCurrentItem(DEFAULT_FRAGMENT_POSITION);
         fragments[0].setTopBar();
         if(!MyApp.getApp().getServerConfigManager().hasDevice()) {
-            Log.e(TAG, "no device");
             new AlertDialog.Builder(MainActivity.this).setTitle("未检测到设备").setMessage(R.string.new_user_add_device).
                     setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                         @Override

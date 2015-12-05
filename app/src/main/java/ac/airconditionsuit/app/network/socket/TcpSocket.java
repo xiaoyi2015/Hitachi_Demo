@@ -5,6 +5,7 @@ import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.ACKPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.CheckDevicePackage;
+import ac.airconditionsuit.app.network.socket.socketpackage.ControlPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.SocketPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPHeartBeatPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Tcp.TCPLoginPackage;
@@ -19,6 +20,8 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ac on 10/11/15.
@@ -30,6 +33,7 @@ public class TcpSocket implements SocketWrap {
 
     private Socket socket;
     private ACByteQueue readQueue = new ACByteQueue();
+    private Map<Short, UdpPackage.Handler> handlers = new HashMap<>();
 
     @Override
     public void connect() throws IOException {
@@ -46,6 +50,13 @@ public class TcpSocket implements SocketWrap {
                 byte[] dataSent = socketPackage.getBytesTCP();
                 UdpPackage udpPackage = socketPackage.getUdpPackage();
                 MyApp.getApp().getSocketManager().addSentUdpPackage(udpPackage);
+                if (socketPackage instanceof ControlPackage) {
+                    ControlPackage cp = (ControlPackage) socketPackage;
+                    if (cp.getHandle() != null) {
+                        Log.e(TAG, "add to handlers, msg no: " + String.valueOf(cp.getTCPMegNo()));
+                        handlers.put(cp.getTCPMegNo(), cp.getHandle());
+                    }
+                }
                 socket.getOutputStream().write(dataSent);
                 Log.i(TAG, "tcp send data: " + ByteUtil.byteArrayToReadableHexString(dataSent));
             } catch (Exception e) {
@@ -135,6 +146,12 @@ public class TcpSocket implements SocketWrap {
             case TCPSendMessagePackage.SEND_MESSAGE_RETURN_MSG_TYPE:
                 //处理给服务器发消息的返回值，在这里只要做设备在线处理即可
                 handleCheckDevice(receiveData);
+                short msg_no = ByteUtil.byteArrayToShort(receiveData, 3);
+                UdpPackage.Handler handler = handlers.get(msg_no);
+                if (handler != null) {
+                    handler.success();
+                    handlers.remove(msg_no);
+                }
                 break;
 
             case TcpPackage.TICK_OFF_LINE_MSG_TYPE:

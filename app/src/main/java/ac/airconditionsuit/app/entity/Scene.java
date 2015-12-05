@@ -1,6 +1,5 @@
 package ac.airconditionsuit.app.entity;
 
-import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.network.socket.socketpackage.ControlPackage;
 import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 
@@ -35,7 +34,9 @@ public class Scene extends RootEntity {
         for (Command c : commands) {
             result.add(new ControlPackage(c));
         }
-        result.get(result.size() - 1).setHandle(handle);
+        if (result.size() != 0) {
+            result.get(result.size() - 1).setHandle(handle);
+        }
         return result;
     }
 }

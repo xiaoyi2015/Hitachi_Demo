@@ -419,7 +419,6 @@ public class ServerConfigManager {
             @Override
             public void onSuccess() {
                 MyApp.getApp().getServerConfigManager().readFromFile();
-                Log.e(TAG, "has device" + MyApp.getApp().getServerConfigManager().hasDevice());
                 commonNetworkListener.onSuccess();
             }
 

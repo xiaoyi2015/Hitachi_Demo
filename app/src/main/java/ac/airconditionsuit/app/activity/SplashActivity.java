@@ -39,7 +39,6 @@ public class SplashActivity extends BaseActivity {
 
                 @Override
                 public void onFailure() {
-                    Log.e(TAG, "onfailure" + String.valueOf(System.currentTimeMillis() - beginTime));
                     goToNextPage();
                 }
             });
@@ -52,7 +51,6 @@ public class SplashActivity extends BaseActivity {
                 }
             }, DELAY);
         }
-        Log.e(TAG, "finish oncreate" + String.valueOf(System.currentTimeMillis() - beginTime));
     }
 
     private void goToNextPage() {
@@ -71,7 +69,6 @@ public class SplashActivity extends BaseActivity {
                     @Override
                     public void run() {
                         MyUser user = MyApp.getApp().getUser();
-                        Log.e(TAG, "begin new activity" + String.valueOf(System.currentTimeMillis() - beginTime));
                         if (user.infComplete()) {
                             MyApp.getApp().initSocketManager();
                             MyApp.getApp().initPushDataManager();
