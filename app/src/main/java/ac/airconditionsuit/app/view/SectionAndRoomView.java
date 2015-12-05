@@ -370,22 +370,50 @@ public class SectionAndRoomView extends RelativeLayout {
                                     }
                                     break;
                                 case AirConditionControl.UNKNOW:
-                                    roomTemp.setTextColor(getResources().getColor(R.color.hit_cool_blue));
-                                    roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
-                                    roomMode.setImageResource(R.drawable.none_hit);
-                                    switch (airCondition.getAirconditionFan()) {
-                                        case 0:
-                                            roomWindSpeed.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
-                                            break;
-                                        case 1:
-                                            roomWindSpeed.setImageResource(R.drawable.fan3_on_cool_dry_fan_hit);
-                                            break;
-                                        case 2:
-                                            roomWindSpeed.setImageResource(R.drawable.fan5_on_cool_dry_fan_hit);
-                                            break;
-                                        case AirConditionControl.UNKNOW:
-                                            roomWindSpeed.setImageResource(R.drawable.none_hit);
-                                            break;
+                                    int min_index1 = rooms.get(position).getElements().get(0);
+                                    for (int i = 1; i < rooms.get(position).getElements().size(); i++) {
+                                        if (MyApp.getApp().getServerConfigManager().getDevices().get(rooms.get(position).getElements().get(i)).getAddress()
+                                                > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.get(position).getElements().get(i)).getAddress()) {
+                                            min_index1 = rooms.get(position).getElements().get(i);
+                                        }
+                                    }
+                                    AirCondition min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index1);
+                                    if(min_air1.getAirconditionMode() == 1){
+                                        roomTemp.setTextColor(getResources().getColor(R.color.hit_heat_red));
+                                        roomOnOff.setImageResource(R.drawable.onoff_on_heat_hit);
+                                        roomMode.setImageResource(R.drawable.none_hit);
+                                        switch (min_air1.getAirconditionFan()) {
+                                            case 0:
+                                                roomWindSpeed.setImageResource(R.drawable.fan1_on_heat_hit);
+                                                break;
+                                            case 1:
+                                                roomWindSpeed.setImageResource(R.drawable.fan3_on_heat_hit);
+                                                break;
+                                            case 2:
+                                                roomWindSpeed.setImageResource(R.drawable.fan5_on_heat_hit);
+                                                break;
+                                            case AirConditionControl.UNKNOW:
+                                                roomWindSpeed.setImageResource(R.drawable.none_hit);
+                                                break;
+                                        }
+                                    }else{
+                                        roomTemp.setTextColor(getResources().getColor(R.color.hit_cool_blue));
+                                        roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
+                                        roomMode.setImageResource(R.drawable.none_hit);
+                                        switch (min_air1.getAirconditionFan()) {
+                                            case 0:
+                                                roomWindSpeed.setImageResource(R.drawable.fan1_on_cool_dry_fan_hit);
+                                                break;
+                                            case 1:
+                                                roomWindSpeed.setImageResource(R.drawable.fan3_on_cool_dry_fan_hit);
+                                                break;
+                                            case 2:
+                                                roomWindSpeed.setImageResource(R.drawable.fan5_on_cool_dry_fan_hit);
+                                                break;
+                                            case AirConditionControl.UNKNOW:
+                                                roomWindSpeed.setImageResource(R.drawable.none_hit);
+                                                break;
+                                        }
                                     }
                                     break;
                             }
