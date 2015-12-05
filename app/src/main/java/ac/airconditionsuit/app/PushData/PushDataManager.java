@@ -1,13 +1,18 @@
 package ac.airconditionsuit.app.PushData;
 
 import ac.airconditionsuit.app.Config.ServerConfigManager;
+import ac.airconditionsuit.app.activity.MainActivity;
 import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -183,10 +188,42 @@ public class PushDataManager {
                 }
             }
             saveToSQLite(pushData);
+
+            Intent resultIntent = new Intent(MyApp.getApp(), MainActivity.class);
+// Because clicking the notification opens a new ("special") activity, there's
+// no need to create an artificial back stack.
+            PendingIntent resultPendingIntent =
+                    PendingIntent.getActivity(
+                            MyApp.getApp(),
+                            0,
+                            resultIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
             if (pushData.getType() == 103
                     || pushData.getType() == 102
                     || pushData.getType() == 20) {
+                if (!MyApp.isAppActive() || MyApp.getApp().isScreenLock()) {
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(MyApp.getApp())
+                                    .setSmallIcon(R.mipmap.hit_launcher)
+                                    .setContentIntent(resultPendingIntent)
+                                    .setContentTitle(pushData.getContent());
+//                                    .setContentText(pushData.getContent());
+                    NotificationManagerCompat.from(MyApp.getApp()).notify((int) pushData.getId(), mBuilder.build());
+                } else {
                     MyApp.getApp().showToast(pushData.getContent());
+                }
+            } else {
+                if (!MyApp.isAppActive() || MyApp.getApp().isScreenLock()) {
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(MyApp.getApp())
+                                    .setSmallIcon(R.mipmap.hit_launcher)
+                                    .setContentIntent(resultPendingIntent)
+                                    .setContentTitle(pushData.getContent());
+//                                .setContentTitle("My notification")
+//                                    .setContentText(pushData.getContent());
+                    NotificationManagerCompat.from(MyApp.getApp()).notify((int) pushData.getId(), mBuilder.build());
+                }
             }
             if (pushData.getType() == 20) {
                 if (pushData.getData().getCust_id() != MyApp.getApp().getUser().getCust_id()) {
@@ -360,12 +397,12 @@ public class PushDataManager {
             HttpClient.get(requestParams, String.class, new HttpClient.JsonResponseHandler<String>() {
                 @Override
                 public void onSuccess(String string) {
-                    MyApp.getApp().showToast(R.string.success);
+//                    MyApp.getApp().showToast(R.string.success);
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    MyApp.getApp().showToast(R.string.failure);
+//                    MyApp.getApp().showToast(R.string.failure);
                 }
             });
         }

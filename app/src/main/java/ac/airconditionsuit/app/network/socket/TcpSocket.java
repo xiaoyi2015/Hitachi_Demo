@@ -53,7 +53,6 @@ public class TcpSocket implements SocketWrap {
                 if (socketPackage instanceof ControlPackage) {
                     ControlPackage cp = (ControlPackage) socketPackage;
                     if (cp.getHandle() != null) {
-                        Log.e(TAG, "add to handlers, msg no: " + String.valueOf(cp.getTCPMegNo()));
                         handlers.put(cp.getTCPMegNo(), cp.getHandle());
                     }
                 }

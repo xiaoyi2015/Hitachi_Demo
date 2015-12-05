@@ -10,6 +10,7 @@ import ac.airconditionsuit.app.network.socket.SocketManager;
 
 import android.app.ActivityManager;
 import android.app.Application;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,6 +33,13 @@ public class MyApp extends Application {
 
     public static boolean isAppActive() {
         return appActive;
+    }
+
+    public boolean isScreenLock() {
+        KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        boolean b = km.inKeyguardRestrictedInputMode();
+        Log.e(TAG, "is scree lock: " + b);
+        return b;
     }
 
     public static void setAppActive(boolean appActive) {
