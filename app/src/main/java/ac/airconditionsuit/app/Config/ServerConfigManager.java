@@ -343,7 +343,6 @@ public class ServerConfigManager {
             devices.get(i).reformatIndoorIndexAndAddress(flag, i);
         }
 
-
         return serverConfig;
     }
 
@@ -420,6 +419,7 @@ public class ServerConfigManager {
             @Override
             public void onSuccess() {
                 MyApp.getApp().getServerConfigManager().readFromFile();
+                Log.e(TAG, "has device" + MyApp.getApp().getServerConfigManager().hasDevice());
                 commonNetworkListener.onSuccess();
             }
 
@@ -445,6 +445,7 @@ public class ServerConfigManager {
 
             @Override
             public void onFailure(Throwable throwable) {
+                MyApp.getApp().getLocalConfigManager().updateHostDeviceConfigFile(new ArrayList<String>());
                 wrapCommonNetworkListener.onFailure();
             }
         });
@@ -491,7 +492,6 @@ public class ServerConfigManager {
         } else {
             //当所有的设备配置文件下载下来以后，更新设备配置文件.
             MyApp.getApp().getLocalConfigManager().updateHostDeviceConfigFile(fileNames);
-
             commonNetworkListener.onSuccess();
         }
     }

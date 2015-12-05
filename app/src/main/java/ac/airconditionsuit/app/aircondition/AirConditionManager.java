@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.aircondition;
 
+import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.*;
 import ac.airconditionsuit.app.network.socket.socketpackage.*;
@@ -21,9 +22,7 @@ public class AirConditionManager {
     List<AirCondition> airConditions = new ArrayList<>();
 //    List<Timer> timers = new ArrayList<>();//usused
 
-
-    public void initAirConditionsByDeviceList() {
-        List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
+    public void initAirConditionsByDeviceList(List<DeviceFromServerConfig> devices) {
         for (DeviceFromServerConfig dev : devices) {
             boolean found = false;
             for (AirCondition air : airConditions) {
@@ -39,12 +38,18 @@ public class AirConditionManager {
         }
     }
 
+    public void initAirConditionsByDeviceList() {
+        for (String configFileName : MyApp.getApp().getLocalConfigManager().getCurrentUserConfig().getHomeConfigFileNames()) {
+            ServerConfigManager serverConfigManager = new ServerConfigManager();
+            serverConfigManager.readFromFile(configFileName);
+            initAirConditionsByDeviceList(serverConfigManager.getDevices());
+        }
+    }
+
     public void queryAirConditionStatus() {
         try {
             if (MyApp.getApp().getSocketManager() != null && MyApp.getApp().getSocketManager().shouldSendPacketsToQuery()) {
-                MyApp.getApp().getSocketManager().getAllAirConditionStatusFromHostDevice(
-                        MyApp.getApp().getServerConfigManager().getDevices()
-                );
+                MyApp.getApp().getSocketManager().getAllAirConditionStatusFromHostDevice(MyApp.getApp().getServerConfigManager().getDevices());
             }
         } catch (Exception e) {
             Log.e(TAG, "init air condition status fail");
@@ -198,21 +203,22 @@ public class AirConditionManager {
             return null;
         }
         AirCondition airCondition = new AirCondition();
-        airCondition.setAirconditionMode(getAirConditionByIndex(room.getElements().get(0)).getAirconditionMode());
-        airCondition.setOnoff(getAirConditionByIndex(room.getElements().get(0)).getOnoff());
-        airCondition.setAirconditionFan(getAirConditionByIndex(room.getElements().get(0)).getAirconditionFan());
-        airCondition.setTemperature(getAirConditionByIndex(room.getElements().get(0)).getTemperature());
-        airCondition.setRealTemperature(getAirConditionByIndex(room.getElements().get(0)).getRealTemperature());
+        AirCondition airConditionByIndex = getAirConditionByIndex(room.getElements().get(0));
+        airCondition.setAirconditionMode(airConditionByIndex.getAirconditionMode());
+        airCondition.setOnoff(airConditionByIndex.getOnoff());
+        airCondition.setAirconditionFan(airConditionByIndex.getAirconditionFan());
+        airCondition.setTemperature(airConditionByIndex.getTemperature());
+        airCondition.setRealTemperature(airConditionByIndex.getRealTemperature());
 
-        if (airCondition == null) {
-            airCondition = new AirCondition();
-            airCondition.setMode(AirConditionControl.UNKNOW);
-            airCondition.setOnoff(AirConditionControl.UNKNOW);
-            airCondition.setFan(AirConditionControl.UNKNOW);
-            airCondition.setTemperature(AirConditionControl.UNKNOW);
-            airCondition.setRealTemperature(AirConditionControl.UNKNOW);
-            return airCondition;
-        }
+//        if (airCondition == null) {
+//            airCondition = new AirCondition();
+//            airCondition.setMode(AirConditionControl.UNKNOW);
+//            airCondition.setOnoff(AirConditionControl.UNKNOW);
+//            airCondition.setFan(AirConditionControl.UNKNOW);
+//            airCondition.setTemperature(AirConditionControl.UNKNOW);
+//            airCondition.setRealTemperature(AirConditionControl.UNKNOW);
+//            return airCondition;
+//        }
         for (int i = 1; i < room.getElements().size(); i++) {
             AirCondition temp = getAirConditionByIndex(room.getElements().get(i));
             if (temp == null) {

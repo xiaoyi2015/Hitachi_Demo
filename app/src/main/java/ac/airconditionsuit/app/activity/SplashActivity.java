@@ -5,6 +5,8 @@ import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.util.Log;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,11 +17,10 @@ import java.util.TimerTask;
  */
 public class SplashActivity extends BaseActivity {
     private long beginTime;
+    private final static int DELAY = 2000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-//        MobclickAgent.setDebugMode(true);
-//        MobclickAgent.reportError(this, "error");
         super.onCreate(savedInstanceState);
         setContentView(UIManager.getSplashLayout());
 
@@ -38,9 +39,8 @@ public class SplashActivity extends BaseActivity {
 
                 @Override
                 public void onFailure() {
+                    Log.e(TAG, "onfailure" + String.valueOf(System.currentTimeMillis() - beginTime));
                     goToNextPage();
-//                    shortStartActivity(LoginActivity.class);
-//                    finish();
                 }
             });
         } else {
@@ -50,27 +50,39 @@ public class SplashActivity extends BaseActivity {
                     shortStartActivity(LoginActivity.class);
                     finish();
                 }
-            }, 2000);
+            }, DELAY);
         }
+        Log.e(TAG, "finish oncreate" + String.valueOf(System.currentTimeMillis() - beginTime));
     }
 
     private void goToNextPage() {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - beginTime < 2000) {
-            try {
-                Thread.sleep(2000 - (currentTime - beginTime));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - beginTime < DELAY) {
+                    try {
+                        Thread.sleep(DELAY - (currentTime - beginTime));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MyUser user = MyApp.getApp().getUser();
+                        Log.e(TAG, "begin new activity" + String.valueOf(System.currentTimeMillis() - beginTime));
+                        if (user.infComplete()) {
+                            MyApp.getApp().initSocketManager();
+                            MyApp.getApp().initPushDataManager();
+                            shortStartActivity(MainActivity.class);
+                        } else {
+                            shortStartActivity(UserInfoActivity.class);
+                        }
+                        finish();
+                    }
+                });
             }
-        }
-        MyUser user = MyApp.getApp().getUser();
-        if (user.infComplete()) {
-            MyApp.getApp().initSocketManager();
-            MyApp.getApp().initPushDataManager();
-            shortStartActivity(MainActivity.class);
-        } else {
-            shortStartActivity(UserInfoActivity.class);
-        }
-        finish();
+        }).start();
     }
 }
