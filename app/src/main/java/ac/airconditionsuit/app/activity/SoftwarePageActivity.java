@@ -181,7 +181,7 @@ public class SoftwarePageActivity extends BaseActivity {
                                                 }
                                             }
                                             MyApp.getApp().getServerConfigManager().getSections().get(position).setName(group_new_name);
-                                            MyApp.getApp().getServerConfigManager().writeToFile();
+                                            MyApp.getApp().getServerConfigManager().writeToFile(true);
                                             notifyDataSetChanged();
                                             dialog.dismiss();
                                         }

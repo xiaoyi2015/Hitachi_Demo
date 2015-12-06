@@ -5,6 +5,7 @@ import ac.airconditionsuit.app.Config.LocalConfigManager;
 import ac.airconditionsuit.app.PushData.PushDataManager;
 import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.MyUser;
+import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.socket.SocketManager;
 
@@ -231,6 +232,10 @@ public class MyApp extends Application {
             return;
         }
 
+        if (string.contains("系统初始化未完成")) {
+            MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.SEARCH_AIR_CONDITION_CANCEL_TIMER));
+        }
+
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -327,7 +332,7 @@ public class MyApp extends Application {
     private static void enterBackground() {
         ServerConfigManager serverConfigManager = MyApp.getApp().getServerConfigManager();
         if (serverConfigManager != null) {
-            serverConfigManager.writeToFileWithoutDelay();
+            serverConfigManager.writeToFile(true);
         }
         Log.v("liutao", "进入后台");
     }

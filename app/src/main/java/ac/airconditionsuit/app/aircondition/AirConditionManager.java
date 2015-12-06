@@ -90,7 +90,8 @@ public class AirConditionManager {
      */
     public void timerRun(int timerId) {
         Log.v("liutao", "定时器执行");
-        updateAcsByTimerRunned(timerId);
+        //updateAcsByTimerRunned(timerId);
+        queryTimer(timerId);
     }
 
     public void controlScene(Scene scene, UdpPackage.Handler handle) throws Exception {
@@ -101,12 +102,12 @@ public class AirConditionManager {
         //MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
 
         //发送场景控制命令时，先set到本地缓存，使界面得到更新。
-        updateACsBySceneControl(scene);
+        //updateACsBySceneControl(scene);
     }
 
     public void controlRoom(Room room, AirConditionControl airConditionControl) throws Exception {
         MyApp.getApp().getSocketManager().sendMessage(new ControlPackage(room, airConditionControl));
-        updateAirconditions(room, airConditionControl);
+        //updateAirconditions(room, airConditionControl);
     }
 
     private void updateAcsByTimerRunned(int timer_id) {

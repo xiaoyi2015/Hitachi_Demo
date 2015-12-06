@@ -12,6 +12,7 @@
     <string name="software_page">软件界面个性化</string>
     <string name="device_list">设备列表</string>
     <string name="add_device">+ 添加i-EZ控制器</string>
+    <string name="add_device_title">添加新i-EZ控制器</string>
 
     <string name="text_part1">您的建议或是技术问题对我们来说都十分的重要。\n
             收到您的邮件将是我们万分的荣幸。\n</string>
@@ -39,12 +40,7 @@
     <string name="delete_home">删除家</string>
     <string name="delete_info">删除后，家和家里i-EZ控制器的所有信息均无法恢复配置</string>
     <string name="add_group">添加新群组</string>
-    <string name="add_explain_text">自动搜索设备:\n
-        如果设备首次使用，请通过自动搜索新设备的方式添加。在自动搜索前，请确保设备已正常工作，并通过网络或者WIFI的方式与路由器连接成功，只有保证手机、平板和主机设备在同一局域网内，设备才能被搜索到。\n\n
-        扫一扫:\n
-        第一个添加设备的用户为管理员，只有通过扫描管理员发出的邀请码，其他用户才可以添加设备。\n\n
-        二维码:\n
-        配置设置->设备->设备二维码\n\n</string>
+    <string name="add_explain_text">\n自动搜索新i-EZ控制器:\n如果i-EZ控制器首次使用，请通过自动搜索新i-EZ控制器的方式添加。在自动搜索前，请确保i-EZ控制器已正常工作，并通过网线或WiFi的方式与路由器连接成功，只有保证手机、平板和i-EZ控制器在同一局域网内，i-EZ控制器才能被搜索到。\n\n扫一扫:\n第一个添加i-EZ控制器的用户为管理员发出的邀请码，其他用户才可以添加i-EZ控制器。\n\n二维码：\n配置->i-EZ控制器->i-EZ控制器二维码</string>
     <string name="auto_find_device">自动搜索空调控制主机</string>
     <string name="scan_scan">扫一扫</string>
     <string name="home_name">家的名称</string>
@@ -227,14 +223,14 @@
     <string name="toast_inf_delete_device_failed">删除设备失败</string>
     <string name="control_room_fail">控制房间失败</string>
     <string name="section_device_num1">本设备共有</string>
-    <string name="section_device_num2">台空调机</string>
+    <string name="section_device_num2">台空调机\n拖拽空调到空白区域添加新房间</string>
     <string name="is_delete_device_from_room">\n确定从房间中删除此空调吗？\n</string>
     <string name="toast_inf_no_device_to_add_clock">未连接i-EZ控制器，无法添加定时器</string>
     <string name="toast_inf_no_device_to_modify_clock">未连接i-EZ控制器，无法修改定时器</string>
     <string name="add_host_text1">局域网内搜索到下列设备</string>
     <string name="add_host_text2">点击添加设备，成为设备管理员</string>
     <string name="is_to_delete_home">\n确定要删除当前家吗？\n</string>
-    <string name="change_room_tip">长按设备选择是否从房间内删除</string>
+    <string name="change_room_tip">长按设备选择是否从房间内删除\n点击对话框以外区域保存房间</string>
     <string name="room_name_empty_info">房间名称不能为空</string>
     <string name="room_name_too_long_info">房间名称长度不能超过10个汉字或20个字母</string>
     <string name="not_seek_ize">未搜索到i-EZ控制器！</string>

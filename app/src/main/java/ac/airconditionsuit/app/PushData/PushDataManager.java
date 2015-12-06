@@ -175,7 +175,8 @@ public class PushDataManager {
     public long add(String data) {
         try {
             PushData pushData = new Gson().fromJson(data, PushData.class);
-            if (pushData.getType() == 26) {
+
+            if (pushData.getType() == 26 || pushData.getContent().length() == 0) {
                 return 0;
             }
             pushData.fixTime();

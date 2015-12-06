@@ -127,7 +127,7 @@ public class EditSceneActivity extends BaseActivity{
                             }
                         }
                         MyApp.getApp().getServerConfigManager().getScene().get(index).setName(check_scene_name);
-                        MyApp.getApp().getServerConfigManager().writeToFile();
+                        MyApp.getApp().getServerConfigManager().writeToFile(true);
                         setResult(RESULT_OK);
                         finish();
                     }
