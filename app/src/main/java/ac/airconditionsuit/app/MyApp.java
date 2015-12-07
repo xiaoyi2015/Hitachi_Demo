@@ -5,11 +5,13 @@ import ac.airconditionsuit.app.Config.LocalConfigManager;
 import ac.airconditionsuit.app.PushData.PushDataManager;
 import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.MyUser;
+import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.socket.SocketManager;
 
 import android.app.ActivityManager;
 import android.app.Application;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,6 +34,13 @@ public class MyApp extends Application {
 
     public static boolean isAppActive() {
         return appActive;
+    }
+
+    public boolean isScreenLock() {
+        KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        boolean b = km.inKeyguardRestrictedInputMode();
+        Log.e(TAG, "is scree lock: " + b);
+        return b;
     }
 
     public static void setAppActive(boolean appActive) {
@@ -194,7 +203,6 @@ public class MyApp extends Application {
         return null;
     }
 
-
     public AirConditionManager getAirConditionManager() {
         return airconditionManager;
     }
@@ -222,6 +230,10 @@ public class MyApp extends Application {
     public void showToast(final String string) {
         if (!isAppOnForeground() || string == null || string.length() == 0 || string.contains("token 错误")) {
             return;
+        }
+
+        if (string.contains("系统初始化未完成")) {
+            MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.SEARCH_AIR_CONDITION_CANCEL_TIMER));
         }
 
         handler.post(new Runnable() {
@@ -320,7 +332,7 @@ public class MyApp extends Application {
     private static void enterBackground() {
         ServerConfigManager serverConfigManager = MyApp.getApp().getServerConfigManager();
         if (serverConfigManager != null) {
-            serverConfigManager.writeToFileWithoutDelay();
+            serverConfigManager.writeToFile(true);
         }
         Log.v("liutao", "进入后台");
     }

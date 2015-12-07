@@ -28,7 +28,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         setContentView(R.layout.fragment_setting_add_device);
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
-        commonTopBar.setTitle(getString(R.string.add_device));
+        commonTopBar.setTitle(getString(R.string.add_device_title));
         switch (UIManager.UITYPE) {
             case 1:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);

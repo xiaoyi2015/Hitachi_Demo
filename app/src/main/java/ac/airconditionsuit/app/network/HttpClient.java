@@ -221,6 +221,7 @@ public class HttpClient {
     private static AsyncHttpClient getAsyncHttpClient() {
         if (asyncHttpClient == null) {
             asyncHttpClient = new AsyncHttpClient();
+            asyncHttpClient.setTimeout(5000);
         }
         return asyncHttpClient;
     }

@@ -1,8 +1,10 @@
 package ac.airconditionsuit.app.aircondition;
 
+import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.*;
 import ac.airconditionsuit.app.network.socket.socketpackage.*;
+import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 import ac.airconditionsuit.app.util.ByteUtil;
 import android.util.Log;
 
@@ -20,9 +22,7 @@ public class AirConditionManager {
     List<AirCondition> airConditions = new ArrayList<>();
 //    List<Timer> timers = new ArrayList<>();//usused
 
-
-    public void initAirConditionsByDeviceList() {
-        List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
+    public void initAirConditionsByDeviceList(List<DeviceFromServerConfig> devices) {
         for (DeviceFromServerConfig dev : devices) {
             boolean found = false;
             for (AirCondition air : airConditions) {
@@ -38,12 +38,18 @@ public class AirConditionManager {
         }
     }
 
+    public void initAirConditionsByDeviceList() {
+        for (String configFileName : MyApp.getApp().getLocalConfigManager().getCurrentUserConfig().getHomeConfigFileNames()) {
+            ServerConfigManager serverConfigManager = new ServerConfigManager();
+            serverConfigManager.readFromFile(configFileName);
+            initAirConditionsByDeviceList(serverConfigManager.getDevices());
+        }
+    }
+
     public void queryAirConditionStatus() {
         try {
             if (MyApp.getApp().getSocketManager() != null && MyApp.getApp().getSocketManager().shouldSendPacketsToQuery()) {
-                MyApp.getApp().getSocketManager().getAllAirConditionStatusFromHostDevice(
-                        MyApp.getApp().getServerConfigManager().getDevices()
-                );
+                MyApp.getApp().getSocketManager().getAllAirConditionStatusFromHostDevice(MyApp.getApp().getServerConfigManager().getDevices());
             }
         } catch (Exception e) {
             Log.e(TAG, "init air condition status fail");
@@ -84,23 +90,24 @@ public class AirConditionManager {
      */
     public void timerRun(int timerId) {
         Log.v("liutao", "定时器执行");
-        updateAcsByTimerRunned(timerId);
+        //updateAcsByTimerRunned(timerId);
+        queryTimer(timerId);
     }
 
-    public void controlScene(Scene scene) throws Exception {
-        MyApp.getApp().getSocketManager().sendMessage(scene.toSocketControlPackage());
+    public void controlScene(Scene scene, UdpPackage.Handler handle) throws Exception {
+        MyApp.getApp().getSocketManager().sendMessage(scene.toSocketControlPackage(handle));
         //发送场景时，不主动查询空调状态，因为空调控制成功需要时间，此时查询到的状态，有可能是控制之前空调的状态。进而造成本地显示与实际空调状态不一致
         //目前，控制空调成功后，主机不一定会反馈空调状态给app
         //在我的空调界面，允许用户手动下拉刷新，主动发包读取所有空调状态
         //MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
 
         //发送场景控制命令时，先set到本地缓存，使界面得到更新。
-        updateACsBySceneControl(scene);
+        //updateACsBySceneControl(scene);
     }
 
     public void controlRoom(Room room, AirConditionControl airConditionControl) throws Exception {
         MyApp.getApp().getSocketManager().sendMessage(new ControlPackage(room, airConditionControl));
-        updateAirconditions(room, airConditionControl);
+        //updateAirconditions(room, airConditionControl);
     }
 
     private void updateAcsByTimerRunned(int timer_id) {
@@ -197,21 +204,22 @@ public class AirConditionManager {
             return null;
         }
         AirCondition airCondition = new AirCondition();
-        airCondition.setAirconditionMode(getAirConditionByIndex(room.getElements().get(0)).getAirconditionMode());
-        airCondition.setOnoff(getAirConditionByIndex(room.getElements().get(0)).getOnoff());
-        airCondition.setAirconditionFan(getAirConditionByIndex(room.getElements().get(0)).getAirconditionFan());
-        airCondition.setTemperature(getAirConditionByIndex(room.getElements().get(0)).getTemperature());
-        airCondition.setRealTemperature(getAirConditionByIndex(room.getElements().get(0)).getRealTemperature());
+        AirCondition airConditionByIndex = getAirConditionByIndex(room.getElements().get(0));
+        airCondition.setAirconditionMode(airConditionByIndex.getAirconditionMode());
+        airCondition.setOnoff(airConditionByIndex.getOnoff());
+        airCondition.setAirconditionFan(airConditionByIndex.getAirconditionFan());
+        airCondition.setTemperature(airConditionByIndex.getTemperature());
+        airCondition.setRealTemperature(airConditionByIndex.getRealTemperature());
 
-        if (airCondition == null) {
-            airCondition = new AirCondition();
-            airCondition.setMode(AirConditionControl.UNKNOW);
-            airCondition.setOnoff(AirConditionControl.UNKNOW);
-            airCondition.setFan(AirConditionControl.UNKNOW);
-            airCondition.setTemperature(AirConditionControl.UNKNOW);
-            airCondition.setRealTemperature(AirConditionControl.UNKNOW);
-            return airCondition;
-        }
+//        if (airCondition == null) {
+//            airCondition = new AirCondition();
+//            airCondition.setMode(AirConditionControl.UNKNOW);
+//            airCondition.setOnoff(AirConditionControl.UNKNOW);
+//            airCondition.setFan(AirConditionControl.UNKNOW);
+//            airCondition.setTemperature(AirConditionControl.UNKNOW);
+//            airCondition.setRealTemperature(AirConditionControl.UNKNOW);
+//            return airCondition;
+//        }
         for (int i = 1; i < room.getElements().size(); i++) {
             AirCondition temp = getAirConditionByIndex(room.getElements().get(i));
             if (temp == null) {

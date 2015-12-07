@@ -18,8 +18,8 @@ public class TCPSendMessagePackage extends TcpPackage {
 
     private byte[] content;
 
-    public TCPSendMessagePackage(UdpPackage queryStatusPackage, long userId, long chatId) {
-        this(queryStatusPackage.getBytes(), userId, chatId);
+    public TCPSendMessagePackage(UdpPackage messagePackage, long userId, long chatId) {
+        this(messagePackage.getBytes(), userId, chatId);
     }
 
 

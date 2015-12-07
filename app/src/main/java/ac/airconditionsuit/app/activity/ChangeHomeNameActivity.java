@@ -31,7 +31,7 @@ public class ChangeHomeNameActivity extends BaseActivity {
                         return;
                     }
                     MyApp.getApp().getServerConfigManager().getHome().setName(home_name);
-                    MyApp.getApp().getServerConfigManager().writeToFile();
+                    MyApp.getApp().getServerConfigManager().writeToFile(true);
                     Intent intent = new Intent();
                     intent.putExtra("name",home_name);
                     setResult(RESULT_OK,intent);

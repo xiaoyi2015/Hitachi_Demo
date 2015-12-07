@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
+import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.*;
@@ -57,11 +58,11 @@ public class SocketManager extends Observable {
     }
 
     public boolean shouldSendPacketsToQuery() {
-        if (!MyApp.getApp().getServerConfigManager().hasDevice()) return false;
-
+        if (!MyApp.getApp().getServerConfigManager().hasDevice()) {
+            return false;
+        }
         int status = getStatus();
-        if (status == UDP_DEVICE_CONNECT || status == TCP_DEVICE_CONNECT) return true;
-        return false;
+        return status == UDP_DEVICE_CONNECT || status == TCP_DEVICE_CONNECT;
     }
 
     public void heartSuccess() {

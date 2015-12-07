@@ -23,6 +23,11 @@ public class UdpPackage {
     public static final byte AFN_AIR_CONDITION_STATUS_RESPONSE = 0x6;
     public static final byte AFN_TIMER_RUN_RESPONSE = 0xb;
     private byte framNumber;
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
     private Handler handler;
     private byte[] msg_no;
     private static int acIndexToCheckDevice = 0;
@@ -74,12 +79,6 @@ public class UdpPackage {
         p.setContent(p.new GetAirConditionAddressPackageContent());
         return p;
     }
-
-//    public static UdpPackage genGetAirConditionStatusPackage() {
-//        UdpPackage p = new UdpPackage();
-//        p.setContent(p.new QueryAirConditionStatusUdpPackageContent());
-//        return p;
-//    }
 
     public static UdpPackage genTimerPackage(Timer timer) throws Exception {
         UdpPackage p = new UdpPackage();
@@ -295,7 +294,7 @@ public class UdpPackage {
         //控制域
         if (msg_no == null) {
             result[1] = genControlByte();
-            this.framNumber = (byte) (result[1] - 128);
+            this.framNumber = (byte) (result[1] & 127);
         } else {
             result[1] = msg_no[0];
         }
@@ -332,7 +331,7 @@ public class UdpPackage {
         byte aux = framNumberCounter;
         ++framNumberCounter;
         framNumberCounter %= 128;
-        return (byte) (aux + 128);
+        return (byte) (aux | 128);
     }
 
     public byte getFramNumber() {

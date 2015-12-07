@@ -9,10 +9,14 @@ import ac.airconditionsuit.app.view.TabIndicator;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -81,7 +85,7 @@ public class MainActivity extends BaseActivity {
         initTabIndicator();
 //        pager.setCurrentItem(DEFAULT_FRAGMENT_POSITION);
         fragments[0].setTopBar();
-        if(!MyApp.getApp().getServerConfigManager().hasDevice()) {
+        if (!MyApp.getApp().getServerConfigManager().hasDevice()) {
             new AlertDialog.Builder(MainActivity.this).setTitle("未检测到设备").setMessage(R.string.new_user_add_device).
                     setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                         @Override
@@ -91,6 +95,7 @@ public class MainActivity extends BaseActivity {
                         }
                     }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
         }
+
 
     }
 
@@ -168,8 +173,12 @@ public class MainActivity extends BaseActivity {
                 MyApp.getApp().showToast(msg);
                 exitTime = System.currentTimeMillis();
             } else {
-                MyApp.getApp().offLine();
-                finish();
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                startMain.addCategory(Intent.CATEGORY_HOME);
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(startMain);
+//                MyApp.getApp().offLine()
+//                finish();
             }
             return true;
         }

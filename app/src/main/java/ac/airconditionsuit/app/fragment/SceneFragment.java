@@ -1,8 +1,11 @@
 package ac.airconditionsuit.app.fragment;
 
 import ac.airconditionsuit.app.UIManager;
+import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.Scene;
+import ac.airconditionsuit.app.network.socket.socketpackage.Udp.UdpPackage;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +22,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.R;
@@ -84,13 +89,12 @@ public class SceneFragment extends BaseFragment {
                             commonTopBar.setIconView(null, myOnClickListener);
                             click_num = 0;
                         }
-                    }
-                    else {
+                    } else {
                         MyApp.getApp().showToast("未连接i-EZ控制器，无法编辑场景");
                     }
                     break;
                 case R.id.left_icon:
-                    if(MyApp.getApp().getServerConfigManager().getScene().size() >= 16){
+                    if (MyApp.getApp().getServerConfigManager().getScene().size() >= 16) {
                         MyApp.getApp().showToast("场景数量不能超过16个");
                         return;
                     }
@@ -220,11 +224,44 @@ public class SceneFragment extends BaseFragment {
                                         setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
+                                                final ProgressDialog pd = ProgressDialog.show(getActivity(), null, "指令发送中", true, false);
+                                                final Timer t = new Timer();
+                                                t.schedule(new TimerTask() {
+                                                    @Override
+                                                    public void run() {
+                                                        if (pd.isShowing()) {
+                                                            pd.dismiss();
+                                                            MyApp.getApp().showToast("指令发送失败");
+                                                        }
+                                                    }
+                                                }, 10000);
                                                 try {
-                                                    MyApp.getApp().getAirConditionManager().controlScene(list.get(position));
-                                                    MyApp.getApp().showToast("指令发送成功");
+                                                    MyApp.getApp().getAirConditionManager().controlScene(list.get(position), new UdpPackage.Handler() {
+                                                        @Override
+                                                        public void success() {
+                                                            getActivity().runOnUiThread(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    if (pd.isShowing()) {
+                                                                        pd.dismiss();
+                                                                        MyApp.getApp().showToast("指令发送成功");
+                                                                        t.cancel();
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+
+                                                        @Override
+                                                        public void fail(int errorNo) {
+
+                                                        }
+                                                    });
                                                 } catch (Exception e) {
-                                                    MyApp.getApp().showToast("控制场景失败");
+                                                    t.cancel();
+                                                    if (pd.isShowing()) {
+                                                        pd.dismiss();
+                                                    }
+                                                    MyApp.getApp().showToast("指令发送失败");
                                                     Log.e(TAG, "control scene fail!");
                                                     e.printStackTrace();
                                                 }

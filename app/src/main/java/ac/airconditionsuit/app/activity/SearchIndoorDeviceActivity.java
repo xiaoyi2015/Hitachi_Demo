@@ -36,7 +36,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
     private TimerTask blingTimerTask;
     private Animation blingAnimation;
 
-//    private TimerTask readTimerTest;
+    private TimerTask readTimerTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +130,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
             if (blingCounter == null || blingCounter.length != deviceCnt) {
                 blingCounter = new int[deviceCnt];
             }
-            blingCounter[incomingAcIndex] = 4;
+            blingCounter[incomingAcIndex] = 2;
         }
     }
 
@@ -171,7 +171,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     blindAc();
                 }
             };
-            new java.util.Timer().schedule(blingTimerTask, 0, 1000);
+            new java.util.Timer().schedule(blingTimerTask, 0, 100);
         }
     }
 
@@ -197,9 +197,15 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                             searchTimerTask = null;
                         }
                         toastIndoorDeviceNumber();
-                        MyApp.getApp().getServerConfigManager().writeToFile();
+                        MyApp.getApp().getServerConfigManager().writeToFile(true);
                     }
                 });
+                break;
+            case ObserveData.SEARCH_AIR_CONDITION_CANCEL_TIMER:
+                if (searchTimerTask != null) {
+                    searchTimerTask.cancel();
+                    searchTimerTask = null;
+                }
                 break;
             case ObserveData.SEARCH_AIR_CONDITION_NUMBERDIFFERENT:
                 if (searchTimerTask != null) {
@@ -306,7 +312,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                                         }
                                     }
                                     MyApp.getApp().getServerConfigManager().getDevices().get(position).setName(device_new_name);
-                                    MyApp.getApp().getServerConfigManager().writeToFile();
+                                    MyApp.getApp().getServerConfigManager().writeToFile(true);
                                     notifyDataSetChanged();
                                     dialog.dismiss();
                                 }

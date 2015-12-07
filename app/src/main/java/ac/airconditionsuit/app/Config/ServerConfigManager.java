@@ -65,7 +65,7 @@ public class ServerConfigManager {
     public void clearTimer() {
         rootJavaObj.setTimers(new ArrayList<Timer>());
         MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.TIMER_STATUS_RESPONSE, null));
-        writeToFile();
+        writeToFile(false);
     }
 
     public int getDeviceIndexFromAddress(int address) {
@@ -96,25 +96,25 @@ public class ServerConfigManager {
     public void addSections(Section section) {
         List<Section> sections = rootJavaObj.getSections();
         sections.add(section);
-        writeToFile();
+        writeToFile(true);
     }
 
     public void addScene(Scene scene) {
         List<Scene> scenes = rootJavaObj.getScenes();
         scenes.add(scene);
-        writeToFile();
+        writeToFile(true);
     }
 
     public void addTimer(Timer timer) {
         List<Timer> timers = rootJavaObj.getTimers();
         timers.add(timer);
-        writeToFile();
+        writeToFile(false);
     }
 
     public void deleteSection(int position) {
         List<Section> sections = rootJavaObj.getSections();
         sections.remove(position);
-        writeToFile();
+        writeToFile(true);
     }
 
     public List<Connection> getConnections() {
@@ -140,7 +140,7 @@ public class ServerConfigManager {
     public void deleteScene(int position) {
         List<Scene> scenes = rootJavaObj.getScenes();
         scenes.remove(position);
-        writeToFile();
+        writeToFile(true);
     }
 
     public void deleteTimerByPosition(int position) {
@@ -150,7 +150,7 @@ public class ServerConfigManager {
             return;
         }
         timers.remove(position);
-        writeToFile();
+        writeToFile(false);
     }
 
     public void deleteTimerById(int id) {
@@ -162,7 +162,7 @@ public class ServerConfigManager {
             }
         }
         MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.TIMER_STATUS_RESPONSE, null));
-        writeToFile();
+        writeToFile(false);
     }
 
     public List<DeviceFromServerConfig> getDevices() {
@@ -186,24 +186,24 @@ public class ServerConfigManager {
     public void deleteRoom(int position, int index) {
         List<Section> sections = rootJavaObj.getSections();
         sections.get(position).getPages().remove(index);
-        writeToFile();
+        writeToFile(true);
     }
 
     public void addRoom(int position, Room room) {
         List<Section> sections = rootJavaObj.getSections();
         sections.get(position).getPages().add(room);
-        writeToFile();
+        writeToFile(true);
     }
 
     public void renameRoom(int position, int index, String string) {
         List<Section> sections = rootJavaObj.getSections();
         sections.get(position).getPages().get(index).setName(string);
-        writeToFile();
+        writeToFile(true);
     }
 
     public void submitRoomChanges(int index, List<Room> rooms) {
         rootJavaObj.getSections().get(index).setPages(rooms);
-        writeToFile();
+        writeToFile(true);
     }
 
     private void readFromFile(File serverConfigFile) {
@@ -221,7 +221,7 @@ public class ServerConfigManager {
                         + Constant.CONFIG_FILE_SUFFIX;
                 fileName = MyApp.getApp().getPrivateFile(configFileName, null).getAbsolutePath();
                 rootJavaObj = ServerConfig.genNewConfig(configFileName, "新的家");
-                writeToFile();
+                writeToFile(true);
                 return;
             }
             fileName = serverConfigFile.getAbsolutePath();
@@ -240,7 +240,7 @@ public class ServerConfigManager {
             Log.v(TAG, "read server config file success");
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
             rootJavaObj = ServerConfig.genNewConfig(serverConfigFile.getName(), "新的家");
-            writeToFile();
+            writeToFile(true);
             Log.e(TAG, "read server config file error");
             e.printStackTrace();
         } finally {
@@ -320,7 +320,7 @@ public class ServerConfigManager {
 
         serverConfig.resortTimers();
         List<Timer> timers = serverConfig.getTimers();
-        serverConfig.setTimers(new ArrayList<Timer>());//清空服务器上的timer，timer实际存储在主机上
+        //serverConfig.setTimers(new ArrayList<Timer>());//清空服务器上的timer，timer实际存储在主机上
         if (timers != null) {
             for (Timer timer : timers) {
                 List<Integer> indexes = timer.getIndexes();
@@ -343,7 +343,6 @@ public class ServerConfigManager {
             devices.get(i).reformatIndoorIndexAndAddress(flag, i);
         }
 
-
         return serverConfig;
     }
 
@@ -357,13 +356,13 @@ public class ServerConfigManager {
         readFromFile(serverConfigFile);
     }
 
-    public void writeToFile() {
-        writeToFile(fileName);
+    public void writeToFile(boolean shouldUploadToServer) {
+        writeToFile(fileName, shouldUploadToServer);
     }
 
-    public void writeToFileWithoutDelay() {
-        writeToFileWithoutDelay(fileName);
-    }
+//    public void writeToFileWithoutDelay() {
+//        writeToFileWithoutDelay(fileName);
+//    }
 
 
     /**
@@ -445,6 +444,7 @@ public class ServerConfigManager {
 
             @Override
             public void onFailure(Throwable throwable) {
+                MyApp.getApp().getLocalConfigManager().updateHostDeviceConfigFile(new ArrayList<String>());
                 wrapCommonNetworkListener.onFailure();
             }
         });
@@ -491,7 +491,6 @@ public class ServerConfigManager {
         } else {
             //当所有的设备配置文件下载下来以后，更新设备配置文件.
             MyApp.getApp().getLocalConfigManager().updateHostDeviceConfigFile(fileNames);
-
             commonNetworkListener.onSuccess();
         }
     }
@@ -503,7 +502,7 @@ public class ServerConfigManager {
         } else {
             connections.set(0, new Connection(deviceInfo));
         }
-        writeToFile();
+        writeToFile(true);
     }
 
     public void deleteCurrentDevice(final HttpClient.JsonResponseHandler<DeleteDeviceResponse> handler) {
@@ -522,7 +521,7 @@ public class ServerConfigManager {
                 rootJavaObj.setScenes(null);
                 rootJavaObj.setTimers(null);
                 MyApp.getApp().getSocketManager().setDeviceOffline();
-                writeToFile();
+                writeToFile(true);
                 //删除设备后，不应关闭tcp链接
                 if (handler != null) {
                     handler.onSuccess(response);
@@ -598,7 +597,7 @@ public class ServerConfigManager {
         ServerConfigManager scm = new ServerConfigManager();
         scm.setRootJavaObj(ServerConfig.genNewConfig(configFileName, homeName));
         String absolutePath = MyApp.getApp().getPrivateFile(configFileName, null).getAbsolutePath();
-        scm.writeToFile(absolutePath);
+        scm.writeToFile(absolutePath, true);
         scm.setFileName(absolutePath);
         return scm;
     }
@@ -607,7 +606,7 @@ public class ServerConfigManager {
         fileName = absolutePath;
     }
 
-    private void writeToFile(String configFileName) {
+    private void writeToFile(String configFileName, boolean shouldUploadToServer) {
         FileOutputStream fos = null;
         try {
             File serverConfigFile = new File(configFileName);
@@ -628,8 +627,14 @@ public class ServerConfigManager {
             Log.v(TAG, "write server config file success");
 
             //call when write success
-            uploadToServerAfterDelay();
+            //uploadToServerAfterDelay();
 //            uploadToServer();
+            if (shouldUploadToServer) {
+                uploadToServer();
+            }
+            else {
+                uploadToServerAfterDelay();
+            }
         } catch (IOException e) {
             Log.e(TAG, "write server config file error");
             e.printStackTrace();
@@ -705,7 +710,7 @@ public class ServerConfigManager {
 
     public void updateTimer(Timer timer) {
         rootJavaObj.updateTimer(timer);
-        writeToFile();
+        writeToFile(false);
     }
 
     public void updateAirCondition(byte[] contentData) {
@@ -749,7 +754,7 @@ public class ServerConfigManager {
         Connection connection = new Connection(deviceInfo);
         connections.clear();
         connections.add(connection);
-        writeToFile();
+        writeToFile(true);
     }
 
     public void setCurrentDevice(Device device) {
@@ -758,7 +763,7 @@ public class ServerConfigManager {
 
     public void deleteAllTimer() {
         rootJavaObj.setTimers(new ArrayList<Timer>());
-        writeToFile();
+        writeToFile(false);
     }
 
     public void airconditionNumberChange() {
@@ -770,7 +775,7 @@ public class ServerConfigManager {
             rootJavaObj.getSections().clear();
         }
 
-        writeToFile();
+        writeToFile(true);
     }
 
     public void deleteDeviceLocal() {
@@ -779,6 +784,6 @@ public class ServerConfigManager {
         rootJavaObj.setDevices(null);
         rootJavaObj.setScenes(null);
         rootJavaObj.setTimers(null);
-        writeToFile();
+        writeToFile(true);
     }
 }
