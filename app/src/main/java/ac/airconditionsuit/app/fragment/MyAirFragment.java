@@ -100,14 +100,12 @@ public class MyAirFragment extends BaseFragment {
         myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), null);
         listView.setAdapter(myAirSectionAdapter);
         refreshUI();
-
+        MyApp.getApp().getAirConditionManager().initAirConditionsByDeviceList();
         if (firstCreate) {
             firstCreate = false;
             Log.v("liutao", "我的空调onCreate");
             MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
         }
-
-        MyApp.getApp().getAirConditionManager().initAirConditionsByDeviceList();
         return view;
     }
 
