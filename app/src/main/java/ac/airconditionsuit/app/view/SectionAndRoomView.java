@@ -371,13 +371,32 @@ public class SectionAndRoomView extends RelativeLayout {
                                     break;
                                 case AirConditionControl.UNKNOW:
                                     int min_index1 = rooms.get(position).getElements().get(0);
+                                    int min_on_index = -1;
+                                    boolean find_min = false;
+                                    if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index1).getOnoff() == 1){
+                                        min_on_index = min_index1;
+                                        find_min = true;
+                                    }
                                     for (int i = 1; i < rooms.get(position).getElements().size(); i++) {
-                                        if (MyApp.getApp().getServerConfigManager().getDevices().get(rooms.get(position).getElements().get(i)).getAddress()
+                                        if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.get(position).getElements().get(i)).getOnoff() == 1){
+                                            min_on_index = rooms.get(position).getElements().get(i);
+                                            find_min = true;
+                                        }
+                                        if (MyApp.getApp().getServerConfigManager().getDevices().get(min_index1).getAddress()
                                                 > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.get(position).getElements().get(i)).getAddress()) {
                                             min_index1 = rooms.get(position).getElements().get(i);
+                                            if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index1).getOnoff() == 1){
+                                                min_on_index = min_index1;
+                                                find_min = true;
+                                            }
                                         }
                                     }
-                                    AirCondition min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index1);
+                                    AirCondition min_air1;
+                                    if(find_min){
+                                        min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_on_index);
+                                    }else {
+                                        min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index1);
+                                    }
                                     if(min_air1.getAirconditionMode() == 1){
                                         roomTemp.setTextColor(getResources().getColor(R.color.hit_heat_red));
                                         roomOnOff.setImageResource(R.drawable.onoff_on_heat_hit);
