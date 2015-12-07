@@ -309,8 +309,8 @@ public class MyApp extends Application {
             MyApp.getApp().pushDataManager.checkPushDataFromService();
         }
         if (MyApp.getApp().isUserLogin()) {
-            getApp().getAirConditionManager().queryAirConditionStatus();
             getApp().getAirConditionManager().queryTimerAll();
+            getApp().getAirConditionManager().queryAirConditionStatus();
 
             //todo should checked by luzheqi, 进入前台的时候，调用这个会有问题吗？
 //            if (getApp().getServerConfigManager() != null) {

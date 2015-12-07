@@ -206,6 +206,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     searchTimerTask.cancel();
                     searchTimerTask = null;
                 }
+                dismissWaitProgress();
                 break;
             case ObserveData.SEARCH_AIR_CONDITION_NUMBERDIFFERENT:
                 if (searchTimerTask != null) {
