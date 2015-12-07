@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,6 +113,9 @@ public class EditSceneActivity extends BaseActivity{
                             MyApp.getApp().getServerConfigManager().getScene().get(index).setCommands(new ArrayList<Command>());
                         }
                         for (int i = 0; i < temp_on_off.size(); i++) {
+                            Log.v("zhulinan: onoff", temp_on_off.get(i).toString());
+                            Log.v("zhulinan: adress", String.valueOf(MyApp.getApp().getServerConfigManager().getDevices().get(i).getAddress()));
+
                             if (temp_on_off.get(i) != 2) {
                                 Command command = new Command();
                                 command.setAddress(MyApp.getApp().getServerConfigManager().getDevices().get(i).getAddress());
@@ -185,7 +189,13 @@ public class EditSceneActivity extends BaseActivity{
 
         if(!is_add){
             if(MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands() != null) {
+                Log.v("zhulinan: command_num", String.valueOf(MyApp.getApp().
+                        getServerConfigManager().getScene().get(index).getCommands().size()));
                 for (int i = 0; i < MyApp.getApp().getServerConfigManager().getScene().get(index).getCommands().size(); i++) {
+                    Log.v("zhulinan: com_address", String.valueOf(MyApp.getApp().getServerConfigManager().getScene().
+                            get(index).getCommands().get(i).getAddress()));
+                    Log.v("zhulinan: com_onoff", String.valueOf(MyApp.getApp().getServerConfigManager().getScene().
+                            get(index).getCommands().get(i).getOnoff()));
                     ServerConfigManager serverConfigManager = MyApp.getApp().getServerConfigManager();
                     int temp_index_device = serverConfigManager.getDeviceIndexFromAddress(serverConfigManager.getScene().get(index).getCommands().get(i).getAddress());
                     if (temp_index_device != -1) {
@@ -413,6 +423,8 @@ public class EditSceneActivity extends BaseActivity{
                             }
 
                             onOffView.setDefault(temp_on_off.get(position));
+
+                            Log.v("liutao:    ",temp_on_off.get(position).toString());
                             modeView.setDefault(temp_mode.get(position));
                             fanView.setDefault(temp_fan.get(position));
 
