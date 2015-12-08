@@ -66,7 +66,7 @@ public class EditClockActivity extends BaseActivity{
                             }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
                     break;
                 case R.id.right_icon:
-                    final String check_clock_name = CheckUtil.checkLength(clockNameText, 20, R.string.pls_input_clock_name, R.string.clock_name_length_too_long);
+                    final String check_clock_name = CheckUtil.checkLength(clockNameText, 10, R.string.pls_input_clock_name, R.string.clock_name_length_too_long);
                     if (check_clock_name == null)
                         return;
 

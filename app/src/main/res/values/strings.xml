@@ -146,7 +146,7 @@
     <string name="pls_input_scene_name">请输入场景名称</string>
     <string name="scene_name_length_too_long">场景名称不能超过10个汉字或20个字母</string>
     <string name="pls_input_clock_name">请输入定时名称</string>
-    <string name="clock_name_length_too_long">定时名称长度不能超过10个汉字或20个字母</string>
+    <string name="clock_name_length_too_long">定时名称长度不能超过5个汉字或10个字母</string>
     <string name="is_delete_scene">\n确定要删除该场景吗？\n</string>
     <string name="is_delete_clock">\n确定要删除该定时吗？\n</string>
     <string name="Monday">周一</string>
