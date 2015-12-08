@@ -82,6 +82,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         showWaitProgress();
+                        MyApp.getApp().setIsSearching(true);
                         MyApp.getApp().getSocketManager().searchIndoorAirCondition();
 
                         searchTimerTask = new TimerTask() {
@@ -117,6 +118,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
             searchTimerTask.cancel();
             searchTimerTask = null;
         }
+        MyApp.setIsSearching(false);
     }
 
     private void toastIndoorDeviceNumber() {
@@ -188,6 +190,10 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                 startBlingAcTimer();
                 break;
             case ObserveData.SEARCH_AIR_CONDITION_RESPONSE:
+                if (!MyApp.getApp().getIsSearching()) {
+                    break;
+                }
+                MyApp.getApp().setIsSearching(false);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -206,8 +212,15 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     searchTimerTask.cancel();
                     searchTimerTask = null;
                 }
+                dismissWaitProgress();
+                MyApp.getApp().setIsSearching(false);
                 break;
             case ObserveData.SEARCH_AIR_CONDITION_NUMBERDIFFERENT:
+                if (!MyApp.getApp().getIsSearching()) {
+                    break;
+                }
+                MyApp.getApp().setIsSearching(false);
+
                 if (searchTimerTask != null) {
                     searchTimerTask.cancel();
                     searchTimerTask = null;

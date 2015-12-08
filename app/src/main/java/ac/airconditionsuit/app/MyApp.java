@@ -32,6 +32,8 @@ public class MyApp extends Application {
     private static final String TAG = "MyApp";
     private static MyApp INSTANCE;
 
+
+
     public static boolean isAppActive() {
         return appActive;
     }
@@ -48,6 +50,10 @@ public class MyApp extends Application {
     }
 
     private static boolean appActive = true;//第一次进入app，不检测
+    private static boolean isSearchingDevices = false;
+
+    public static void setIsSearching(boolean isSearching) {isSearchingDevices = isSearching;}
+    public static boolean getIsSearching() {return isSearchingDevices;}
 
     private ServerConfigManager serverConfigManager;
 
@@ -309,8 +315,8 @@ public class MyApp extends Application {
             MyApp.getApp().pushDataManager.checkPushDataFromService();
         }
         if (MyApp.getApp().isUserLogin()) {
-            getApp().getAirConditionManager().queryAirConditionStatus();
             getApp().getAirConditionManager().queryTimerAll();
+            getApp().getAirConditionManager().queryAirConditionStatus();
 
             //todo should checked by luzheqi, 进入前台的时候，调用这个会有问题吗？
 //            if (getApp().getServerConfigManager() != null) {

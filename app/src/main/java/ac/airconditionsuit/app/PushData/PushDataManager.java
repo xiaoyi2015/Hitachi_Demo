@@ -307,8 +307,10 @@ public class PushDataManager {
                     do {
                         PushData obj = tableRowToPushData(cursor);
                         //only one column
+                        if (obj.getContent().length() > 0) {
+                            result.add(obj);
+                        }
 
-                        result.add(obj);
                     } while (cursor.moveToNext());
                 }
 

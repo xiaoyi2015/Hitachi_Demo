@@ -263,6 +263,14 @@ public class ServerConfigManager {
             return serverConfig;
         }
 
+        if (flag) {//如果从服务器到本地，先转换地址的格式，服务器直接使用indooraddress，本地使用indoorindex*16+indooraddress
+            for (int i = 0; i < devices.size(); i++) {
+                devices.get(i).reformatIndoorIndexAndAddress(flag, i);
+            }
+        }
+
+        //Log.v("liutao", serverConfig.toJsonString());
+
         List<Section> sections = serverConfig.getSections();
         if (sections != null) {
             for (Section section : sections) {
@@ -339,8 +347,10 @@ public class ServerConfigManager {
             }
         }
 
-        for (int i = 0; i < devices.size(); i++) {
-            devices.get(i).reformatIndoorIndexAndAddress(flag, i);
+        if (!flag) {//如果从本地到服务器，最后再转换地址格式
+            for (int i = 0; i < devices.size(); i++) {
+                devices.get(i).reformatIndoorIndexAndAddress(flag, i);
+            }
         }
 
         return serverConfig;
