@@ -46,7 +46,7 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.host_list));
-        switch (UIManager.UITYPE){
+        switch (UIManager.UITYPE) {
             case 1:
                 commonTopBar.setLeftIconView(R.drawable.top_bar_back_hit);
                 break;
@@ -62,16 +62,17 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
         showWaitProgress();
         MyApp.getApp().getSocketManager().sendBroadCast();
 
-        ListView listView = (ListView)findViewById(R.id.host_list);
-        hostListAdapter = new HostListAdapter(SearchDeviceByUdpResultActivity.this,devices);
+        ListView listView = (ListView) findViewById(R.id.host_list);
+        hostListAdapter = new HostListAdapter(SearchDeviceByUdpResultActivity.this, devices);
         listView.setAdapter(hostListAdapter);
 
     }
 
     /**
      * 每搜索到一个主机，就会调用一次这个函数。注意，这个函数可能多次调用都是传入同一个主机，所以在添加的时候需要判断主机在不在
+     *
      * @param observable
-     * @param data 这个就是主机
+     * @param data       这个就是主机
      */
     @Override
     public void update(Observable observable, Object data) {
@@ -100,9 +101,19 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
                                     setPositiveButton(R.string.go_back, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
+                                            finish();
                                         }
-                                    }).show();
+                                    }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    finish();
+                                }
+                            }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    finish();
+                                }
+                            }).show();
                         }
                     });
                 }
@@ -125,12 +136,12 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
         });
     }
 
-    private class HostListAdapter extends BaseAdapter{
+    private class HostListAdapter extends BaseAdapter {
 
         private List<Device> list;
         private Context context;
 
-        public HostListAdapter(Context context,List<Device> deviceList) {
+        public HostListAdapter(Context context, List<Device> deviceList) {
             this.list = deviceList;
             this.context = context;
         }
@@ -152,11 +163,11 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            if(convertView == null){
+            if (convertView == null) {
                 convertView = new CommonButtonWithArrow(context);
             }
-            ((CommonButtonWithArrow)convertView).getLabelTextView().setText(list.get(position).getInfo().getName());
-            ((CommonButtonWithArrow)convertView).setOnlineTextView("添加设备");
+            ((CommonButtonWithArrow) convertView).getLabelTextView().setText(list.get(position).getInfo().getName());
+            ((CommonButtonWithArrow) convertView).setOnlineTextView("添加设备");
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

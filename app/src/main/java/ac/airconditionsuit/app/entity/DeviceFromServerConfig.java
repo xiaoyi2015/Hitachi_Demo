@@ -1,7 +1,5 @@
 package ac.airconditionsuit.app.entity;
 
-import android.util.Log;
-
 /**
  * Created by ac on 10/15/15.
  */
