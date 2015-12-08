@@ -176,7 +176,8 @@ public class PushDataManager {
         try {
             PushData pushData = new Gson().fromJson(data, PushData.class);
 
-            if (pushData.getType() == 26 || pushData.getContent().length() == 0) {
+            if (pushData.getType() == 26 || pushData.getContent().length() == 0
+                    || readPushDataFromDatabaseByTimeAndContent(pushData.getTs(), pushData.getContent()).size() != 0) {
                 return 0;
             }
             pushData.fixTime();
@@ -285,21 +286,23 @@ public class PushDataManager {
         db.close();
     }
 
-    public List<PushData> readPushDataFromDatabase() {
-        // Select All Query
-        // String selectQuery = "SELECT  * FROM " + TABLE_NAME;
+
+    public List<PushData> readPushDataFromDatabaseByTimeAndContent(long time, String content) {
         String currentHomeDeviceId = MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId();
         if (currentHomeDeviceId == null) {
             return new ArrayList<>();
         }
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " where " + CHATID + " = \"" + currentHomeDeviceId + "\"";
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " where " + CHATID + " = \"" + currentHomeDeviceId + "\""
+                + "and " + TS + "= " + time
+                + "and" + CONTENT + "= \"" + content + "\"";
+        return select(selectQuery);
+    }
 
+    private List<PushData> select(String sql) {
         SQLiteDatabase db = new PushDataDbHelper(MyApp.getApp()).getReadableDatabase();
         List<PushData> result = new ArrayList<>();
-
         try {
-
-            Cursor cursor = db.rawQuery(selectQuery, null);
+            Cursor cursor = db.rawQuery(sql, null);
             try {
 
                 // looping through all rows and adding to list
@@ -328,6 +331,18 @@ public class PushDataManager {
             }
         }
         return result;
+    }
+
+    public List<PushData> readPushDataFromDatabase() {
+        // Select All Query
+        // String selectQuery = "SELECT  * FROM " + TABLE_NAME;
+        String currentHomeDeviceId = MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId();
+        if (currentHomeDeviceId == null) {
+            return new ArrayList<>();
+        }
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " where " + CHATID + " = \"" + currentHomeDeviceId + "\"";
+
+        return select(selectQuery);
     }
 
     public void deletePushData(PushData pushData) {
