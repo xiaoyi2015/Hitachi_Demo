@@ -269,7 +269,7 @@ public class ServerConfigManager {
             }
         }
 
-        Log.v("liutao", serverConfig.toJsonString());
+        //Log.v("liutao", serverConfig.toJsonString());
 
         List<Section> sections = serverConfig.getSections();
         if (sections != null) {
