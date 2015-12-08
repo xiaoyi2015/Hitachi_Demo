@@ -92,31 +92,36 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
 //                break;
             case ObserveData.FIND_DEVICE_BY_UDP_FAIL:
             case ObserveData.FIND_DEVICE_BY_UDP_FINASH:
-                if (devices == null || devices.size() == 0) {
-                    Log.i(TAG, "finish search device and can not find any");
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            new AlertDialog.Builder(SearchDeviceByUdpResultActivity.this).setTitle(R.string.not_seek_ize).setMessage(R.string.not_seek_text).
-                                    setPositiveButton(R.string.go_back, new DialogInterface.OnClickListener() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (devices == null || devices.size() == 0) {
+                            Log.i(TAG, "finish search device and can not find any");
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    new AlertDialog.Builder(SearchDeviceByUdpResultActivity.this).setTitle(R.string.not_seek_ize).setMessage(R.string.not_seek_text).
+                                            setPositiveButton(R.string.go_back, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    finish();
+                                                }
+                                            }).setOnCancelListener(new DialogInterface.OnCancelListener() {
                                         @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                                        public void onCancel(DialogInterface dialog) {
                                             finish();
                                         }
-                                    }).setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                @Override
-                                public void onCancel(DialogInterface dialog) {
-                                    finish();
+                                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                        @Override
+                                        public void onDismiss(DialogInterface dialog) {
+                                            finish();
+                                        }
+                                    }).show();
                                 }
-                            }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    finish();
-                                }
-                            }).show();
+                            });
                         }
-                    });
-                }
+                    }
+                });
                 break;
         }
     }

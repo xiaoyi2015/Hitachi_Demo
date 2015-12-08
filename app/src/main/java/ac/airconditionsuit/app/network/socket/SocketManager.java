@@ -507,6 +507,8 @@ public class SocketManager extends Observable {
                         @Override
                         public void run() {
                             socket.close();
+                            ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP_FINASH);
+                            notifyActivity(od);
                         }
                     }, 10 * 1000);
                     long currentTime = System.currentTimeMillis();
