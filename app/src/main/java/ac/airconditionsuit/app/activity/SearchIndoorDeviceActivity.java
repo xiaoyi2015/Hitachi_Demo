@@ -89,10 +89,18 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                             @Override
                             public void run() {
                                 dismissWaitProgress();
-                                MyApp.getApp().showToast("未搜索到室内机");
+                                MyApp.getApp().showToast(getString(R.string.search_indoor_failed));
+                                new java.util.Timer().schedule(searchTimerTask, 1000);
+                                /*new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.search_indoor_failed).
+                                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+
+                                            }
+                                        }).setCancelable(false).show();*/
                             }
                         };
-                        new java.util.Timer().schedule(searchTimerTask, 10000);
                     }
                 }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
             }

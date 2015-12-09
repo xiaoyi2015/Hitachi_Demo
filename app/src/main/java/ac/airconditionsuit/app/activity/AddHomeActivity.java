@@ -2,6 +2,9 @@ package ac.airconditionsuit.app.activity;
 
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.util.CheckUtil;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -33,7 +36,15 @@ public class AddHomeActivity extends BaseActivity{
                         return;
                     }
                     MyApp.getApp().getLocalConfigManager().addNewHome(homeName);
-                    finish();
+                    new AlertDialog.Builder(AddHomeActivity.this).setTitle(R.string.tip).setMessage(R.string.add_home_tip).
+                            setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            }).setCancelable(false).show();
+
                     break;
             }
         }

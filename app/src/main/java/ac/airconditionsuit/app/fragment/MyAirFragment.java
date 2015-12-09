@@ -161,6 +161,7 @@ public class MyAirFragment extends BaseFragment {
                                 commonTopBar.setTitle(homeList.get(finalI).getName());
                                 ((MainActivity) myGetActivity()).refreshUI();
                                 MyApp.getApp().getSocketManager().reconnectSocket();
+                                MyApp.getApp().getAirConditionManager().initAirConditionsByDeviceList();
                                 pop.dismiss();
                             }
                         });

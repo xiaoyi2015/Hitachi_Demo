@@ -157,7 +157,7 @@
     <string name="Saturday">周六</string>
     <string name="Sunday">周日</string>
     <string name="home_name_empty_info">家名称不能为空</string>
-    <string name="choose_clock_air_mode">选择空调定时模式</string>
+    <string name="choose_clock_air_mode">空调定时状态设置</string>
     <string name="choose_scene_air_mode">选择空调场景模式</string>
     <string name="delete_push_data_info">删除通知</string>
     <string name="failure">失败</string>
@@ -244,5 +244,7 @@
     <string name="executing">正在执行操作</string>
     <string name="is_delete_host_device2">\n确定删除本设备吗\n</string>
     <string name="new_user_add_device">\n请到配置设置界面添加新的设备\n</string>
+    <string name="add_home_tip">\n新家增加成功，请到“我的空调”界面选择新家，并在新家添加i-EZ控制器\n</string>
+    <string name="search_indoor_failed">未搜索到空调机，请检查网络连接...</string>
 
 </resources>
