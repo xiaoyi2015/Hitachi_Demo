@@ -619,11 +619,11 @@ public class ServerConfigManager {
     private void writeToFile(String configFileName, boolean shouldUploadToServer) {
         FileOutputStream fos = null;
         try {
-            File serverConfigFile = new File(configFileName);
-            if (serverConfigFile == null) {
-                Log.e(TAG, "can not find device config file");
-                return;
-            }
+//            File serverConfigFile = new File(configFileName);
+//            if (serverConfigFile == null) {
+//                Log.e(TAG, "can not find device config file");
+//                return;
+//            }
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             ServerConfig rightServerConfig = switchAddressAndIndexFileToObj(new Gson().fromJson(rootJavaObj.toJsonString(), ServerConfig.class), false);
             NSDictionary root = PlistUtil.JavaObjectToNSDictionary(rightServerConfig);
@@ -642,9 +642,9 @@ public class ServerConfigManager {
             if (shouldUploadToServer) {
                 uploadToServer();
             }
-            else {
-                uploadToServerAfterDelay();
-            }
+//            else {
+//                uploadToServerAfterDelay();
+//            }
         } catch (IOException e) {
             Log.e(TAG, "write server config file error");
             e.printStackTrace();

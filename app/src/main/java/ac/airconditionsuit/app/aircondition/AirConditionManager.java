@@ -91,6 +91,12 @@ public class AirConditionManager {
     public void timerRun(int timerId) {
         Log.v("liutao", "定时器执行");
         //updateAcsByTimerRunned(timerId);
+        for (Timer t : MyApp.getApp().getServerConfigManager().getTimer()) {
+            if (timerId == (long) t.getTimerid()) {
+                MyApp.getApp().showToast("定时器\"" + t.getName() + "\"运行成功！");
+                break;
+            }
+        }
         queryTimer(timerId);
     }
 
@@ -108,7 +114,7 @@ public class AirConditionManager {
 
     public void controlRoom(Room room, AirConditionControl airConditionControl) throws Exception {
         MyApp.getApp().getSocketManager().sendMessage(new ControlPackage(room, airConditionControl));
-        queryAirConditionStatus();
+//        queryAirConditionStatus();
         //updateAirconditions(room, airConditionControl);
     }
 

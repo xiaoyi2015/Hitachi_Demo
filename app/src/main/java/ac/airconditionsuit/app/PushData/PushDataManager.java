@@ -176,7 +176,7 @@ public class PushDataManager {
         try {
             PushData pushData = new Gson().fromJson(data, PushData.class);
 
-            if (pushData.getType() == 26 || pushData.getContent().length() == 0
+            if (pushData.getType() == 26 || pushData.getContent() == null || pushData.getContent().length() == 0
                     || readPushDataFromDatabaseByTimeAndContent(pushData.getTs(), pushData.getContent()).size() != 0) {
                 return 0;
             }
@@ -213,7 +213,10 @@ public class PushDataManager {
 //                                    .setContentText(pushData.getContent());
                     NotificationManagerCompat.from(MyApp.getApp()).notify((int) pushData.getId(), mBuilder.build());
                 } else {
-                    MyApp.getApp().showToast(pushData.getContent());
+                    int type = pushData.getType();
+                    if (type != 103 && type != 102) {
+                        MyApp.getApp().showToast(pushData.getContent());
+                    }
                 }
             } else {
                 if (!MyApp.isAppActive() || MyApp.getApp().isScreenLock()) {
@@ -310,7 +313,7 @@ public class PushDataManager {
                     do {
                         PushData obj = tableRowToPushData(cursor);
                         //only one column
-                        if (obj.getContent().length() > 0) {
+                        if (obj != null && obj.getContent() != null && obj.getContent().length() > 0) {
                             result.add(obj);
                         }
 
