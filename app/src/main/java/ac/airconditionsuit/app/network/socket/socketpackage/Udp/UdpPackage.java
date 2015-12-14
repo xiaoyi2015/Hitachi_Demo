@@ -173,9 +173,10 @@ public class UdpPackage {
             content[0] = ByteUtil.binToBCD(year % 100);
             content[1] = ByteUtil.binToBCD(month);
             content[2] = ByteUtil.binToBCD(day);
-            content[3] = (byte) hour;
-            content[4] = (byte) min;
-//            "2015 11 14 22 21 36 2"
+            content[3] = ByteUtil.binToBCD(hour);
+            content[4] = ByteUtil.binToBCD(min);
+            content[5] = ByteUtil.binToBCD(sec);
+            content[6] = ByteUtil.binToBCD((week + 5) % 7 + 1);
         }
     }
 
