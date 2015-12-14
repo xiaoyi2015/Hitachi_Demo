@@ -235,7 +235,17 @@ public class UserForLocalConfig {
                 }
                 homeConfigFileNames.set(currentHomeIndex, newFileName);
             }
-
         }
+    }
+
+    public void deleteDevice() {
+        File oldFile = MyApp.getApp().getPrivateFile(homeConfigFileNames.get(currentHomeIndex), null);
+        String configFileName = Constant.NO_DEVICE_CONFIG_FILE_PREFIX + System.currentTimeMillis() + Constant.CONFIG_FILE_SUFFIX;
+        File newFile = MyApp.getApp().getPrivateFile(configFileName, null);
+        if (newFile.exists()) {
+            newFile.delete();
+        }
+        oldFile.renameTo(newFile);
+        homeConfigFileNames.set(currentHomeIndex, configFileName);
     }
 }

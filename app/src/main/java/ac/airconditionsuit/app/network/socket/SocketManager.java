@@ -33,7 +33,7 @@ public class SocketManager extends Observable {
     public static final int NONE = 2;
 
 
-    public static final int HEART_BEAT_PERIOD_TCP = 60000;
+    public static final int HEART_BEAT_PERIOD_TCP = 3000;
     public static final int HEART_BEAT_INVALID_TIME_TCP = 70000;
 
     public static final int HEART_BEAT_PERIOD_UDP = 15000;
@@ -78,9 +78,15 @@ public class SocketManager extends Observable {
         }
     }
 
+    public void statusTcpServerConnectDeviceNot() {
+        isTcpHostConnect = true;
+        isTcpDeviceConnect = false;
+        notifyActivity(new ObserveData(ObserveData.NETWORK_STATUS_CHANGE));
+    }
+
     public void statusTcpServerConnect() {
         isTcpHostConnect = true;
-        isUdpDeviceConnect = false;
+//        isTcpDeviceConnect = false;
         notifyActivity(new ObserveData(ObserveData.NETWORK_STATUS_CHANGE));
     }
 
@@ -112,6 +118,7 @@ public class SocketManager extends Observable {
             return;
         }
         if (success) {
+            statusTcpDeviceConnect();
             if (socket instanceof TcpSocket) {
                 statusTcpDeviceConnect();
             } else {
@@ -119,7 +126,7 @@ public class SocketManager extends Observable {
             }
         } else {
             if (socket instanceof TcpSocket) {
-                statusTcpServerConnect();
+                statusTcpServerConnectDeviceNot();
             } else {
                 Log.i(TAG, "fucking udp socket receive a tcp package");
             }

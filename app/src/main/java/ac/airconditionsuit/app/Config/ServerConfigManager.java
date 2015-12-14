@@ -577,10 +577,6 @@ public class ServerConfigManager {
         });
     }
 
-    public void deleteDevice(final long chat_id, final HttpClient.JsonResponseHandler handler, final boolean deleteHomeOrDevice) {
-    }
-
-
     public long getAdminCustId() {
         if (hasDevice()) {
             return rootJavaObj.getConnection().get(0).getCreator_cust_id();

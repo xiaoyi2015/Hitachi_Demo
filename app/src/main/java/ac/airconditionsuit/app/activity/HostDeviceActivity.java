@@ -73,6 +73,7 @@ public class HostDeviceActivity extends BaseActivity{
 
                                             @Override
                                             public void onSuccess(DeleteDeviceResponse response) {
+                                                MyApp.getApp().getLocalConfigManager().currentHomeDeleteDevice();
                                                 dismissWaitProgress();
                                                 finish();
                                             }
