@@ -170,10 +170,20 @@ public class SocketManager extends Observable {
         notifyObservers(od);
     }
 
-    public void sendMessage(List<ControlPackage> controlPackages) {
-        for (ControlPackage p : controlPackages) {
-            sendMessage(p);
-        }
+    public void sendMessage(final List<ControlPackage> controlPackages) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (ControlPackage p : controlPackages) {
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    sendMessage(p);
+                }
+            }
+        }).run();
     }
 
     public void getAllAirConditionStatusFromHostDevice(List<DeviceFromServerConfig> devices) throws Exception {
