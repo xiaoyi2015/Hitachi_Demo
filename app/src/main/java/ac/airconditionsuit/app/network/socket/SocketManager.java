@@ -133,7 +133,6 @@ public class SocketManager extends Observable {
         }
     }
 
-
     public int getStatus() {
         if (isTcpDeviceConnect) {
             return TCP_DEVICE_CONNECT;
@@ -228,6 +227,10 @@ public class SocketManager extends Observable {
 
     public void sendUdpACK(byte[] no) {
         sendMessage(new ACKPackage(no, null));
+    }
+
+    public void syncTimeUDP() {
+        sendMessage(new SyncTimePackage());
     }
 
 
