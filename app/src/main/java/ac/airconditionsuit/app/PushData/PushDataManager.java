@@ -2,6 +2,7 @@ package ac.airconditionsuit.app.PushData;
 
 import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.activity.MainActivity;
+import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import android.app.PendingIntent;
@@ -375,10 +376,18 @@ public class PushDataManager {
     }
 
     public void checkPushDataFromService() {
+        MyUser user = MyApp.getApp().getUser();
+        if (user == null) {
+            return;
+        }
+        String auth = user.getAuth();
+        if (auth == null) {
+            return;
+        }
         final RequestParams requestParams = new RequestParams();
         requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
         requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_GET_PUSHDATA);
-        requestParams.put("auth", MyApp.getApp().getUser().getAuth());
+        requestParams.put("auth", auth);
 
         HttpClient.get(requestParams, new TypeToken<List<PushDataListResponse>>() {
                 }.getType(),

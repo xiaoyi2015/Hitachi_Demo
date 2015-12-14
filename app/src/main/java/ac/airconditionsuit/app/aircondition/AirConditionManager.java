@@ -39,11 +39,11 @@ public class AirConditionManager {
     }
 
     public void initAirConditionsByDeviceList() {
-        for (String configFileName : MyApp.getApp().getLocalConfigManager().getCurrentUserConfig().getHomeConfigFileNames()) {
-            ServerConfigManager serverConfigManager = new ServerConfigManager();
-            serverConfigManager.readFromFile(configFileName);
-            initAirConditionsByDeviceList(serverConfigManager.getDevices());
-        }
+//        for (String configFileName : MyApp.getApp().getLocalConfigManager().getCurrentUserConfig().getHomeConfigFileNames()) {
+//            ServerConfigManager serverConfigManager = new ServerConfigManager();
+//            serverConfigManager.readFromFile(configFileName);
+            initAirConditionsByDeviceList(MyApp.getApp().getServerConfigManager().getDevices());
+//        }
     }
 
     public void queryAirConditionStatus() {

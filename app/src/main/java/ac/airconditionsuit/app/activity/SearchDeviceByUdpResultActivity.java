@@ -79,10 +79,10 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
         super.update(observable, data);
         ObserveData od = (ObserveData) data;
 
-        dismissWaitProgress();
         switch (od.getMsg()) {
             case ObserveData.FIND_DEVICE_BY_UDP:
                 //如果不为空，就表示搜索到一个设备,做相应处理
+                dismissWaitProgress();
                 Device device = (Device) od.getData();
                 addDevice(device);
                 break;
@@ -92,6 +92,7 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
 //                break;
             case ObserveData.FIND_DEVICE_BY_UDP_FAIL:
             case ObserveData.FIND_DEVICE_BY_UDP_FINASH:
+                dismissWaitProgress();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

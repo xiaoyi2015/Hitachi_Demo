@@ -282,7 +282,7 @@ public class SocketManager extends Observable {
                 init();
             }
         }, 500);
-        Log.i(TAG, "reconnect");
+//        Log.i(TAG, "reconnect");
     }
 
     private SocketWrap socket;
@@ -361,7 +361,7 @@ public class SocketManager extends Observable {
                 } else {
                     socket = null;
                     //如果没有联网，就不进行后面的操作了，直接return
-                    Log.i(TAG, "init socket manager failed due to no network");
+//                    Log.i(TAG, "init socket manager failed due to no network");
                     return;
                 }
 
@@ -503,16 +503,16 @@ public class SocketManager extends Observable {
                     socket.sendMessage(socketPackage);
 
                     //搜索时间十秒
-                    new Timer().schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            socket.close();
-                            ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP_FINASH);
-                            notifyActivity(od);
-                        }
-                    }, 10 * 1000);
+//                    new Timer().schedule(new TimerTask() {
+//                        @Override
+//                        public void run() {
+//                            socket.close();
+//                            ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP_FINASH);
+//                            notifyActivity(od);
+//                        }
+//                    }, 10 * 1000);
                     long currentTime = System.currentTimeMillis();
-                    while (currentTime < currentTime + 10 * 1000) {
+                    while (System.currentTimeMillis() < currentTime + 10 * 1000) {
                         socket.receiveDataAndHandle();
                     }
                     ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP_FINASH);
