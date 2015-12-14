@@ -172,5 +172,6 @@ public class LocalConfigManager {
 
     public void updateCurrentServerConfigFile(String name) {
         getCurrentUserConfig().updateCurrentHostDeviceConfigFile(name);
+        saveToDisk();
     }
 }

@@ -5,6 +5,7 @@ import ac.airconditionsuit.app.activity.MainActivity;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,6 +13,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
@@ -206,13 +209,21 @@ public class PushDataManager {
                     || pushData.getType() == 102
                     || pushData.getType() == 20) {
                 if (!MyApp.isAppActive() || MyApp.getApp().isScreenLock()) {
+                    Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(MyApp.getApp())
                                     .setSmallIcon(R.mipmap.hit_launcher)
                                     .setContentIntent(resultPendingIntent)
+                                    .setSound(alarmSound)
                                     .setContentTitle(pushData.getContent());
 //                                    .setContentText(pushData.getContent());
-                    NotificationManagerCompat.from(MyApp.getApp()).notify((int) pushData.getId(), mBuilder.build());
+                    Notification notification = mBuilder.build();
+                    notification.flags |= NotificationCompat.FLAG_SHOW_LIGHTS;
+                    notification.ledARGB = 0xff00ff00;
+                    notification.ledOnMS = 300;
+                    notification.ledOffMS = 1000;
+                    NotificationManagerCompat.from(MyApp.getApp()).notify((int) pushData.getId(), notification);
                 } else {
                     int type = pushData.getType();
                     if (type != 103 && type != 102) {
@@ -297,8 +308,8 @@ public class PushDataManager {
             return new ArrayList<>();
         }
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " where " + CHATID + " = \"" + currentHomeDeviceId + "\""
-                + "and " + TS + "= " + time
-                + "and" + CONTENT + "= \"" + content + "\"";
+                + " and " + TS + " = " + time
+                + " and " + CONTENT + " = \"" + content + "\"";
         return select(selectQuery);
     }
 

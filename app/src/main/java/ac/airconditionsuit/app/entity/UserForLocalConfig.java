@@ -205,7 +205,7 @@ public class UserForLocalConfig {
                     @Override
                     public void onFailure(Throwable throwable) {
                     }
-                });
+                }, "删除家失败");
             } else {
                 homeConfigFileNames.remove(currentHomeIndex);
                 if (currentHomeIndex >= homeConfigFileNames.size()) {

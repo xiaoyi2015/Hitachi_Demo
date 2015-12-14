@@ -489,31 +489,35 @@ public class SocketManager extends Observable {
 //        sendMessage(new QueryAirConditionAddressPackage());
 //    }
 
+    public UdpSocket broadCastSocket;
     public void sendBroadCast() {
         new Thread(new Runnable() {
+
             @Override
             public void run() {
                 try {
-                    final UdpSocket socket = new UdpSocket();
-                    socket.connect(BROADCAST_ADDRESS);
+                    if (broadCastSocket == null) {
+                        broadCastSocket = new UdpSocket();
+                    }
+                    broadCastSocket.connect(BROADCAST_ADDRESS);
                     SocketPackage socketPackage = new BroadcastPackage();
                     //重发三遍，主机偶尔会没有应答
-                    socket.sendMessage(socketPackage);
-                    socket.sendMessage(socketPackage);
-                    socket.sendMessage(socketPackage);
+                    broadCastSocket.sendMessage(socketPackage);
+                    broadCastSocket.sendMessage(socketPackage);
+                    broadCastSocket.sendMessage(socketPackage);
 
                     //搜索时间十秒
-//                    new Timer().schedule(new TimerTask() {
-//                        @Override
-//                        public void run() {
-//                            socket.close();
-//                            ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP_FINASH);
-//                            notifyActivity(od);
-//                        }
-//                    }, 10 * 1000);
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+//                            broadCastSocket.close();
+                            ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP_FINASH);
+                            notifyActivity(od);
+                        }
+                    }, 10 * 1000);
                     long currentTime = System.currentTimeMillis();
                     while (System.currentTimeMillis() < currentTime + 10 * 1000) {
-                        socket.receiveDataAndHandle();
+                        broadCastSocket.receiveDataAndHandle();
                     }
                     ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP_FINASH);
                     notifyActivity(od);

@@ -514,8 +514,11 @@ public class ServerConfigManager {
         }
         writeToFile(true);
     }
-
     public void deleteCurrentDevice(final HttpClient.JsonResponseHandler<DeleteDeviceResponse> handler) {
+        deleteCurrentDevice(handler, null);
+    }
+
+    public void deleteCurrentDevice(final HttpClient.JsonResponseHandler<DeleteDeviceResponse> handler, final String toastInfo) {
         RequestParams params = new RequestParams();
         params.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
         params.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_CANCEL);
@@ -562,7 +565,11 @@ public class ServerConfigManager {
 
             @Override
             public void onFailure(Throwable throwable) {
-                MyApp.getApp().showToast(R.string.toast_inf_delete_device_failed);
+                if (toastInfo != null) {
+                    MyApp.getApp().showToast(toastInfo);
+                } else {
+                    MyApp.getApp().showToast(R.string.toast_inf_delete_device_failed);
+                }
                 if (handler != null) {
                     handler.onFailure(throwable);
                 }
@@ -612,7 +619,7 @@ public class ServerConfigManager {
         return scm;
     }
 
-    private void setFileName(String absolutePath) {
+    public void setFileName(String absolutePath) {
         fileName = absolutePath;
     }
 

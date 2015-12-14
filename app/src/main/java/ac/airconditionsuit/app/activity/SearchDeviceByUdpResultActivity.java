@@ -39,6 +39,7 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
         }
     };
     private HostListAdapter hostListAdapter;
+    private long startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +61,21 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
         commonTopBar.setIconView(myOnClickListener, null);
         //调用这个函数以后开始在局域网中搜索主机
         showWaitProgress();
+        startTime = System.currentTimeMillis();
         MyApp.getApp().getSocketManager().sendBroadCast();
 
         ListView listView = (ListView) findViewById(R.id.host_list);
         hostListAdapter = new HostListAdapter(SearchDeviceByUdpResultActivity.this, devices);
         listView.setAdapter(hostListAdapter);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (System.currentTimeMillis() > startTime + 10 * 1000) {
+            dismissWaitProgress();
+        }
     }
 
     /**
