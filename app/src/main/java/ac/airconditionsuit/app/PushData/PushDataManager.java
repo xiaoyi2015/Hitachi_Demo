@@ -194,54 +194,15 @@ public class PushDataManager {
                 }
             }
             saveToSQLite(pushData);
-
-            Intent resultIntent = new Intent(MyApp.getApp(), MainActivity.class);
-// Because clicking the notification opens a new ("special") activity, there's
-// no need to create an artificial back stack.
-            PendingIntent resultPendingIntent =
-                    PendingIntent.getActivity(
-                            MyApp.getApp(),
-                            0,
-                            resultIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    );
-            if (pushData.getType() == 103
-                    || pushData.getType() == 102
-                    || pushData.getType() == 20) {
-                if (!MyApp.isAppActive() || MyApp.getApp().isScreenLock()) {
-                    Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-                    NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(MyApp.getApp())
-                                    .setSmallIcon(R.mipmap.hit_launcher)
-                                    .setContentIntent(resultPendingIntent)
-                                    .setSound(alarmSound)
-                                    .setContentTitle(pushData.getContent());
-//                                    .setContentText(pushData.getContent());
-                    Notification notification = mBuilder.build();
-                    notification.flags |= NotificationCompat.FLAG_SHOW_LIGHTS;
-                    notification.ledARGB = 0xff00ff00;
-                    notification.ledOnMS = 300;
-                    notification.ledOffMS = 1000;
-                    NotificationManagerCompat.from(MyApp.getApp()).notify((int) pushData.getId(), notification);
-                } else {
-                    int type = pushData.getType();
-                    if (type != 103 && type != 102) {
-                        MyApp.getApp().showToast(pushData.getContent());
-                    }
-                }
+            if (!MyApp.isAppActive() || MyApp.getApp().isScreenLock()) {
+                systemNotify(pushData);
             } else {
-                if (!MyApp.isAppActive() || MyApp.getApp().isScreenLock()) {
-                    NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(MyApp.getApp())
-                                    .setSmallIcon(R.mipmap.hit_launcher)
-                                    .setContentIntent(resultPendingIntent)
-                                    .setContentTitle(pushData.getContent());
-//                                .setContentTitle("My notification")
-//                                    .setContentText(pushData.getContent());
-                    NotificationManagerCompat.from(MyApp.getApp()).notify((int) pushData.getId(), mBuilder.build());
+                int type = pushData.getType();
+                if (type != 101 && type != 103 && type != 102) {
+                    MyApp.getApp().showToast(pushData.getContent());
                 }
             }
+
             if (pushData.getType() == 20) {
                 if (pushData.getData().getCust_id() != MyApp.getApp().getUser().getCust_id()) {
                     return 0;
@@ -271,6 +232,30 @@ public class PushDataManager {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    private void systemNotify(PushData pushData) {
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Intent resultIntent = new Intent(MyApp.getApp(), MainActivity.class);
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        MyApp.getApp(),
+                        0,
+                        resultIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(MyApp.getApp())
+                        .setSmallIcon(R.mipmap.hit_launcher)
+                        .setContentIntent(resultPendingIntent)
+                        .setSound(alarmSound)
+                        .setContentTitle(pushData.getContent());
+        Notification notification = mBuilder.build();
+        notification.flags |= NotificationCompat.FLAG_SHOW_LIGHTS;
+        notification.ledARGB = 0xff00ff00;
+        notification.ledOnMS = 300;
+        notification.ledOffMS = 1000;
+        NotificationManagerCompat.from(MyApp.getApp()).notify((int) pushData.getId(), notification);
     }
 
 
