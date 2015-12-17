@@ -1,6 +1,5 @@
 package ac.airconditionsuit.app.aircondition;
 
-import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.*;
 import ac.airconditionsuit.app.network.socket.socketpackage.*;
@@ -23,18 +22,22 @@ public class AirConditionManager {
 //    List<Timer> timers = new ArrayList<>();//usused
 
     public void initAirConditionsByDeviceList(List<DeviceFromServerConfig> devices) {
+//        for (DeviceFromServerConfig dev : devices) {
+//            boolean found = false;
+//            for (AirCondition air : airConditions) {
+//                if (air.getAddress() == dev.getAddress()) {
+//                    found = true;
+//                    break;
+//                }
+//            }
+//            if (!found) {
+//                AirCondition ac = new AirCondition(dev);
+//                airConditions.add(ac);
+//            }
+//        }
+        airConditions.clear();
         for (DeviceFromServerConfig dev : devices) {
-            boolean found = false;
-            for (AirCondition air : airConditions) {
-                if (air.getAddress() == dev.getAddress()) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                AirCondition ac = new AirCondition(dev);
-                airConditions.add(ac);
-            }
+            airConditions.add(new AirCondition(dev));
         }
     }
 
@@ -42,7 +45,7 @@ public class AirConditionManager {
 //        for (String configFileName : MyApp.getApp().getLocalConfigManager().getCurrentUserConfig().getHomeConfigFileNames()) {
 //            ServerConfigManager serverConfigManager = new ServerConfigManager();
 //            serverConfigManager.readFromFile(configFileName);
-            initAirConditionsByDeviceList(MyApp.getApp().getServerConfigManager().getDevices());
+        initAirConditionsByDeviceList(MyApp.getApp().getServerConfigManager().getDevices());
 //        }
     }
 
@@ -211,47 +214,58 @@ public class AirConditionManager {
         if (room.getElements() == null || room.getElements().size() == 0) {
             return null;
         }
-        AirCondition airCondition = new AirCondition();
-        AirCondition airConditionByIndex = getAirConditionByIndex(room.getElements().get(0));
-        airCondition.setAirconditionMode(airConditionByIndex.getAirconditionMode());
-        airCondition.setOnoff(airConditionByIndex.getOnoff());
-        airCondition.setAirconditionFan(airConditionByIndex.getAirconditionFan());
-        airCondition.setTemperature(airConditionByIndex.getTemperature());
-        airCondition.setRealTemperature(airConditionByIndex.getRealTemperature());
 
-//        if (airCondition == null) {
-//            airCondition = new AirCondition();
-//            airCondition.setMode(AirConditionControl.UNKNOW);
-//            airCondition.setOnoff(AirConditionControl.UNKNOW);
-//            airCondition.setFan(AirConditionControl.UNKNOW);
-//            airCondition.setTemperature(AirConditionControl.UNKNOW);
-//            airCondition.setRealTemperature(AirConditionControl.UNKNOW);
-//            return airCondition;
-//        }
-        for (int i = 1; i < room.getElements().size(); i++) {
+//        AirCondition airConditionByIndex = getAirConditionByIndex(room.getElements().get(0));
+//        airCondition.setAirconditionMode(airConditionByIndex.getAirconditionMode());
+//        airCondition.setOnoff(airConditionByIndex.getOnoff());
+//        airCondition.setAirconditionFan(airConditionByIndex.getAirconditionFan());
+//        airCondition.setTemperature(airConditionByIndex.getTemperature());
+//        airCondition.setRealTemperature(airConditionByIndex.getRealTemperature());
+
+        AirCondition airCondition = new AirCondition();
+        airCondition.setMode(AirConditionControl.UNKNOW);
+        airCondition.setOnoff(AirConditionControl.UNKNOW);
+        airCondition.setFan(AirConditionControl.UNKNOW);
+        airCondition.setTemperature(AirConditionControl.UNKNOW);
+        airCondition.setRealTemperature(AirConditionControl.UNKNOW);
+        for (int i = 0; i < room.getElements().size(); i++) {
             AirCondition temp = getAirConditionByIndex(room.getElements().get(i));
             if (temp == null) {
                 continue;
             }
-            if (temp.getMode() != airCondition.getMode()) {
-                airCondition.setMode(AirConditionControl.UNKNOW);
-            }
-            if (airCondition.getOnoff() == 0) {
+            if (airCondition.getMode() == AirConditionControl.UNKNOW) {
+                airCondition.setAirconditionMode(temp.getAirconditionMode());
                 airCondition.setOnoff(temp.getOnoff());
+                airCondition.setAirconditionFan(temp.getAirconditionFan());
+                if (temp.getTemperature() > 30 || temp.getTemperature() < 17) {
+                    airCondition.setTemperature(AirConditionControl.UNKNOW);
+                } else {
+                    airCondition.setTemperature(temp.getTemperature());
+                }
+                if (temp.getRealTemperature() > 30 || temp.getRealTemperature() < 17) {
+                    airCondition.setRealTemperature(AirConditionControl.UNKNOW);
+                } else {
+                    airCondition.setRealTemperature(temp.getRealTemperature());
+                }
+            } else {
+                if (temp.getMode() != airCondition.getMode()) {
+                    airCondition.setMode(AirConditionControl.UNKNOW);
+                }
+                if (airCondition.getOnoff() == 0) {
+                    airCondition.setOnoff(temp.getOnoff());
+                }
+                if (temp.getFan() != airCondition.getFan()) {
+                    airCondition.setFan(AirConditionControl.UNKNOW);
+                }
+                if (temp.getTemperature() != airCondition.getTemperature()
+                        || temp.getTemperature() > 30 || temp.getTemperature() < 17) {
+                    airCondition.setTemperature(AirConditionControl.UNKNOW);
+                }
+                if (temp.getRealTemperature() != airCondition.getRealTemperature()
+                        || temp.getRealTemperature() > 30 || temp.getRealTemperature() < 17) {
+                    airCondition.setRealTemperature(AirConditionControl.UNKNOW);
+                }
             }
-            if (temp.getFan() != airCondition.getFan()) {
-                airCondition.setFan(AirConditionControl.UNKNOW);
-            }
-            if (temp.getTemperature() != airCondition.getTemperature()) {
-                airCondition.setTemperature(AirConditionControl.UNKNOW);
-            }
-            if (temp.getRealTemperature() != airCondition.getRealTemperature()) {
-                airCondition.setRealTemperature(AirConditionControl.UNKNOW);
-            }
-            if (temp.getTemperature() > 30 || temp.getTemperature() < 17)
-                airCondition.setTemperature(AirConditionControl.UNKNOW);
-            if (temp.getRealTemperature() > 30 || temp.getRealTemperature() < 17)
-                airCondition.setRealTemperature(AirConditionControl.UNKNOW);
         }
         return airCondition;
     }
