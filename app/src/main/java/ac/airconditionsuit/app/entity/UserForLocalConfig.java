@@ -8,6 +8,7 @@ import ac.airconditionsuit.app.network.response.DeleteDeviceResponse;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -85,12 +86,19 @@ public class UserForLocalConfig {
         String oldCurrentHomeFileName = getCurrentHomeConfigFileName();
         List<String> oldHomeFileNames = this.homeConfigFileNames;
         //首先删除没有设备的文件
-        for (String oldHostDeviceConfigFile : oldHomeFileNames) {
-            if (oldHostDeviceConfigFile.contains(Constant.NO_DEVICE_CONFIG_FILE_PREFIX)) {
-                deleteHostDeviceConfigFile(oldHostDeviceConfigFile);
-                oldHomeFileNames.remove(oldHostDeviceConfigFile);
+        Iterator<String> iter = oldHomeFileNames.iterator();
+        while (iter.hasNext()) {
+            String next = iter.next();
+            if (next.contains(Constant.NO_DEVICE_CONFIG_FILE_PREFIX)) {
+                deleteHostDeviceConfigFile(next);
+                iter.remove();
             }
         }
+//        for (String oldHostDeviceConfigFile : oldHomeFileNames) {
+//            if (oldHostDeviceConfigFile.contains(Constant.NO_DEVICE_CONFIG_FILE_PREFIX)) {
+//                oldHomeFileNames.remove(oldHostDeviceConfigFile);
+//            }
+//        }
         if (currentHomeIndex >= oldHomeFileNames.size()) {
             currentHomeIndex = oldHomeFileNames.size() - 1;
         }
