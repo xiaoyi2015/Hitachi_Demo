@@ -1,7 +1,6 @@
 package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.*;
@@ -11,7 +10,6 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.nio.channels.Pipe;
 import java.util.*;
 
 /**
