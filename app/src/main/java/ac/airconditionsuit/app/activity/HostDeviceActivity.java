@@ -45,21 +45,7 @@ public class HostDeviceActivity extends BaseActivity{
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         // final long chat_id = MyApp.getApp().getServerConfigManager().getConnections().get(0).getChat_id();
-                                        showWaitProgress();
-                                        MyApp.getApp().getServerConfigManager().deleteCurrentDevice(new HttpClient.JsonResponseHandler<DeleteDeviceResponse>() {
-
-                                            @Override
-                                            public void onSuccess(DeleteDeviceResponse response) {
-                                                dismissWaitProgress();
-                                                finish();
-                                            }
-
-                                            @Override
-                                            public void onFailure(Throwable throwable) {
-                                                dismissWaitProgress();
-                                            }
-                                        });
-                                        dialog.dismiss();
+                                        deleteDevice();
                                     }
                                 }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
                     }else{
@@ -68,22 +54,7 @@ public class HostDeviceActivity extends BaseActivity{
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         // final long chat_id = MyApp.getApp().getServerConfigManager().getConnections().get(0).getChat_id();
-                                        showWaitProgress();
-                                        MyApp.getApp().getServerConfigManager().deleteCurrentDevice(new HttpClient.JsonResponseHandler<DeleteDeviceResponse>() {
-
-                                            @Override
-                                            public void onSuccess(DeleteDeviceResponse response) {
-                                                MyApp.getApp().getLocalConfigManager().currentHomeDeleteDevice();
-                                                dismissWaitProgress();
-                                                finish();
-                                            }
-
-                                            @Override
-                                            public void onFailure(Throwable throwable) {
-                                                dismissWaitProgress();
-                                            }
-                                        });
-                                        dialog.dismiss();
+                                        deleteDevice();
                                     }
                                 }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
                     }
@@ -96,6 +67,24 @@ public class HostDeviceActivity extends BaseActivity{
             }
         }
     };
+
+    private void deleteDevice() {
+        showWaitProgress();
+        MyApp.getApp().getServerConfigManager().deleteCurrentDevice(new HttpClient.JsonResponseHandler<DeleteDeviceResponse>() {
+
+            @Override
+            public void onSuccess(DeleteDeviceResponse response) {
+                MyApp.getApp().getLocalConfigManager().currentHomeDeleteDevice();
+                dismissWaitProgress();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                dismissWaitProgress();
+            }
+        });
+    }
 
 
     @Override

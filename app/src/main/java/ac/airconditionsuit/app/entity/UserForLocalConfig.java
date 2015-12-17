@@ -255,5 +255,6 @@ public class UserForLocalConfig {
         }
         oldFile.renameTo(newFile);
         homeConfigFileNames.set(currentHomeIndex, configFileName);
+        MyApp.getApp().getServerConfigManager().setFileName(configFileName);
     }
 }
