@@ -281,6 +281,10 @@ public class SocketManager extends Observable {
     public void recheckDevice() {
         //如果是tcp连接，不关闭tcp，只是重新检查设备
         if (MyApp.getApp().getServerConfigManager().hasDevice()){
+            if (socket == null) {
+                reconnectSocket();
+                return;
+            }
             if (socket instanceof TcpSocket ) {
                 ((TcpSocket) socket).checkDeviceConnect();
             } else {
