@@ -4,7 +4,6 @@ import ac.airconditionsuit.app.Config.ServerConfigManager;
 import ac.airconditionsuit.app.activity.MainActivity;
 import ac.airconditionsuit.app.entity.MyUser;
 import ac.airconditionsuit.app.entity.Timer;
-import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.ContentValues;
@@ -22,7 +21,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 
-import java.io.PushbackInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +38,7 @@ public class PushDataManager {
     public static final String TABLE_NAME = "pushdata";
     public static final String TS = "ts";
     public static final String ID = "pushdataid";
+    public static final String MSG_NO = "msg_no";
     public static final String CHATID = "chatid";
     public static final String TYPE = "type";
     public static final String CONTENT = "content";
@@ -52,6 +51,16 @@ public class PushDataManager {
         private long ts;
         private long id;
         private long chatid;
+
+        public long getMsg_no() {
+            return msg_no;
+        }
+
+        public void setMsg_no(long msg_no) {
+            this.msg_no = msg_no;
+        }
+
+        private long msg_no;
 
         public long getTid() {
             return tid;
@@ -149,11 +158,11 @@ public class PushDataManager {
 
     public class PushDataDbHelper extends SQLiteOpenHelper {
         // If you change the database schema, you must increment the database version.
-        public static final int DATABASE_VERSION = 2;
+        public static final int DATABASE_VERSION = 4;
         public static final String DATABASE_NAME = "pushData.db";
         private final String SQL_CREATE_ENTRIES =
-                "CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, " + TS + " INTEGER, " + ID + " INTEGER, " +
-                        CHATID + " Text, " + TYPE + " INTEGER, " + CONTENT + " Text)";
+                "CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, " + TS + " INTEGER, " + ID + " INTEGER, "  +
+                        CHATID + " Text, " + TYPE + " INTEGER, " + CONTENT + " Text, "+ MSG_NO + " INTEGER)";
         private final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
         public PushDataDbHelper(Context context) {
@@ -176,12 +185,13 @@ public class PushDataManager {
         }
     }
 
-    public long add(String data) {
+    public long add(String data, short msg_no) {
         try {
             PushData pushData = new Gson().fromJson(data, PushData.class);
+            pushData.setMsg_no(msg_no);
 
             if (pushData.getType() == 26 || pushData.getContent() == null || pushData.getContent().length() == 0
-                    || readPushDataFromDatabaseByTimeAndContent(pushData.getTs(), pushData.getContent()).size() != 0) {
+                    || alreadyInsert(pushData.getMsg_no())) {
                 return 0;
             }
             pushData.fixTime();
@@ -287,15 +297,14 @@ public class PushDataManager {
     }
 
 
-    public List<PushData> readPushDataFromDatabaseByTimeAndContent(long time, String content) {
+    public boolean alreadyInsert(long msg_no) {
         String currentHomeDeviceId = MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId();
         if (currentHomeDeviceId == null) {
-            return new ArrayList<>();
+            return false;
         }
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " where " + CHATID + " = \"" + currentHomeDeviceId + "\""
-                + " and " + TS + " = " + time
-                + " and " + CONTENT + " = \"" + content + "\"";
-        return select(selectQuery);
+                + " and " + MSG_NO + " = " + msg_no;
+        return select(selectQuery).size() != 0;
     }
 
     private List<PushData> select(String sql) {
@@ -358,6 +367,7 @@ public class PushDataManager {
         pushData.setChatid(cursor.getLong(3));
         pushData.setType(cursor.getInt(4));
         pushData.setContent(cursor.getString(5));
+        pushData.setMsg_no(cursor.getInt(6));
         return pushData;
     }
 
@@ -368,6 +378,7 @@ public class PushDataManager {
         cv.put(CHATID, String.valueOf(pushData.getChatid()));
         cv.put(TYPE, pushData.getType());
         cv.put(CONTENT, pushData.getContent());
+        cv.put(MSG_NO, pushData.getMsg_no());
         return cv;
     }
 

@@ -1,6 +1,7 @@
 package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.Config.ServerConfigManager;
+import ac.airconditionsuit.app.Constant;
 import ac.airconditionsuit.app.MyApp;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.ACKPackage;
@@ -215,7 +216,8 @@ public class TcpSocket implements SocketWrap {
         } else if (contentType == 0) {
             String jsonString = new String(data);
             Log.i(TAG, "handle receive data as json: " + jsonString);
-            MyApp.getApp().getPushDataManager().add(jsonString);
+            short msg_no = ByteUtil.byteArrayToShort(receiveData, 3);
+            MyApp.getApp().getPushDataManager().add(jsonString, msg_no);
         } else {
             throw new IOException("unknow content type");
         }
