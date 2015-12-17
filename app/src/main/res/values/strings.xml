@@ -40,7 +40,7 @@
     <string name="delete_home">删除家</string>
     <string name="delete_info">删除后，家和家里i-EZ控制器的所有信息均无法恢复配置</string>
     <string name="add_group">添加新群组</string>
-    <string name="add_explain_text">\n自动搜索新i-EZ控制器:\n如果i-EZ控制器首次使用，请通过自动搜索新i-EZ控制器的方式添加。在自动搜索前，请确保i-EZ控制器已正常工作，并通过网线或WiFi的方式与路由器连接成功，只有保证手机、平板和i-EZ控制器在同一局域网内，i-EZ控制器才能被搜索到。\n\n扫一扫:\n第一个添加i-EZ控制器的用户为管理员发出的邀请码，其他用户才可以添加i-EZ控制器。\n\n二维码：\n配置->i-EZ控制器->i-EZ控制器二维码</string>
+    <string name="add_explain_text">\n自动搜索新i-EZ控制器:\n如果i-EZ控制器首次使用，请通过自动搜索新i-EZ控制器的方式添加。在自动搜索前，请确保i-EZ控制器已正常工作，并通过网线或WiFi的方式与路由器连接成功，只有保证手机、平板和i-EZ控制器在同一局域网内，i-EZ控制器才能被搜索到。\n\n扫一扫:\n第一个添加i-EZ控制器的用户为管理员，管理员可以生成i-EZ控制器的二维码，其他用户扫描二维码后才可以添加i-EZ控制器。\n\n二维码：\n配置设置->i-EZ控制器->设备二维码</string>
     <string name="auto_find_device">自动搜索空调控制主机</string>
     <string name="scan_scan">扫一扫</string>
     <string name="home_name">家的名称</string>
@@ -59,7 +59,7 @@
     <string name="register_verification_code_hint">请输入验证码</string>
     <string name="register_password_hint">请输入密码</string>
     <string name="confirm_password_hint">请再次输入密码</string>
-    <string name="register_password_info">密码区分大小写，长度为6至12位</string>
+    <string name="register_password_info">密码区分大小写，长度为6至16位</string>
     <string name="register_new_user">注册新用户</string>
     <string name="find_password">找回密码</string>
     <string name="pls_read_clause">请先阅读并同意使用条款和隐私政策</string>
@@ -71,7 +71,7 @@
     <string name="pls_input_verify_code">请输入验证码</string>
     <string name="pls_input_right_verify_code">请输入正确的验证码</string>
     <string name="pls_input_psd">请输入密码</string>
-    <string name="pls_input_length_psd">请输入6-12位的密码</string>
+    <string name="pls_input_length_psd">请输入6-16位的密码</string>
     <string name="pls_input_psd_again">请再次输入密码</string>
     <string name="differ_two_psd">前后两次输入的密码不一致，请重新输入</string>
     <string name="forbid_psd_blank">密码中不能包括空格</string>

@@ -145,7 +145,7 @@ public class BindHostActivity extends BaseActivity {
                                         setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                shortStartActivity(SearchIndoorDeviceActivity.class);
+                                                shortStartActivity(SearchIndoorDeviceActivity.class,"first","yes");
                                                 dialog.dismiss();
                                                 finish();
                                             }

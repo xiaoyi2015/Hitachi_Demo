@@ -4,6 +4,7 @@ import ac.airconditionsuit.app.network.HttpClient;
 import ac.airconditionsuit.app.network.response.DeleteDeviceResponse;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -61,12 +62,13 @@ public class HostDeviceActivity extends BaseActivity{
                     break;
 
                 case R.id.scan_indoor_device:
-                    shortStartActivity(SearchIndoorDeviceActivity.class);
+                    shortStartActivityForResult(SearchIndoorDeviceActivity.class, 1234);
                     break;
 
             }
         }
     };
+    private CommonButtonWithArrow scanIndoorDevice;
 
     private void deleteDevice() {
         showWaitProgress();
@@ -120,7 +122,7 @@ public class HostDeviceActivity extends BaseActivity{
 
         CommonButtonWithArrow hostDeviceName = (CommonButtonWithArrow)findViewById(R.id.host_device_name);
         CommonButtonWithArrow hostDeviceIP = (CommonButtonWithArrow)findViewById(R.id.host_device_ip);
-        CommonButtonWithArrow scanIndoorDevice = (CommonButtonWithArrow)findViewById(R.id.scan_indoor_device);
+        scanIndoorDevice = (CommonButtonWithArrow)findViewById(R.id.scan_indoor_device);
         LinearLayout deleteView = (LinearLayout)findViewById(R.id.delete_host_device_view);
         TextView deleteText = (TextView)deleteView.findViewById(R.id.label_text);
         deleteText.setTextColor(getResources().getColor(R.color.hit_heat_red));
@@ -137,5 +139,17 @@ public class HostDeviceActivity extends BaseActivity{
             manageLabelText.setText(getString(R.string.manager_text3));
             qrCode.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK){
+            switch (requestCode) {
+                case 1234:
+                    scanIndoorDevice.setOnlineTextView(MyApp.getApp().getServerConfigManager().getDevices().size() + getString(R.string.device_symbol));
+                    break;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
