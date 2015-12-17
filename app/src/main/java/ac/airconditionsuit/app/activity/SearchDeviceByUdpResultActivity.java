@@ -39,6 +39,7 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
         }
     };
     private HostListAdapter hostListAdapter;
+    private long startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +61,21 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
         commonTopBar.setIconView(myOnClickListener, null);
         //调用这个函数以后开始在局域网中搜索主机
         showWaitProgress();
+        startTime = System.currentTimeMillis();
         MyApp.getApp().getSocketManager().sendBroadCast();
 
         ListView listView = (ListView) findViewById(R.id.host_list);
         hostListAdapter = new HostListAdapter(SearchDeviceByUdpResultActivity.this, devices);
         listView.setAdapter(hostListAdapter);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (System.currentTimeMillis() > startTime + 10 * 1000) {
+            dismissWaitProgress();
+        }
     }
 
     /**
@@ -79,10 +89,10 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
         super.update(observable, data);
         ObserveData od = (ObserveData) data;
 
-        dismissWaitProgress();
         switch (od.getMsg()) {
             case ObserveData.FIND_DEVICE_BY_UDP:
                 //如果不为空，就表示搜索到一个设备,做相应处理
+                dismissWaitProgress();
                 Device device = (Device) od.getData();
                 addDevice(device);
                 break;
@@ -92,6 +102,7 @@ public class SearchDeviceByUdpResultActivity extends BaseActivity {
 //                break;
             case ObserveData.FIND_DEVICE_BY_UDP_FAIL:
             case ObserveData.FIND_DEVICE_BY_UDP_FINASH:
+                dismissWaitProgress();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

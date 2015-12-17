@@ -22,7 +22,7 @@ import java.util.Map;
 public class UdpSocket implements SocketWrap {
     private static final int PORT = 9002; // udp port
     private static final String TAG = "UdpSocket";
-    private DatagramSocket datagramSocket;
+    private static DatagramSocket datagramSocket;
     private String ip;
 
     public void resetIpToCurrentDevice() {
@@ -39,7 +39,9 @@ public class UdpSocket implements SocketWrap {
     }
 
     public void connect(String ip) throws SocketException, UnknownHostException {
-        datagramSocket = new DatagramSocket();
+        if (datagramSocket == null) {
+            datagramSocket = new DatagramSocket(8795);
+        }
         this.ip = ip;
         Log.i(TAG, "connect to host by udp success, ip " + ip + " port: " + PORT);
     }
@@ -81,6 +83,7 @@ public class UdpSocket implements SocketWrap {
     @Override
     public void receiveDataAndHandle() throws IOException {
         DatagramPacket datagramPacket = new DatagramPacket(new byte[1024], 1024);
+        System.out.println("receive");
         datagramSocket.receive(datagramPacket);
         byte[] receiveData = Arrays.copyOf(datagramPacket.getData(), datagramPacket.getLength());
         Log.i(TAG, "receive data " + ByteUtil.byteArrayToReadableHexString(receiveData));

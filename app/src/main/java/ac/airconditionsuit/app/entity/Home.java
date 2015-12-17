@@ -5,7 +5,7 @@ package ac.airconditionsuit.app.entity;
  * the entity for Home
  */
 public class Home extends RootEntity{
-    String name;
+    private String name;
     String filename;
 
     public String getName() {

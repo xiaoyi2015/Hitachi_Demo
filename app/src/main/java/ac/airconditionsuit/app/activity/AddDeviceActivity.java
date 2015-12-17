@@ -113,6 +113,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                             public void onFailure(Throwable throwable) {
                                 Log.e(TAG, "下载主机配置文件失败，用新的配置文件上传服务器");
                                 MyApp.getApp().getLocalConfigManager().updateCurrentServerConfigFile(deviceId + Constant.CONFIG_FILE_SUFFIX);
+                                MyApp.getApp().getServerConfigManager().readFromFile();
                                 Device device = new Device(qrCode);
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
                                 MyApp.getApp().getServerConfigManager().getHome().setName(qrCode.getHome());

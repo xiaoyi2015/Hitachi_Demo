@@ -124,15 +124,20 @@ public class BaseActivity extends FragmentActivity implements Observer {
         ObserveData od = (ObserveData) data;
         switch (od.getMsg()) {
             case ObserveData.OFFLINE:
-                new AlertDialog.Builder(this).setMessage("您已经在其他地方登录，请重新登录")
-                        .setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                quiteLogin();
-                            }
-                        })
-                        .setCancelable(false)
-                        .show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialog.Builder(BaseActivity.this).setMessage("您已经在其他地方登录，请重新登录")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        quiteLogin();
+                                    }
+                                })
+                                .setCancelable(false)
+                                .show();
+                    }
+                });
                 break;
         }
     }

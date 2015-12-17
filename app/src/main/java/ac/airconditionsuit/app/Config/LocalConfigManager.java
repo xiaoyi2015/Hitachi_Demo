@@ -172,5 +172,11 @@ public class LocalConfigManager {
 
     public void updateCurrentServerConfigFile(String name) {
         getCurrentUserConfig().updateCurrentHostDeviceConfigFile(name);
+        saveToDisk();
+    }
+
+    public void currentHomeDeleteDevice() {
+        getCurrentUserConfig().deleteDevice();
+        saveToDisk();
     }
 }

@@ -137,6 +137,13 @@ public class ByteUtil {
         return result;
     }
 
+    public static byte binToBCD(int hour) {
+        byte result = 0;
+        result |= (byte) ((hour / 10) << 4);
+        result |= (byte) (hour % 10);
+        return result;
+    }
+
     public static byte[] timeToBCD(int hour, int min) throws Exception {
         if (hour < 0 || hour > 23) {
             throw new Exception("time error");

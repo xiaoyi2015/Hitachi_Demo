@@ -158,6 +158,7 @@ public class MyAirFragment extends BaseFragment {
                             @Override
                             public void onClick(View v) {
                                 MyApp.getApp().getLocalConfigManager().changeHome(finalI);
+                                MyApp.getApp().getServerConfigManager().readFromFile();
                                 commonTopBar.setTitle(homeList.get(finalI).getName());
                                 ((MainActivity) myGetActivity()).refreshUI();
                                 MyApp.getApp().getSocketManager().reconnectSocket();

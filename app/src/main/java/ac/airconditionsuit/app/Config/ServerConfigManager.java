@@ -514,8 +514,11 @@ public class ServerConfigManager {
         }
         writeToFile(true);
     }
-
     public void deleteCurrentDevice(final HttpClient.JsonResponseHandler<DeleteDeviceResponse> handler) {
+        deleteCurrentDevice(handler, null);
+    }
+
+    public void deleteCurrentDevice(final HttpClient.JsonResponseHandler<DeleteDeviceResponse> handler, final String toastInfo) {
         RequestParams params = new RequestParams();
         params.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_REGISTER);
         params.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_CANCEL);
@@ -562,17 +565,17 @@ public class ServerConfigManager {
 
             @Override
             public void onFailure(Throwable throwable) {
-                MyApp.getApp().showToast(R.string.toast_inf_delete_device_failed);
+                if (toastInfo != null) {
+                    MyApp.getApp().showToast(toastInfo);
+                } else {
+                    MyApp.getApp().showToast(R.string.toast_inf_delete_device_failed);
+                }
                 if (handler != null) {
                     handler.onFailure(throwable);
                 }
             }
         });
     }
-
-    public void deleteDevice(final long chat_id, final HttpClient.JsonResponseHandler handler, final boolean deleteHomeOrDevice) {
-    }
-
 
     public long getAdminCustId() {
         if (hasDevice()) {
@@ -612,18 +615,18 @@ public class ServerConfigManager {
         return scm;
     }
 
-    private void setFileName(String absolutePath) {
+    public void setFileName(String absolutePath) {
         fileName = absolutePath;
     }
 
     private void writeToFile(String configFileName, boolean shouldUploadToServer) {
         FileOutputStream fos = null;
         try {
-            File serverConfigFile = new File(configFileName);
-            if (serverConfigFile == null) {
-                Log.e(TAG, "can not find device config file");
-                return;
-            }
+//            File serverConfigFile = new File(configFileName);
+//            if (serverConfigFile == null) {
+//                Log.e(TAG, "can not find device config file");
+//                return;
+//            }
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             ServerConfig rightServerConfig = switchAddressAndIndexFileToObj(new Gson().fromJson(rootJavaObj.toJsonString(), ServerConfig.class), false);
             NSDictionary root = PlistUtil.JavaObjectToNSDictionary(rightServerConfig);
@@ -642,9 +645,9 @@ public class ServerConfigManager {
             if (shouldUploadToServer) {
                 uploadToServer();
             }
-            else {
-                uploadToServerAfterDelay();
-            }
+//            else {
+//                uploadToServerAfterDelay();
+//            }
         } catch (IOException e) {
             Log.e(TAG, "write server config file error");
             e.printStackTrace();

@@ -1,7 +1,6 @@
 package ac.airconditionsuit.app.network.socket;
 
 import ac.airconditionsuit.app.MyApp;
-import ac.airconditionsuit.app.aircondition.AirConditionManager;
 import ac.airconditionsuit.app.entity.DeviceFromServerConfig;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.network.socket.socketpackage.*;
@@ -11,7 +10,6 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.nio.channels.Pipe;
 import java.util.*;
 
 /**
@@ -33,10 +31,10 @@ public class SocketManager extends Observable {
     public static final int NONE = 2;
 
 
-    public static final int HEART_BEAT_PERIOD_TCP = 60000;
+    public static final int HEART_BEAT_PERIOD_TCP = 3000;
     public static final int HEART_BEAT_INVALID_TIME_TCP = 70000;
 
-    public static final int HEART_BEAT_PERIOD_UDP = 5000;
+    public static final int HEART_BEAT_PERIOD_UDP = 15000;
     public static final int HEART_BEAT_INVALID_TIME_UDP = 10000;
 
     public static final int CHECK_PERIOD = 5000;
@@ -78,9 +76,15 @@ public class SocketManager extends Observable {
         }
     }
 
+    public void statusTcpServerConnectDeviceNot() {
+        isTcpHostConnect = true;
+        isTcpDeviceConnect = false;
+        notifyActivity(new ObserveData(ObserveData.NETWORK_STATUS_CHANGE));
+    }
+
     public void statusTcpServerConnect() {
         isTcpHostConnect = true;
-        isUdpDeviceConnect = false;
+//        isTcpDeviceConnect = false;
         notifyActivity(new ObserveData(ObserveData.NETWORK_STATUS_CHANGE));
     }
 
@@ -112,6 +116,7 @@ public class SocketManager extends Observable {
             return;
         }
         if (success) {
+            statusTcpDeviceConnect();
             if (socket instanceof TcpSocket) {
                 statusTcpDeviceConnect();
             } else {
@@ -119,13 +124,12 @@ public class SocketManager extends Observable {
             }
         } else {
             if (socket instanceof TcpSocket) {
-                statusTcpServerConnect();
+                statusTcpServerConnectDeviceNot();
             } else {
                 Log.i(TAG, "fucking udp socket receive a tcp package");
             }
         }
     }
-
 
     public int getStatus() {
         if (isTcpDeviceConnect) {
@@ -164,10 +168,15 @@ public class SocketManager extends Observable {
         notifyObservers(od);
     }
 
-    public void sendMessage(List<ControlPackage> controlPackages) {
-        for (ControlPackage p : controlPackages) {
-            sendMessage(p);
-        }
+    public void sendMessage(final List<ControlPackage> controlPackages) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (ControlPackage p : controlPackages) {
+                    sendMessage(p);
+                }
+            }
+        }).run();
     }
 
     public void getAllAirConditionStatusFromHostDevice(List<DeviceFromServerConfig> devices) throws Exception {
@@ -223,6 +232,10 @@ public class SocketManager extends Observable {
         sendMessage(new ACKPackage(no, null));
     }
 
+    public void syncTimeUDP() {
+        sendMessage(new SyncTimePackage());
+    }
+
 
     class ReceiveThread extends Thread {
         @Override
@@ -260,8 +273,12 @@ public class SocketManager extends Observable {
 
     public void recheckDevice() {
         //如果是tcp连接，不关闭tcp，只是重新检查设备
-        if (MyApp.getApp().getServerConfigManager().hasDevice()){
-            if (socket instanceof TcpSocket ) {
+        if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+            if (socket == null) {
+                reconnectSocket();
+                return;
+            }
+            if (socket instanceof TcpSocket) {
                 ((TcpSocket) socket).checkDeviceConnect();
             } else {
                 ((UdpSocket) socket).resetIpToCurrentDevice();
@@ -282,7 +299,7 @@ public class SocketManager extends Observable {
                 init();
             }
         }, 500);
-        Log.i(TAG, "reconnect");
+//        Log.i(TAG, "reconnect");
     }
 
     private SocketWrap socket;
@@ -361,7 +378,7 @@ public class SocketManager extends Observable {
                 } else {
                     socket = null;
                     //如果没有联网，就不进行后面的操作了，直接return
-                    Log.i(TAG, "init socket manager failed due to no network");
+//                    Log.i(TAG, "init socket manager failed due to no network");
                     return;
                 }
 
@@ -489,31 +506,36 @@ public class SocketManager extends Observable {
 //        sendMessage(new QueryAirConditionAddressPackage());
 //    }
 
+    public UdpSocket broadCastSocket;
+
     public void sendBroadCast() {
         new Thread(new Runnable() {
+
             @Override
             public void run() {
                 try {
-                    final UdpSocket socket = new UdpSocket();
-                    socket.connect(BROADCAST_ADDRESS);
+                    if (broadCastSocket == null) {
+                        broadCastSocket = new UdpSocket();
+                    }
+                    broadCastSocket.connect(BROADCAST_ADDRESS);
                     SocketPackage socketPackage = new BroadcastPackage();
                     //重发三遍，主机偶尔会没有应答
-                    socket.sendMessage(socketPackage);
-                    socket.sendMessage(socketPackage);
-                    socket.sendMessage(socketPackage);
+                    broadCastSocket.sendMessage(socketPackage);
+                    broadCastSocket.sendMessage(socketPackage);
+                    broadCastSocket.sendMessage(socketPackage);
 
                     //搜索时间十秒
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            socket.close();
+//                            broadCastSocket.close();
                             ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP_FINASH);
                             notifyActivity(od);
                         }
                     }, 10 * 1000);
                     long currentTime = System.currentTimeMillis();
-                    while (currentTime < currentTime + 10 * 1000) {
-                        socket.receiveDataAndHandle();
+                    while (System.currentTimeMillis() < currentTime + 10 * 1000) {
+                        broadCastSocket.receiveDataAndHandle();
                     }
                     ObserveData od = new ObserveData(ObserveData.FIND_DEVICE_BY_UDP_FINASH);
                     notifyActivity(od);

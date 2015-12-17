@@ -8,9 +8,7 @@ import ac.airconditionsuit.app.entity.Timer;
 import ac.airconditionsuit.app.util.ByteUtil;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by ac on 9/24/15.
@@ -50,18 +48,23 @@ public class UdpPackage {
         return p;
     }
 
+    public static UdpPackage genSyncTimePackage() {
+        UdpPackage p = new UdpPackage();
+        p.setContent(p.new SyncTimePackageContent());
+        return p;
+    }
+
     public static UdpPackage genCheckDevicePackage() {
         UdpPackage p = new UdpPackage();
         List<Byte> addressList = new ArrayList<>();
 
         //按顺序选取一个空调
         List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
-        acIndexToCheckDevice ++;
+        acIndexToCheckDevice++;
         if (acIndexToCheckDevice >= devices.size()) acIndexToCheckDevice = 0;
         if (acIndexToCheckDevice < devices.size()) {
-            addressList.add((byte)devices.get(acIndexToCheckDevice).getAddress());
-        }
-        else {
+            addressList.add((byte) devices.get(acIndexToCheckDevice).getAddress());
+        } else {
             addressList.add((byte) 0);
         }
         p.setContent(p.new QueryAirConditionStatusUdpPackageContent(addressList));
@@ -142,6 +145,7 @@ public class UdpPackage {
                 @Override
                 public void success() {
                     MyApp.getApp().getSocketManager().startHeartBeat();
+                    MyApp.getApp().getSocketManager().syncTimeUDP();
                     MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
                 }
 
@@ -150,6 +154,36 @@ public class UdpPackage {
                     MyApp.getApp().getSocketManager().close();
                 }
             };
+        }
+    }
+
+    public static final byte AFN_SYNC_TIME = 0x7;
+
+    public class SyncTimePackageContent extends UdpPackageContent {
+        public SyncTimePackageContent() {
+            function = AFN_SYNC_TIME;
+            content = new byte[7];
+            int year = Calendar.getInstance().get(Calendar.YEAR);
+//            year = 2014;
+            int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+//            month = 2;
+            int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+//            day = 10;
+            int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+//            hour = 23;
+            int min = Calendar.getInstance().get(Calendar.MINUTE);
+//            min = 41;
+            int sec = Calendar.getInstance().get(Calendar.SECOND);
+//            sec = 31;
+            int week = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+//            week = 5;
+            content[0] = ByteUtil.binToBCD(year % 100);
+            content[1] = ByteUtil.binToBCD(month);
+            content[2] = ByteUtil.binToBCD(day);
+            content[3] = ByteUtil.binToBCD(hour);
+            content[4] = ByteUtil.binToBCD(min);
+            content[5] = ByteUtil.binToBCD(sec);
+            content[6] = ByteUtil.binToBCD((week + 5) % 7 + 1);
         }
     }
 

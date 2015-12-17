@@ -17,7 +17,7 @@ public class Connection extends RootEntity {
         this.address = info.getIp();
         this.name = info.getName();
         this.chat_id = info.getChat_id();
-        this.mac = info.getMac();
+        this.mac = info.getMac().substring(0, 12);
     }
 
     public long getCreator_cust_id() {
