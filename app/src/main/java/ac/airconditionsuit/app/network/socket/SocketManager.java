@@ -175,11 +175,6 @@ public class SocketManager extends Observable {
             @Override
             public void run() {
                 for (ControlPackage p : controlPackages) {
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     sendMessage(p);
                 }
             }
@@ -280,12 +275,12 @@ public class SocketManager extends Observable {
 
     public void recheckDevice() {
         //如果是tcp连接，不关闭tcp，只是重新检查设备
-        if (MyApp.getApp().getServerConfigManager().hasDevice()){
+        if (MyApp.getApp().getServerConfigManager().hasDevice()) {
             if (socket == null) {
                 reconnectSocket();
                 return;
             }
-            if (socket instanceof TcpSocket ) {
+            if (socket instanceof TcpSocket) {
                 ((TcpSocket) socket).checkDeviceConnect();
             } else {
                 ((UdpSocket) socket).resetIpToCurrentDevice();
@@ -514,6 +509,7 @@ public class SocketManager extends Observable {
 //    }
 
     public UdpSocket broadCastSocket;
+
     public void sendBroadCast() {
         new Thread(new Runnable() {
 
