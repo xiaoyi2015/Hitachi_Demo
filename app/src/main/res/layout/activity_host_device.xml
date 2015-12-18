@@ -53,6 +53,7 @@
             android:id="@+id/qrcode_text"
             android:layout_alignParentLeft="true"
             android:text="@string/qr_code"
+            android:textColor="@color/text_color_black"
             android:textSize="17sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

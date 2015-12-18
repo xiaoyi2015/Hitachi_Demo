@@ -51,8 +51,8 @@ public class SceneFragment extends BaseFragment {
             switch (v.getId()) {
                 case R.id.right_icon:
                     int status = MyApp.getApp().getSocketManager().getStatus();
-                    if (status == SocketManager.UDP_DEVICE_CONNECT
-                            || status == SocketManager.TCP_DEVICE_CONNECT) {
+                    //if (status == SocketManager.UDP_DEVICE_CONNECT
+                            //|| status == SocketManager.TCP_DEVICE_CONNECT) {
                         if (click_num == 0) {
                             switch (UIManager.UITYPE) {
                                 case 1:
@@ -89,9 +89,9 @@ public class SceneFragment extends BaseFragment {
                             commonTopBar.setIconView(null, myOnClickListener);
                             click_num = 0;
                         }
-                    } else {
-                        MyApp.getApp().showToast("未连接i-EZ控制器，无法编辑场景");
-                    }
+                    //} else {
+                    //    MyApp.getApp().showToast("未连接i-EZ控制器，无法编辑场景");
+                    //}
                     break;
                 case R.id.left_icon:
                     if (MyApp.getApp().getServerConfigManager().getScene().size() >= 16) {

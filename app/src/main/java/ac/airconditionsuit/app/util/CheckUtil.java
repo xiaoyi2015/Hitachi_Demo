@@ -56,7 +56,7 @@ public class CheckUtil {
             return null;
         }
 
-        if (password.length() < 6 || password.length() > 12) {
+        if (password.length() < 6 || password.length() > 16) {
             MyApp.getApp().showToast(R.string.pls_input_length_psd);
             return null;
         }
