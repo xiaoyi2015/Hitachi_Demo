@@ -755,6 +755,7 @@ public class ServerConfigManager {
         if (oldDevices != null && oldDevices.size() != 0 && oldDevices.size() != newDevices.size()) {
             MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.SEARCH_AIR_CONDITION_NUMBERDIFFERENT));
         }
+        MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
     }
 
 
