@@ -33,27 +33,33 @@ public class AirCondition extends Command {
     }
 
     public AirCondition() {
-
+        this.warning = AirConditionControl.UNKNOW;
+        this.address = AirConditionControl.UNKNOW;
+        this.realTemperature = AirConditionControl.UNKNOW;
+        this.mode = AirConditionControl.UNKNOW;
+        this.onoff = false;
+        this.temperature = AirConditionControl.UNKNOW;
+        this.fan = AirConditionControl.UNKNOW;
     }
 
     public AirCondition(DeviceFromServerConfig dev) {
-        this.warning         = 0         ;
-        this.address         = dev.getAddress()         ;
+        this.warning = 0;
+        this.address = dev.getAddress();
         this.realTemperature = AirConditionControl.UNKNOW;
-        this.mode            = AirConditionControl.UNKNOW            ;
-        this.onoff           = false           ;
-        this.temperature     = AirConditionControl.UNKNOW;
-        this.fan             = AirConditionControl.UNKNOW             ;
+        this.mode = AirConditionControl.UNKNOW;
+        this.onoff = false;
+        this.temperature = AirConditionControl.UNKNOW;
+        this.fan = AirConditionControl.UNKNOW;
     }
 
     public AirCondition(AirCondition ac) {
-        this.warning         = ac.warning         ;
-        this.address         = ac.address         ;
-        this.realTemperature = ac.realTemperature ;
-        this.mode            = ac.mode            ;
-        this.onoff           = ac.onoff           ;
-        this.temperature     = ac.temperature     ;
-        this.fan             = ac.fan             ;
+        this.warning = ac.warning;
+        this.address = ac.address;
+        this.realTemperature = ac.realTemperature;
+        this.mode = ac.mode;
+        this.onoff = ac.onoff;
+        this.temperature = ac.temperature;
+        this.fan = ac.fan;
     }
 
     private boolean variableWrong(int t) {
@@ -71,7 +77,7 @@ public class AirCondition extends Command {
             fan = 1;
         }
 
-        if (variableWrong((int)temperature)) {
+        if (variableWrong((int) temperature)) {
             temperature = 25;
         }
 
