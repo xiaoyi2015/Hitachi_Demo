@@ -32,7 +32,7 @@ import java.util.TimerTask;
  * 与要与服务器同步的配置文件的相关操作都集中在这个类.
  * 配置文件的信息储存在{@link #rootJavaObj}，平时访问时直接从{@link #rootJavaObj}读取就行。
  * 但是写入后必须与配置文件同步，即：
- * 所有setter方法调用以后，因为改变了配置内容，所以都需要调用{@link #writeToFile()}这个方法，达到同步配置文件的目的。
+ * 所有setter方法调用以后，因为改变了配置内容，所以都需要调用{@link #writeToFile(boolean)}这个方法，达到同步配置文件的目的。
  */
 public class ServerConfigManager {
 
