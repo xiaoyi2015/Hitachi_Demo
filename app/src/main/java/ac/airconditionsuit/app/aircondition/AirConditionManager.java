@@ -189,7 +189,7 @@ public class AirConditionManager {
     public AirCondition getAirConditionByIndex(int index) {
         List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
         if (index < 0 || index >= devices.size()) {
-            return null;
+            return new AirCondition();
         }
         int address = devices.get(index).getAddress();
         for (AirCondition airCondition : airConditions) {
@@ -197,7 +197,7 @@ public class AirConditionManager {
                 return airCondition;
             }
         }
-        return null;
+        return new AirCondition();
     }
 
     public AirCondition getAirConditionByAddress(int address) {
