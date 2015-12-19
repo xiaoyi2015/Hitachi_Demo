@@ -84,7 +84,7 @@ public class Scene extends RootEntity {
                         }
                     }
                 }
-            }, 10000);
+            }, 3000);
         }
     }
 }
