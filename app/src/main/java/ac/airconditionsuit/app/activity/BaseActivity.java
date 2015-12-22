@@ -16,6 +16,7 @@ import ac.airconditionsuit.app.view.CommonTopBar;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;

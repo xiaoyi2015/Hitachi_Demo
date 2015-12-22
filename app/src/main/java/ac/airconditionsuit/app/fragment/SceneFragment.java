@@ -223,7 +223,6 @@ public class SceneFragment extends BaseFragment {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 final ProgressDialog pd = ProgressDialog.show(getActivity(), null, "指令发送中", true, false);
-                                                final Timer t = new Timer();
                                                 try {
                                                     MyApp.getApp().getAirConditionManager().controlScene(list.get(position), new UdpPackage.Handler() {
                                                         @Override
@@ -234,7 +233,6 @@ public class SceneFragment extends BaseFragment {
                                                                     if (pd.isShowing()) {
                                                                         pd.dismiss();
                                                                         MyApp.getApp().showToast("指令发送成功");
-                                                                        t.cancel();
                                                                     }
                                                                 }
                                                             });
@@ -243,10 +241,16 @@ public class SceneFragment extends BaseFragment {
                                                         @Override
                                                         public void fail(int errorNo) {
 
+                                                            getActivity().runOnUiThread(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    MyApp.getApp().showToast("指令发送失败");
+                                                                    pd.dismiss();
+                                                                }
+                                                            });
                                                         }
                                                     });
                                                 } catch (Exception e) {
-                                                    t.cancel();
                                                     if (pd.isShowing()) {
                                                         pd.dismiss();
                                                     }

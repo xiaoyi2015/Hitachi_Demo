@@ -50,41 +50,37 @@ public class Scene extends RootEntity {
 
                 @Override
                 public void fail(int errorNo) {
-                    if (errorNo != 2000) {
-                        return;
-                    }
-                    synchronized (result) {
-                        result.remove(controlPackage);
-                        if (result.size() == 0) {
-                            handle.success();
-                        }
+                    if (errorNo == 2000) {
+                        success();
+                    } else {
+                        handle.fail(-1);
                     }
                 }
             });
             result.add(controlPackage);
         }
-        check(0);
+        check(0, handle);
 //        if (result.size() != 0) {
 //            result.get(result.size() - 1).setHandle(handle);
 //        }
         return result;
     }
 
-    private void check(final int times) {
-        if (times >= 3) {
-            MyApp.getApp().showToast("指令发送失败");
-        } else {
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    synchronized (result) {
-                        if (result.size() != 0) {
+    private void check(final int times, final UdpPackage.Handler handle) {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                synchronized (result) {
+                    if (result.size() != 0) {
+                        if (times >= 5) {
+                            handle.fail(-1);
+                        } else {
                             MyApp.getApp().getSocketManager().sendMessage(result);
-                            check(times + 1);
+                            check(times + 1, handle);
                         }
                     }
                 }
-            }, 3000);
-        }
+            }
+        }, 5000);
     }
 }

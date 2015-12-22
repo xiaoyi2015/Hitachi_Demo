@@ -61,8 +61,8 @@ public class MyApp extends Application {
     }
 
     private static boolean appActive = true;//第一次进入app，不检测
-    private static boolean isSearchingDevices = false;
 
+    private static boolean isSearchingDevices = false;
     public static void setIsSearching(boolean isSearching) {isSearchingDevices = isSearching;}
     public static boolean getIsSearching() {return isSearchingDevices;}
 

@@ -32,7 +32,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
     private IndoorDeviceAdapter indoorDeviceAdapter;
 
     private TimerTask searchTimerTask;
-    
+
     private int[] blingCounter = null;
     private TimerTask blingTimerTask;
     private Animation blingAnimation;
@@ -46,7 +46,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
 
         blingAnimation = AnimationUtils.loadAnimation(MyApp.getApp().getApplicationContext(), R.anim.blinganim);
 
-        if(getIntent().getStringExtra("first")!=null){
+        if (getIntent().getStringExtra("first") != null) {
             new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle("警告").setMessage("非专业人员请勿随意搜索室内机，数量变化会导致本地楼层和场景模式被清空").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -59,19 +59,19 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                         public void run() {
                             dismissWaitProgress();
                             MyApp.getApp().showToast(getString(R.string.search_indoor_failed));
-                                new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.search_indoor_failed).
-                                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
+                            new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.search_indoor_failed).
+                                    setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
 
-                                            }
-                                        }).setCancelable(false).show();
-                            }
-                        };
-                        new java.util.Timer().schedule(searchTimerTask, 1000);
-                    }
-                }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+                                        }
+                                    }).setCancelable(false).show();
+                        }
+                    };
+                    new java.util.Timer().schedule(searchTimerTask, 1000);
+                }
+            }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
         }
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.indoor_device_manage));
@@ -115,9 +115,8 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     public void run() {
                         dismissWaitProgress();
                         MyApp.getApp().showToast(getString(R.string.search_indoor_failed));
-
-                            }
-                        };
+                    }
+                };
                 new java.util.Timer().schedule(searchTimerTask, 1000);
 
                 /*new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle("警告").setMessage("非专业人员请勿随意搜索室内机，数量变化会导致本地楼层和场景模式被清空").setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -197,7 +196,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
             if (c > 0) {
                 hasBlingAc = true;
             }
-            c --;
+            c--;
             blingCounter[i] = (c < 0 ? 0 : c);
         }
         if (hasBlingAc) {
@@ -207,8 +206,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     indoorDeviceAdapter.notifyDataSetChanged();
                 }
             });
-        }
-        else {
+        } else {
             if (blingTimerTask != null) {
                 blingTimerTask.cancel();
                 blingTimerTask = null;
@@ -241,10 +239,10 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                 startBlingAcTimer();
                 break;
             case ObserveData.SEARCH_AIR_CONDITION_RESPONSE:
-                if (!MyApp.getApp().getIsSearching()) {
+                if (!MyApp.getIsSearching()) {
                     break;
                 }
-                MyApp.getApp().setIsSearching(false);
+                MyApp.setIsSearching(false);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -264,13 +262,10 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     searchTimerTask = null;
                 }
                 dismissWaitProgress();
-                MyApp.getApp().setIsSearching(false);
+                MyApp.setIsSearching(false);
                 break;
             case ObserveData.SEARCH_AIR_CONDITION_NUMBERDIFFERENT:
-                if (!MyApp.getApp().getIsSearching()) {
-                    break;
-                }
-                MyApp.getApp().setIsSearching(false);
+                MyApp.setIsSearching(false);
 
                 if (searchTimerTask != null) {
                     searchTimerTask.cancel();
@@ -368,9 +363,9 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                                     if (device_new_name == null) {
                                         return;
                                     }
-                                    for(int i = 0 ;i < MyApp.getApp().getServerConfigManager().getDevices().size(); i ++){
-                                        if(i != position){
-                                            if(device_new_name.equals(MyApp.getApp().getServerConfigManager().getDevices().get(i).getName())){
+                                    for (int i = 0; i < MyApp.getApp().getServerConfigManager().getDevices().size(); i++) {
+                                        if (i != position) {
+                                            if (device_new_name.equals(MyApp.getApp().getServerConfigManager().getDevices().get(i).getName())) {
                                                 MyApp.getApp().showToast("空调名称不能重复");
                                                 return;
                                             }
