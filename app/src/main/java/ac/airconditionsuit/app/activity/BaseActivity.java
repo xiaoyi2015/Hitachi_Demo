@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.view.CommonTopBar;
@@ -160,12 +161,26 @@ public class BaseActivity extends FragmentActivity implements Observer {
         }
 
         MyApp.appResume();
+
+        registerNetworkStatusChangeReceiver();
+    }
+
+    private void registerNetworkStatusChangeReceiver() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        filter.addAction("android.net.wifi.WIFI_STATE_CHANGED");
+        this.registerReceiver(MyApp.getNetworkChangeReceiver(), filter);
+    }
+
+    private void unRegisterNetworkStatusChangeReceiver() {
+        this.unregisterReceiver(MyApp.getNetworkChangeReceiver());
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         MyApp.appStop();
+
     }
 
     @Override
@@ -177,6 +192,7 @@ public class BaseActivity extends FragmentActivity implements Observer {
             socketManager.deleteObserver(this);
 //            socketManager.onPause(this);
         }
+        unRegisterNetworkStatusChangeReceiver();
     }
 
 }

@@ -31,7 +31,7 @@ public class SocketManager extends Observable {
     public static final int NONE = 2;
 
 
-    public static final int HEART_BEAT_PERIOD_TCP = 3000;
+    public static final int HEART_BEAT_PERIOD_TCP = 60000;
     public static final int HEART_BEAT_INVALID_TIME_TCP = 70000;
 
     public static final int HEART_BEAT_PERIOD_UDP = 15000;

@@ -52,6 +52,7 @@ public class SplashActivity extends BaseActivity {
                 }
             }, DELAY);
         }
+
     }
 
     private void goToNextPage() {

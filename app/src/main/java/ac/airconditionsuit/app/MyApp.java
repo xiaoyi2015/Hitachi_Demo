@@ -9,6 +9,7 @@ import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.listener.CommonNetworkListener;
 import ac.airconditionsuit.app.network.socket.SocketManager;
 
+import ac.airconditionsuit.app.receiver.NetworkChangeReceiver;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.app.KeyguardManager;
@@ -31,6 +32,16 @@ public class MyApp extends Application {
 
     private static final String TAG = "MyApp";
     private static MyApp INSTANCE;
+
+    public static NetworkChangeReceiver getNetworkChangeReceiver() {
+        return networkChangeReceiver;
+    }
+
+    public static void setNetworkChangeReceiver(NetworkChangeReceiver networkChangeReceiver) {
+        MyApp.networkChangeReceiver = networkChangeReceiver;
+    }
+
+    private static NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
 
 
 
@@ -317,28 +328,17 @@ public class MyApp extends Application {
         if (MyApp.getApp().isUserLogin()) {
             getApp().getAirConditionManager().queryTimerAll();
             getApp().getAirConditionManager().queryAirConditionStatus();
+        }
 
-            //todo should checked by luzheqi, 进入前台的时候，调用这个会有问题吗？
-//            if (getApp().getServerConfigManager() != null) {
-//                getApp().getServerConfigManager().downloadDeviceInformationFromServer(new CommonNetworkListener() {
-//                    @Override
-//                    public void onSuccess() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onFailure() {
-//
-//                    }
-//                });
-//            }
+        if (MyApp.getApp().getServerConfigManager() != null) {
+            MyApp.getApp().getServerConfigManager().uploadToServer();
         }
     }
 
     private static void enterBackground() {
         ServerConfigManager serverConfigManager = MyApp.getApp().getServerConfigManager();
         if (serverConfigManager != null) {
-            serverConfigManager.writeToFile(true);
+            serverConfigManager.uploadToServer();
         }
         Log.v("liutao", "进入后台");
     }

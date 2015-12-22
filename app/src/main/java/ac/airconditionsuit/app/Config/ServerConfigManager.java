@@ -789,6 +789,10 @@ public class ServerConfigManager {
             rootJavaObj.getSections().clear();
         }
 
+        if (rootJavaObj.getSections() != null) {
+            rootJavaObj.getSections().clear();
+        }
+
         writeToFile(true);
     }
 
