@@ -298,6 +298,9 @@ public class PushDataManager {
 
 
     public boolean alreadyInsert(long msg_no) {
+        if (msg_no == 0) {
+            return false;
+        }
         String currentHomeDeviceId = MyApp.getApp().getLocalConfigManager().getCurrentHomeDeviceId();
         if (currentHomeDeviceId == null) {
             return false;
