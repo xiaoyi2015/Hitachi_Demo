@@ -101,10 +101,9 @@ public class BindHostActivity extends BaseActivity {
                 final Long deviceId = device.getInfo().getChat_id();
                 final File outputFile = MyApp.getApp().getPrivateFile(deviceId.toString(), Constant.CONFIG_FILE_SUFFIX);
 
-
-//                Log.i(TAG, "下载主机配置文件成功，用新的配置文件上传服务器");
                 MyApp.getApp().getLocalConfigManager().updateCurrentServerConfigFile(outputFile.getName());
-//                MyApp.getApp().getServerConfigManager().readFromFile();
+                MyApp.getApp().getServerConfigManager().setFileName(outputFile.getName());
+                MyApp.getApp().getServerConfigManager().writeToFile(true);
                 device.getInfo().setName(changeName.getText().toString());
                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
                 MyApp.getApp().getSocketManager().reconnectSocket();
@@ -163,31 +162,31 @@ public class BindHostActivity extends BaseActivity {
 //
 //                            @Override
 //                            public void onSuccess(File file) {
-                Log.i(TAG, "下载主机配置文件成功，用新的配置文件上传服务器");
-                MyApp.getApp().getLocalConfigManager().updateCurrentServerConfigFile(outputFile.getName());
-                MyApp.getApp().getServerConfigManager().readFromFile();
-                device.getInfo().setName(changeName.getText().toString());
-                MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
-                MyApp.getApp().getSocketManager().reconnectSocket();
-
-                new AlertDialog.Builder(BindHostActivity.this).setTitle(R.string.tip_bind_hostdevice_ok).setMessage(R.string.is_search_air_condition).
-                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                shortStartActivity(SearchIndoorDeviceActivity.class,"first","yes");
-                                dialog.dismiss();
-                                finish();
-                            }
-                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent();
-                        intent.setClass(BindHostActivity.this, MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        shortStartActivity(intent);
-                        finish();
-                    }
-                }).setCancelable(false).show();
+//                Log.i(TAG, "下载主机配置文件成功，用新的配置文件上传服务器");
+//                MyApp.getApp().getLocalConfigManager().updateCurrentServerConfigFile(outputFile.getName());
+//                MyApp.getApp().getServerConfigManager().readFromFile();
+//                device.getInfo().setName(changeName.getText().toString());
+//                MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
+//                MyApp.getApp().getSocketManager().reconnectSocket();
+//
+//                new AlertDialog.Builder(BindHostActivity.this).setTitle(R.string.tip_bind_hostdevice_ok).setMessage(R.string.is_search_air_condition).
+//                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                shortStartActivity(SearchIndoorDeviceActivity.class,"first","yes");
+//                                dialog.dismiss();
+//                                finish();
+//                            }
+//                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Intent intent = new Intent();
+//                        intent.setClass(BindHostActivity.this, MainActivity.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                        shortStartActivity(intent);
+//                        finish();
+//                    }
+//                }).setCancelable(false).show();
 //                           }
 //                        });
             }
