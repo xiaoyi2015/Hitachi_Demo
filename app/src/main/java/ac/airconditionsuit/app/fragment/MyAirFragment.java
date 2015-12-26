@@ -82,6 +82,7 @@ public class MyAirFragment extends BaseFragment {
     private SwipeRefreshLayout refreshView;
     private ArrayList<Boolean> isCheck = new ArrayList<>();
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_my_air, container, false);
@@ -100,10 +101,11 @@ public class MyAirFragment extends BaseFragment {
         myAirSectionAdapter = new MyAirSectionAdapter(getActivity(), null);
         listView.setAdapter(myAirSectionAdapter);
         refreshUI();
-        MyApp.getApp().getAirConditionManager().initAirConditionsByDeviceList();
+
         if (firstCreate) {
             firstCreate = false;
             Log.v("liutao", "我的空调onCreate");
+            MyApp.getApp().getAirConditionManager().initAirConditionsByDeviceList();
             MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
         }
         return view;
