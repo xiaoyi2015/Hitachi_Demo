@@ -217,6 +217,9 @@ public class TcpSocket implements SocketWrap {
             String jsonString = new String(data);
             short msg_no = ByteUtil.byteArrayToShort(receiveData, 3);
             Log.i(TAG, "handle receive data as json: " + jsonString);
+            if (jsonString.contains("空调控制成功")) {
+                MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+            }
             MyApp.getApp().getPushDataManager().add(jsonString, msg_no);
         } else {
             throw new IOException("unknow content type");
