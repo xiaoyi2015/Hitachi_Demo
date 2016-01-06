@@ -195,8 +195,9 @@ public class PushDataManager {
                 return 0;
             }
             pushData.fixTime();
+            ServerConfigManager serverConfigManager = MyApp.getApp().getServerConfigManager();
             if (pushData.getType() == 103) {
-                for (Timer t : MyApp.getApp().getServerConfigManager().getTimer()) {
+                for (Timer t : serverConfigManager.getTimer()) {
                     if (pushData.getTid() == (long) t.getTimerid()) {
                         pushData.setContent(pushData.getContent().substring(0, 4) + "\"" + t.getName() + "\"" + pushData.getContent().substring(4));
                         break;
@@ -217,19 +218,19 @@ public class PushDataManager {
                 if (pushData.getData().getCust_id() != MyApp.getApp().getUser().getCust_id()) {
                     return 0;
                 }
-                if (MyApp.getApp().getServerConfigManager().hasDevice()) {
+                if (serverConfigManager.hasDevice() && serverConfigManager.getConnections().get(0).getChat_id() == pushData.getChatid()) {
                     Log.v(TAG, "delete device local!!!!");
-                    MyApp.getApp().getServerConfigManager().deleteDeviceLocal();
+                    serverConfigManager.deleteDeviceLocal();
                 } else {
                     for (String configFileName : MyApp.getApp().getLocalConfigManager().getCurrentUserConfig().getHomeConfigFileNames()) {
-                        ServerConfigManager serverConfigManager = new ServerConfigManager();
-                        serverConfigManager.readFromFile(configFileName);
-                        if (serverConfigManager.getRootJavaObj() == null) {
+                        ServerConfigManager serverConfigManagerNotCurrent = new ServerConfigManager();
+                        serverConfigManagerNotCurrent.readFromFile(configFileName);
+                        if (serverConfigManagerNotCurrent.getRootJavaObj() == null) {
                             continue;
                         }
-                        if (serverConfigManager.hasDevice()) {
-                            if (serverConfigManager.getConnections().get(0).getChat_id() == pushData.getChatid()) {
-                                serverConfigManager.deleteDeviceLocal();
+                        if (serverConfigManagerNotCurrent.hasDevice()) {
+                            if (serverConfigManagerNotCurrent.getConnections().get(0).getChat_id() == pushData.getChatid()) {
+                                serverConfigManagerNotCurrent.deleteDeviceLocal();
                                 Log.v(TAG, "delete device local!!!!");
                                 break;
                             }

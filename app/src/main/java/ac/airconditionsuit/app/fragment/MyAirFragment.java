@@ -107,6 +107,7 @@ public class MyAirFragment extends BaseFragment {
             Log.v("liutao", "我的空调onCreate");
             MyApp.getApp().getAirConditionManager().initAirConditionsByDeviceList();
             MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+            mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 1000);
         }
         return view;
     }
@@ -165,6 +166,8 @@ public class MyAirFragment extends BaseFragment {
                                 ((MainActivity) myGetActivity()).refreshUI();
                                 MyApp.getApp().getSocketManager().reconnectSocket();
                                 MyApp.getApp().getAirConditionManager().initAirConditionsByDeviceList();
+                                MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+                                mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 1000);
                                 pop.dismiss();
                             }
                         });
