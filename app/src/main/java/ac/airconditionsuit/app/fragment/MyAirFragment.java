@@ -275,7 +275,7 @@ public class MyAirFragment extends BaseFragment {
         public View getView(final int position, View convertView, ViewGroup parent) {
 
             convertView = new SectionAndRoomView(context, list.get(position).getPages());
-            ((SectionAndRoomView ) convertView).getMyAirRoomAdapter().notifyDataSetChanged();
+            ((SectionAndRoomView) convertView).getMyAirRoomAdapter().notifyDataSetChanged();
 
             final LinearLayout sectionView = (LinearLayout) convertView.findViewById(R.id.section_item);
             TextView sectionName = (TextView) convertView.findViewById(R.id.label_text);

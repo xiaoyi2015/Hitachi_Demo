@@ -5,6 +5,7 @@ import ac.airconditionsuit.app.R;
 import ac.airconditionsuit.app.UIManager;
 import ac.airconditionsuit.app.entity.ObserveData;
 import ac.airconditionsuit.app.fragment.*;
+import ac.airconditionsuit.app.view.SegmentControlView;
 import ac.airconditionsuit.app.view.TabIndicator;
 
 import android.app.AlertDialog;
@@ -16,10 +17,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.TextViewCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import java.util.Observable;
 
@@ -95,7 +99,6 @@ public class MainActivity extends BaseActivity {
                         }
                     }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
         }
-
 
     }
 

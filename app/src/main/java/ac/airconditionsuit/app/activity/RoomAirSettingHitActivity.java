@@ -11,10 +11,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.google.gson.Gson;
 
@@ -341,7 +338,9 @@ public class RoomAirSettingHitActivity extends BaseActivity {
                         }
                         et.setText(warning);
                         et.setTextColor(getResources().getColor(R.color.delete_red_hit));
-                        new AlertDialog.Builder(RoomAirSettingHitActivity.this).setTitle(R.string.tip).setView(et).
+                        ScrollView sv = new ScrollView(RoomAirSettingHitActivity.this);
+                        sv.addView(et);
+                        new AlertDialog.Builder(RoomAirSettingHitActivity.this).setTitle(R.string.tip).setView(sv).
                                 setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {

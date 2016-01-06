@@ -10,13 +10,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -217,7 +211,9 @@ public class SectionAndRoomView extends RelativeLayout {
                                     }
                                     et.setText(warning);
                                     et.setTextColor(getResources().getColor(R.color.delete_red_hit));
-                                    new AlertDialog.Builder(context).setTitle(R.string.tip).setView(et).
+                                    ScrollView sv = new ScrollView(context);
+                                    sv.addView(et);
+                                    new AlertDialog.Builder(context).setTitle(R.string.tip).setView(sv).
                                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
@@ -730,7 +726,9 @@ public class SectionAndRoomView extends RelativeLayout {
                                         }
                                     }
                                     et.setText(warning);
-                                    new AlertDialog.Builder(context).setTitle(R.string.tip).setView(et).
+                                    ScrollView sv = new ScrollView(context);
+                                    sv.addView(et);
+                                    new AlertDialog.Builder(context).setTitle(R.string.tip).setView(sv).
                                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
