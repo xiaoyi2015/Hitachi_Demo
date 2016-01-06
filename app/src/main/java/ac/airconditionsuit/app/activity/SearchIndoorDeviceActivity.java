@@ -58,7 +58,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                         @Override
                         public void run() {
                             dismissWaitProgress();
-                            MyApp.getApp().showToast(getString(R.string.search_indoor_failed));
+//                            MyApp.getApp().showToast(getString(R.string.search_indoor_failed));
                             new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.search_indoor_failed).
                                     setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                         @Override
@@ -69,7 +69,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                                     }).setCancelable(false).show();
                         }
                     };
-                    new java.util.Timer().schedule(searchTimerTask, 1000);
+                    new java.util.Timer().schedule(searchTimerTask, 10000);
                 }
             }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
         }
@@ -117,7 +117,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                         MyApp.getApp().showToast(getString(R.string.search_indoor_failed));
                     }
                 };
-                new java.util.Timer().schedule(searchTimerTask, 1000);
+                new java.util.Timer().schedule(searchTimerTask, 10000);
 
                 /*new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle("警告").setMessage("非专业人员请勿随意搜索室内机，数量变化会导致本地楼层和场景模式被清空").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
