@@ -103,9 +103,12 @@ public class BindHostActivity extends BaseActivity {
 
                 MyApp.getApp().getLocalConfigManager().updateCurrentServerConfigFile(outputFile.getName());
                 MyApp.getApp().getServerConfigManager().setFileName(outputFile.getName());
-                MyApp.getApp().getServerConfigManager().writeToFile(true);
+                MyApp.getApp().getServerConfigManager().deleteDeviceLocal();
                 device.getInfo().setName(changeName.getText().toString());
                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
+                MyApp.getApp().getServerConfigManager().writeToFile(true);
+
+                MyApp.getApp().getSocketManager().close();
                 MyApp.getApp().getSocketManager().reconnectSocket();
 
                 new AlertDialog.Builder(BindHostActivity.this).setTitle(R.string.tip_bind_hostdevice_ok).setMessage(R.string.is_search_air_condition).

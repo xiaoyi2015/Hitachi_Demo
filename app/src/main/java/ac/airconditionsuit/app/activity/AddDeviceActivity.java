@@ -117,6 +117,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                                 Device device = new Device(qrCode);
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
                                 MyApp.getApp().getServerConfigManager().getHome().setName(qrCode.getHome());
+                                MyApp.getApp().getSocketManager().close();
                                 MyApp.getApp().getSocketManager().reconnectSocket();
 
                                 Intent intent = new Intent();
@@ -133,6 +134,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                                 Device device = new Device(qrCode);
                                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);
                                 MyApp.getApp().getServerConfigManager().getHome().setName(qrCode.getHome());
+                                MyApp.getApp().getSocketManager().close();
                                 MyApp.getApp().getSocketManager().reconnectSocket();
 
                                 Intent intent = new Intent();
