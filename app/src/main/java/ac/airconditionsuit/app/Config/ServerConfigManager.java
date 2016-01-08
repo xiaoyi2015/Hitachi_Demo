@@ -454,7 +454,7 @@ public class ServerConfigManager {
 
             @Override
             public void onFailure(Throwable throwable) {
-                MyApp.getApp().getLocalConfigManager().updateHostDeviceConfigFile(new ArrayList<String>());
+                MyApp.getApp().getLocalConfigManager().deleteNoDeviceHome();
                 wrapCommonNetworkListener.onFailure();
             }
         });

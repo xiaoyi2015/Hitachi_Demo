@@ -82,6 +82,33 @@ public class UserForLocalConfig {
         }
     }
 
+    public void deleteNoDeviceHome() {
+        String oldCurrentHomeFileName = getCurrentHomeConfigFileName();
+        List<String> oldHomeFileNames = this.homeConfigFileNames;
+        //首先删除没有设备的本地文件
+        Iterator<String> iter = oldHomeFileNames.iterator();
+        while (iter.hasNext()) {
+            String next = iter.next();
+            if (next.contains(Constant.NO_DEVICE_CONFIG_FILE_PREFIX)) {
+                deleteHostDeviceConfigFile(next);
+                iter.remove();
+            }
+        }
+        if (oldHomeFileNames.size() == 0) {
+            addNewHome(Constant.NEW_HOME_NAME, Constant.AUTO_NO_DEVICE_CONFIG_FILE_PREFIX);
+            currentHomeIndex = 0;
+        } else {
+            for (int i = 0; i < homeConfigFileNames.size(); ++i) {
+                if (homeConfigFileNames.get(i).equals(oldCurrentHomeFileName))  {
+                    currentHomeIndex = i;
+                    return;
+                }
+            }
+            currentHomeIndex = 0;
+        }
+    }
+
+
     public void updateHostDeviceConfigFiles(List<String> fileNames) {
         String oldCurrentHomeFileName = getCurrentHomeConfigFileName();
         List<String> oldHomeFileNames = this.homeConfigFileNames;
@@ -201,4 +228,5 @@ public class UserForLocalConfig {
         homeConfigFileNames.set(currentHomeIndex, configFileName);
         MyApp.getApp().getServerConfigManager().setFileName(configFileName);
     }
+
 }

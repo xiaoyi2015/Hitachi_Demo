@@ -59,6 +59,11 @@ public class LocalConfig extends RootEntity {
         user.updateHostDeviceConfigFiles(fileNames);
     }
 
+    public void deleteNoDeviceHome() {
+        UserForLocalConfig user = getCurrentUserForLocalConfig();
+        user.deleteNoDeviceHome();
+    }
+
     public void setCurrentPassword(String password) {
         getCurrentUserForLocalConfig().setPassword(password);
     }
@@ -101,4 +106,5 @@ public class LocalConfig extends RootEntity {
             return currentUserForLocalConfig.getPhoneNumber();
         }
     }
+
 }

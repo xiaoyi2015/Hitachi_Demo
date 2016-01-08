@@ -75,6 +75,11 @@ public class LocalConfigManager {
         saveToDisk();
     }
 
+    public void deleteNoDeviceHome() {
+        getLocalConfig().deleteNoDeviceHome();
+        saveToDisk();
+    }
+
     public String getCurrentHomeDeviceId() {
         String currentHomeConfigFileName = localConfig.getCurrentUserForLocalConfig().getCurrentHomeConfigFileName();
         if (currentHomeConfigFileName == null)  {
@@ -179,4 +184,5 @@ public class LocalConfigManager {
         getCurrentUserConfig().deleteDevice();
         saveToDisk();
     }
+
 }
