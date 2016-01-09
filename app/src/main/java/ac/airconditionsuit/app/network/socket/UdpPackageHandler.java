@@ -123,6 +123,7 @@ public class UdpPackageHandler {
                 Log.i(TAG, "udp error: " + errorNo);
 
                 UdpPackage udpPackage = sentPackage.get(pfc);
+
                 if (udpPackage != null) {
                     UdpPackage.Handler handler = udpPackage.getHandler();
                     if (handler != null) {

@@ -35,7 +35,7 @@ public class SocketManager extends Observable {
     public static final int HEART_BEAT_INVALID_TIME_TCP = 70000;
 
     public static final int HEART_BEAT_PERIOD_UDP = 15000;
-    public static final int HEART_BEAT_INVALID_TIME_UDP = 10000;
+    public static final int HEART_BEAT_INVALID_TIME_UDP = 20000;
 
     public static final int CHECK_PERIOD = 5000;
 
@@ -158,6 +158,7 @@ public class SocketManager extends Observable {
             public void run() {
                 SocketPackage heartBeatSocket = new HeartBeatPackage();
                 sendMessage(heartBeatSocket);
+                MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
             }
         }, 0, heartbeatPeriod);
 

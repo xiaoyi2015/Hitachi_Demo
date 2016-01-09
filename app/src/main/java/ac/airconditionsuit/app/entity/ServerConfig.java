@@ -10,8 +10,13 @@ import java.util.List;
  *
  */
 public class ServerConfig extends RootEntity{
-
-
+    public void clearDevice() {
+        connection.clear();
+        sections.clear();
+        devices.clear();
+        scenes.clear();
+        timers.clear();
+    }
 
     public class Setting extends RootEntity{
         String sound;

@@ -8,9 +8,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 
-import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * Created by ac on 8/13/15.
@@ -52,7 +50,6 @@ public class SplashActivity extends BaseActivity {
                 }
             }, DELAY);
         }
-
     }
 
     private void goToNextPage() {

@@ -528,11 +528,7 @@ public class ServerConfigManager {
         HttpClient.get(params, DeleteDeviceResponse.class, new HttpClient.JsonResponseHandler<DeleteDeviceResponse>() {
             @Override
             public void onSuccess(DeleteDeviceResponse response) {
-                rootJavaObj.setConnection(null);
-                rootJavaObj.setSections(null);
-                rootJavaObj.setDevices(null);
-                rootJavaObj.setScenes(null);
-                rootJavaObj.setTimers(null);
+                deleteDeviceLocal();
                 MyApp.getApp().getSocketManager().setDeviceOffline();
                 writeToFile(true);
                 //删除设备后，不应关闭tcp链接
@@ -793,11 +789,7 @@ public class ServerConfigManager {
     }
 
     public void deleteDeviceLocal() {
-        rootJavaObj.setConnection(null);
-        rootJavaObj.setSections(null);
-        rootJavaObj.setDevices(null);
-        rootJavaObj.setScenes(null);
-        rootJavaObj.setTimers(null);
+        rootJavaObj.clearDevice();
         writeToFile(true);
     }
 }
