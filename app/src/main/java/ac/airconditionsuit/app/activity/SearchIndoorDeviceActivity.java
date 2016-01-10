@@ -133,7 +133,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                         });
                     }
                 };
-                new java.util.Timer().schedule(searchTimerTask, 10000);
+                new java.util.Timer().schedule(searchTimerTask, 20000);
             }
         }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
     }
