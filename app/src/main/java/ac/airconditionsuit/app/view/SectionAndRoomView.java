@@ -247,10 +247,15 @@ public class SectionAndRoomView extends RelativeLayout {
                         roomTempNone.setImageResource(R.drawable.none_hit);
                     }else {
                         if (airCondition.getOnoff() == 0) {
-                            roomTemp.setVisibility(VISIBLE);
-                            roomTemp.setText((int) airCondition.getTemperature() + getContext().getString(R.string.temp_symbol));
-                            roomTempNone.setVisibility(GONE);
-                            roomTemp.setTextColor(getResources().getColor(R.color.hit_off_gray));
+                            if(airCondition.getTemperature() == AirConditionControl.UNKNOW){
+                                roomTemp.setVisibility(GONE);
+                                roomTempNone.setVisibility(VISIBLE);
+                            }else {
+                                roomTemp.setVisibility(VISIBLE);
+                                roomTemp.setTextColor(getResources().getColor(R.color.hit_off_gray));
+                                roomTemp.setText((int) airCondition.getTemperature() + getContext().getString(R.string.temp_symbol));
+                                roomTempNone.setVisibility(GONE);
+                            }
                             roomOnOff.setImageResource(R.drawable.onoff_off_hit);
                             switch (airCondition.getAirconditionMode()) {
                                 case 0:
@@ -285,13 +290,18 @@ public class SectionAndRoomView extends RelativeLayout {
                             }
                         }
                         if (airCondition.getOnoff() == 1) {
-                            roomTemp.setVisibility(VISIBLE);
-                            roomTemp.setText((int) airCondition.getTemperature() + getContext().getString(R.string.temp_symbol));
-                            roomTempNone.setVisibility(GONE);
+                            roomOnOff.setImageResource(R.drawable.onoff_on_heat_hit);
+                            if(airCondition.getTemperature() == AirConditionControl.UNKNOW){
+                                roomTemp.setVisibility(GONE);
+                                roomTempNone.setVisibility(VISIBLE);
+                            }else {
+                                roomTemp.setVisibility(VISIBLE);
+                                roomTemp.setText((int) airCondition.getTemperature() + getContext().getString(R.string.temp_symbol));
+                                roomTempNone.setVisibility(GONE);
+                            }
                             switch (airCondition.getAirconditionMode()) {
                                 case 0:
                                     roomTemp.setTextColor(getResources().getColor(R.color.hit_cool_blue));
-                                    roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
                                     roomMode.setImageResource(R.drawable.cool_on_hit);
                                     switch (airCondition.getAirconditionFan()) {
                                         case 0:
@@ -310,7 +320,6 @@ public class SectionAndRoomView extends RelativeLayout {
                                     break;
                                 case 1:
                                     roomTemp.setTextColor(getResources().getColor(R.color.hit_heat_red));
-                                    roomOnOff.setImageResource(R.drawable.onoff_on_heat_hit);
                                     roomMode.setImageResource(R.drawable.heat_on_hit);
                                     switch (airCondition.getAirconditionFan()) {
                                         case 0:
@@ -329,7 +338,6 @@ public class SectionAndRoomView extends RelativeLayout {
                                     break;
                                 case 2:
                                     roomTemp.setTextColor(getResources().getColor(R.color.hit_cool_blue));
-                                    roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
                                     roomMode.setImageResource(R.drawable.dry_on_hit);
                                     switch (airCondition.getAirconditionFan()) {
                                         case 0:
@@ -348,7 +356,6 @@ public class SectionAndRoomView extends RelativeLayout {
                                     break;
                                 case 3:
                                     roomTemp.setTextColor(getResources().getColor(R.color.hit_cool_blue));
-                                    roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
                                     roomMode.setImageResource(R.drawable.fan_on_hit);
                                     switch (airCondition.getAirconditionFan()) {
                                         case 0:
@@ -406,7 +413,6 @@ public class SectionAndRoomView extends RelativeLayout {
                                     }
                                     if(min_air1.getAirconditionMode() == 1){
                                         roomTemp.setTextColor(getResources().getColor(R.color.hit_heat_red));
-                                        roomOnOff.setImageResource(R.drawable.onoff_on_heat_hit);
                                         roomMode.setImageResource(R.drawable.none_hit);
                                         if(airCondition.getAirconditionFan() != AirConditionControl.UNKNOW) {
                                             switch (min_air1.getAirconditionFan()) {
@@ -426,7 +432,6 @@ public class SectionAndRoomView extends RelativeLayout {
                                         }
                                     }else{
                                         roomTemp.setTextColor(getResources().getColor(R.color.hit_cool_blue));
-                                        roomOnOff.setImageResource(R.drawable.onoff_on_cool_dry_fan_hit);
                                         roomMode.setImageResource(R.drawable.none_hit);
                                         if(airCondition.getAirconditionFan() != AirConditionControl.UNKNOW) {
                                             switch (min_air1.getAirconditionFan()) {
