@@ -59,7 +59,11 @@ public class Scene extends RootEntity {
             });
             result.add(controlPackage);
         }
-        check(0, handle);
+        if (commands.size() != 0) {
+            check(0, handle);
+        } else {
+            handle.success();
+        }
 //        if (result.size() != 0) {
 //            result.get(result.size() - 1).setHandle(handle);
 //        }

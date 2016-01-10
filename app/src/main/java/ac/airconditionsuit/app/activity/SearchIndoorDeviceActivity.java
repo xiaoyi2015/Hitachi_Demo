@@ -57,16 +57,21 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     searchTimerTask = new TimerTask() {
                         @Override
                         public void run() {
-                            dismissWaitProgress();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dismissWaitProgress();
 //                            MyApp.getApp().showToast(getString(R.string.search_indoor_failed));
-                            new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.search_indoor_failed).
-                                    setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
+                                    new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.search_indoor_failed).
+                                            setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
 
-                                        }
-                                    }).setCancelable(false).show();
+                                                }
+                                            }).setCancelable(false).show();
+                                }
+                            });
                         }
                     };
                     new java.util.Timer().schedule(searchTimerTask, 10000);
@@ -106,20 +111,21 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
         searchIndoorDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showWaitProgress();
-                MyApp.getApp().setIsSearching(true);
-                MyApp.getApp().getSocketManager().searchIndoorAirCondition();
+//
+//                showWaitProgress();
+//                MyApp.getApp().setIsSearching(true);
+//                MyApp.getApp().getSocketManager().searchIndoorAirCondition();
+//
+//                searchTimerTask = new TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        dismissWaitProgress();
+//                        MyApp.getApp().showToast(getString(R.string.search_indoor_failed));
+//                    }
+//                };
+//                new java.util.Timer().schedule(searchTimerTask, 10000);
 
-                searchTimerTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        dismissWaitProgress();
-                        MyApp.getApp().showToast(getString(R.string.search_indoor_failed));
-                    }
-                };
-                new java.util.Timer().schedule(searchTimerTask, 10000);
-
-                /*new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle("警告").setMessage("非专业人员请勿随意搜索室内机，数量变化会导致本地楼层和场景模式被清空").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle("警告").setMessage("非专业人员请勿随意搜索室内机，数量变化会导致本地楼层和场景模式被清空").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         showWaitProgress();
@@ -129,22 +135,27 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                         searchTimerTask = new TimerTask() {
                             @Override
                             public void run() {
-                                dismissWaitProgress();
-                                MyApp.getApp().showToast(getString(R.string.search_indoor_failed));
-                                /*new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.search_indoor_failed).
-                                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dismissWaitProgress();
+//                                MyApp.getApp().showToast(getString(R.string.search_indoor_failed));
+                                        new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.search_indoor_failed).
+                                                setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
 
-                                            }
-                                        }).setCancelable(false).show();
+                                                    }
+                                                }).setCancelable(false).show();
+                                    }
+                                });
                             }
                         };
-                        new java.util.Timer().schedule(searchTimerTask, 1000);
+                        new java.util.Timer().schedule(searchTimerTask, 10000);
                     }
                 }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
-                */
+
             }
         });
 
