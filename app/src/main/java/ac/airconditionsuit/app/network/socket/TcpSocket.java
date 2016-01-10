@@ -157,6 +157,9 @@ public class TcpSocket implements SocketWrap {
             case TcpPackage.TICK_OFF_LINE_MSG_TYPE:
                 handleOffLine(receiveData);
                 break;
+            case 16:
+                //ignore
+                break;
 
             default:
                 throw new IOException("tcp package message type error");
@@ -212,7 +215,6 @@ public class TcpSocket implements SocketWrap {
             } else {
                 Log.i(TAG, "receive data not for current device, ignore");
             }
-
         } else if (contentType == 0) {
             String jsonString = new String(data);
             short msg_no = ByteUtil.byteArrayToShort(receiveData, 3);

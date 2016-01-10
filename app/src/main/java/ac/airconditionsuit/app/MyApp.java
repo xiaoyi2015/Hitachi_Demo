@@ -32,6 +32,7 @@ public class MyApp extends Application {
 
     private static final String TAG = "MyApp";
     private static MyApp INSTANCE;
+    private long lastSuccessTime = 0;
 
     public static NetworkChangeReceiver getNetworkChangeReceiver() {
         return networkChangeReceiver;
@@ -247,6 +248,14 @@ public class MyApp extends Application {
     public void showToast(final String string) {
         if (!isAppOnForeground() || string == null || string.length() == 0 || string.contains("token 错误")) {
             return;
+        }
+
+        if (string.equals("空调控制成功")) {
+            if (System.currentTimeMillis() - lastSuccessTime < 5000) {
+                return;
+            }else {
+                lastSuccessTime = System.currentTimeMillis();
+            }
         }
 
         if (string.contains("系统初始化未完成")) {

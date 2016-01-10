@@ -11,7 +11,6 @@ import ac.airconditionsuit.app.view.CommonTopBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -47,36 +46,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
         blingAnimation = AnimationUtils.loadAnimation(MyApp.getApp().getApplicationContext(), R.anim.blinganim);
 
         if (getIntent().getStringExtra("first") != null) {
-            new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle("警告").setMessage("非专业人员请勿随意搜索室内机，数量变化会导致本地楼层和场景模式被清空").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    showWaitProgress();
-                    MyApp.getApp().setIsSearching(true);
-                    MyApp.getApp().getSocketManager().searchIndoorAirCondition();
-
-                    searchTimerTask = new TimerTask() {
-                        @Override
-                        public void run() {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dismissWaitProgress();
-//                            MyApp.getApp().showToast(getString(R.string.search_indoor_failed));
-                                    new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.search_indoor_failed).
-                                            setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.dismiss();
-
-                                                }
-                                            }).setCancelable(false).show();
-                                }
-                            });
-                        }
-                    };
-                    new java.util.Timer().schedule(searchTimerTask, 10000);
-                }
-            }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+            searchAricondition();
         }
         CommonTopBar commonTopBar = getCommonTopBar();
         commonTopBar.setTitle(getString(R.string.indoor_device_manage));
@@ -124,38 +94,7 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
 //                    }
 //                };
 //                new java.util.Timer().schedule(searchTimerTask, 10000);
-
-                new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle("警告").setMessage("非专业人员请勿随意搜索室内机，数量变化会导致本地楼层和场景模式被清空").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showWaitProgress();
-                        MyApp.getApp().setIsSearching(true);
-                        MyApp.getApp().getSocketManager().searchIndoorAirCondition();
-
-                        searchTimerTask = new TimerTask() {
-                            @Override
-                            public void run() {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        dismissWaitProgress();
-//                                MyApp.getApp().showToast(getString(R.string.search_indoor_failed));
-                                        new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.search_indoor_failed).
-                                                setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-
-                                                    }
-                                                }).setCancelable(false).show();
-                                    }
-                                });
-                            }
-                        };
-                        new java.util.Timer().schedule(searchTimerTask, 10000);
-                    }
-                }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
-
+                searchAricondition();
             }
         });
 
@@ -166,6 +105,37 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
 //            }
 //        };
 //        new java.util.Timer().schedule(readTimerTest, 5000 ,10000);
+    }
+
+    private void searchAricondition() {
+        new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle("警告").setMessage("非专业人员请勿随意搜索室内机，数量变化会导致本地楼层和场景模式被清空").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                showWaitProgress();
+                MyApp.getApp().setIsSearching(true);
+                MyApp.getApp().getSocketManager().searchIndoorAirCondition();
+                searchTimerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dismissWaitProgress();
+                                new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle(R.string.tip).setMessage(R.string.search_indoor_failed).
+                                        setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+
+                                            }
+                                        }).setCancelable(false).show();
+                            }
+                        });
+                    }
+                };
+                new java.util.Timer().schedule(searchTimerTask, 10000);
+            }
+        }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
     }
 
     @Override
