@@ -4,12 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.zxing.BinaryBitmap;
 import com.loopj.android.http.RequestParams;
 
 import java.io.File;
@@ -102,7 +100,7 @@ public class BindHostActivity extends BaseActivity {
                 final File outputFile = MyApp.getApp().getPrivateFile(deviceId.toString(), Constant.CONFIG_FILE_SUFFIX);
 
                 MyApp.getApp().getLocalConfigManager().updateCurrentServerConfigFile(outputFile.getName());
-                MyApp.getApp().getServerConfigManager().setFileName(outputFile.getName());
+                MyApp.getApp().getServerConfigManager().setConfigFileAbsolutePath(outputFile.getAbsolutePath());
                 MyApp.getApp().getServerConfigManager().deleteDeviceLocal();
                 device.getInfo().setName(changeName.getText().toString());
                 MyApp.getApp().getServerConfigManager().setCurrentDevice(device);

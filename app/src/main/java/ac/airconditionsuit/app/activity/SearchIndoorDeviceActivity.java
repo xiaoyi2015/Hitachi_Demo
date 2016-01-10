@@ -233,7 +233,6 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                             searchTimerTask = null;
                         }
                         toastIndoorDeviceNumber();
-                        MyApp.getApp().getServerConfigManager().writeToFile(true);
                     }
                 });
                 break;

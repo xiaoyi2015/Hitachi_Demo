@@ -42,7 +42,7 @@ public class ServerConfigManager {
      * 这个field中以java对象的形式，储存着当前家整个配置文件的内容。其实这个家的内容和root
      */
     private ServerConfig rootJavaObj;
-    private String fileName;
+    private String configFileAbsolutePath;
     private TimerTask writeToServerTask;
 
     public List<Section> getSections() {
@@ -219,12 +219,12 @@ public class ServerConfigManager {
                 String configFileName = Constant.NO_DEVICE_CONFIG_FILE_PREFIX
                         + System.currentTimeMillis()
                         + Constant.CONFIG_FILE_SUFFIX;
-                fileName = MyApp.getApp().getPrivateFile(configFileName, null).getAbsolutePath();
+                configFileAbsolutePath = MyApp.getApp().getPrivateFile(configFileName, null).getAbsolutePath();
                 rootJavaObj = ServerConfig.genNewConfig(configFileName, "新的家");
                 writeToFile(true);
                 return;
             }
-            fileName = serverConfigFile.getAbsolutePath();
+            configFileAbsolutePath = serverConfigFile.getAbsolutePath();
             //配置文件名字存在，文件不存在
             if (!serverConfigFile.exists()) {
                 throw new IOException();
@@ -367,7 +367,7 @@ public class ServerConfigManager {
     }
 
     public void writeToFile(boolean shouldUploadToServer) {
-        writeToFile(fileName, shouldUploadToServer);
+        writeToFile(configFileAbsolutePath, shouldUploadToServer);
     }
 
 //    public void writeToFileWithoutDelay() {
@@ -383,7 +383,7 @@ public class ServerConfigManager {
         if (!hasDevice() || MyApp.getApp().getUser() == null) {
             return;
         }
-        File currentHomeConfigFile = new File(fileName);
+        File currentHomeConfigFile = new File(configFileAbsolutePath);
         if (currentHomeConfigFile.getName().contains(Constant.AUTO_NO_DEVICE_CONFIG_FILE_PREFIX)
                 || currentHomeConfigFile.getName().contains(Constant.NO_DEVICE_CONFIG_FILE_PREFIX)) {
             return;
@@ -607,12 +607,12 @@ public class ServerConfigManager {
         scm.setRootJavaObj(ServerConfig.genNewConfig(configFileName, homeName));
         String absolutePath = MyApp.getApp().getPrivateFile(configFileName, null).getAbsolutePath();
         scm.writeToFile(absolutePath, true);
-        scm.setFileName(absolutePath);
+        scm.setConfigFileAbsolutePath(absolutePath);
         return scm;
     }
 
-    public void setFileName(String absolutePath) {
-        fileName = absolutePath;
+    public void setConfigFileAbsolutePath(String absolutePath) {
+        configFileAbsolutePath = absolutePath;
     }
 
     private void writeToFile(String configFileName, boolean shouldUploadToServer) {
@@ -752,6 +752,7 @@ public class ServerConfigManager {
             MyApp.getApp().getSocketManager().notifyActivity(new ObserveData(ObserveData.SEARCH_AIR_CONDITION_NUMBERDIFFERENT));
         }
         MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
+        writeToFile(true);
     }
 
 

@@ -226,7 +226,7 @@ public class UserForLocalConfig {
         }
         oldFile.renameTo(newFile);
         homeConfigFileNames.set(currentHomeIndex, configFileName);
-        MyApp.getApp().getServerConfigManager().setFileName(configFileName);
+        MyApp.getApp().getServerConfigManager().setConfigFileAbsolutePath(newFile.getAbsolutePath());
     }
 
 }
