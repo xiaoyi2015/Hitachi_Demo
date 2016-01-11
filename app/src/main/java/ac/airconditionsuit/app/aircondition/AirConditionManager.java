@@ -233,7 +233,7 @@ public class AirConditionManager {
             if (temp == null) {
                 continue;
             }
-            if (airCondition.getMode() == AirConditionControl.UNKNOW) {
+            if (i == 0) {
                 airCondition.setAirconditionMode(temp.getAirconditionMode());
                 airCondition.setOnoff(temp.getOnoff());
                 airCondition.setAirconditionFan(temp.getAirconditionFan());
@@ -248,13 +248,13 @@ public class AirConditionManager {
                     airCondition.setRealTemperature(temp.getRealTemperature());
                 }
             } else {
-                if (temp.getMode() != airCondition.getMode()) {
+                if (temp.getAirconditionMode() != airCondition.getAirconditionMode()) {
                     airCondition.setMode(AirConditionControl.UNKNOW);
                 }
                 if (airCondition.getOnoff() == 0) {
                     airCondition.setOnoff(temp.getOnoff());
                 }
-                if (temp.getFan() != airCondition.getFan()) {
+                if (temp.getAirconditionFan() != airCondition.getAirconditionFan()) {
                     airCondition.setFan(AirConditionControl.UNKNOW);
                 }
                 if (temp.getTemperature() != airCondition.getTemperature()

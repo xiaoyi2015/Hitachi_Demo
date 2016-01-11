@@ -358,7 +358,7 @@ public class RoomAirSettingHitActivity extends BaseActivity {
     }
 
     private void enableButton() {
-        handler.sendEmptyMessageDelayed(ENABLE_OK_BUTTON, 5000);
+        handler.sendEmptyMessageDelayed(ENABLE_OK_BUTTON, 2500);
     }
 
     private void disableButton(ImageView imageView) {
