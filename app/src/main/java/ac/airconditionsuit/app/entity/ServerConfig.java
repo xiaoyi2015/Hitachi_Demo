@@ -10,6 +10,41 @@ import java.util.List;
  *
  */
 public class ServerConfig extends RootEntity{
+
+    public ArrayList<DeviceFromServerConfig> getDevicesForShow() {
+        if (devicesForShow == null) {
+            this.devicesForShow = new ArrayList<>();
+            for (DeviceFromServerConfig d : devices){
+                this.devicesForShow.add(d);
+            }
+            sortDevice();
+        }
+        return devicesForShow;
+    }
+
+    private void sortDevice() {
+        Collections.sort(this.devicesForShow, new Comparator<DeviceFromServerConfig>() {
+            @Override
+            public int compare(DeviceFromServerConfig lhs, DeviceFromServerConfig rhs) {
+                if (lhs.getIndoorindex() < rhs.getIndoorindex()) {
+                    return -1;
+                }else if (lhs.getIndoorindex() > rhs.getIndoorindex()) {
+                    return 1;
+                }else{
+                    if (lhs.getIndooraddress() < rhs.getIndooraddress()) {
+                        return -1;
+                    } else if (lhs.getIndooraddress() > rhs.getIndooraddress()) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            }
+        });
+    }
+
+    private transient ArrayList<DeviceFromServerConfig> devicesForShow = null;
+
     public void clearDevice() {
         connection.clear();
         sections.clear();
@@ -100,25 +135,12 @@ public class ServerConfig extends RootEntity{
     }
 
     public void setDevices(List<DeviceFromServerConfig> devices) {
-        /*Collections.sort(devices, new Comparator<DeviceFromServerConfig>() {
-            @Override
-            public int compare(DeviceFromServerConfig lhs, DeviceFromServerConfig rhs) {
-                if (lhs.getIndoorindex() < rhs.getIndoorindex()) {
-                    return -1;
-                }else if (lhs.getIndoorindex() > rhs.getIndoorindex()) {
-                    return 1;
-                }else{
-                    if (lhs.getIndooraddress() < rhs.getIndooraddress()) {
-                        return -1;
-                    } else if (lhs.getIndooraddress() > rhs.getIndooraddress()) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
-                }
-            }
-        });*/
         this.devices = devices;
+        this.devicesForShow = new ArrayList<>();
+        for (DeviceFromServerConfig d : devices){
+            this.devicesForShow.add(d);
+        }
+        sortDevice();
     }
 
     public Setting getSettings() {

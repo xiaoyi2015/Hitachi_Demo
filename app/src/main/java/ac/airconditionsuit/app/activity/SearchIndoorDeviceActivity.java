@@ -288,9 +288,9 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
 
         @Override
         public int getCount() {
-            if (MyApp.getApp().getServerConfigManager().getDevices() == null)
+            if (MyApp.getApp().getServerConfigManager().getDeviceForShow() == null)
                 return 0;
-            return MyApp.getApp().getServerConfigManager().getDevices().size();
+            return MyApp.getApp().getServerConfigManager().getDeviceForShow().size();
         }
 
         @Override
@@ -313,10 +313,10 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
             ImageView imageView = (ImageView) convertView.findViewById(R.id.bg_icon);
             TextView rightUpText = (TextView) convertView.findViewById(R.id.right_up_text);
 
-            textView.setText(MyApp.getApp().getServerConfigManager().getDevices().get(position).getName());
+            textView.setText(MyApp.getApp().getServerConfigManager().getDeviceForShow().get(position).getName());
             imageView.setImageResource(R.drawable.drag_device_icon);
             rightUpText.setBackgroundResource(R.drawable.drag_device_name_bar);
-            rightUpText.setText(MyApp.getApp().getServerConfigManager().getDevices().get(position).getFormatNameByIndoorIndexAndAddress());
+            rightUpText.setText(MyApp.getApp().getServerConfigManager().getDeviceForShow().get(position).getFormatNameByIndoorIndexAndAddress());
 //            int address = MyApp.getApp().getServerConfigManager().getDevices().get(position).getAddress();
 //            if(MyApp.getApp().getServerConfigManager().getDevices().get(position).getIndooraddress() < 10) {
 //                rightUpText.setText(String.valueOf(MyApp.getApp().getServerConfigManager().getDevices().get(position).getIndoorIndex()) + "-0" +
@@ -333,8 +333,8 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                     et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                     et.setBackgroundResource(R.color.text_color_white);
                     et.setMinHeight(150);
-                    et.setText(MyApp.getApp().getServerConfigManager().getDevices().get(position).getName());
-                    et.setSelection(MyApp.getApp().getServerConfigManager().getDevices().get(position).getName().length());
+                    et.setText(MyApp.getApp().getServerConfigManager().getDeviceForShow().get(position).getName());
+                    et.setSelection(MyApp.getApp().getServerConfigManager().getDeviceForShow().get(position).getName().length());
                     new AlertDialog.Builder(SearchIndoorDeviceActivity.this).setTitle(R.string.rename_indoor_device).setView(et).
                             setPositiveButton(R.string.make_sure, new DialogInterface.OnClickListener() {
                                 @Override
@@ -343,15 +343,15 @@ public class SearchIndoorDeviceActivity extends BaseActivity implements View.OnC
                                     if (device_new_name == null) {
                                         return;
                                     }
-                                    for (int i = 0; i < MyApp.getApp().getServerConfigManager().getDevices().size(); i++) {
+                                    for (int i = 0; i < MyApp.getApp().getServerConfigManager().getDeviceForShow().size(); i++) {
                                         if (i != position) {
-                                            if (device_new_name.equals(MyApp.getApp().getServerConfigManager().getDevices().get(i).getName())) {
+                                            if (device_new_name.equals(MyApp.getApp().getServerConfigManager().getDeviceForShow().get(i).getName())) {
                                                 MyApp.getApp().showToast("空调名称不能重复");
                                                 return;
                                             }
                                         }
                                     }
-                                    MyApp.getApp().getServerConfigManager().getDevices().get(position).setName(device_new_name);
+                                    MyApp.getApp().getServerConfigManager().getDeviceForShow().get(position).setName(device_new_name);
                                     MyApp.getApp().getServerConfigManager().writeToFile(true);
                                     notifyDataSetChanged();
                                     dialog.dismiss();

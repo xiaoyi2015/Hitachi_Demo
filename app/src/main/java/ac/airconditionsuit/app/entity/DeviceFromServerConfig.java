@@ -20,6 +20,9 @@ public class DeviceFromServerConfig extends RootEntity {
         }
     }
 
+    public DeviceFromServerConfig() {
+    }
+
     public DeviceFromServerConfig(byte address) {
         indooraddress = address & 0x0f;
         indoorindex = (address & 0xf0) >>> 4;
@@ -59,5 +62,14 @@ public class DeviceFromServerConfig extends RootEntity {
         } else {
             return false;
         }
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        DeviceFromServerConfig c = new DeviceFromServerConfig();
+        c.name = name;
+        c.indooraddress = indooraddress;
+        c.indoorindex = indoorindex;
+        return c;
     }
 }

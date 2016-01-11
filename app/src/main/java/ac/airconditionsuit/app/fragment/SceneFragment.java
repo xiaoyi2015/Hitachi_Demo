@@ -16,10 +16,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 
 import java.util.List;
 import java.util.Timer;
@@ -253,8 +250,17 @@ public class SceneFragment extends BaseFragment {
                                                     if (pd.isShowing()) {
                                                         pd.dismiss();
                                                     }
+                                                    getActivity().runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            ScrollView sv = new ScrollView(getActivity());
+                                                            EditText textView = new EditText(getActivity());
+                                                            textView.setText(list.get(position).toJsonString());
+                                                            sv.addView(textView);
+                                                            new AlertDialog.Builder(getActivity()).setView(sv).show();
+                                                        }
+                                                    });
                                                     MyApp.getApp().showToast("指令发送失败,因为场景里的内容不对");
-                                                    MyApp.getApp().showToast(list.get(position).toJsonString());
                                                     Log.e(TAG, "control scene fail!");
                                                     e.printStackTrace();
                                                 }

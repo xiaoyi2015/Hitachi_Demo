@@ -793,4 +793,8 @@ public class ServerConfigManager {
         rootJavaObj.clearDevice();
         writeToFile(true);
     }
+
+    public List<DeviceFromServerConfig> getDeviceForShow() {
+        return rootJavaObj.getDevicesForShow();
+    }
 }
