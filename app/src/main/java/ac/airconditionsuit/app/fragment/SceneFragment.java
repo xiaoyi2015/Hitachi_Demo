@@ -240,11 +240,10 @@ public class SceneFragment extends BaseFragment {
 
                                                         @Override
                                                         public void fail(int errorNo) {
-
                                                             getActivity().runOnUiThread(new Runnable() {
                                                                 @Override
                                                                 public void run() {
-                                                                    MyApp.getApp().showToast("指令发送失败");
+                                                                    MyApp.getApp().showToast("指令发送失败,因为没有收到ack");
                                                                     pd.dismiss();
                                                                 }
                                                             });
@@ -254,7 +253,8 @@ public class SceneFragment extends BaseFragment {
                                                     if (pd.isShowing()) {
                                                         pd.dismiss();
                                                     }
-                                                    MyApp.getApp().showToast("指令发送失败");
+                                                    MyApp.getApp().showToast("指令发送失败,因为场景里的内容不对");
+                                                    MyApp.getApp().showToast(list.get(position).toJsonString());
                                                     Log.e(TAG, "control scene fail!");
                                                     e.printStackTrace();
                                                 }
