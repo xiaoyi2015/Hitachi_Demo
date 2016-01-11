@@ -100,7 +100,7 @@ public class ServerConfig extends RootEntity{
     }
 
     public void setDevices(List<DeviceFromServerConfig> devices) {
-        Collections.sort(devices, new Comparator<DeviceFromServerConfig>() {
+        /*Collections.sort(devices, new Comparator<DeviceFromServerConfig>() {
             @Override
             public int compare(DeviceFromServerConfig lhs, DeviceFromServerConfig rhs) {
                 if (lhs.getIndoorindex() < rhs.getIndoorindex()) {
@@ -117,7 +117,7 @@ public class ServerConfig extends RootEntity{
                     }
                 }
             }
-        });
+        });*/
         this.devices = devices;
     }
 
