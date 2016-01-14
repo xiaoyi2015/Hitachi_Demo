@@ -8,23 +8,15 @@ import ac.airconditionsuit.app.network.response.CommonResponse;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.internal.Excluder;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.BaseJsonHttpResponseHandler;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import org.apache.http.Header;
-
-
-//import cz.msebera.android.httpclient.Header;
-//import cz.msebera.android.httpclient.HttpStatus;
-//import cz.msebera.android.httpclient.params.HttpConnectionParams;
-//import cz.msebera.android.httpclient.params.HttpParams;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -78,7 +70,7 @@ public class HttpClient {
             }
 
             @Override
-            public void onFailure(int statusCode, org.apache.http.Header[] headers, Throwable throwable, String rawJsonData, CommonResponse errorResponse) {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, String rawJsonData, CommonResponse errorResponse) {
                 switch (statusCode) {
                     //can not access to internet
                     case 0:

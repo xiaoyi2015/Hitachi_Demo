@@ -15,7 +15,7 @@ import java.util.TimerTask;
 public class Scene extends RootEntity {
     String name;
     List<Command> commands;
-    private final ArrayList<ControlPackage> result = new ArrayList<>();
+    private transient final ArrayList<ControlPackage> result = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -76,7 +76,7 @@ public class Scene extends RootEntity {
             public void run() {
                 synchronized (result) {
                     if (result.size() != 0) {
-                        if (times >= 5) {
+                        if (times >= 10) {
                             handle.fail(-1);
                         } else {
                             MyApp.getApp().getSocketManager().sendMessage(result);

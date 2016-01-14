@@ -105,7 +105,6 @@ public class AirConditionManager {
 
     public void controlScene(Scene scene, UdpPackage.Handler handle) throws Exception {
         MyApp.getApp().getSocketManager().sendMessage(scene.toSocketControlPackage(handle));
-        queryAirConditionStatus();
         //发送场景时，不主动查询空调状态，因为空调控制成功需要时间，此时查询到的状态，有可能是控制之前空调的状态。进而造成本地显示与实际空调状态不一致
         //目前，控制空调成功后，主机不一定会反馈空调状态给app
         //在我的空调界面，允许用户手动下拉刷新，主动发包读取所有空调状态
@@ -275,7 +274,7 @@ public class AirConditionManager {
             Log.v("liutao", "主动发包读取所有定时器状态");
             queryTimerAllWithException();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

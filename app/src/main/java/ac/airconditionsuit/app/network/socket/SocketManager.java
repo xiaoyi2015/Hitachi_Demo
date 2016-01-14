@@ -173,8 +173,10 @@ public class SocketManager extends Observable {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (ControlPackage p : controlPackages) {
-                    sendMessage(p);
+                synchronized (controlPackages) {
+                    for (ControlPackage p : controlPackages) {
+                        sendMessage(p);
+                    }
                 }
             }
         }).run();

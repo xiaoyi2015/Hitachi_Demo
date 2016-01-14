@@ -17,9 +17,16 @@ repositories {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file("/home/ac/.keystore")
+            storePassword "lzqsy911124"
+            keyAlias "ackey"
+            keyPassword "lzqsy911124"
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
-
     defaultConfig {
         applicationId "ac.airconditionsuit.hit.app"
         //applicationId "ac.airconditionsuit.hx.app"
@@ -28,9 +35,9 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.2"
-
         //ADD THIS LINE:
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
     buildTypes {
         release {
@@ -38,22 +45,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     //ADD THESE LINES:
     packagingOptions {
         exclude 'zln_time'
     }
-    useLibrary 'org.apache.http.legacy'
+//    useLibrary 'org.apache.http.legacy'
+    productFlavors {
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.android.support:support-v4:23.0.1'
     compile 'com.googlecode.plist:dd-plist:1.16'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.loopj.android:android-async-http:1.4.8'
-//    compile 'com.loopj.android:android-async-http:1.5.0-SNAPSHOT'
+    //    compile 'com.loopj.android:android-async-http:1.5.0-SNAPSHOT'
     compile 'com.kyleduo.switchbutton:library:1.2.10'
     compile 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
     compile 'com.google.zxing:core:3.2.0'
@@ -61,17 +69,12 @@ dependencies {
         transitive = true
     }
     compile 'com.umeng.analytics:analytics:latest.integration'
-
-
     // Unit testing dependencies
     testCompile 'junit:junit:4.12'
-
     // Set this dependency if you want to use Mockito
     testCompile 'org.mockito:mockito-core:1.10.19'
-
     // Set this dependency if you want to use Hamcrest matching
     androidTestCompile 'org.hamcrest:hamcrest-library:1.1'
-
     androidTestCompile 'com.android.support.test:runner:0.4'
     androidTestCompile 'com.android.support.test:rules:0.4'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'

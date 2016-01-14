@@ -105,6 +105,7 @@ public class MyAirFragment extends BaseFragment {
         if (firstCreate) {
             firstCreate = false;
             Log.v("liutao", "我的空调onCreate");
+            MyApp.getApp().getAirConditionManager().queryTimerAll();
             MyApp.getApp().getAirConditionManager().initAirConditionsByDeviceList();
             MyApp.getApp().getAirConditionManager().queryAirConditionStatus();
             mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 1000);
