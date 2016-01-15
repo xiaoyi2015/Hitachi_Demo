@@ -1,5 +1,6 @@
 package ac.airconditionsuit.app.fragment;
 
+import ac.airconditionsuit.app.entity.Device;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 
 import java.util.ArrayList;
@@ -52,11 +54,7 @@ public class FamilyFragment extends Fragment {
         IsAdmin = (TextView) view.findViewById(R.id.admin_text);
         userName = (TextView) view.findViewById(R.id.user_name);
         userPicture = (RoundImageView) view.findViewById(R.id.current_user);
-        if (!MyApp.getApp().getUser().isAdmin()) {
-            admin = false;
-        } else {
-            admin = true;
-        }
+        admin = MyApp.getApp().getUser().isAdmin();
         Log.v("liutao", "family fragment oncreate");
         initDataFromInternet();
 
@@ -74,8 +72,26 @@ public class FamilyFragment extends Fragment {
 
             HttpClient.get(requestParams, GetChatCustListResponse.class, new HttpClient.JsonResponseHandler<GetChatCustListResponse>() {
                 @Override
-                public void onSuccess(GetChatCustListResponse response) {
-                    inflaterUI(response.getCust_list());
+                public void onSuccess(final GetChatCustListResponse response) {
+
+                    RequestParams requestParams = new RequestParams();
+                    requestParams.put(Constant.REQUEST_PARAMS_KEY_METHOD, Constant.REQUEST_PARAMS_VALUE_METHOD_CHAT);
+                    requestParams.put(Constant.REQUEST_PARAMS_KEY_TYPE, Constant.REQUEST_PARAMS_VALUE_TYPE_GET_CHATGROUPLIST);
+                    requestParams.put(Constant.REQUEST_PARAMS_KEY_CUST_CLASS, Constant.REQUEST_PARAMS_VALUE_TYPE_CUST_CLASS_10001);
+
+                    HttpClient.get(requestParams, new TypeToken<List<Device.Info>>() {
+                    }.getType(), new HttpClient.JsonResponseHandler<List<Device.Info>>() {
+                        @Override
+                        public void onSuccess(List<Device.Info> response2) {
+                            MyApp.getApp().getServerConfigManager().updateCurrentDeviceOwner(response2);
+                            inflaterUI(response.getCust_list());
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            inflaterUI(response.getCust_list());
+                        }
+                    });
                     //int n = response.getCust_list().size();
                 }
 
@@ -97,14 +113,14 @@ public class FamilyFragment extends Fragment {
             cust_list = new ArrayList<>();
         }
         List<MyUser> customers1 = new ArrayList<>();
-        for (int i = 0; i < cust_list.size(); i++) {
-            if(cust_list.get(i).isAdmin()){
-                HttpClient.loadImage(cust_list.get(i).getAvatar(), userPicture);
-                userName.setText(cust_list.get(i).getCust_name());
+        for (MyUser aCust_list : cust_list) {
+            if (aCust_list.isAdmin()) {
+                HttpClient.loadImage(aCust_list.getAvatar(), userPicture);
+                userName.setText(aCust_list.getCust_name());
             }
-            if (cust_list.get(i).getCust_id() <= 0x01000000000000l && cust_list.get(i).getCust_id() >= 0 &&
-                    (!cust_list.get(i).isAdmin())) {
-                customers1.add(cust_list.get(i));
+            if (aCust_list.getCust_id() <= 0x01000000000000l && aCust_list.getCust_id() >= 0 &&
+                    (!aCust_list.isAdmin())) {
+                customers1.add(aCust_list);
             }
         }
 

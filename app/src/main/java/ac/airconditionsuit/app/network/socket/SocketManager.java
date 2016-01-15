@@ -182,7 +182,13 @@ public class SocketManager extends Observable {
         }).run();
     }
 
+    private long lastQueryTime = 0;
     public void getAllAirConditionStatusFromHostDevice(List<DeviceFromServerConfig> devices) throws Exception {
+        if (System.currentTimeMillis() - lastQueryTime < 10000) {
+            return;
+        } else {
+            lastQueryTime = System.currentTimeMillis();
+        }
         List<Integer> addresses = new ArrayList<>();
         for (DeviceFromServerConfig d : devices) {
             Integer address = d.getAddress();

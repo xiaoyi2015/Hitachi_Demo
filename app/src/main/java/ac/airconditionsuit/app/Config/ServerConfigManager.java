@@ -797,4 +797,14 @@ public class ServerConfigManager {
     public List<DeviceFromServerConfig> getDeviceForShow() {
         return rootJavaObj.getDevicesForShow();
     }
+
+    public void updateCurrentDeviceOwner(List<Device.Info> response2) {
+        for (Device.Info info : response2) {
+            if (info.getChat_id() == getConnections().get(0).getChat_id()) {
+                getConnections().get(0).setCreator_cust_id(info.getCreator_cust_id());
+                writeToFile(true);
+                break;
+            }
+        }
+    }
 }
