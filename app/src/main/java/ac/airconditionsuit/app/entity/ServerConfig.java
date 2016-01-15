@@ -53,6 +53,60 @@ public class ServerConfig extends RootEntity{
         timers.clear();
     }
 
+    public boolean checkDevice() {
+        int deviceNumger = devices.size();
+        for (Timer t : timers) {
+            for (Integer index : t.getIndexes()) {
+                if (index > deviceNumger)  {
+                    deviceNumberChange();
+                    return false;
+                }
+            }
+        }
+        for (Section s : sections) {
+            for (Room r : s.getPages()) {
+                for (Integer index : r.getElements()) {
+                    if (index >= deviceNumger) {
+                        deviceNumberChange();
+                        return false;
+                    }
+                }
+            }
+        }
+        for (Scene s : scenes) {
+            for (Command c : s.getCommands()) {
+                if (!commandInDevice(c)) {
+                    deviceNumberChange();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean commandInDevice(Command c) {
+        for (DeviceFromServerConfig d : devices) {
+            if (d.getAddress() == c.getAddress()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void deviceNumberChange() {
+        if (scenes != null) {
+            scenes.clear();
+        }
+
+        if (sections != null) {
+            sections.clear();
+        }
+
+        if (timers != null) {
+            timers.clear();
+        }
+    }
+
     public class Setting extends RootEntity{
         String sound;
         String password;

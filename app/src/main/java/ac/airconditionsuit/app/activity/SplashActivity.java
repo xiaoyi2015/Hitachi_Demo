@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -49,6 +50,11 @@ public class SplashActivity extends BaseActivity {
                     finish();
                 }
             }, DELAY);
+        }
+
+        File cacheDir = getCacheDir();
+        for (File file : cacheDir.listFiles()) {
+            System.out.println(file.getAbsoluteFile());
         }
     }
 

@@ -354,13 +354,20 @@ public class MyApp extends Application {
 
     public void setOldUserAvatar(File file) {
         File savedFile = getCacheAvatarName();
+        if (savedFile.exists()) {
+            if (!savedFile.delete()) {
+                Log.v(TAG, "delete old user avatar cache failed");
+            }
+        }
         if (!file.renameTo(savedFile)) {
             Log.v(TAG, "save user avatar cache failed");
+        } else {
+            Log.v(TAG, "save user avatar cache success");
         }
     }
 
     public File getCacheAvatarName() {
-        return new File(getCacheDir(), user.getPhone() + "userAvatar" + ".png");
+        return new File(getCacheDir(), user.getCust_id() + "userAvatar" + ".png");
     }
 
     public Bitmap getOldUserAvatar() {
