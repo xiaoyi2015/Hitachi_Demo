@@ -53,7 +53,7 @@ public class SegmentControlView extends LinearLayout {
 
         XmlPullParser xrp = getResources().getXml(R.xml.seg_text_color_selector);
         try {
-            ColorStateList csl = ColorStateList.createFromXml(getResources(), xrp, null);
+            ColorStateList csl = ColorStateList.createFromXml(getResources(), xrp);
             textView1.setTextColor(csl);
             textView2.setTextColor(csl);
         } catch (Exception e) {
