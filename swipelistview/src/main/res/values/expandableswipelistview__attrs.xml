@@ -1,0 +1,19 @@
+<resources>
+
+    <declare-styleable name="ExpandableSwipeListView">
+        <attr name="swipeOpenOnLongPress"/>
+        <attr name="swipeAnimationTime"/>
+        <attr name="swipeOffsetLeft"/>
+        <attr name="swipeOffsetRight"/>
+        <attr name="swipeCloseAllItemsWhenMoveList"/>
+        <attr name="swipeFrontView"/>
+        <attr name="swipeBackView"/>
+        <attr name="swipeGroupView" format="reference"/>
+        <attr name="swipeMode"/>
+        <attr name="swipeActionLeft"/>
+        <attr name="swipeActionRight"/>
+        <attr name="swipeDrawableChecked"/>
+        <attr name="swipeDrawableUnchecked"/>
+    </declare-styleable>
+
+</resources>

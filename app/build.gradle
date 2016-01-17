@@ -28,9 +28,9 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
     defaultConfig {
-        //applicationId "ac.airconditionsuit.hit.app"
+        applicationId "ac.airconditionsuit.hit.app"
         //applicationId "ac.airconditionsuit.hx.app"
-        applicationId "ac.airconditionsuit.dc.app"
+//        applicationId "ac.airconditionsuit.dc.app"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
@@ -65,9 +65,9 @@ dependencies {
     compile 'com.kyleduo.switchbutton:library:1.2.10'
     compile 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
     compile 'com.google.zxing:core:3.2.0'
-    compile('com.fortysevendeg.swipelistview:swipelistview:1.0-SNAPSHOT@aar') {
-        transitive = true
-    }
+    //    compile('com.fortysevendeg.swipelistview:swipelistview:1.0-SNAPSHOT@aar') {
+    //        transitive = true
+    //    }
     compile 'com.umeng.analytics:analytics:latest.integration'
     // Unit testing dependencies
     testCompile 'junit:junit:4.12'
@@ -81,4 +81,5 @@ dependencies {
     // Set this dependency to build and run UI Automator tests
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
     androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
+    compile project(':swipelistview')
 }
