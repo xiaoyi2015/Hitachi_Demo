@@ -51,7 +51,7 @@ public class SegmentControlView extends LinearLayout {
         setSegmentText(1, getContext().getString(R.string.family_text));
         setSegmentTextSize(16);
 
-        XmlPullParser xrp = getResources().getXml(R.drawable.seg_text_color_selector);
+        XmlPullParser xrp = getResources().getXml(R.xml.seg_text_color_selector);
         try {
             ColorStateList csl = ColorStateList.createFromXml(getResources(), xrp);
             textView1.setTextColor(csl);

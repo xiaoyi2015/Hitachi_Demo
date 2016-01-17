@@ -10,12 +10,101 @@ import java.util.List;
  *
  */
 public class ServerConfig extends RootEntity{
+
+    public ArrayList<DeviceFromServerConfig> getDevicesForShow() {
+        if (devicesForShow == null) {
+            this.devicesForShow = new ArrayList<>();
+            for (DeviceFromServerConfig d : devices){
+                this.devicesForShow.add(d);
+            }
+            sortDevice();
+        }
+        return devicesForShow;
+    }
+
+    private void sortDevice() {
+        Collections.sort(this.devicesForShow, new Comparator<DeviceFromServerConfig>() {
+            @Override
+            public int compare(DeviceFromServerConfig lhs, DeviceFromServerConfig rhs) {
+                if (lhs.getIndoorindex() < rhs.getIndoorindex()) {
+                    return -1;
+                }else if (lhs.getIndoorindex() > rhs.getIndoorindex()) {
+                    return 1;
+                }else{
+                    if (lhs.getIndooraddress() < rhs.getIndooraddress()) {
+                        return -1;
+                    } else if (lhs.getIndooraddress() > rhs.getIndooraddress()) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            }
+        });
+    }
+
+    private transient ArrayList<DeviceFromServerConfig> devicesForShow = null;
+
     public void clearDevice() {
         connection.clear();
         sections.clear();
         devices.clear();
         scenes.clear();
         timers.clear();
+    }
+
+    public boolean checkDevice() {
+        int deviceNumger = devices.size();
+        for (Timer t : timers) {
+            for (Integer index : t.getIndexes()) {
+                if (index > deviceNumger)  {
+                    deviceNumberChange();
+                    return false;
+                }
+            }
+        }
+        for (Section s : sections) {
+            for (Room r : s.getPages()) {
+                for (Integer index : r.getElements()) {
+                    if (index >= deviceNumger) {
+                        deviceNumberChange();
+                        return false;
+                    }
+                }
+            }
+        }
+        for (Scene s : scenes) {
+            for (Command c : s.getCommands()) {
+                if (!commandInDevice(c)) {
+                    deviceNumberChange();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean commandInDevice(Command c) {
+        for (DeviceFromServerConfig d : devices) {
+            if (d.getAddress() == c.getAddress()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void deviceNumberChange() {
+        if (scenes != null) {
+            scenes.clear();
+        }
+
+        if (sections != null) {
+            sections.clear();
+        }
+
+        if (timers != null) {
+            timers.clear();
+        }
     }
 
     public class Setting extends RootEntity{
@@ -100,25 +189,12 @@ public class ServerConfig extends RootEntity{
     }
 
     public void setDevices(List<DeviceFromServerConfig> devices) {
-        /*Collections.sort(devices, new Comparator<DeviceFromServerConfig>() {
-            @Override
-            public int compare(DeviceFromServerConfig lhs, DeviceFromServerConfig rhs) {
-                if (lhs.getIndoorindex() < rhs.getIndoorindex()) {
-                    return -1;
-                }else if (lhs.getIndoorindex() > rhs.getIndoorindex()) {
-                    return 1;
-                }else{
-                    if (lhs.getIndooraddress() < rhs.getIndooraddress()) {
-                        return -1;
-                    } else if (lhs.getIndooraddress() > rhs.getIndooraddress()) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
-                }
-            }
-        });*/
         this.devices = devices;
+        this.devicesForShow = new ArrayList<>();
+        for (DeviceFromServerConfig d : devices){
+            this.devicesForShow.add(d);
+        }
+        sortDevice();
     }
 
     public Setting getSettings() {

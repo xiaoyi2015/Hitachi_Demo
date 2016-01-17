@@ -188,28 +188,29 @@ public class SectionAndRoomView extends RelativeLayout {
 
                                     TextView et = new TextView(context);
                                     et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-                                    et.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+//                                    et.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                                     String warning = " \n";
                                     for (int i = 0; i < air_index_list.size(); i++) {
                                         if (warning_list.get(i) == -2) {
                                             if (address_list.get(i) < 10) {
-                                                warning = warning + "          空调 " + air_index_list.get(i) + "-0" +
+                                                warning = warning + "空调 " + air_index_list.get(i) + "-0" +
                                                         address_list.get(i) + " 离线" + "\n";
                                             } else {
-                                                warning = warning + "          空调 " + air_index_list.get(i) + "-" +
+                                                warning = warning + "空调 " + air_index_list.get(i) + "-" +
                                                         address_list.get(i) + " 离线" + "\n";
                                             }
                                         } else {
                                             if (address_list.get(i) < 10) {
-                                                warning = warning + "          空调 " + air_index_list.get(i) + "-0" +
+                                                warning = warning + "空调 " + air_index_list.get(i) + "-0" +
                                                         address_list.get(i) + "，报警代码：" + Integer.toHexString(warning_list.get(i)| 0xFFFFFF00).substring(6) + "\n";
                                             } else {
-                                                warning = warning + "          空调 " + air_index_list.get(i) + "-" +
+                                                warning = warning + "空调 " + air_index_list.get(i) + "-" +
                                                         address_list.get(i) + "，报警代码：" +  Integer.toHexString(warning_list.get(i)| 0xFFFFFF00).substring(6) + "\n";
                                             }
                                         }
                                     }
                                     et.setText(warning);
+                                    et.setGravity(Gravity.CENTER);
                                     et.setTextColor(getResources().getColor(R.color.delete_red_hit));
                                     ScrollView sv = new ScrollView(context);
                                     sv.addView(et);
@@ -709,7 +710,7 @@ public class SectionAndRoomView extends RelativeLayout {
 
                                     TextView et = new TextView(context);
                                     et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-                                    et.setGravity(Gravity.CENTER);
+//                                    et.setGravity(Gravity.CENTER);
                                     String warning = " \n";
                                     for (int i = 0; i < air_index_list1.size(); i++) {
                                         if (warning_list1.get(i) == -2) {
@@ -731,6 +732,7 @@ public class SectionAndRoomView extends RelativeLayout {
                                         }
                                     }
                                     et.setText(warning);
+                                    et.setGravity(Gravity.CENTER);
                                     ScrollView sv = new ScrollView(context);
                                     sv.addView(et);
                                     new AlertDialog.Builder(context).setTitle(R.string.tip).setView(sv).

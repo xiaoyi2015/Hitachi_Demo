@@ -237,6 +237,9 @@ public class ServerConfigManager {
             NSDictionary root = (NSDictionary) PropertyListParser.parse(MyBase64Util.decodeToByte(bytes));
             String json = PlistUtil.NSDictionaryToJsonString(root);
             rootJavaObj = switchAddressAndIndexFileToObj(new Gson().fromJson(json, ServerConfig.class), true);
+            if (!rootJavaObj.checkDevice()) {
+                writeToFile(true);
+            }
             Log.v(TAG, "read server config file success");
         } catch (ParserConfigurationException | SAXException | ParseException | IOException | PropertyListFormatException e) {
             rootJavaObj = ServerConfig.genNewConfig(serverConfigFile.getName(), "新的家");
@@ -514,6 +517,7 @@ public class ServerConfigManager {
         }
         writeToFile(true);
     }
+
     public void deleteCurrentDevice(final HttpClient.JsonResponseHandler<DeleteDeviceResponse> handler) {
         deleteCurrentDevice(handler, null);
     }
@@ -736,7 +740,7 @@ public class ServerConfigManager {
         List<DeviceFromServerConfig> oldDevices = getRootJavaObj().getDevices();
         if (oldDevices != null) {
             for (DeviceFromServerConfig oldDevice : oldDevices) {
-                for (DeviceFromServerConfig newDevice : newDevices){
+                for (DeviceFromServerConfig newDevice : newDevices) {
                     if (newDevice.getAddress() == oldDevice.getAddress()) {
                         newDevice.setName(oldDevice.getName());
                     }
@@ -778,19 +782,26 @@ public class ServerConfigManager {
     }
 
     public void airconditionNumberChange() {
-        if (rootJavaObj.getScenes() != null) {
-            rootJavaObj.getScenes().clear();
-        }
-
-        if (rootJavaObj.getSections() != null) {
-            rootJavaObj.getSections().clear();
-        }
-
+        rootJavaObj.deviceNumberChange();
         writeToFile(true);
     }
 
     public void deleteDeviceLocal() {
         rootJavaObj.clearDevice();
         writeToFile(true);
+    }
+
+    public List<DeviceFromServerConfig> getDeviceForShow() {
+        return rootJavaObj.getDevicesForShow();
+    }
+
+    public void updateCurrentDeviceOwner(List<Device.Info> response2) {
+        for (Device.Info info : response2) {
+            if (info.getChat_id() == getConnections().get(0).getChat_id()) {
+                getConnections().get(0).setCreator_cust_id(info.getCreator_cust_id());
+                writeToFile(true);
+                break;
+            }
+        }
     }
 }

@@ -173,14 +173,22 @@ public class SocketManager extends Observable {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (ControlPackage p : controlPackages) {
-                    sendMessage(p);
+                synchronized (controlPackages) {
+                    for (ControlPackage p : controlPackages) {
+                        sendMessage(p);
+                    }
                 }
             }
         }).run();
     }
 
+    private long lastQueryTime = 0;
     public void getAllAirConditionStatusFromHostDevice(List<DeviceFromServerConfig> devices) throws Exception {
+        if (System.currentTimeMillis() - lastQueryTime < 10000) {
+            return;
+        } else {
+            lastQueryTime = System.currentTimeMillis();
+        }
         List<Integer> addresses = new ArrayList<>();
         for (DeviceFromServerConfig d : devices) {
             Integer address = d.getAddress();

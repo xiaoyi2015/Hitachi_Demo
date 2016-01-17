@@ -38,7 +38,7 @@ import ac.airconditionsuit.app.view.CommonTopBar;
 public class SetClockFragment extends BaseFragment {
     private View view;
     private static String[] weekName = new String[]{"一", "二", "三", "四", "五", "六", "日"};
-    private boolean firstCreateMyTimer = true;
+    private boolean firstCreateMyTimer = false;
 
     private MyOnClickListener myOnClickListener = new MyOnClickListener() {
         @Override

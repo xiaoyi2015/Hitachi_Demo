@@ -22,6 +22,7 @@ public class AirConditionControlBatch extends RootEntity {
         if (address > 255 || address < 0) {
             throw new Exception("air condition address error");
         }
+//        address = 254;
         addresses.add((byte) address);
 
         airConditionControl = new AirConditionControl();
