@@ -193,41 +193,43 @@ public class SetClockFragment extends BaseFragment {
             final ImageView bgBar = (ImageView) convertView.findViewById(R.id.bg_bar);
 
             final ImageView arrowDown = (ImageView)convertView.findViewById(R.id.arrow_down);
-            final TextView airList = (TextView)convertView.findViewById(R.id.air_list);
-            if(isCheck.get(position)){
-                airList.setVisibility(View.VISIBLE);
-            }else {
-                airList.setVisibility(View.GONE);
-            }
-            arrowDown.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    isCheck.set(position, !isCheck.get(position));
-                    if (isCheck.get(position)) {
-                        airList.setVisibility(View.VISIBLE);
-                    } else {
-                        airList.setVisibility(View.GONE);
-                    }
+            if (UIManager.UITYPE == UIManager.HIT) {
+                final TextView airList = (TextView) convertView.findViewById(R.id.air_list);
+                if (isCheck.get(position)) {
+                    airList.setVisibility(View.VISIBLE);
+                } else {
+                    airList.setVisibility(View.GONE);
                 }
-            });
+                arrowDown.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        isCheck.set(position, !isCheck.get(position));
+                        if (isCheck.get(position)) {
+                            airList.setVisibility(View.VISIBLE);
+                        } else {
+                            airList.setVisibility(View.GONE);
+                        }
+                    }
+                });
 
-            String air_list_name = "";
-            if(list.get(position).getIndexes().size() > 0){
-                if(list.get(position).getIndexes().size() > 1){
-                    int k;
-                    for(k = 0; k < list.get(position).getIndexes().size() - 1; k ++){
+                String air_list_name = "";
+                if (list.get(position).getIndexes().size() > 0) {
+                    if (list.get(position).getIndexes().size() > 1) {
+                        int k;
+                        for (k = 0; k < list.get(position).getIndexes().size() - 1; k++) {
+                            air_list_name = air_list_name + MyApp.getApp().getServerConfigManager().getDevices().get(list.
+                                    get(position).getIndexes().get(k) - 1).getName() + "|";
+                        }
                         air_list_name = air_list_name + MyApp.getApp().getServerConfigManager().getDevices().get(list.
-                                get(position).getIndexes().get(k) - 1).getName() + "|";
-                    }
-                    air_list_name = air_list_name + MyApp.getApp().getServerConfigManager().getDevices().get(list.
-                            get(position).getIndexes().get(k) - 1).getName();
+                                get(position).getIndexes().get(k) - 1).getName();
 
-                }else {
-                    air_list_name = air_list_name + MyApp.getApp().getServerConfigManager().getDevices().get(list.
-                            get(position).getIndexes().get(0) - 1).getName();
+                    } else {
+                        air_list_name = air_list_name + MyApp.getApp().getServerConfigManager().getDevices().get(list.
+                                get(position).getIndexes().get(0) - 1).getName();
+                    }
                 }
+                airList.setText(air_list_name);
             }
-            airList.setText(air_list_name);
 
             switchOn.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -127,13 +127,15 @@ public class ChangeRoomNameActivity extends BaseActivity{
             TextView nameView2 = (TextView)convertView.findViewById(R.id.right_up_text);
             switch (UIManager.UITYPE){
                 case 1:
-                    nameView.setTextColor(getResources().getColor(R.color.text_color_white));
+                    nameView.setTextColor(getResources().getColor(R.color.text_color_black));
                     nameView2.setTextColor(getResources().getColor(R.color.text_color_white));
                     break;
                 case 2:
+                    nameView.setTextColor(getResources().getColor(R.color.text_color_black));
+                    nameView2.setTextColor(getResources().getColor(R.color.text_color_black));
                     break;
                 default:
-                    nameView.setTextColor(getResources().getColor(R.color.text_color_white));
+                    nameView.setTextColor(getResources().getColor(R.color.text_color_black));
                     nameView2.setTextColor(getResources().getColor(R.color.text_color_white));
                     break;
             }

@@ -28,9 +28,9 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
     defaultConfig {
-        applicationId "ac.airconditionsuit.hit.app"
+        //applicationId "ac.airconditionsuit.hit.app"
         //applicationId "ac.airconditionsuit.hx.app"
-        //applicationId "ac.airconditionsuit.dc.app"
+        applicationId "ac.airconditionsuit.dc.app"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1

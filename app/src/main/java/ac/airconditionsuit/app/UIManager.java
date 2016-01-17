@@ -8,7 +8,7 @@ public class UIManager {
     public static final int DC = 2;
     public static final int HX = 3;
 
-    public static final int UITYPE = HIT;
+    public static final int UITYPE = DC;
 
     public static int getLoginLayout() {
         switch (UITYPE) {
