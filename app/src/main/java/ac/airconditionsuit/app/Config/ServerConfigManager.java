@@ -266,13 +266,18 @@ public class ServerConfigManager {
             return serverConfig;
         }
 
+        Log.v("liutao", flag ? "server" : "local");
+        Log.v("liutao", serverConfig.toJsonString());
+
+        //服务器使用重排后的表，indooraddress表示地址，indoorindex表示初始排序
+        //
         if (flag) {//如果从服务器到本地，先转换地址的格式，服务器直接使用indooraddress，本地使用indoorindex*16+indooraddress
             for (int i = 0; i < devices.size(); i++) {
                 devices.get(i).reformatIndoorIndexAndAddress(flag, i);
             }
         }
 
-        //Log.v("liutao", serverConfig.toJsonString());
+
 
         List<Section> sections = serverConfig.getSections();
         if (sections != null) {
@@ -355,6 +360,9 @@ public class ServerConfigManager {
                 devices.get(i).reformatIndoorIndexAndAddress(flag, i);
             }
         }
+
+        Log.v("liutao", flag ? "local" : "server");
+        Log.v("liutao", serverConfig.toJsonString());
 
         return serverConfig;
     }

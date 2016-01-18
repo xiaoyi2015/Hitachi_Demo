@@ -49,6 +49,8 @@ public class ServerConfig extends RootEntity{
         connection.clear();
         sections.clear();
         devices.clear();
+        devicesForShow.clear();
+        devicesForShow = null;
         scenes.clear();
         timers.clear();
     }
@@ -73,14 +75,14 @@ public class ServerConfig extends RootEntity{
                 }
             }
         }
-        for (Scene s : scenes) {
-            for (Command c : s.getCommands()) {
-                if (!commandInDevice(c)) {
-                    deviceNumberChange();
-                    return false;
-                }
-            }
-        }
+//        for (Scene s : scenes) {
+//            for (Command c : s.getCommands()) {
+//                if (!commandInDevice(c)) {
+//                    deviceNumberChange();
+//                    return false;
+//                }
+//            }
+//        }
         return true;
     }
 
