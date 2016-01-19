@@ -48,12 +48,12 @@ public class AirConditionControlBatch extends RootEntity {
     public AirConditionControlBatch(List<Integer> elements, AirConditionControl airConditionControl) throws Exception {
         addresses = new ArrayList<>();
         for (Integer index : elements) {
-            List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
-            if (devices.size() <= index) {
+            List<DeviceFromServerConfig> devices_new = MyApp.getApp().getServerConfigManager().getDevices_new();
+            if (devices_new.size() <= index) {
                 throw new Exception("air condition index is to large");
             }
-            DeviceFromServerConfig deviceFromServerConfig = devices.get(index);
-            int address = deviceFromServerConfig.getAddress();
+            DeviceFromServerConfig deviceFromServerConfig = devices_new.get(index);
+            int address = deviceFromServerConfig.getAddress_new();
             if (address > 255 || address < 0) {
                 throw new Exception("air condition address error");
             }

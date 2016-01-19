@@ -204,8 +204,8 @@ public class SceneFragment extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     if (MyApp.getApp().getServerConfigManager().hasDevice()) {
-                        if (MyApp.getApp().getServerConfigManager().getDevices() != null && MyApp.getApp().
-                                getServerConfigManager().getDevices().size() > 0) {
+                        if (MyApp.getApp().getServerConfigManager().getDevices_new() != null && MyApp.getApp().
+                                getServerConfigManager().getDevices_new().size() > 0) {
                             if (click_num == 1) {
                                 Intent intent = new Intent();
                                 intent.putExtra("index", position);

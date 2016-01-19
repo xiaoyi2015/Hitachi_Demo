@@ -20,7 +20,7 @@ public class Timer extends RootEntity {
     boolean onoff;
     boolean repeat;
     int timerid;
-    List<Integer> address = new ArrayList<>();
+    List<Integer> address_new = new ArrayList<>();
     int fan;
     int mode;
     boolean detailenabled;
@@ -82,12 +82,12 @@ public class Timer extends RootEntity {
         this.timerid = timerid;
     }
 
-    public List<Integer> getIndexes() {
-        return address;
+    public List<Integer> getIndexes_new_new() {
+        return address_new;
     }
 
-    public void setIndexes(List<Integer> index) {
-        this.address = index;
+    public void setIndexes_new_new(List<Integer> index) {
+        this.address_new = index;
     }
 
     public int getFan() {
@@ -230,12 +230,19 @@ public class Timer extends RootEntity {
             result[4] += 1;
         }
 
-        //address
-        for (int indexinconfig : this.address) {
-            int index = indexinconfig - 1;
-            if (index < 0 || index > 255) {
-                throw new Exception("address error");
+        //covert local address to host address
+        List<Integer> address_host = new ArrayList<>();
+        List<DeviceFromServerConfig> devices_new = MyApp.getApp().getServerConfigManager().getDevices_new();
+        for (Integer localIndex : this.address_new) {
+            int idx = localIndex - 1;
+            if (idx >= 0 && idx < devices_new.size()) {
+                address_host.add(devices_new.get(idx).getIndex_new());
             }
+        }
+
+
+        for (int indexinconfig : address_host) {
+            int index = indexinconfig;
             result[5 + index / 8] |= (1 << (index % 8));
         }
 
@@ -289,17 +296,30 @@ public class Timer extends RootEntity {
         timer.setWeek(weeks);
 
         //address
-        List<Integer> address = new ArrayList<>();
-        int cntDev = MyApp.getApp().getServerConfigManager().getDeviceCount();
+        List<Integer> address_host = new ArrayList<>();
+        int cntDev = MyApp.getApp().getServerConfigManager().getDeviceCount_new();
         for (int i = 0; i < 8; ++i) {
             for (int j = 0; j < 8; ++j) {
                 if ((contentData[i + 5] & (1 << j)) != 0) {
-                    int t = i * 8 + j + 1;
-                    if (t >= 1 && t <= cntDev) address.add(t);
+                    int t = i * 8 + j;
+                    if (t >= 1 && t <= cntDev) address_host.add(t);
                 }
             }
         }
-        timer.setIndexes(address);
+        //address, host machine, use index from 0, located in address table in host machine
+        //local use index from 1 located in local address table which is resorted when obtained from host machine
+        List<Integer> address_local = new ArrayList<>();
+        List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices_new();
+        for (Integer i_v : address_host) {
+            for (int i = 0; i < devices.size(); i++) {
+                if (devices.get(i).getIndex_new() == i_v) {
+                    address_local.add(i + 1);
+                    break;
+                }
+            }
+        }
+
+        timer.setIndexes_new_new(address_local);
 
         //onoff
         if ((contentData[13] & 0b10000) == 0) {
@@ -360,7 +380,7 @@ public class Timer extends RootEntity {
     }
 
     public void addControlAircondition(int i) {
-        address.add(i);
+        address_new.add(i);
     }
 
     public void setWeek(int... weeks) {
@@ -369,13 +389,13 @@ public class Timer extends RootEntity {
         }
     }
 
-    public void update(Timer timer) {
+    public void update_new(Timer timer) {
         this.temperature = timer.getTemperature();
         this.timerenabled = timer.isTimerenabled();
         this.onoff = timer.isOnoff();
         this.repeat = timer.isRepeat();
         this.timerid = timer.getTimerid();
-        this.address = timer.getIndexes();
+        this.address_new = timer.getIndexes_new_new();
         this.fan = timer.fan;
         this.mode = timer.mode;
         this.detailenabled = timer.isDetailenabled();

@@ -81,7 +81,7 @@ public class EditSceneActivity extends BaseActivity {
                         for (int i = 0; i < temp_on_off.size(); i++) {
                             if (temp_on_off.get(i) != 2) {
                                 Command command = new Command();
-                                command.setAddress(MyApp.getApp().getServerConfigManager().getDevices().get(i).getAddress());
+                                command.setAddress(MyApp.getApp().getServerConfigManager().getDevices_new().get(i).getAddress_new());
                                 command.setOnoff(temp_on_off.get(i));
                                 command.setMode(temp_mode.get(i));
                                 command.setFan(temp_fan.get(i));
@@ -116,11 +116,11 @@ public class EditSceneActivity extends BaseActivity {
                         }
                         for (int i = 0; i < temp_on_off.size(); i++) {
                             Log.v("zhulinan: onoff", temp_on_off.get(i).toString());
-                            Log.v("zhulinan: adress", String.valueOf(MyApp.getApp().getServerConfigManager().getDevices().get(i).getAddress()));
+                            Log.v("zhulinan: adress", String.valueOf(MyApp.getApp().getServerConfigManager().getDevices_new().get(i).getAddress_new()));
 
                             if (temp_on_off.get(i) != 2) {
                                 Command command = new Command();
-                                command.setAddress(MyApp.getApp().getServerConfigManager().getDevices().get(i).getAddress());
+                                command.setAddress(MyApp.getApp().getServerConfigManager().getDevices_new().get(i).getAddress_new());
                                 command.setOnoff(temp_on_off.get(i));
                                 command.setMode(temp_mode.get(i));
                                 command.setFan(temp_fan.get(i));
@@ -182,7 +182,7 @@ public class EditSceneActivity extends BaseActivity {
         sceneName.setSelection(scene_name.length());
 
         deleteScene.setOnClickListener(myOnClickListener);
-        for (int i = 0; i < MyApp.getApp().getServerConfigManager().getDevices().size(); i++) {
+        for (int i = 0; i < MyApp.getApp().getServerConfigManager().getDevices_new().size(); i++) {
             temp_on_off.add(2);
             temp_mode.add(0);
             temp_fan.add(0);
@@ -199,7 +199,7 @@ public class EditSceneActivity extends BaseActivity {
                     Log.v("zhulinan: com_onoff", String.valueOf(MyApp.getApp().getServerConfigManager().getScene().
                             get(index).getCommands().get(i).getOnoff()));
                     ServerConfigManager serverConfigManager = MyApp.getApp().getServerConfigManager();
-                    int temp_index_device = serverConfigManager.getDeviceIndexFromAddress(serverConfigManager.getScene().get(index).getCommands().get(i).getAddress());
+                    int temp_index_device = serverConfigManager.getDeviceIndexFromAddress_new(serverConfigManager.getScene().get(index).getCommands().get(i).getAddress());
                     if (temp_index_device != -1) {
                         temp_on_off.set(temp_index_device, serverConfigManager.getScene().get(index).getCommands().get(i).getOnoff());
                         temp_mode.set(temp_index_device, serverConfigManager.getScene().get(index).getCommands().get(i).getMode());
@@ -218,8 +218,8 @@ public class EditSceneActivity extends BaseActivity {
             deleteScene.setVisibility(View.GONE);
         }
         ListView listView = (ListView) findViewById(R.id.air_device_list);
-        List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
-        AirDeviceSceneSettingAdapter airDeviceSceneSettingAdapter = new AirDeviceSceneSettingAdapter(EditSceneActivity.this, devices);
+        List<DeviceFromServerConfig> devices_new = MyApp.getApp().getServerConfigManager().getDevices_new();
+        AirDeviceSceneSettingAdapter airDeviceSceneSettingAdapter = new AirDeviceSceneSettingAdapter(EditSceneActivity.this, devices_new);
         listView.setAdapter(airDeviceSceneSettingAdapter);
 
         setListViewHeightBasedOnChildren(listView);

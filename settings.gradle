@@ -1,1 +1,2 @@
-include ':app', ':swipelistview'
+include ':app'
+include ':swipeListView'

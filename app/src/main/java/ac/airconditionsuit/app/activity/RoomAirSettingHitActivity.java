@@ -292,18 +292,18 @@ public class RoomAirSettingHitActivity extends BaseActivity {
             roomWarning.setVisibility(View.GONE);
         } else {
             for (int i = 0; i < room.getElements().size(); i++) {
-                if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(room.getElements().
+                if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(room.getElements().
                         get(i)) == null){
                     break;
                 }else {
-                    if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(room.getElements().
+                    if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(room.getElements().
                             get(i)).getWarning() != 0) {
-                        air_index_list.add(MyApp.getApp().getServerConfigManager().getDevices().
-                                get(room.getElements().get(i)).getIndoorindex());
-                        warning_list.add(MyApp.getApp().getAirConditionManager().getAirConditionByIndex
+                        air_index_list.add(MyApp.getApp().getServerConfigManager().getDevices_new().
+                                get(room.getElements().get(i)).getOldIndoorIndex());
+                        warning_list.add(MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new
                                 (room.getElements().get(i)).getWarning());
-                        address_list.add(MyApp.getApp().getServerConfigManager().getDevices().
-                                get(room.getElements().get(i)).getIndooraddress());
+                        address_list.add(MyApp.getApp().getServerConfigManager().getDevices_new().
+                                get(room.getElements().get(i)).getOldIndoorAddress());
                     }
                 }
             }

@@ -213,19 +213,19 @@ public class SetClockFragment extends BaseFragment {
                 });
 
                 String air_list_name = "";
-                if (list.get(position).getIndexes().size() > 0) {
-                    if (list.get(position).getIndexes().size() > 1) {
+                if (list.get(position).getIndexes_new_new().size() > 0) {
+                    if (list.get(position).getIndexes_new_new().size() > 1) {
                         int k;
-                        for (k = 0; k < list.get(position).getIndexes().size() - 1; k++) {
-                            air_list_name = air_list_name + MyApp.getApp().getServerConfigManager().getDevices().get(list.
-                                    get(position).getIndexes().get(k) - 1).getName() + "|";
+                        for (k = 0; k < list.get(position).getIndexes_new_new().size() - 1; k++) {
+                            air_list_name = air_list_name + MyApp.getApp().getServerConfigManager().getDevices_new().get(list.
+                                    get(position).getIndexes_new_new().get(k) - 1).getName() + "|";
                         }
-                        air_list_name = air_list_name + MyApp.getApp().getServerConfigManager().getDevices().get(list.
-                                get(position).getIndexes().get(k) - 1).getName();
+                        air_list_name = air_list_name + MyApp.getApp().getServerConfigManager().getDevices_new().get(list.
+                                get(position).getIndexes_new_new().get(k) - 1).getName();
 
                     } else {
-                        air_list_name = air_list_name + MyApp.getApp().getServerConfigManager().getDevices().get(list.
-                                get(position).getIndexes().get(0) - 1).getName();
+                        air_list_name = air_list_name + MyApp.getApp().getServerConfigManager().getDevices_new().get(list.
+                                get(position).getIndexes_new_new().get(0) - 1).getName();
                     }
                 }
                 airList.setText(air_list_name);

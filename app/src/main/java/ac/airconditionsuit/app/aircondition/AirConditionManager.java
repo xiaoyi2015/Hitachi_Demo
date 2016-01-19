@@ -45,14 +45,14 @@ public class AirConditionManager {
 //        for (String configFileName : MyApp.getApp().getLocalConfigManager().getCurrentUserConfig().getHomeConfigFileNames()) {
 //            ServerConfigManager serverConfigManager = new ServerConfigManager();
 //            serverConfigManager.readFromFile(configFileName);
-        initAirConditionsByDeviceList(MyApp.getApp().getServerConfigManager().getDevices());
+        initAirConditionsByDeviceList(MyApp.getApp().getServerConfigManager().getDevices_new());
 //        }
     }
 
     public void queryAirConditionStatus() {
         try {
             if (MyApp.getApp().getSocketManager() != null && MyApp.getApp().getSocketManager().shouldSendPacketsToQuery()) {
-                MyApp.getApp().getSocketManager().getAllAirConditionStatusFromHostDevice(MyApp.getApp().getServerConfigManager().getDevices());
+                MyApp.getApp().getSocketManager().getAllAirConditionStatusFromHostDevice(MyApp.getApp().getServerConfigManager().getDevices_new());
             }
         } catch (Exception e) {
             Log.e(TAG, "init air condition status fail");
@@ -124,7 +124,7 @@ public class AirConditionManager {
         List<Timer> timers = MyApp.getApp().getServerConfigManager().getTimer();
         for (Timer tm : timers) {
             if (tm.getTimerid() == timer_id) {
-                List<Integer> indexes = tm.getIndexes();
+                List<Integer> indexes = tm.getIndexes_new_new();
                 for (Integer idxInTimer : indexes) {
                     Integer idx = idxInTimer - 1;
                     if (idx >= 0 && idx < airConditions.size()) {
@@ -160,12 +160,12 @@ public class AirConditionManager {
     private void updateAirconditions(Room room, AirConditionControl airConditionControl) throws Exception {
 
         for (int index : room.getElements()) {
-            List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
+            List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices_new();
             if (devices.size() <= index) {
                 throw new Exception("air condition index is to large");
             }
             DeviceFromServerConfig deviceFromServerConfig = devices.get(index);
-            int address = deviceFromServerConfig.getAddress();
+            int address = deviceFromServerConfig.getAddress_new();
             if (address > 255 || address < 0) {
                 throw new Exception("air condition address error");
             }
@@ -185,12 +185,12 @@ public class AirConditionManager {
      * @param index 待查找的空调的地址
      * @return 可能为空
      */
-    public AirCondition getAirConditionByIndex(int index) {
-        List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
-        if (index < 0 || index >= devices.size()) {
+    public AirCondition getAirConditionByIndex_new(int index) {
+        List<DeviceFromServerConfig> devices_new = MyApp.getApp().getServerConfigManager().getDevices_new();
+        if (index < 0 || index >= devices_new.size()) {
             return new AirCondition();
         }
-        int address = devices.get(index).getAddress();
+        int address = devices_new.get(index).getAddress_new();
         for (AirCondition airCondition : airConditions) {
             if (airCondition.getAddress() == address) {
                 return airCondition;
@@ -228,7 +228,7 @@ public class AirConditionManager {
         airCondition.setTemperature(AirConditionControl.UNKNOW);
         airCondition.setRealTemperature(AirConditionControl.UNKNOW);
         for (int i = 0; i < room.getElements().size(); i++) {
-            AirCondition temp = getAirConditionByIndex(room.getElements().get(i));
+            AirCondition temp = getAirConditionByIndex_new(room.getElements().get(i));
             if (temp == null) {
                 continue;
             }

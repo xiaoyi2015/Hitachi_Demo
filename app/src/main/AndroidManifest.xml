@@ -13,8 +13,8 @@
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
-    <!--android:icon="@mipmap/dc_launcher"-->
     <!--android:icon="@mipmap/hx_launcher"-->
+    <!--android:icon="@mipmap/dc_launcher"-->
 
     <application
             android:name=".MyApp"

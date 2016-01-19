@@ -253,17 +253,17 @@ public class DragDeviceActivity extends BaseActivity {
 
         TextView sectionDeviceNum = (TextView)findViewById(R.id.section_device_num);
         int device_num;
-        if(MyApp.getApp().getServerConfigManager().getDevices() == null || MyApp.
-                getApp().getServerConfigManager().getDevices().size() == 0){
+        if(MyApp.getApp().getServerConfigManager().getDevices_new() == null || MyApp.
+                getApp().getServerConfigManager().getDevices_new().size() == 0){
             device_num = 0;
         }else {
-            device_num =  MyApp.getApp().getServerConfigManager().getDevices().size();
+            device_num =  MyApp.getApp().getServerConfigManager().getDevices_new().size();
         }
         sectionDeviceNum.setText(getString(R.string.section_device_num1) + device_num + getString(R.string.section_device_num2));
         final Section room_info = Section.getSectionFromJsonString(section);
         commonTopBar.setTitle(room_info.getName());
-        final List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
-        for (int i = 0; i < devices.size(); i++) {
+        final List<DeviceFromServerConfig> devices_new = MyApp.getApp().getServerConfigManager().getDevices_new();
+        for (int i = 0; i < devices_new.size(); i++) {
             final CommonDeviceView commonDeviceView = new CommonDeviceView(DragDeviceActivity.this);
             commonDeviceView.setBackgroundResource(R.drawable.drag_device_transparent_small);
             commonDeviceView.setBgIcon(R.drawable.drag_device_icon);
@@ -281,8 +281,8 @@ public class DragDeviceActivity extends BaseActivity {
                     nameView2.setTextColor(getResources().getColor(R.color.text_color_white));
                     break;
             }
-            commonDeviceView.setBottomName(devices.get(i).getName());
-            commonDeviceView.setRightUpText(MyApp.getApp().getServerConfigManager().getDevices().get(i).getFormatNameByIndoorIndexAndAddress());
+            commonDeviceView.setBottomName(devices_new.get(i).getName());
+            commonDeviceView.setRightUpText(MyApp.getApp().getServerConfigManager().getDevices_new().get(i).getFormatNameByIndoorIndexAndAddress());
             bottomBar.addView(commonDeviceView);
             final int finalI = i;
             commonDeviceView

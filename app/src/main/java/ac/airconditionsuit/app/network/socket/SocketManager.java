@@ -191,7 +191,7 @@ public class SocketManager extends Observable {
         }
         List<Integer> addresses = new ArrayList<>();
         for (DeviceFromServerConfig d : devices) {
-            Integer address = d.getAddress();
+            Integer address = d.getAddress_new();
             if (address < 0 || address > 255) {
                 throw new Exception("air condition address error");
             }

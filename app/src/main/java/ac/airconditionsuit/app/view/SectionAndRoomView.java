@@ -165,18 +165,18 @@ public class SectionAndRoomView extends RelativeLayout {
                         roomWarning.setVisibility(GONE);
                     }else {
                         for (int i = 0; i < rooms.get(position).getElements().size(); i++) {
-                            if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.get(position).getElements().
+                            if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.get(position).getElements().
                                     get(i)) == null){
                                 break;
                             }else {
-                                if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.get(position).getElements().
+                                if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.get(position).getElements().
                                         get(i)).getWarning() != 0) {
-                                    air_index_list.add(MyApp.getApp().getServerConfigManager().getDevices().
-                                            get(room.get(position).getElements().get(i)).getIndoorindex());
-                                    warning_list.add(MyApp.getApp().getAirConditionManager().getAirConditionByIndex
+                                    air_index_list.add(MyApp.getApp().getServerConfigManager().getDevices_new().
+                                            get(room.get(position).getElements().get(i)).getOldIndoorIndex());
+                                    warning_list.add(MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new
                                             (rooms.get(position).getElements().get(i)).getWarning());
-                                    address_list.add(MyApp.getApp().getServerConfigManager().getDevices().
-                                            get(rooms.get(position).getElements().get(i)).getIndooraddress());
+                                    address_list.add(MyApp.getApp().getServerConfigManager().getDevices_new().
+                                            get(rooms.get(position).getElements().get(i)).getOldIndoorAddress());
                                 }
                             }
                         }
@@ -377,29 +377,29 @@ public class SectionAndRoomView extends RelativeLayout {
                                     int min_index1 = rooms.get(position).getElements().get(0);
                                     int min_on_index = -1;
                                     boolean find_min = false;
-                                    if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index1).getOnoff() == 1){
+                                    if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_index1).getOnoff() == 1){
                                         min_on_index = min_index1;
                                         find_min = true;
                                     }
                                     for (int i = 1; i < rooms.get(position).getElements().size(); i++) {
                                         if(!find_min) {
-                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.
+                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.
                                                     get(position).getElements().get(i)).getOnoff() == 1) {
                                                 min_on_index = rooms.get(position).getElements().get(i);
                                                 find_min = true;
                                             }else{
-                                                if (MyApp.getApp().getServerConfigManager().getDevices().get(min_index1).getAddress()
-                                                        > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.
-                                                        get(position).getElements().get(i)).getAddress()) {
+                                                if (MyApp.getApp().getServerConfigManager().getDevices_new().get(min_index1).getAddress_new()
+                                                        > MyApp.getApp().getServerConfigManager().getDevices_new().get(rooms.
+                                                        get(position).getElements().get(i)).getAddress_new()) {
                                                     min_index1 = rooms.get(position).getElements().get(i);
                                                 }
                                             }
                                         }else {
-                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.
+                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.
                                                     get(position).getElements().get(i)).getOnoff() == 1) {
-                                                if (MyApp.getApp().getServerConfigManager().getDevices().get(min_on_index).getAddress()
-                                                        > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.
-                                                        get(position).getElements().get(i)).getAddress()) {
+                                                if (MyApp.getApp().getServerConfigManager().getDevices_new().get(min_on_index).getAddress_new()
+                                                        > MyApp.getApp().getServerConfigManager().getDevices_new().get(rooms.
+                                                        get(position).getElements().get(i)).getAddress_new()) {
                                                     min_on_index = rooms.get(position).getElements().get(i);
                                                     find_min = true;
                                                 }
@@ -408,9 +408,9 @@ public class SectionAndRoomView extends RelativeLayout {
                                     }
                                     AirCondition min_air1;
                                     if(find_min){
-                                        min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_on_index);
+                                        min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_on_index);
                                     }else {
-                                        min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index1);
+                                        min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_index1);
                                     }
                                     if(min_air1.getAirconditionMode() == 1){
                                         roomTemp.setTextColor(getResources().getColor(R.color.hit_heat_red));
@@ -481,29 +481,29 @@ public class SectionAndRoomView extends RelativeLayout {
                                     int min_index = rooms.get(position).getElements().get(0);
                                     int min_on_index1 = -1;
                                     boolean find_min1 = false;
-                                    if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index).getOnoff() == 1){
+                                    if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_index).getOnoff() == 1){
                                         min_on_index1 = min_index;
                                         find_min1 = true;
                                     }
                                     for (int i = 1; i < rooms.get(position).getElements().size(); i++) {
                                         if(!find_min1) {
-                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.
+                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.
                                                     get(position).getElements().get(i)).getOnoff() == 1) {
                                                 min_on_index1 = rooms.get(position).getElements().get(i);
                                                 find_min1 = true;
                                             }else{
-                                                if (MyApp.getApp().getServerConfigManager().getDevices().get(min_index).getAddress()
-                                                        > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.
-                                                        get(position).getElements().get(i)).getAddress()) {
+                                                if (MyApp.getApp().getServerConfigManager().getDevices_new().get(min_index).getAddress_new()
+                                                        > MyApp.getApp().getServerConfigManager().getDevices_new().get(rooms.
+                                                        get(position).getElements().get(i)).getAddress_new()) {
                                                     min_index = rooms.get(position).getElements().get(i);
                                                 }
                                             }
                                         }else {
-                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.
+                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.
                                                     get(position).getElements().get(i)).getOnoff() == 1) {
-                                                if (MyApp.getApp().getServerConfigManager().getDevices().get(min_on_index1).getAddress()
-                                                        > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.
-                                                        get(position).getElements().get(i)).getAddress()) {
+                                                if (MyApp.getApp().getServerConfigManager().getDevices_new().get(min_on_index1).getAddress_new()
+                                                        > MyApp.getApp().getServerConfigManager().getDevices_new().get(rooms.
+                                                        get(position).getElements().get(i)).getAddress_new()) {
                                                     min_on_index1 = rooms.get(position).getElements().get(i);
                                                     find_min1 = true;
                                                 }
@@ -512,9 +512,9 @@ public class SectionAndRoomView extends RelativeLayout {
                                     }
                                     AirCondition min_air;
                                     if(find_min1){
-                                        min_air = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_on_index1);
+                                        min_air = MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_on_index1);
                                     }else {
-                                        min_air = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index);
+                                        min_air = MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_index);
                                     }
                                     ac = new AirCondition(min_air);
                                 }else{
@@ -721,29 +721,29 @@ public class SectionAndRoomView extends RelativeLayout {
                                     int min_index1 = rooms.get(position).getElements().get(0);
                                     int min_on_index = -1;
                                     boolean find_min = false;
-                                    if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index1).getOnoff() == 1){
+                                    if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_index1).getOnoff() == 1){
                                         min_on_index = min_index1;
                                         find_min = true;
                                     }
                                     for (int i = 1; i < rooms.get(position).getElements().size(); i++) {
                                         if(!find_min) {
-                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.
+                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.
                                                     get(position).getElements().get(i)).getOnoff() == 1) {
                                                 min_on_index = rooms.get(position).getElements().get(i);
                                                 find_min = true;
                                             }else{
-                                                if (MyApp.getApp().getServerConfigManager().getDevices().get(min_index1).getAddress()
-                                                        > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.
-                                                        get(position).getElements().get(i)).getAddress()) {
+                                                if (MyApp.getApp().getServerConfigManager().getDevices_new().get(min_index1).getAddress_new()
+                                                        > MyApp.getApp().getServerConfigManager().getDevices_new().get(rooms.
+                                                        get(position).getElements().get(i)).getAddress_new()) {
                                                     min_index1 = rooms.get(position).getElements().get(i);
                                                 }
                                             }
                                         }else {
-                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.
+                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.
                                                     get(position).getElements().get(i)).getOnoff() == 1) {
-                                                if (MyApp.getApp().getServerConfigManager().getDevices().get(min_on_index).getAddress()
-                                                        > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.
-                                                        get(position).getElements().get(i)).getAddress()) {
+                                                if (MyApp.getApp().getServerConfigManager().getDevices_new().get(min_on_index).getAddress_new()
+                                                        > MyApp.getApp().getServerConfigManager().getDevices_new().get(rooms.
+                                                        get(position).getElements().get(i)).getAddress_new()) {
                                                     min_on_index = rooms.get(position).getElements().get(i);
                                                     find_min = true;
                                                 }
@@ -752,9 +752,9 @@ public class SectionAndRoomView extends RelativeLayout {
                                     }
                                     AirCondition min_air1;
                                     if(find_min){
-                                        min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_on_index);
+                                        min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_on_index);
                                     }else {
-                                        min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index1);
+                                        min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_index1);
                                     }
                                     roomMode.setImageResource(R.drawable.none_dc);
                                     switch (min_air1.getAirconditionMode()){
@@ -888,29 +888,29 @@ public class SectionAndRoomView extends RelativeLayout {
                                     int min_index = rooms.get(position).getElements().get(0);
                                     int min_on_index1 = -1;
                                     boolean find_min1 = false;
-                                    if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index).getOnoff() == 1){
+                                    if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_index).getOnoff() == 1){
                                         min_on_index1 = min_index;
                                         find_min1 = true;
                                     }
                                     for (int i = 1; i < rooms.get(position).getElements().size(); i++) {
                                         if(!find_min1) {
-                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.
+                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.
                                                     get(position).getElements().get(i)).getOnoff() == 1) {
                                                 min_on_index1 = rooms.get(position).getElements().get(i);
                                                 find_min1 = true;
                                             }else{
-                                                if (MyApp.getApp().getServerConfigManager().getDevices().get(min_index).getAddress()
-                                                        > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.
-                                                        get(position).getElements().get(i)).getAddress()) {
+                                                if (MyApp.getApp().getServerConfigManager().getDevices_new().get(min_index).getAddress_new()
+                                                        > MyApp.getApp().getServerConfigManager().getDevices_new().get(rooms.
+                                                        get(position).getElements().get(i)).getAddress_new()) {
                                                     min_index = rooms.get(position).getElements().get(i);
                                                 }
                                             }
                                         }else {
-                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.
+                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.
                                                     get(position).getElements().get(i)).getOnoff() == 1) {
-                                                if (MyApp.getApp().getServerConfigManager().getDevices().get(min_on_index1).getAddress()
-                                                        > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.
-                                                        get(position).getElements().get(i)).getAddress()) {
+                                                if (MyApp.getApp().getServerConfigManager().getDevices_new().get(min_on_index1).getAddress_new()
+                                                        > MyApp.getApp().getServerConfigManager().getDevices_new().get(rooms.
+                                                        get(position).getElements().get(i)).getAddress_new()) {
                                                     min_on_index1 = rooms.get(position).getElements().get(i);
                                                     find_min1 = true;
                                                 }
@@ -919,9 +919,9 @@ public class SectionAndRoomView extends RelativeLayout {
                                     }
                                     AirCondition min_air;
                                     if(find_min1){
-                                        min_air = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_on_index1);
+                                        min_air = MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_on_index1);
                                     }else {
-                                        min_air = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index);
+                                        min_air = MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_index);
                                     }
                                     ac = new AirCondition(min_air);
                                 }else{
@@ -948,18 +948,18 @@ public class SectionAndRoomView extends RelativeLayout {
                         roomWarning.setVisibility(GONE);
                     }else {
                         for (int i = 0; i < rooms.get(position).getElements().size(); i++) {
-                            if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.get(position).getElements().
+                            if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.get(position).getElements().
                                     get(i)) == null){
                                 break;
                             }else {
-                                if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.get(position).getElements().
+                                if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.get(position).getElements().
                                         get(i)).getWarning() != 0) {
-                                    air_index_list1.add(MyApp.getApp().getServerConfigManager().getDevices().
-                                            get(room.get(position).getElements().get(i)).getIndoorindex());
-                                    warning_list1.add(MyApp.getApp().getAirConditionManager().getAirConditionByIndex
+                                    air_index_list1.add(MyApp.getApp().getServerConfigManager().getDevices_new().
+                                            get(room.get(position).getElements().get(i)).getOldIndoorIndex());
+                                    warning_list1.add(MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new
                                             (rooms.get(position).getElements().get(i)).getWarning());
-                                    address_list1.add(MyApp.getApp().getServerConfigManager().getDevices().
-                                            get(rooms.get(position).getElements().get(i)).getIndooraddress());
+                                    address_list1.add(MyApp.getApp().getServerConfigManager().getDevices_new().
+                                            get(rooms.get(position).getElements().get(i)).getOldIndoorAddress());
                                 }
                             }
                         }
@@ -1160,29 +1160,29 @@ public class SectionAndRoomView extends RelativeLayout {
                                     int min_index1 = rooms.get(position).getElements().get(0);
                                     int min_on_index = -1;
                                     boolean find_min = false;
-                                    if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index1).getOnoff() == 1){
+                                    if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_index1).getOnoff() == 1){
                                         min_on_index = min_index1;
                                         find_min = true;
                                     }
                                     for (int i = 1; i < rooms.get(position).getElements().size(); i++) {
                                         if(!find_min) {
-                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.
+                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.
                                                     get(position).getElements().get(i)).getOnoff() == 1) {
                                                 min_on_index = rooms.get(position).getElements().get(i);
                                                 find_min = true;
                                             }else{
-                                                if (MyApp.getApp().getServerConfigManager().getDevices().get(min_index1).getAddress()
-                                                        > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.
-                                                        get(position).getElements().get(i)).getAddress()) {
+                                                if (MyApp.getApp().getServerConfigManager().getDevices_new().get(min_index1).getAddress_new()
+                                                        > MyApp.getApp().getServerConfigManager().getDevices_new().get(rooms.
+                                                        get(position).getElements().get(i)).getAddress_new()) {
                                                     min_index1 = rooms.get(position).getElements().get(i);
                                                 }
                                             }
                                         }else {
-                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.
+                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.
                                                     get(position).getElements().get(i)).getOnoff() == 1) {
-                                                if (MyApp.getApp().getServerConfigManager().getDevices().get(min_on_index).getAddress()
-                                                        > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.
-                                                        get(position).getElements().get(i)).getAddress()) {
+                                                if (MyApp.getApp().getServerConfigManager().getDevices_new().get(min_on_index).getAddress_new()
+                                                        > MyApp.getApp().getServerConfigManager().getDevices_new().get(rooms.
+                                                        get(position).getElements().get(i)).getAddress_new()) {
                                                     min_on_index = rooms.get(position).getElements().get(i);
                                                     find_min = true;
                                                 }
@@ -1191,9 +1191,9 @@ public class SectionAndRoomView extends RelativeLayout {
                                     }
                                     AirCondition min_air1;
                                     if(find_min){
-                                        min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_on_index);
+                                        min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_on_index);
                                     }else {
-                                        min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index1);
+                                        min_air1 = MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_index1);
                                     }
                                     if(min_air1.getAirconditionMode() == 1){
                                         roomTemp.setTextColor(getResources().getColor(R.color.hit_heat_red));
@@ -1264,29 +1264,29 @@ public class SectionAndRoomView extends RelativeLayout {
                                     int min_index = rooms.get(position).getElements().get(0);
                                     int min_on_index1 = -1;
                                     boolean find_min1 = false;
-                                    if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index).getOnoff() == 1){
+                                    if(MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_index).getOnoff() == 1){
                                         min_on_index1 = min_index;
                                         find_min1 = true;
                                     }
                                     for (int i = 1; i < rooms.get(position).getElements().size(); i++) {
                                         if(!find_min1) {
-                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.
+                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.
                                                     get(position).getElements().get(i)).getOnoff() == 1) {
                                                 min_on_index1 = rooms.get(position).getElements().get(i);
                                                 find_min1 = true;
                                             }else{
-                                                if (MyApp.getApp().getServerConfigManager().getDevices().get(min_index).getAddress()
-                                                        > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.
-                                                        get(position).getElements().get(i)).getAddress()) {
+                                                if (MyApp.getApp().getServerConfigManager().getDevices_new().get(min_index).getAddress_new()
+                                                        > MyApp.getApp().getServerConfigManager().getDevices_new().get(rooms.
+                                                        get(position).getElements().get(i)).getAddress_new()) {
                                                     min_index = rooms.get(position).getElements().get(i);
                                                 }
                                             }
                                         }else {
-                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex(rooms.
+                                            if (MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(rooms.
                                                     get(position).getElements().get(i)).getOnoff() == 1) {
-                                                if (MyApp.getApp().getServerConfigManager().getDevices().get(min_on_index1).getAddress()
-                                                        > MyApp.getApp().getServerConfigManager().getDevices().get(rooms.
-                                                        get(position).getElements().get(i)).getAddress()) {
+                                                if (MyApp.getApp().getServerConfigManager().getDevices_new().get(min_on_index1).getAddress_new()
+                                                        > MyApp.getApp().getServerConfigManager().getDevices_new().get(rooms.
+                                                        get(position).getElements().get(i)).getAddress_new()) {
                                                     min_on_index1 = rooms.get(position).getElements().get(i);
                                                     find_min1 = true;
                                                 }
@@ -1295,9 +1295,9 @@ public class SectionAndRoomView extends RelativeLayout {
                                     }
                                     AirCondition min_air;
                                     if(find_min1){
-                                        min_air = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_on_index1);
+                                        min_air = MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_on_index1);
                                     }else {
-                                        min_air = MyApp.getApp().getAirConditionManager().getAirConditionByIndex(min_index);
+                                        min_air = MyApp.getApp().getAirConditionManager().getAirConditionByIndex_new(min_index);
                                     }
                                     ac = new AirCondition(min_air);
                                 }else{

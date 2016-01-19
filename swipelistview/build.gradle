@@ -1,16 +1,22 @@
-apply plugin: 'android-library'
-
-dependencies {
-    compile "com.android.support:support-v4:19.+"
-//	compile 'com.nineoldandroids:library:2.4.0+'
-}
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '19.1.0'
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
-        minSdkVersion 10
+        minSdkVersion 7
         targetSdkVersion 19
     }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:19.+'
 }

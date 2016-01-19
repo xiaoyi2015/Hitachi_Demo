@@ -59,11 +59,11 @@ public class UdpPackage {
         List<Byte> addressList = new ArrayList<>();
 
         //按顺序选取一个空调
-        List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
+        List<DeviceFromServerConfig> devices_new = MyApp.getApp().getServerConfigManager().getDevices_new();
         acIndexToCheckDevice++;
-        if (acIndexToCheckDevice >= devices.size()) acIndexToCheckDevice = 0;
-        if (acIndexToCheckDevice < devices.size()) {
-            addressList.add((byte) devices.get(acIndexToCheckDevice).getAddress());
+        if (acIndexToCheckDevice >= devices_new.size()) acIndexToCheckDevice = 0;
+        if (acIndexToCheckDevice < devices_new.size()) {
+            addressList.add((byte) devices_new.get(acIndexToCheckDevice).getAddress_new());
         } else {
             addressList.add((byte) 0);
         }

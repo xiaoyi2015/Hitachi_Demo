@@ -130,7 +130,7 @@ public class HostDeviceActivity extends BaseActivity{
         hostDeviceName.setOnlineTextView(MyApp.getApp().getServerConfigManager().getConnections().get(0).getName());
         hostDeviceIP.setOnlineTextView(MyApp.getApp().getServerConfigManager().getCurrentHostIP());
         scanIndoorDevice.setOnClickListener(myOnClickListener);
-        scanIndoorDevice.setOnlineTextView(MyApp.getApp().getServerConfigManager().getDevices().size() + getString(R.string.device_symbol));
+        scanIndoorDevice.setOnlineTextView(MyApp.getApp().getServerConfigManager().getDevices_new().size() + getString(R.string.device_symbol));
 
         if(MyApp.getApp().getUser().isAdmin()) {
             manageLabelText.setText(getString(R.string.manager_text));
@@ -146,7 +146,7 @@ public class HostDeviceActivity extends BaseActivity{
         if (resultCode == RESULT_OK){
             switch (requestCode) {
                 case 1234:
-                    scanIndoorDevice.setOnlineTextView(MyApp.getApp().getServerConfigManager().getDevices().size() + getString(R.string.device_symbol));
+                    scanIndoorDevice.setOnlineTextView(MyApp.getApp().getServerConfigManager().getDevices_new().size() + getString(R.string.device_symbol));
                     break;
             }
         }

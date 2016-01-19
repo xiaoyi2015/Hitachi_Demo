@@ -24,6 +24,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.TimerTask;
 
@@ -68,9 +70,10 @@ public class ServerConfigManager {
         writeToFile(false);
     }
 
-    public int getDeviceIndexFromAddress(int address) {
-        for (int i = 0; i < rootJavaObj.getDevices().size(); i++) {
-            if (address == rootJavaObj.getDevices().get(i).getAddress()) {
+    public int getDeviceIndexFromAddress_new(int address) {
+        for (int i = 0; i < rootJavaObj.getDevices_new().size(); i++) {
+            if (address == rootJavaObj.getDevices_new().get(i).getAddress_new()) {
+//                return rootJavaObj.getDevices_new().get(i).getIndex_new();
                 return i;
             }
         }
@@ -165,18 +168,13 @@ public class ServerConfigManager {
         writeToFile(false);
     }
 
-    public List<DeviceFromServerConfig> getDevices() {
-        return rootJavaObj.getDevices();
+    public List<DeviceFromServerConfig> getDevices_new() {
+        return rootJavaObj.getDevices_new();
     }
 
-    public Integer getDeviceCount() {
-        if (rootJavaObj.getDevices() == null) return 0;
-        return rootJavaObj.getDevices().size();
-    }
-
-    public void logAllDevices() {
-        if (rootJavaObj.getDevices() == null) return;
-
+    public Integer getDeviceCount_new() {
+        if (rootJavaObj.getDevices_new() == null) return 0;
+        return rootJavaObj.getDevices_new().size();
     }
 
     public Home getHome() {
@@ -260,25 +258,28 @@ public class ServerConfigManager {
 
 
     //flag = true, from server to local
-    private ServerConfig switchAddressAndIndexFileToObj(ServerConfig serverConfig, boolean flag) {
-        List<DeviceFromServerConfig> devices = serverConfig.getDevices();
-        if (devices == null || devices.size() == 0) {
+    private ServerConfig switchAddressAndIndexFileToObj(ServerConfig serverConfig, boolean flagFromSeverToLocal) {
+        List<DeviceFromServerConfig> devices_new = serverConfig.getDevices_new();
+
+        if (devices_new == null || devices_new.size() == 0) {
             return serverConfig;
         }
 
-        Log.v("liutao", flag ? "server" : "local");
+        Log.v("liutao", flagFromSeverToLocal ? "server" : "local");
         Log.v("liutao", serverConfig.toJsonString());
 
+        //目前，地址表已经调整为与服务器一致
         //服务器使用重排后的表，indooraddress表示地址，indoorindex表示初始排序
         //
-        if (flag) {//如果从服务器到本地，先转换地址的格式，服务器直接使用indooraddress，本地使用indoorindex*16+indooraddress
-            for (int i = 0; i < devices.size(); i++) {
-                devices.get(i).reformatIndoorIndexAndAddress(flag, i);
-            }
-        }
+//        if (flag) {//如果从服务器到本地，先转换地址的格式，服务器直接使用indooraddress，本地使用indoorindex*16+indooraddress
+//            for (int i = 0; i < devices.size(); i++) {
+//                devices.get(i).reformatIndoorIndexAndAddress(flag, i);
+//            }
+//        }
 
 
 
+        //服务器与本地，使用的index是完全一致的
         List<Section> sections = serverConfig.getSections();
         if (sections != null) {
             for (Section section : sections) {
@@ -293,7 +294,7 @@ public class ServerConfigManager {
                     }
                     List<Integer> newElements = new ArrayList<>();
                     for (Integer integer : elements) {
-                        if (flag) {
+                        if (flagFromSeverToLocal) {
 //                            newElements.add(integer + 1);
                             newElements.add(integer);
                         } else {
@@ -314,17 +315,17 @@ public class ServerConfigManager {
                     continue;
                 }
                 for (Command command : commands) {
-                    if (flag) {
-                        if (command.getAddress() >= devices.size()) {
+                    if (flagFromSeverToLocal) {//server, use index from 0
+                        if (command.getAddress() >= devices_new.size()) {//如果越界
                             command.setAddress(0);
                         } else {
-                            int realAddress = devices.get(command.getAddress()).getAddress();
+                            int realAddress = devices_new.get(command.getAddress()).getAddress_new();
                             command.setAddress(realAddress);
                         }
-                    } else {
+                    } else {//local, use real address
                         int realAddress = command.getAddress();
-                        for (int i = 0; i < devices.size(); ++i) {
-                            if (devices.get(i).getAddress() == realAddress) {
+                        for (int i = 0; i < devices_new.size(); ++i) {
+                            if (devices_new.get(i).getAddress_new() == realAddress) {
                                 command.setAddress(i);
                                 break;
                             }
@@ -334,34 +335,34 @@ public class ServerConfigManager {
             }
         }
 
-        serverConfig.resortTimers();
-        List<Timer> timers = serverConfig.getTimers();
-        //serverConfig.setTimers(new ArrayList<Timer>());//清空服务器上的timer，timer实际存储在主机上
-        if (timers != null) {
-            for (Timer timer : timers) {
-                List<Integer> indexes = timer.getIndexes();
-                if (indexes == null) {
-                    continue;
-                }
-                List<Integer> newIndexes = new ArrayList<>();
-                for (Integer index : indexes) {
-                    if (flag) {
-                        newIndexes.add(index + 1);
-                    } else {
-                        newIndexes.add(index - 1);
-                    }
-                }
-                timer.setIndexes(newIndexes);
-            }
-        }
+        //serverConfig.resortTimers();
+        //List<Timer> timers = serverConfig.getTimers();
+        serverConfig.setTimers(new ArrayList<Timer>());//服务器上的timer仅用于缓存，timer实际存储在主机上
+//        if (timers != null) {
+//            for (Timer timer : timers) {
+//                List<Integer> indexes = timer.getIndexes_new_new();
+//                if (indexes == null) {
+//                    continue;
+//                }
+//                List<Integer> newIndexes = new ArrayList<>();
+//                for (Integer index : indexes) {
+//                    if (flagFromSeverToLocal) {//server, use index from 0
+//                        newIndexes.add(index + 1);
+//                    } else {//local, user index from 1
+//                        newIndexes.add(index - 1);
+//                    }
+//                }
+//                timer.setIndexes_new_new(newIndexes);
+//            }
+//        }
 
-        if (!flag) {//如果从本地到服务器，最后再转换地址格式
-            for (int i = 0; i < devices.size(); i++) {
-                devices.get(i).reformatIndoorIndexAndAddress(flag, i);
-            }
-        }
+//        if (!flag) {//如果从本地到服务器，最后再转换地址格式
+//            for (int i = 0; i < devices.size(); i++) {
+//                devices.get(i).reformatIndoorIndexAndAddress(flag, i);
+//            }
+//        }
 
-        Log.v("liutao", flag ? "local" : "server");
+        Log.v("liutao", flagFromSeverToLocal ? "local" : "server");
         Log.v("liutao", serverConfig.toJsonString());
 
         return serverConfig;
@@ -742,22 +743,38 @@ public class ServerConfigManager {
         List<DeviceFromServerConfig> newDevices = new ArrayList<>();
         for (int i = 1; i < contentData.length; ++i) {
             DeviceFromServerConfig tempDevice = new DeviceFromServerConfig(contentData[i]);
+            tempDevice.setIndoorindex(i-1);
             newDevices.add(tempDevice);
         }
 
-        List<DeviceFromServerConfig> oldDevices = getRootJavaObj().getDevices();
+        Collections.sort(newDevices, new Comparator<DeviceFromServerConfig>() {
+            @Override
+            public int compare(DeviceFromServerConfig lhs, DeviceFromServerConfig rhs) {
+                if (lhs.getAddress_new() < rhs.getAddress_new()) {
+                    return -1;
+                } else if (lhs.getAddress_new() > rhs.getAddress_new()) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+
+
+        List<DeviceFromServerConfig> oldDevices = getRootJavaObj().getDevices_new();
         if (oldDevices != null) {
             for (DeviceFromServerConfig oldDevice : oldDevices) {
                 for (DeviceFromServerConfig newDevice : newDevices) {
-                    if (newDevice.getAddress() == oldDevice.getAddress()) {
+                    if (newDevice.getAddress_new() == oldDevice.getAddress_new()) {
                         newDevice.setName(oldDevice.getName());
                     }
                 }
             }
         }
-        getRootJavaObj().setDevices(newDevices);
 
-        ObserveData od = new ObserveData(ObserveData.SEARCH_AIR_CONDITION_RESPONSE, getDevices());
+        getRootJavaObj().setDevices_new(newDevices);
+
+        ObserveData od = new ObserveData(ObserveData.SEARCH_AIR_CONDITION_RESPONSE, getDevices_new());
         MyApp.getApp().getSocketManager().notifyActivity(od);
 
         if (oldDevices != null && oldDevices.size() != 0 && oldDevices.size() != newDevices.size()) {
@@ -797,10 +814,6 @@ public class ServerConfigManager {
     public void deleteDeviceLocal() {
         rootJavaObj.clearDevice();
         writeToFile(true);
-    }
-
-    public List<DeviceFromServerConfig> getDeviceForShow() {
-        return rootJavaObj.getDevicesForShow();
     }
 
     public void updateCurrentDeviceOwner(List<Device.Info> response2) {

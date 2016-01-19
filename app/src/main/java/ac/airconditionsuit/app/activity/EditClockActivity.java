@@ -101,7 +101,7 @@ public class EditClockActivity extends BaseActivity{
                                 device_list_temp.add(i + 1);
                             }
                         }
-                        timer_temp.setIndexes(device_list_temp);
+                        timer_temp.setIndexes_new_new(device_list_temp);
                         if(device_list_temp.size() == 0){
                             MyApp.getApp().showToast("请选择定时的空调");
                             return;
@@ -134,14 +134,14 @@ public class EditClockActivity extends BaseActivity{
                         timer.setHour(timePicker.getCurrentHour());
                         timer.setMinute(timePicker.getCurrentMinute());
                         timer.setTimerenabled(true);
-                        timer.getIndexes().clear();
+                        timer.getIndexes_new_new().clear();
                         for(int i = 0; i < isDeviceChoose.size(); i++){
                             if(isDeviceChoose.get(i) == 1){
-                                timer.getIndexes().
+                                timer.getIndexes_new_new().
                                         add(i + 1);
                             }
                         }
-                        if(timer.getIndexes().size() == 0){
+                        if(timer.getIndexes_new_new().size() == 0){
                             MyApp.getApp().showToast("请选择定时的空调");
                             return;
                         }
@@ -426,24 +426,23 @@ public class EditClockActivity extends BaseActivity{
         clockRepeat.getLabelTextView().setText(repeat);
         clockRepeat.getOnlineTextView().setText(week);
 
-        if( MyApp.getApp().getServerConfigManager().getDevices() != null){
-            for (int i = 0; i < MyApp.getApp().getServerConfigManager().getDevices().size(); i++){
+        if( MyApp.getApp().getServerConfigManager().getDevices_new() != null){
+            for (int i = 0; i < MyApp.getApp().getServerConfigManager().getDevices_new().size(); i++){
                 isDeviceChoose.add(0);
             }
             if(!is_add){
                 //int num = timer.getAddress().size();
-                if(timer.getIndexes().size() != 0){
-                    for(int i = 0 ;i < timer.getIndexes().size(); i++){
-                        Log.i("liu tao !!!!!!!", timer.getIndexes().get(i) + "");
-                        isDeviceChoose.set(timer.getIndexes().get(i)-1,1);
+                if(timer.getIndexes_new_new().size() != 0){
+                    for(int i = 0 ;i < timer.getIndexes_new_new().size(); i++){
+                        isDeviceChoose.set(timer.getIndexes_new_new().get(i)-1,1);
                     }
                 }
             }
         }
 
         ListView listView = (ListView)findViewById(R.id.air_device_list1);
-        List<DeviceFromServerConfig> devices = MyApp.getApp().getServerConfigManager().getDevices();
-        AirDeviceClockSettingAdapter airDeviceClockSettingAdapter = new AirDeviceClockSettingAdapter(EditClockActivity.this,devices);
+        List<DeviceFromServerConfig> devices_new = MyApp.getApp().getServerConfigManager().getDevices_new();
+        AirDeviceClockSettingAdapter airDeviceClockSettingAdapter = new AirDeviceClockSettingAdapter(EditClockActivity.this,devices_new);
         listView.setAdapter(airDeviceClockSettingAdapter);
         setListViewHeightBasedOnChildren(listView);
     }

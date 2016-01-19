@@ -142,9 +142,9 @@ public class ChangeRoomNameActivity extends BaseActivity{
             if(UIManager.UITYPE == UIManager.HIT){
                 ((CommonDeviceView)convertView).setBottomNameColor();
             }
-            ((CommonDeviceView)convertView).setBottomName(MyApp.getApp().getServerConfigManager().getDevices().
+            ((CommonDeviceView)convertView).setBottomName(MyApp.getApp().getServerConfigManager().getDevices_new().
                     get(room.getElements().get(position)).getName());
-            ((CommonDeviceView) convertView).setRightUpText(MyApp.getApp().getServerConfigManager().getDevices().
+            ((CommonDeviceView) convertView).setRightUpText(MyApp.getApp().getServerConfigManager().getDevices_new().
                     get(room.getElements().get(position)).getFormatNameByIndoorIndexAndAddress());
             convertView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
