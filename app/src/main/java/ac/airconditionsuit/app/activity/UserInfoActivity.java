@@ -184,7 +184,6 @@ public class UserInfoActivity extends BaseActivity {
                                     MyApp.getApp().showToast(R.string.change_user_birthday_failure);
                                 }
                             });
-
                         }
                     }, year, month, day);
                     datePickerDialog.show();

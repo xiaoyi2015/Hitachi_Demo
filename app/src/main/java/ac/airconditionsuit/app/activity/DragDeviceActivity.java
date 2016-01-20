@@ -149,8 +149,13 @@ public class DragDeviceActivity extends BaseActivity {
                 public void onClick(View v) {
 
                     ArrayList<String> room_name_list = new ArrayList<>();
-                    for(int i = 0; i < rooms.size(); i++){
-                        room_name_list.add(rooms.get(i).getName());
+
+                    //房间名称在所有楼层内均不能重复
+                    for (int j = 0; j < MyApp.getApp().getServerConfigManager().getSections().size(); j++) {
+                        List<Room> pages = MyApp.getApp().getServerConfigManager().getSections().get(j).getPages();
+                        for (int i = 0; i < pages.size(); i++) {
+                            room_name_list.add(pages.get(i).getName());
+                        }
                     }
                     Intent intent = new Intent();
                     intent.putExtra("index", position);
@@ -327,12 +332,20 @@ public class DragDeviceActivity extends BaseActivity {
                         ClipData clipData = event.getClipData();
                         Room room = new Room();
                         String room_check_name = getString(R.string.new_room) + room_num;
-                        for(int k = 0; k < dragDeviceAdapter.rooms.size(); k ++){
-                            if(room_check_name.equals(dragDeviceAdapter.rooms.get(k).getName())){
-                                room_num ++ ;
-                                room_check_name = getString(R.string.new_room) + room_num;
+
+                        for(int j = 0; j < MyApp.getApp().getServerConfigManager().getSections().size(); j++) {
+                            List<Room> pages = MyApp.getApp().getServerConfigManager().getSections().get(j).getPages();
+                            for (int k = 0; k < pages.size(); k++) {
+                                if (room_check_name.equals(pages.get(k).getName())) {
+                                    room_num++;
+                                    room_check_name = getString(R.string.new_room) + room_num;
+                                    j = 0;
+                                    k = 0;
+                                }
                             }
                         }
+
+
                         room.setName(room_check_name);
                         room_num++;
                         room.addAirCondition(Integer.parseInt(clipData.getItemAt(0).getText().toString()));

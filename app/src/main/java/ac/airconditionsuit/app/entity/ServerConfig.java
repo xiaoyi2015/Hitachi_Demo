@@ -14,14 +14,14 @@ public class ServerConfig extends RootEntity{
     public void clearDevice() {
         connection.clear();
         sections.clear();
-        devices_new.clear();
+        devices.clear();
         scenes.clear();
         timers.clear();
     }
 
     public boolean checkDevice() {
 //        if (devices_new == null) return false;
-        int deviceNumger = devices_new.size();
+        int deviceNumger = devices.size();
 //        if (deviceNumger == 0) return false;
         for (Timer t : timers) {
             for (Integer index : t.getIndexes_new_new()) {
@@ -53,7 +53,7 @@ public class ServerConfig extends RootEntity{
     }
 
     private boolean commandInDevice_new(Command c) {
-        for (DeviceFromServerConfig d : devices_new) {
+        for (DeviceFromServerConfig d : devices) {
             if (d.getAddress_new() == c.getAddress()) {
                 return true;
             }
@@ -110,7 +110,7 @@ public class ServerConfig extends RootEntity{
     List<Timer> timers = new ArrayList<>();
     List<Section> sections = new ArrayList<>();
     Home home;
-    List<DeviceFromServerConfig> devices_new = new ArrayList<>();
+    List<DeviceFromServerConfig> devices = new ArrayList<>();
     Setting settings;
     List<Connection> connection = new ArrayList<>();
 
@@ -150,14 +150,14 @@ public class ServerConfig extends RootEntity{
     }
 
     public List<DeviceFromServerConfig> getDevices_new() {
-        if(devices_new == null){
-            devices_new = new ArrayList<>();
+        if(devices == null){
+            devices = new ArrayList<>();
         }
-        return devices_new;
+        return devices;
     }
 
     public void setDevices_new(List<DeviceFromServerConfig> devices) {
-        this.devices_new = devices;
+        this.devices = devices;
     }
 
     public Setting getSettings() {
