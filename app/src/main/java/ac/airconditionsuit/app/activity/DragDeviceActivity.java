@@ -44,6 +44,7 @@ public class DragDeviceActivity extends BaseActivity {
             super.onClick(v);
             switch (v.getId()) {
                 case R.id.left_icon:
+//                    MyApp.getApp().getServerConfigManager().submitRoomChanges(index, dragDeviceAdapter.rooms);
                     finish();
                     break;
                 case R.id.right_icon:
@@ -157,6 +158,9 @@ public class DragDeviceActivity extends BaseActivity {
                             room_name_list.add(pages.get(i).getName());
                         }
                     }
+                    for (int i = 0; i < dragDeviceAdapter.rooms.size(); i++) {
+                        room_name_list.add(dragDeviceAdapter.rooms.get(i).getName());
+                    }
                     Intent intent = new Intent();
                     intent.putExtra("index", position);
                     intent.putExtra("room", rooms.get(position).toJsonString());
@@ -226,6 +230,36 @@ public class DragDeviceActivity extends BaseActivity {
             rooms.get(room_index).setElements(room_t.getElements());
             notifyDataSetChanged();
         }
+    }
+
+    private String getUniqueName() {
+        String newName = getString(R.string.new_room) + room_num;
+
+        boolean exist = false;
+        do {
+            exist = false;
+            for(int j = 0; j < MyApp.getApp().getServerConfigManager().getSections().size(); j++) {
+                List<Room> pages = MyApp.getApp().getServerConfigManager().getSections().get(j).getPages();
+                for (int k = 0; k < pages.size(); k++) {
+                    if (newName.equals(pages.get(k).getName())) {
+                        exist = true;
+                    }
+                }
+            }
+
+            for (int i = 0; i < dragDeviceAdapter.rooms.size(); i++) {
+                if (newName.equals(dragDeviceAdapter.rooms.get(i).getName())) {
+                    exist = true;
+                }
+            }
+
+            if (exist) {
+                room_num++;
+                newName = getString(R.string.new_room) + room_num;
+            }
+        } while (exist);
+
+        return newName;
     }
 
     @Override
@@ -331,20 +365,7 @@ public class DragDeviceActivity extends BaseActivity {
                         }
                         ClipData clipData = event.getClipData();
                         Room room = new Room();
-                        String room_check_name = getString(R.string.new_room) + room_num;
-
-                        for(int j = 0; j < MyApp.getApp().getServerConfigManager().getSections().size(); j++) {
-                            List<Room> pages = MyApp.getApp().getServerConfigManager().getSections().get(j).getPages();
-                            for (int k = 0; k < pages.size(); k++) {
-                                if (room_check_name.equals(pages.get(k).getName())) {
-                                    room_num++;
-                                    room_check_name = getString(R.string.new_room) + room_num;
-                                    j = 0;
-                                    k = 0;
-                                }
-                            }
-                        }
-
+                        String room_check_name = getUniqueName();
 
                         room.setName(room_check_name);
                         room_num++;
