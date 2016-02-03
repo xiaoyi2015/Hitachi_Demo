@@ -43,11 +43,9 @@ public class ChangeRoomNameActivity extends BaseActivity{
                     }
 
                     for(int i = 0; i < nameList.size(); i++){
-                        if(i != index){
-                            if(nameList.get(i).equals(check_name)){
-                                MyApp.getApp().showToast("房间名称不能重复");
-                                return;
-                            }
+                        if(nameList.get(i).equals(check_name)){
+                            MyApp.getApp().showToast("房间名称不能重复");
+                            return;
                         }
                     }
                     intent.putExtra("name",check_name);

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -160,8 +161,10 @@ public class DragDeviceActivity extends BaseActivity {
                         }
                     }
                     for (int i = 0; i < dragDeviceAdapter.rooms.size(); i++) {
+                        if (position != i)
                         room_name_list.add(dragDeviceAdapter.rooms.get(i).getName());
                     }
+                    Log.v("liutao", room_name_list.toString());
                     Intent intent = new Intent();
                     intent.putExtra("index", position);
                     intent.putExtra("room", rooms.get(position).toJsonString());

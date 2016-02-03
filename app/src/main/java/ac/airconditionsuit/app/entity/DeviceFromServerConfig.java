@@ -6,8 +6,8 @@ package ac.airconditionsuit.app.entity;
 public class DeviceFromServerConfig extends RootEntity {
     String name;
 
-    int indooraddress_new;
-    int indoorindex_new;
+    int indooraddress;
+    int indoorindex;
 
 //    public void reformatIndoorIndexAndAddress(boolean fromServerToLocal, int idx) {
 //        if (fromServerToLocal) {
@@ -24,10 +24,10 @@ public class DeviceFromServerConfig extends RootEntity {
     }
 
     public DeviceFromServerConfig(byte address) {
-        indooraddress_new = address & 0x0f;
-        indoorindex_new = (address & 0xf0) >>> 4;
-        name = "" + indoorindex_new + "-" + String.format("%02d", indooraddress_new);
-        indooraddress_new = indoorindex_new * 16 + indooraddress_new;
+        indooraddress = address & 0x0f;
+        indoorindex = (address & 0xf0) >>> 4;
+        name = "" + indoorindex + "-" + String.format("%02d", indooraddress);
+        indooraddress = indoorindex * 16 + indooraddress;
         //Log.v("liutao", "ac address: " + indoorindex + " - " + indooraddress);
     }
 
@@ -40,11 +40,11 @@ public class DeviceFromServerConfig extends RootEntity {
 //    }
 
     public void setIndoorindex(int idx) {
-        this.indoorindex_new = idx;
+        this.indoorindex = idx;
     }
 
     public String getFormatNameByIndoorIndexAndAddress() {
-        return indooraddress_new / 16 + "-" + String.format("%02d", indooraddress_new % 16);
+        return indooraddress / 16 + "-" + String.format("%02d", indooraddress % 16);
     }
 
     public String getName() {
@@ -55,20 +55,20 @@ public class DeviceFromServerConfig extends RootEntity {
         this.name = name;
     }
 
-    public int getAddress_new() {
-        return indooraddress_new;
+    public int getAddress_new(){
+        return indooraddress;
     }
 
     public int getIndex_new() {
-        return indoorindex_new;
+        return indoorindex;
     }
 
     public int getOldIndoorIndex() {
-        return (indooraddress_new / 16);
+        return (indooraddress / 16);
     }
 
     public int getOldIndoorAddress() {
-        return (indooraddress_new % 16);
+        return (indooraddress % 16);
     }
 
 //    @Override
@@ -85,8 +85,8 @@ public class DeviceFromServerConfig extends RootEntity {
     protected Object clone() throws CloneNotSupportedException {
         DeviceFromServerConfig c = new DeviceFromServerConfig();
         c.name = name;
-        c.indooraddress_new = indooraddress_new;
-        c.indoorindex_new = indoorindex_new;
+        c.indooraddress = indooraddress;
+        c.indoorindex = indoorindex;
         return c;
     }
 }
